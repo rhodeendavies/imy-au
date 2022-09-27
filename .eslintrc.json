@@ -1,0 +1,61 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "."
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-prototype-builtins": "warn",
+    "no-console": "off",
+    "getter-return": "warn",
+    "prefer-const": "off",
+    "no-useless-catch": "off",
+    "no-empty": "off",
+    "no-var": "warn",
+    "no-unsafe-finally": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-extra-semi": "warn",
+    "@typescript-eslint/ban-types": "warn",
+    "no-duplicate-case": "warn",
+    "no-useless-escape": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "no-cond-assign": "off",
+    "no-constant-condition": "off",
+    "no-self-assign": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "no-case-declarations": "off",
+    "no-fallthrough": "off",
+    "no-mixed-spaces-and-tabs": "warn",
+    "@typescript-eslint/adjacent-overload-signatures": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-array-constructor": "off",
+    "no-debugger": "warn",
+    "no-dupe-else-if": "warn",
+    "no-ex-assign": "warn"
+  },
+  "globals": {
+    "$": true,
+    // if you only use "$" in code, you don't need next one.
+    "jQuery": true
+  }
+}

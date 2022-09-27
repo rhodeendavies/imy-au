@@ -1,0 +1,14 @@
+<template>
+	<require from="bootstrap/dist/css/bootstrap.min.css"></require>
+	<require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
+	<require from="./styles.scss"></require>
+
+	<require from="./nav-bar.html"></require>
+
+	<nav-bar router.bind="router"></nav-bar>
+
+	<div>
+		Hello!
+		<router-view></router-view>
+	</div>
+</template>
