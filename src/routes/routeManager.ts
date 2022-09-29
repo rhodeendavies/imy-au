@@ -2,7 +2,6 @@ import { StudentRoutes } from './studentRoutes';
 import { AdminRoutes } from './adminRoutes';
 import { RouteConfig } from 'aurelia-router';
 import { CommonRoutes } from './commonRoutes';
-import { RouteRoleVisibility } from './routeRoleVisibility';
 
 export class RouteManager {
 	static CreateRoutes(): RouteConfig[] {
@@ -16,8 +15,5 @@ export class RouteManager {
 }
 
 export interface IRouterSettings {
-	icon: string;
-	visible: boolean;
-	roles: string[];
-	show: RouteRoleVisibility;
+	roles: string[]
 }
