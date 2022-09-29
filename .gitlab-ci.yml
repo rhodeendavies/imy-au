@@ -1,6 +1,9 @@
 stages:
   - build
 
+before_script:
+  - apt-get install -y nodejs
+
 build:
   stage: build
   script:
