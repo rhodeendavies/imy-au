@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "esModuleInterop": true,
-    "module": "esnext",
+    "declaration": false,
     "typeRoots": [
       "./node_modules/@types"
     ],

@@ -34,3 +34,7 @@ node_modules
 /scripts
 /src/environment.ts
 /dist
+/wwwroot/*
+
+
+!/wwwroot/index.html
