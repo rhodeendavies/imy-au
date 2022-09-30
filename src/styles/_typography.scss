@@ -1,0 +1,10 @@
+@use "./src/styles/variables" as *;
+
+a {
+	color: $Black;
+
+	&:hover {
+		color: $Black;
+		text-decoration: none;
+	}
+}

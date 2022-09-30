@@ -1,0 +1,12 @@
+<template>
+	<div if.bind="label != ''">
+		${label}
+	</div>
+
+	<div if.bind="radioOptions.length > 0" class="radio-options-container">
+		<p repeat.for="option of radioOptions" click.delegate="radioOptionSelected(option)"
+			class="radio-option ${getOptionClasses(option)}">
+			${option.name}
+		</p>
+	</div>
+</template>

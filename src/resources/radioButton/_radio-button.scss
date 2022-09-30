@@ -1,0 +1,66 @@
+@use "./src/styles/variables" as *;
+
+.radio-options-container {
+	max-width: max-content;
+
+	.radio-option {
+		margin-bottom: 10px;
+		position: relative;
+		padding-left: 28px;
+		cursor: pointer;
+		line-height: 20px;
+		display: flex;
+		font-size: 13px;
+
+		&.selected-radio-option::after {
+			opacity: 1;
+			-webkit-transform: scale(1);
+			transform: scale(1);
+		}
+
+		&.disabled-radio-option {
+			opacity: 0.6;
+			pointer-events: none;
+			cursor: default !important;
+
+			&:hover::before {
+				background-color: transparent !important;
+			}
+
+			&:before {
+				border: 1px solid $Grey;
+			}
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 18px;
+			height: 18px;
+			border-radius: 100%;
+			background: transparent;
+			transition: all 0.2s ease;
+			border: 1px solid $Black;
+		}
+
+		&:hover::before {
+			background-color: $Grey !important;
+		}
+
+		&:after {
+			opacity: 0;
+			-webkit-transform: scale(0);
+			transform: scale(0);
+			width: 12px;
+			height: 12px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border-radius: 100%;
+			transition: all 0.2s ease;
+			background-color: $Black;
+		}
+	}
+}

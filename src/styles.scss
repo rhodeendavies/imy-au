@@ -4,3 +4,13 @@
 @use "styles/buttons";
 @use "styles/layout";
 @use "styles/grid-flex";
+
+@use "resources/accordion/accordion";
+@use "resources/checkbox/checkbox";
+@use "resources/iconButton/icon-button";
+@use "resources/inputBox/input-box";
+@use "resources/inputList/input-list";
+@use "resources/popup/popup";
+@use "resources/radioButton/radio-button";
+
+@use "navbar/navbar";

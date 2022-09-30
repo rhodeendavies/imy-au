@@ -1,0 +1,31 @@
+@use "./src/styles/variables" as *;
+
+.popup-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.popup-circle {
+		height: 20px;
+		width: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 20px;
+		background-color: $Black;
+	}
+
+	.popup-box-wrapper {
+		position: relative;
+		z-index: 1;
+
+		.popup-box {
+			background-color: $Grey;
+			padding: 20px;
+			border-radius: $BorderRadius;
+			border: 1px solid $Black;
+			position: absolute;
+			z-index: 2;
+		}
+	}
+}
