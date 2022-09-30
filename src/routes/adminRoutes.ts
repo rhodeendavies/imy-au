@@ -1,6 +1,6 @@
 import { Roles } from 'utils/constants';
 import { RouteConfig } from 'aurelia-router';
-import { IRouterSettings } from './routeManager';
+import { RouterSettings } from './routeManager';
 
 export class AdminRoutes {
 	constructor() { }
@@ -13,8 +13,9 @@ export class AdminRoutes {
 			nav: true,
 			title: 'Admin Dashboard',
 			settings: {
-				roles: [Roles.Admin]
-			} as IRouterSettings
+				roles: [Roles.Admin],
+				navbar: true
+			} as RouterSettings
 		}]
 	}
 }

@@ -1,0 +1,11 @@
+<template>
+	<div class="navbar-wrapper">
+		<a href.bind="row.href" repeat.for="row of Routes" class="nav-item ${row.isActive ? 'active-nav-item' : ''}">
+			${row.title}
+		</a>
+
+		<a href.bind="ProfileRoute.href" if.bind="ProfileRoute != null" class="nav-item ${ProfileRoute.isActive ? 'active-nav-item' : ''}">
+			<span class="fas fa-user"></span>
+		</a>
+	</div>
+</template>

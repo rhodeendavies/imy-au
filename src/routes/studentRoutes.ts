@@ -1,5 +1,5 @@
 import { RouteConfig } from 'aurelia-router';
-import { IRouterSettings } from './routeManager';
+import { RouterSettings } from './routeManager';
 import { Roles } from 'utils/constants';
 
 export class StudentRoutes {
@@ -13,8 +13,19 @@ export class StudentRoutes {
 			nav: true,
 			title: 'Dashboard',
 			settings: {
-				roles: [Roles.Student]
-			} as IRouterSettings
+				roles: [Roles.Student],
+				navbar: true
+			} as RouterSettings
+		}, {
+			route: ['profile'],
+			name: 'profile',
+			moduleId: 'Profile/profile',
+			nav: true,
+			title: 'Profile',
+			settings: {
+				roles: [Roles.Student],
+				navbar: false
+			} as RouterSettings
 		}]
 	}
 }

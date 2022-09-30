@@ -1,0 +1,22 @@
+@use "./src/styles/variables" as *;
+
+.navbar-wrapper {
+	height: 50px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: $Grey;
+
+	.nav-item {
+		padding: 0 20px;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&.active-nav-item {
+			background-color: $Black;
+			color: $White;
+		}
+	}
+}

@@ -14,6 +14,7 @@ export class RouteManager {
 	}
 }
 
-export interface IRouterSettings {
-	roles: string[]
+export class RouterSettings {
+	roles: string[];
+	navbar: boolean;
 }

@@ -1,4 +1,11 @@
+import { Roles } from "utils/constants";
+
 export class UserDetails {
 	username: string;
-	admin: boolean;
+	role: Roles;
+
+	constructor() {
+		this.username = "";
+		this.role = Roles.Student;
+	}
 }

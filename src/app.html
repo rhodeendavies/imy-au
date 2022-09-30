@@ -2,8 +2,10 @@
 	<require from="bootstrap/dist/css/bootstrap.min.css"></require>
 	<require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
 	<require from="./styles.css"></require>
+	<require from="navbar/navbar"></require>
 
-	<div>
+	<div class="app-wrapper">
+		<navbar if.bind="appState.authenticated"></navbar>
 		<router-view></router-view>
 	</div>
 </template>

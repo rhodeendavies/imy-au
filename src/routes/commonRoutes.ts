@@ -1,5 +1,5 @@
 import { RouteConfig } from 'aurelia-router';
-import { IRouterSettings } from './routeManager';
+import { RouterSettings } from './routeManager';
 
 export class CommonRoutes {
 	constructor() { }
@@ -12,8 +12,9 @@ export class CommonRoutes {
 			nav: true,
 			title: 'Login',
 			settings: {
-				roles: [""]
-			} as IRouterSettings
+				roles: [""],
+				navbar: false
+			} as RouterSettings
 		}]
 	}
 }
