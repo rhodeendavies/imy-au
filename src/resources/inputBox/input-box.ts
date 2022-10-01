@@ -133,7 +133,7 @@ export class InputBox {
 	}
 }
 
-export enum InputTypes {
+enum InputTypes {
 	text = "text",
 	password = "password"
 }

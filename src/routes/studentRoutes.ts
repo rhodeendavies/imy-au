@@ -1,30 +1,33 @@
 import { RouteConfig } from 'aurelia-router';
 import { RouterSettings } from './routeManager';
-import { Roles } from 'utils/constants';
+import { Routes } from 'utils/constants';
+import { Roles } from 'utils/enums';
 
 export class StudentRoutes {
 	constructor() { }
 
 	static getRoutes(): RouteConfig[] {
 		return [{
-			route: ['dashboard'],
-			name: 'dashboard',
+			route: 'dashboard',
+			name: Routes.Dashboard,
 			moduleId: 'Dashboard/dashboard',
 			nav: true,
 			title: 'Dashboard',
 			settings: {
 				roles: [Roles.Student],
-				navbar: true
+				navbar: true,
+				authenticated: true
 			} as RouterSettings
 		}, {
-			route: ['profile'],
-			name: 'profile',
+			route: 'profile',
+			name: Routes.Profile,
 			moduleId: 'Profile/profile',
 			nav: true,
 			title: 'Profile',
 			settings: {
 				roles: [Roles.Student],
-				navbar: false
+				navbar: false,
+				authenticated: true
 			} as RouterSettings
 		}]
 	}

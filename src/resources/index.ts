@@ -7,6 +7,7 @@ export function configure(config: FrameworkConfiguration): void {
 		'./iconButton/icon-button',
 		'./inputBox/input-box',
 		'./inputList/input-list',
+		'./message/message',
 		'./popup/popup',
 		'./radioButton/radio-button',
 	]);

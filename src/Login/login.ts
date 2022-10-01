@@ -1,26 +1,32 @@
-import { ApplicationState } from "applicationState";
-import { autoinject } from "aurelia-framework";
-import { Redirect, Router } from "aurelia-router";
-import { UserDetails } from "models/userDetails";
-import { Roles } from "utils/constants";
+import { autoinject, computedFrom } from "aurelia-framework";
+import { ApiResponse } from "models/apiResponse";
+import { UserLogin } from "models/userDetails";
+import { AuthenticationService } from "services/authenticationService";
 
 @autoinject
 export class Login {
-	constructor (private router: Router, private appState: ApplicationState) {}
 
-	login() {
-		this.appState.authenticated = true;
-		this.appState.loggedInUser = new UserDetails();
-		switch (this.appState.loggedInUser.role) {
-			case Roles.Admin:
-				this.router.navigate("admin-dashboard");
-				break;
-			case Roles.Student:
-				this.router.navigate("dashboard");
-				break
-			default:
-				new Redirect('login')
-				break;
+	loginModel: UserLogin = new UserLogin();
+	response: ApiResponse;
+
+	constructor(private authService: AuthenticationService) { }
+
+	attached() {
+		if (this.authService.authenticated) {
+			this.authService.logout();
 		}
+	}
+
+	async login() {
+		try {
+			this.response = await this.authService.login(this.loginModel);
+		} catch (error) {
+			this.response = new ApiResponse(false, "Failed to login");
+		}
+	}
+
+	@computedFrom("response.result")
+	get ShowError(): boolean {
+		return this.response != null && !this.response.result;
 	}
 }

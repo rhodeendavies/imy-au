@@ -17,4 +17,5 @@ export class RouteManager {
 export class RouterSettings {
 	roles: string[];
 	navbar: boolean;
+	authenticated: boolean;
 }

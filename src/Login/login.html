@@ -1,10 +1,26 @@
 <template>
-	<div class="page">
-		<button class="btn btn-deafult" disabled click.delegate="register()">
-			Register
-		</button>
-		<button class="btn btn-primary" click.delegate="login()">
-			Login
-		</button>
+	<div class="page login-page">
+		<div class="login-center">
+			<div class="heading-1 login-heading">
+				LOGIN
+			</div>
+			<div class="login-box">
+				<input-box value.bind="studentNumber" label="Student number"></input-box>
+				<input-box value.bind="password" label="Password" type="password"></input-box>
+	
+				<message if.bind="ShowError">
+					${response.message}
+				</message>
+
+				<div class="btn-row justify-end">
+					<button class="btn btn-deafult" disabled click.delegate="register()">
+						Register
+					</button>
+					<button class="btn btn-primary" click.delegate="login()">
+						Login
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
