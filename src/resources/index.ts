@@ -7,7 +7,10 @@ export function configure(config: FrameworkConfiguration): void {
 		'./iconButton/icon-button',
 		'./inputBox/input-box',
 		'./inputList/input-list',
+		'./loader/loader',
 		'./message/message',
+		'./modal/modal',
+		'./pageLoader/page-loader',
 		'./popup/popup',
 		'./radioButton/radio-button',
 	]);

@@ -26,12 +26,12 @@ export class Navbar {
 	}
 
 	createRoutes() {
-		if (this.router.navigation == null || !this.authService.authenticated) return [];
+		if (this.router.navigation == null || !this.authService.Authenticated) return [];
 		this.routes = this.router.navigation.filter(x =>
-			x.settings.navbar && x.settings.roles.includes(this.authService.role));
+			x.settings.navbar && x.settings.roles.includes(this.authService.Role));
 
 		this.profileRoute = this.router.navigation.find(x => 
-			x.settings.roles.includes(this.authService.role) && x.config.name == Routes.Profile);
+			x.settings.roles.includes(this.authService.Role) && x.config.name == Routes.Profile);
 	}
 
 	destroyRoutes() {

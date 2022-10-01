@@ -43,7 +43,7 @@ export class InputListItem {
 	value: string;
 	id: number;
 
-	constructor(_id: number) {
+	constructor(_id: number = 0) {
 		this.value = "";
 		this.id = _id;
 	}

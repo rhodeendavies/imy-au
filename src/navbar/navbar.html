@@ -1,5 +1,5 @@
 <template>
-	<div class="navbar-wrapper" if.bind="authService.authenticated">
+	<div class="navbar-wrapper" if.bind="authService.Authenticated">
 		<a href.bind="row.href" repeat.for="row of routes" class="nav-item ${row.isActive ? 'active-nav-item' : ''}">
 			${row.title}
 		</a>

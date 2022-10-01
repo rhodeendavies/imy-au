@@ -4,8 +4,14 @@
 	<require from="./styles.css"></require>
 	<require from="navbar/navbar"></require>
 
-	<div class="app-wrapper">
-		<navbar></navbar>
-		<router-view></router-view>
+	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
+		<page-loader if.bind="Loading"></page-loader>
+
+		<div class="app-nav">
+			<navbar></navbar>
+		</div>
+		<div class="app-body">
+			<router-view></router-view>
+		</div>
 	</div>
 </template>

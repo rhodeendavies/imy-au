@@ -12,7 +12,7 @@ export class Login {
 	constructor(private authService: AuthenticationService) { }
 
 	attached() {
-		if (this.authService.authenticated) {
+		if (this.authService.Authenticated) {
 			this.authService.logout();
 		}
 	}

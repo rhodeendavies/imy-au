@@ -1,0 +1,53 @@
+@use "./src/styles/variables" as *;
+
+.modal-wrapper {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	display: none;
+	align-items: center;
+	justify-content: center;
+
+	&.modal-open {
+		display: flex;
+	}
+
+	.modal-box {
+		border-radius: $BorderRadius;
+		box-shadow: $BoxShadow;
+		max-width: 500px;
+
+		.modal-header {
+			background-color: $Black;
+			color: $White;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 50px;
+			padding: 0 20px;
+		}
+
+		.modal-body {
+			padding: 20px;
+			background-color: $White;
+		}
+	}
+}
+
+.modal-overlay {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9;
+	background-color: $Black60;
+	display: none;
+
+	&.modal-overlay-open {
+		display: block;
+	}
+}

@@ -8,7 +8,7 @@ import { Routes } from 'utils/constants';
 
 @autoinject
 export class App {
-	constructor(private router: Router) {}
+	constructor(private router: Router, private authService: AuthenticationService) {}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
 		config.title = 'Aurelia';
@@ -16,6 +16,10 @@ export class App {
 		config.map(RouteManager.CreateRoutes());
 
 		this.router = router;
+	}
+
+	get Loading(): boolean {
+		return this.authService.Busy;
 	}
 }
 
@@ -44,6 +48,6 @@ class AuthorizeStep {
 	validateRoute(navigationInstruction: NavigationInstruction, role: Roles) {
 		const routeRole = navigationInstruction.getAllInstructions().some(x => x.config.settings.roles.includes(role));
 		const requiresAuthentication = navigationInstruction.getAllInstructions().some(x => x.config.settings.authenticated);
-		return (!routeRole || this.authService.role == role) && (!requiresAuthentication || this.authService.authenticated)
+		return (!routeRole || this.authService.Role == role) && (!requiresAuthentication || this.authService.Authenticated)
 	}
 }

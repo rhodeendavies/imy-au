@@ -1,0 +1,12 @@
+@use "./src/styles/variables" as *;
+
+.loader-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	.loader-circle {
+
+	}
+}

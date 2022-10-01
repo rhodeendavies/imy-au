@@ -16,7 +16,7 @@
 		"aurelia-framework": "^1.4.1",
 		"aurelia-router": "^1.7.1",
 		"aurelia-validation": "^2.0.0-rc2",
-		"bootstrap": "^5.0",
+		"bootstrap": "^5.1",
 		"jquery": "^3.6.0",
 		"popper.js": "^1.16.1",
 		"whatwg-fetch": "^3.6.2"
