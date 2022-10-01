@@ -1,0 +1,27 @@
+@use "./src/styles/variables"as *;
+
+.accordion-wrapper {
+	&.accordion-open {
+		.accordion-body-wrapper {
+			max-height: 1000px;
+		}
+	}
+
+	.accordion-header {
+		padding: 10px 20px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background-color: $Grey;
+	}
+
+	.accordion-body-wrapper {
+		max-height: 0;
+		overflow: hidden;
+		transition: all 0.3s;
+		
+		.accordion-body {
+			padding: 10px 0;
+		}
+	}
+}

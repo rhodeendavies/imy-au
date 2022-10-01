@@ -3,7 +3,7 @@
 		${label}
 	</div>
 
-	<div if.bind="checkboxOptions.length > 0" class="checkbox-container">
+	<div if.bind="checkboxOptions.length > 0" class="checkbox-wrapper">
 		<p repeat.for="option of checkboxOptions" click.delegate="checkboxSelected(option)"
 			class="checkbox ${getCheckboxClasses(option)}">
 			${option.name}

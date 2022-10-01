@@ -1,0 +1,5 @@
+<template>
+	<div class="check-mark-wrapper ${disabled ? 'disabled-check-mark' : ''}" click.delegate="toggleCheck()">
+		<span if.bind="checked" class="fas fa-check"></span>
+	</div>
+</template>

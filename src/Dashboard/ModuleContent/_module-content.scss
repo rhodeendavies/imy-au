@@ -1,0 +1,44 @@
+@use "./src/styles/variables"as *;
+
+.module-content-wrapper {
+	display: grid;
+	grid-template-columns: minmax(300px, 1fr);
+	gap: 20px;
+	height: 100%;
+	
+	&.resource-open {
+		grid-template-columns: minmax(300px, 1fr) 2fr;
+	}
+	
+	.table-of-contents {
+		display: grid;
+		grid-template-rows: 50px minmax(0, 1fr);
+
+		.table-of-contents-header {
+			height: 100%;
+			background-color: $Black;
+			color: $White;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 20px;
+		}
+
+		.module-weeks {
+			max-height: 100%;
+			overflow: auto;
+		}
+	}
+
+	.resource-video-wrapper {
+		display: grid;
+		grid-template-rows: 50px minmax(300px, 1fr);
+
+		.resource-video {
+			width: 100%;
+			min-width: 300px;
+			height: 100%;
+			background-color: $Grey;
+		}
+	}
+}

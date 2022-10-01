@@ -21,7 +21,7 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
-			await ComponentHelper.Sleep(1000);
+			await ComponentHelper.Sleep(100);
 
 			this.user = new UserDetails();
 			this.user.authenticated = true;
@@ -49,7 +49,7 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
-			await ComponentHelper.Sleep(1000);
+			await ComponentHelper.Sleep(100);
 
 			this.user = null;
 			this.ea.publish(Events.Logout);

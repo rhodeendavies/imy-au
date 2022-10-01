@@ -1,0 +1,17 @@
+@use "./src/styles/variables" as *;
+
+.check-mark-wrapper {
+	height: 25px;
+	width: 25px;
+	border: 1px solid $Black;
+	border-radius: $BorderRadius;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&.disabled {
+		opacity: 0.6;
+		background-color: $Grey;
+		border-color: $Grey;
+	}
+}

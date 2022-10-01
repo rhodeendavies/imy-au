@@ -1,7 +1,11 @@
 <template>
-	<div class="page">
-		<div class="heading-1">
-			Student Dash!
+	<require from="./ModuleContent/module-content"></require>
+
+	<div class="page dashboard-page">
+		<module-content></module-content>
+		
+		<div if.bind="false">
+			<!-- Reflections -->
 		</div>
 	</div>
 </template>

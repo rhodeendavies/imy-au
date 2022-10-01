@@ -1,0 +1,7 @@
+@use "./src/styles/variables"as *;
+
+.dashboard-page {
+	display: grid;
+	grid-template-columns: minmax(300px, 1fr) auto;
+	gap: 20px;
+}

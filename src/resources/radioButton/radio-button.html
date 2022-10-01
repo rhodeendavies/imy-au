@@ -3,7 +3,7 @@
 		${label}
 	</div>
 
-	<div if.bind="radioOptions.length > 0" class="radio-options-container">
+	<div if.bind="radioOptions.length > 0" class="radio-options-wrapper">
 		<p repeat.for="option of radioOptions" click.delegate="radioOptionSelected(option)"
 			class="radio-option ${getOptionClasses(option)}">
 			${option.name}
