@@ -1,0 +1,117 @@
+@use "./src/styles/variables" as *;
+
+.input-wrapper {
+	&.input-required {
+		.input-box {
+			outline: 2px solid $Error !important;
+		}
+
+		.input-error {
+			color: $Error;
+		}
+	}
+
+	&.input-incorrect {
+		.input-box {
+			outline: 2px solid $Warning !important;
+		}
+
+		.input-error {
+			color: $Warning;
+		}
+	}
+
+	&.disable-input {
+		.input-box-wrapper {
+			.input-box {
+				pointer-events: none;
+				background: none;
+			}
+		}
+	}
+
+	.input-label-wrapper {
+		width: 100%;
+		margin-bottom: 5px;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+
+		.input-label {
+			font-size: $heading-3;
+		}
+
+		.input-sub-label {
+			font-size: $heading-4;
+		}
+	}
+
+	.input-box-wrapper {
+		display: flex;
+		align-items: center;
+
+		.input-box {
+			background: $White;
+			border-radius: $BorderRadius;
+			height: 32px;
+			width: 100%;
+			display: flex;
+			overflow: hidden;
+			position: relative;
+			transition: all 0.3s ease;
+			outline: 1px solid $Black;
+			
+			input {
+				transition: all 0.3s ease;
+				padding: 0 10px;
+				width: 100%;
+				border: none;
+				background-color: transparent;
+	
+				&:hover {
+					background-color: $Grey;
+					color: $White;
+
+					+ .input-password-toggle {
+						color: $White;
+					}
+				}
+	
+				/* Chrome, Safari, Edge, Opera */
+				&::-webkit-outer-spin-button,
+				&::-webkit-inner-spin-button {
+					-webkit-appearance: none;
+					margin: 0;
+				}
+	
+				/* Firefox */
+				&[type=number] {
+					-moz-appearance: textfield;
+				}
+			}
+	
+			.input-password-toggle {
+				position: absolute;
+				right: 0;
+				height: 100%;
+				width: 30px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				background-color: transparent;
+			}
+		}
+	}
+
+	.input-error {
+		font-size: 10px;
+		text-transform: uppercase;
+		$White-space: nowrap;
+		height: 15px;
+		margin-top: 3px;
+		text-align: right;
+		font-weight: $light-weight;
+	}
+}

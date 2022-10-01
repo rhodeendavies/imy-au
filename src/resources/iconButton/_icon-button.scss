@@ -1,0 +1,11 @@
+@use "./src/styles/variables" as *;
+
+.icon-button {
+	height: 25px;
+	width: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 25px;
+	background-color: $Black;
+}

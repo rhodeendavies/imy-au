@@ -1,0 +1,18 @@
+<template>
+	<div class="modal-wrapper ${open ? 'modal-open' : ''}">
+		<div class="modal-box">
+			<div class="modal-header">
+				<slot name="header">
+	
+				</slot>
+			</div>
+			<div class="modal-body">
+				<slot name="body">
+	
+				</slot>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-overlay ${open ? 'modal-overlay-open' : ''}"></div>
+</template>

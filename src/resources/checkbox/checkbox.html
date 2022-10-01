@@ -1,0 +1,12 @@
+<template>
+	<div if.bind="label != ''">
+		${label}
+	</div>
+
+	<div if.bind="checkboxOptions.length > 0" class="checkbox-container">
+		<p repeat.for="option of checkboxOptions" click.delegate="checkboxSelected(option)"
+			class="checkbox ${getCheckboxClasses(option)}">
+			${option.name}
+		</p>
+	</div>
+</template>

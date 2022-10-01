@@ -1,0 +1,21 @@
+@use "./src/styles/variables"as *;
+
+.login-page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.login-center {
+		max-width: 400px;
+
+		.login-heading {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		.login-box {
+			border: 1px solid $Black;
+			padding: 20px;
+		}
+	}
+}

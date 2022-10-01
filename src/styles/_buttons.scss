@@ -1,0 +1,51 @@
+@use "./variables" as *;
+
+.btn-row {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	flex-wrap: wrap;
+	margin-top: 15px;
+}
+
+.btn {
+	outline: none;
+	white-space: nowrap;
+	border-radius: $BorderRadius;
+	text-transform: uppercase;
+	font-size: $heading-3;
+	font-weight: $medium-weight;
+	
+	&:focus {
+		box-shadow: none;
+	}
+	
+	&:disabled {
+		pointer-events: none;
+		border: 1px solid $DarkGrey;
+		color: $DarkGrey;
+		background-color: none;
+	}
+}
+
+.btn-default {
+	border: 1px solid $Black;
+	color: $Black;
+	background-color: $White;
+
+	&:hover {
+		background-color: $Grey;
+		border-color: $Grey !important;
+	}
+}
+
+.btn-primary {
+	border: 1px solid $White;
+	background-color: $Blue;
+	color: $White;
+
+	&:hover {
+		color: white;
+		background-color: $DarkBlue;
+	}
+}

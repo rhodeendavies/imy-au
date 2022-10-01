@@ -1,0 +1,28 @@
+@use "./src/styles/variables" as *;
+
+.navbar-wrapper {
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: $Grey;
+
+	.nav-item {
+		padding: 0 20px;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s;
+
+		&:hover {
+			background-color: $Black60;
+			color: $White;
+		}
+
+		&.active-nav-item {
+			background-color: $Black;
+			color: $White;
+		}
+	}
+}

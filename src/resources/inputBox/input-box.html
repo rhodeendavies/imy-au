@@ -1,0 +1,36 @@
+<template>
+	<div class="input-wrapper ${ErrorType} ${InputBoxClasses}">
+		<div class="input-label-wrapper" if.bind="ShowLabel">
+			<div class="input-label">
+				${label}
+			</div>
+			<div class="input-sub-label" if.bind="ShowSubLabel">
+				${subLabel}
+			</div>
+		</div>
+
+		<div class="input-box-wrapper">
+			<div class="input-box">
+				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
+					blur.trigger="onBlurTrigger()" if.bind="ShowText" value.bind="value" placeholder.bind="placeholder"
+					type="text" disabled.bind="disabled" id.bind="id" />
+
+				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
+					blur.trigger="onBlurTrigger()" if.bind="ShowHiddenPassword" value.bind="value"
+					placeholder.bind="placeholder" type="password" disabled.bind="disabled"
+					id.bind="id" />
+
+				<div if.bind="ShowPassword" click.delegate="togglePassword()" class="input-password-toggle">
+					<span if.bind="ShowHiddenPassword" class="fas fa-eye"></span>
+					<span if.bind="!ShowHiddenPassword" class="fas fa-eye-slash"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="input-error">
+			<div if.bind="!valid">
+				*${ErrorText}
+			</div>
+		</div>
+	</div>
+</template>

@@ -1,0 +1,31 @@
+@use "./src/styles/variables" as *;
+
+a {
+	color: $Black;
+	text-decoration: none;
+
+	&:hover {
+		color: $Black;
+		text-decoration: none;
+	}
+}
+
+.heading-1 {
+	font-size: $heading-1;
+	font-weight: $bold-weight;
+}
+
+.heading-2 {
+	font-size: $heading-2;
+	font-weight: $bold-weight;
+}
+
+.heading-3 {
+	font-size: $heading-3;
+	font-weight: $medium-weight;
+}
+
+.heading-4 {
+	font-size: $heading-4;
+	font-weight: $light-weight;
+}

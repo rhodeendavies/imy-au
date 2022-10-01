@@ -1,0 +1,31 @@
+<template>
+
+	<modal view-model.ref="logoutModal">
+		<div slot="header">
+			LOGOUT
+		</div>
+		<div slot="body">
+			Are you sure you want to logout?
+			<div class="btn-row">
+				<button class="btn btn-default" click.delegate="toggleLogoutModal()">
+					No
+				</button>
+				<button class="btn btn-primary" click.delegate="logout()">
+					Yes
+				</button>
+			</div>
+		</div>
+	</modal>
+
+	<div class="page">
+		<div class="heading-1">
+			Profile!
+		</div>
+	
+		<div class="btn-row">
+			<button class="btn btn-default" click.delegate="toggleLogoutModal()">
+				Logout
+			</button>
+		</div>
+	</div>
+</template>

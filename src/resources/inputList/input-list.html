@@ -1,0 +1,11 @@
+<template>
+
+	<div>
+		<div repeat.for="input of inputs">
+			<input-box value.bind="input.value" id.bind="input.id" on-change.call="updateValues()"></input-box>
+			<div if.bind="LastIndex == $index">
+				<span class="fas fa-plus"></span>
+			</div>
+		</div>
+	</div>
+</template>
