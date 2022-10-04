@@ -1,5 +1,6 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Resource, WeekModel } from "models/moduleDetails";
+import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
 export class ModuleContent {
@@ -70,6 +71,22 @@ export class ModuleContent {
 		}]
 	}];
 	selectedResource: Resource;
+	contentId: string;
+
+	activate(params) {
+		this.contentId = params.contentId;
+	}
+
+	attached() {
+		this.init();
+	}
+
+	init() {
+		if (!ComponentHelper.NullOrEmpty(this.contentId)) {
+			this.selectedResource = this.weeks[2].resources[2];
+			this.selectedResource.active = true;
+		}
+	}
 
 	@computedFrom("selectedResource.id")
 	get IsResourceSelected(): boolean {

@@ -31,4 +31,19 @@ export class StudentRoutes {
 			} as RouterSettings
 		}]
 	}
+
+	static getDashboardSubRoutes(): RouteConfig[] {
+		return [{
+			route: ['', 'content/:contentId?'],
+			name: Routes.ModuleContent,
+			moduleId: 'Dashboard/ModuleContent/module-content',
+			nav: true,
+			title: 'Content',
+			settings: {
+				roles: [Roles.Student],
+				navbar: true,
+				authenticated: true
+			} as RouterSettings
+		}]
+	}
 }
