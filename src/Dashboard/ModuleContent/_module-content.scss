@@ -10,18 +10,22 @@
 		grid-template-columns: minmax(300px, 1fr) 2fr;
 	}
 	
-	.table-of-contents {
+	.module-content {
 		display: grid;
-		grid-template-rows: 50px minmax(0, 1fr);
+		grid-template-rows: 75px minmax(0, 1fr);
 
-		.table-of-contents-header {
+		.module-content-header {
 			height: 100%;
-			background-color: $Black;
+			background-color: $SeaGreen;
+			border-radius: $BorderRadiusTop;
 			color: $White;
+			padding: 0 20px;
+			font-family: $Poppins;
+			font-size: 30px;
+			font-weight: $semi-bold;
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
-			padding: 0 20px;
+			text-transform: uppercase;
 		}
 
 		.module-weeks {
@@ -38,7 +42,7 @@
 			width: 100%;
 			min-width: 300px;
 			height: 100%;
-			background-color: $Grey;
+			background-color: $DarkGrey;
 		}
 	}
 }

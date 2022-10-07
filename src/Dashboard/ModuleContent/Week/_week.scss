@@ -3,14 +3,44 @@
 .week-wrapper {
 	margin-bottom: 5px;
 
+	.week-heading {
+		.section-heading {
+			margin-bottom: 25px;
+		}
+	}
+
 	.week-resource {
 		display: grid;
-		grid-template-columns: 50px auto 100px;
-		border-bottom: 1px solid $Grey;
-		padding: 10px 20px;
+		grid-template-columns: 50px auto auto;
+		border-bottom: 1px solid $DarkGrey20;
+		padding: 20px;
+		margin-bottom: 10px;
+		transition: all 0.3s;
+		cursor: pointer;
+
+		&:hover {
+			background-color: $LighterGrey;
+		}
 
 		&.week-resource-active {
-			background-color: $Grey;
+			background-color: $LightGrey;
+		}
+
+		.week-title {
+			color: $DarkGrey;
+
+			.body-large {
+				margin-bottom: 15px;
+			}
+
+			.week-runtime {
+				padding-left: 30px;
+			}
+		}
+
+		.resources-btn {
+			justify-self: flex-end;
+			align-self: flex-end;
 		}
 	}
 }

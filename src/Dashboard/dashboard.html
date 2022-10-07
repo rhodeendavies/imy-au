@@ -1,9 +1,36 @@
 <template>
 	<div class="page dashboard-page">
-		<router-view></router-view>
+		<div class="dash-section">
+			<div class="dash-section-heading">
+				<div class="main-heading">
+					${moduleHeading}
+				</div>
 
-		<div if.bind="false">
-			<!-- Reflections -->
+				<div class="dash-week-dates">
+					<span>
+						Week ${weekNumber}
+					</span>
+					<span class="week-dates-divider"></span>
+					<span>
+						${weekDates}
+					</span>
+				</div>
+			</div>
+			<router-view></router-view>
+		</div>
+
+		<div class="dash-section" if.bind="true">
+			<div class="dash-section-heading">
+				<div class="main-heading">
+					Reflections
+				</div>
+
+				<div>
+					<button class="btn btn-primary">
+						View all
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

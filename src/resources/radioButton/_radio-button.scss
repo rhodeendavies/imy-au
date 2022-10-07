@@ -28,7 +28,7 @@
 			}
 
 			&:before {
-				border: 1px solid $Grey;
+				border: 1px solid $DarkGrey;
 			}
 		}
 
@@ -46,7 +46,7 @@
 		}
 
 		&:hover::before {
-			background-color: $Grey !important;
+			background-color: $DarkGrey !important;
 		}
 
 		&:after {

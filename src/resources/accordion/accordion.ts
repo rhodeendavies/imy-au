@@ -20,7 +20,7 @@ export class Accordion {
 		this.toggleSub = this.ea.subscribe(Events.AccordionToggle, (response: AccordionSubscription) => {
 			if (response.id == this.id) {
 				this.open = !this.open;
-			} else if (response.group == this.group) {
+			} else if (this.group != "" && response.group == this.group) {
 				this.open = false;
 			}
 		});

@@ -1,31 +1,34 @@
 <template>
 	<div class="week-wrapper">
-		<accordion group="weeks">
-			<div slot="header">
-				<div class="heading-1">
+		<accordion>
+			<div slot="header" class="week-heading">
+				<div class="section-heading">
 					WEEK ${week.index}: ${week.title}
 				</div>
-				<div class="heading-4">
+				<div>
 					${week.watchedVideos}/${week.totalVideos} videos | ${week.totalRunTime} min | ${week.dates}
 				</div>
 			</div>
 			<div slot="body">
 				<div repeat.for="resource of week.resources" class="week-resource ${resource.active ? 'week-resource-active' : ''}"
 					click.delegate="selectResource(resource)">
-					<div>
-						<check-mark checked.bind="resource.watched"></check-mark>
-					</div>
-					<div>
-						<div>
+					<check-mark checked.bind="resource.watched"></check-mark>
+					
+					<div class="week-title">
+						<div class="body-large">
 							${resource.index}. ${resource.title}
 						</div>
-						<div>
-							<span class="fas fa-video"></span>
+						<div class="week-runtime">
+							<span class="fas fa-play-circle"></span>
 							<span>${resource.runTime} min</span>
 						</div>
 					</div>
-					<div>
-	
+					
+					<div class="resources-btn">
+						<button class="btn btn-default">
+							<span class="far fa-folder"></span>
+							Resources
+						</button>
 					</div>
 				</div>
 			</div>

@@ -12,21 +12,21 @@ export class StudentRoutes {
 			name: Routes.Dashboard,
 			moduleId: 'Dashboard/dashboard',
 			nav: true,
-			title: 'Dashboard',
+			title: 'Home',
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
 				authenticated: true
 			} as RouterSettings
 		}, {
-			route: 'profile',
-			name: Routes.Profile,
-			moduleId: 'Profile/profile',
+			route: 'reflections',
+			name: Routes.Reflections,
+			moduleId: 'Reflections/reflections',
 			nav: true,
-			title: 'Profile',
+			title: 'Reflections',
 			settings: {
 				roles: [Roles.Student],
-				navbar: false,
+				navbar: true,
 				authenticated: true
 			} as RouterSettings
 		}]

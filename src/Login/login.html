@@ -1,24 +1,33 @@
 <template>
 	<div class="page login-page">
+		<div class="login-image"></div>
+		
 		<div class="login-center">
-			<div class="heading-1 login-heading">
-				LOGIN
+			<div class="top-heading login-heading">
+				Log in
 			</div>
 			<div class="login-box">
-				<input-box value.bind="studentNumber" label="Student number"></input-box>
-				<input-box value.bind="password" label="Password" type="password"></input-box>
-	
+				<div class="login-input">
+					<input-box value.bind="studentNumber" label="Student number"></input-box>
+				</div>
+				<div class="login-input">
+					<input-box value.bind="password" label="Password" type="password"></input-box>
+				</div>
+
 				<message if.bind="ShowError">
 					${response.message}
 				</message>
 
-				<div class="btn-row justify-end">
-					<button class="btn btn-deafult" disabled click.delegate="register()">
-						Register
-					</button>
+				<div class="login-action">
 					<button class="btn btn-primary" click.delegate="login()">
-						Login
+						Log in
 					</button>
+				</div>
+				
+				<div class="text-center">
+					<a class="hyper-link" disabled click.delegate="register()">
+						Forgot/ reset your password
+					</a>
 				</div>
 			</div>
 		</div>

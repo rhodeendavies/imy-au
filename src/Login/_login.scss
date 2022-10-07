@@ -1,21 +1,43 @@
 @use "./src/styles/variables"as *;
 
 .login-page {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+
+	.login-image {
+		width: 100%;
+		height: 100%;
+		background: url(images/login-page.png);
+		background-size: 100%;
+		background-repeat: no-repeat;
+		background-position-y: bottom;
+	}
 
 	.login-center {
-		max-width: 400px;
+		justify-self: center;
+		width: 100%;
+		padding: 100px;
 
 		.login-heading {
 			text-align: center;
-			margin-bottom: 20px;
+			margin-bottom: 60px;
 		}
 
 		.login-box {
-			border: 1px solid $Black;
-			padding: 20px;
+			.login-input {
+				margin-bottom: 20px;
+			}
+
+			.login-action {
+				margin-bottom: 40px;
+
+				.btn {
+					width: 100%;
+					height: 60px;
+					border-radius: $BorderRadius;
+					font-size: 24px;
+				}
+			}
 		}
 	}
 }

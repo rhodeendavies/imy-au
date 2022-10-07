@@ -1,25 +1,33 @@
 // fonts
-$light-weight: 200;
-$medium-weight: 500;
-$bold-weight: 900;
+$light: 300;
+$regular: 400;
+$semi-bold: 600;
+$bold: 700;
 
-$heading-1: 20px;
-$heading-2: 15px;
-$heading-3: 13px;
-$heading-4: 10px;
+$Poppins: 'Poppins', sans-serif;
+$Roboto: 'Roboto', sans-serif;
 
 // colours
-$Blue: blue;
-$DarkBlue: darkblue;
 $Black: black;
 $Black60: rgba(0, 0, 0, 0.6);
-$Grey: grey;
-$DarkGrey: darkgrey;
-$LightGrey: lightgrey;
 $White: white;
-$Error: red;
-$Warning: orange;
+$Error: red; //TODO: find suitable colour for errors
+
+$SeaGreen: #0D7F77;
+$DarkGreen: #054A45;
+$PaleBlue: #D7ECEF;
+$LighterGrey: #F5F5F5;
+$LightGrey: #E2E2E2;
+$DarkGrey: #505050;
+$Orange: #F26430;
+
+$DarkGrey60: rgba($DarkGrey, 0.6);
+$DarkGrey40: rgba($DarkGrey, 0.4);
+$DarkGrey20: rgba($DarkGrey, 0.2);
 
 // utils
-$BorderRadius: 5px;
-$BoxShadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+$BorderRadius: 10px;
+$BorderRadiusSmall: 5px;
+$BorderRadiusTop: $BorderRadius $BorderRadius 0 0;
+
+$BoxShadow: 0px 3px 6px rgba(0, 0, 0, 0.16);

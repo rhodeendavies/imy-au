@@ -3,26 +3,46 @@
 .navbar-wrapper {
 	height: 100%;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	background-color: $Grey;
+	gap: 50px;
+	background-color: $White;
+	padding: 0 30px;
+	box-shadow: $BoxShadow;
+
+	.navbar-name {
+		font-size: 40px;
+		color: $SeaGreen;
+		font-family: $Poppins;
+		font-weight: $bold;
+	}
 
 	.nav-item {
-		padding: 0 20px;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		font-size: 30px;
+		font-family: $Poppins;
+		font-weight: $semi-bold;
 		transition: all 0.3s;
+		position: relative;
+		cursor: pointer;
 
 		&:hover {
-			background-color: $Black60;
-			color: $White;
+			color: $Orange;
+		}
+
+		&::after {
+			position: absolute;
+			bottom: -6px;
+			left: 0;
+			width: 0;
+			height: 3px;
+			background-color: $Orange;
+			content: '';
+			transition: all 0.3s;
 		}
 
 		&.active-nav-item {
-			background-color: $Black;
-			color: $White;
+			&::after {
+				width: 100%;
+			}
 		}
 	}
 }

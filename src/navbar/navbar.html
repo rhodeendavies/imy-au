@@ -1,11 +1,31 @@
 <template>
+	<modal view-model.ref="logoutModal">
+		<div slot="header">
+			LOG OUT
+		</div>
+		<div slot="body">
+			Are you sure you want to logout?
+			<div class="btn-row">
+				<button class="btn btn-default" click.delegate="toggleLogoutModal()">
+					No
+				</button>
+				<button class="btn btn-primary" click.delegate="logout()">
+					Yes
+				</button>
+			</div>
+		</div>
+	</modal>
+
 	<div class="navbar-wrapper" if.bind="authService.Authenticated">
+		<a class="navbar-name">
+			FancyName
+		</a>
 		<a href.bind="row.href" repeat.for="row of routes" class="nav-item ${row.isActive ? 'active-nav-item' : ''}">
 			${row.title}
 		</a>
 
-		<a href.bind="profileRoute.href" if.bind="profileRoute != null" class="nav-item ${profileRoute.isActive ? 'active-nav-item' : ''}">
-			<span class="fas fa-user"></span>
-		</a>
+		<div click.delegate="toggleLogoutModal()" class="nav-item ml-auto">
+			Log out
+		</div>
 	</div>
 </template>

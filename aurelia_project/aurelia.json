@@ -87,7 +87,8 @@
 		],
 		"copyFiles": {
 			"node_modules/@fortawesome/fontawesome-free/webfonts/*": "wwwroot/@fortawesome/fontawesome-free/webfonts",
-			"favicon.ico": "wwwroot"
+			"favicon.ico": "wwwroot",
+			"images/**/*": "wwwroot/images"
 		},
 		"loader": {
 			"type": "require",
