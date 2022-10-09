@@ -1,11 +1,14 @@
 <template>
-	<div if.bind="label != ''">
+	<div class="label radio-label" if.bind="label != ''">
 		${label}
 	</div>
 
-	<div if.bind="radioOptions.length > 0" class="radio-options-wrapper">
-		<p repeat.for="option of radioOptions" click.delegate="radioOptionSelected(option)"
-			class="radio-option ${getOptionClasses(option)}">
+	<div if.bind="options.length > 0" class="radio-options-wrapper">
+		<p repeat.for="option of options" click.delegate="optionSelected(option)"
+			class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''}">
+			<span class="radio-circle">
+				<span class="radio-inner-circle"></span>
+			</span>
 			${option.name}
 		</p>
 	</div>

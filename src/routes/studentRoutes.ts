@@ -8,7 +8,7 @@ export class StudentRoutes {
 
 	static getRoutes(): RouteConfig[] {
 		return [{
-			route: 'dashboard',
+			route: 'home',
 			name: Routes.Dashboard,
 			moduleId: 'Dashboard/dashboard',
 			nav: true,

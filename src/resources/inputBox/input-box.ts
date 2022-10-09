@@ -36,7 +36,7 @@ export class InputBox {
 
 		setTimeout(() => {
 			this.initDone = true;
-		}, 10);
+		});
 	}
 
 	setInputElement() {
@@ -54,7 +54,7 @@ export class InputBox {
 		if (this.onFocus != null) {
 			setTimeout(() => {
 				this.onFocus();
-			}, 10);
+			});
 		}
 	}
 
@@ -62,7 +62,7 @@ export class InputBox {
 		if (this.onBlur != null) {
 			setTimeout(() => {
 				this.onBlur();
-			}, 10);
+			});
 		}
 	}
 
@@ -70,7 +70,7 @@ export class InputBox {
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
-			}, 10);
+			});
 		}
 	}
 
@@ -83,7 +83,7 @@ export class InputBox {
 				if (this.onEnter != null) {
 					setTimeout(() => {
 						this.onEnter();
-					}, 10);
+					});
 				}
 			}
 		}

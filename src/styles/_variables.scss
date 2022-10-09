@@ -9,7 +9,6 @@ $Roboto: 'Roboto', sans-serif;
 
 // colours
 $Black: black;
-$Black60: rgba(0, 0, 0, 0.6);
 $White: white;
 $Error: red; //TODO: find suitable colour for errors
 
@@ -29,5 +28,6 @@ $DarkGrey20: rgba($DarkGrey, 0.2);
 $BorderRadius: 10px;
 $BorderRadiusSmall: 5px;
 $BorderRadiusTop: $BorderRadius $BorderRadius 0 0;
+$BorderRadiusBottom: 0 0 $BorderRadius $BorderRadius;
 
 $BoxShadow: 0px 3px 6px rgba(0, 0, 0, 0.16);

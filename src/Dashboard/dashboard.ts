@@ -5,9 +5,8 @@ import { StudentRoutes } from "routes/studentRoutes";
 @autoinject
 export class Dashboard {
 
-	moduleHeading: string = "IMY 110: Markup Languages";
-	weekNumber: number = 4;
-	weekDates: string = "22-26 Feb";
+	
+	resourceOpen: boolean = false;
 
 	constructor (private router: Router) {}
 

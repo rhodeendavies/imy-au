@@ -56,6 +56,13 @@ a {
 	font-family: $Roboto;
 }
 
+.label {
+	font-size: 24px;
+	font-weight: $bold;
+	color: $SeaGreen;
+}
+
+// utils
 .text-center {
 	text-align: center;
 }

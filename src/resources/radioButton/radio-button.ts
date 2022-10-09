@@ -4,7 +4,7 @@ import { ComponentHelper } from 'utils/componentHelper';
 @autoinject
 export class RadioButton {
 
-	@bindable radioOptions: RadioOption[] = [];
+	@bindable options: RadioOption[] = [];
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) value: any;
 	@bindable onChange;
 	@bindable label: string = "";
@@ -14,25 +14,22 @@ export class RadioButton {
 		this.id = ComponentHelper.CreateId("radioButton");
 	}
 
-	radioOptionSelected(option: RadioOption) {
+	optionSelected(option: RadioOption) {
 		if (option.disabled) return;
-		
-		this.radioOptions.forEach(x => x.selected = false);
+
+		this.options.forEach(x => x.selected = false);
 		option.selected = true;
 		this.value = option.value;
 
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
-			}, 0);
+			});
 		}
 	}
 
-	getOptionClasses(option: RadioOption): string {
-		let classes = "";
-		if (option.disabled) classes += " disabled-radio-option";
-		if (option.selected) classes += " selected-radio-option";
-		return classes;
+	valueChanged() {
+		this.options.forEach(x => x.selected = x.value == this.value);
 	}
 }
 
@@ -40,5 +37,5 @@ export class RadioOption {
 	name: string;
 	value: any;
 	disabled?: boolean;
-	selected: boolean;
+	selected?: boolean;
 }

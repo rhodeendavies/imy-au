@@ -16,7 +16,7 @@ export class Login {
 			this.authService.logout();
 		}
 
-		// this.login()
+		// this.login();
 	}
 
 	async login() {

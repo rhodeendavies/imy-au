@@ -3,10 +3,19 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 import { autoinject } from 'aurelia-framework';
 import { AuthenticationService } from 'services/authenticationService';
 import { AuthorizeStep } from 'services/authorizeSteo';
+import { Toast } from 'resources/toast/toast';
+import { ApplicationState } from 'applicationState';
 
 @autoinject
 export class App {
-	constructor(private router: Router, private authService: AuthenticationService) {}
+
+	toast: Toast;
+
+	constructor(private router: Router, private authService: AuthenticationService, private appState: ApplicationState) {}
+
+	attached() {
+		this.appState.setToast(this.toast);
+	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
 		config.title = 'Aurelia';

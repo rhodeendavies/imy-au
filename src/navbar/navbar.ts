@@ -3,7 +3,7 @@ import { autoinject } from 'aurelia-framework';
 import { Router, NavModel } from 'aurelia-router';
 import { Modal } from 'resources/modal/modal';
 import { AuthenticationService } from 'services/authenticationService';
-import { Events, Routes } from 'utils/constants';
+import { Events } from 'utils/constants';
 
 @autoinject
 export class Navbar {

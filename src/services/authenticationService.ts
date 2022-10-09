@@ -27,10 +27,11 @@ export class AuthenticationService {
 			this.user.authenticated = true;
 			switch (this.Role) {
 				case Roles.Admin:
-					this.router.navigate("admin-dashboard");
+					this.router.navigate(Routes.AdminDash);
 					break;
 				case Roles.Student:
-					this.router.navigate("dashboard");
+					this.router.navigate(Routes.Dashboard);
+					// this.router.navigate(`${Routes.Dashboard}/content/1`);
 					break
 				default:
 					throw "Invalid login";

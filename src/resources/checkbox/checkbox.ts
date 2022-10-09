@@ -27,7 +27,7 @@ export class Checkbox {
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
-			}, 0);
+			});
 		}
 	}
 

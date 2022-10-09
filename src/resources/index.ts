@@ -14,5 +14,6 @@ export function configure(config: FrameworkConfiguration): void {
 		'./pageLoader/page-loader',
 		'./popup/popup',
 		'./radioButton/radio-button',
+		'./toast/toast',
 	]);
 }

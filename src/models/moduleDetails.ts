@@ -25,6 +25,7 @@ export class Resource {
 	videoPath: string;
 	resourcesPath: string;
 	active: boolean;
+	rating: number;
 
 	constructor() {
 		this.index = 0;
@@ -33,5 +34,6 @@ export class Resource {
 		this.watched = false;
 		this.videoPath = "";
 		this.resourcesPath = "";
+		this.rating = null;
 	}
 }

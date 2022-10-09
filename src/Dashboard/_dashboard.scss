@@ -2,11 +2,21 @@
 
 .dashboard-page {
 	display: grid;
-	grid-template-columns: 2fr 1fr;
+	grid-template-columns: 1fr 30%;
+	grid-template-rows: minmax(0, 1fr);
 	padding-top: 20px;
+
+	&.dashboard-page-wide {
+		grid-template-columns: 1fr 0;
+
+		.dash-section:first-child {
+			border-right: none;
+		}
+	}
 
 	.dash-section {
 		padding: 20px 40px;
+		max-height: 100%;
 
 		&:first-child {
 			border-right: 1px solid $DarkGrey40;

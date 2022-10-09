@@ -7,13 +7,24 @@ export class CheckMark {
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) checked: boolean = false;
 	@bindable disabled: boolean = false;
 	@bindable id: string = "";
+	@bindable onChange;
+	@bindable stopPropagation: boolean = true;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("checkMark");
 	}
 
-	toggleCheck() {
-		this.checked = !this.checked
+	toggleCheck(event: Event) {
+		if (this.stopPropagation) {
+			event.stopPropagation();
+		}
+
+		this.checked = !this.checked;
+		if (this.onChange != null) {
+			setTimeout(() => {
+				this.onChange();
+			});
+		}
 	}
 
 
