@@ -1,0 +1,48 @@
+@use "./src/styles/variables"as *;
+
+.dashboard-page {
+	display: grid;
+	grid-template-columns: 1fr 30%;
+	grid-template-rows: minmax(0, 1fr);
+	padding-top: 20px;
+
+	&.dashboard-page-wide {
+		grid-template-columns: 1fr 0;
+
+		.dash-section:first-child {
+			border-right: none;
+		}
+	}
+
+	.dash-section {
+		padding: 20px 40px;
+		max-height: 100%;
+
+		&:first-child {
+			border-right: 1px solid $DarkGrey40;
+		}
+
+		.dash-section-heading {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 50px;
+			
+			.dash-week-dates {
+				display: flex;
+				align-items: center;
+				gap: 20px;
+				font-family: $Poppins;
+				font-size: 30px;
+				font-weight: $regular;
+	
+				.week-dates-divider {
+					height: 15px;
+					width: 15px;
+					border-radius: 15px;
+					background-color: $Orange;
+				}
+			}
+		}
+	}
+}

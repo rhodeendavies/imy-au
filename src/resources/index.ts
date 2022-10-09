@@ -4,6 +4,7 @@ export function configure(config: FrameworkConfiguration): void {
 	config.globalResources([
 		'./accordion/accordion',
 		'./checkbox/checkbox',
+		'./checkMark/check-mark',
 		'./iconButton/icon-button',
 		'./inputBox/input-box',
 		'./inputList/input-list',
@@ -13,5 +14,6 @@ export function configure(config: FrameworkConfiguration): void {
 		'./pageLoader/page-loader',
 		'./popup/popup',
 		'./radioButton/radio-button',
+		'./toast/toast',
 	]);
 }

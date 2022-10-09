@@ -1,7 +1,12 @@
 <template>
-	<div class="page">
-		<div class="heading-1">
-			Student Dash!
+	<div class="page dashboard-page ${resourceOpen ? 'dashboard-page-wide' : ''}">
+		<div class="dash-section">
+			
+			<router-view></router-view>
+		</div>
+
+		<div class="dash-section" if.bind="!resourceOpen">
+			
 		</div>
 	</div>
 </template>

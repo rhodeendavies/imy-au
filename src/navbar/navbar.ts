@@ -1,15 +1,16 @@
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { autoinject } from 'aurelia-framework';
 import { Router, NavModel } from 'aurelia-router';
+import { Modal } from 'resources/modal/modal';
 import { AuthenticationService } from 'services/authenticationService';
-import { Events, Routes } from 'utils/constants';
+import { Events } from 'utils/constants';
 
 @autoinject
 export class Navbar {
 
 	loginSub: Subscription;
 	routes: NavModel[];
-	profileRoute: NavModel;
+	logoutModal: Modal;
 
 	constructor(private router: Router, private authService: AuthenticationService, private ea: EventAggregator) {
 
@@ -29,13 +30,18 @@ export class Navbar {
 		if (this.router.navigation == null || !this.authService.Authenticated) return [];
 		this.routes = this.router.navigation.filter(x =>
 			x.settings.navbar && x.settings.roles.includes(this.authService.Role));
-
-		this.profileRoute = this.router.navigation.find(x => 
-			x.settings.roles.includes(this.authService.Role) && x.config.name == Routes.Profile);
 	}
 
 	destroyRoutes() {
 		this.routes = [];
-		this.profileRoute = null;
+	}
+
+
+	async logout() {
+		await this.authService.logout();
+	}
+
+	toggleLogoutModal() {
+		this.logoutModal.toggle();
 	}
 }

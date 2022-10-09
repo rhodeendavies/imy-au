@@ -7,6 +7,7 @@ export class Events {
 export class Routes {
 	static readonly AdminDash: string = "admin-dashboard";
 	static readonly Login: string = "login";
-	static readonly Dashboard: string = "dashboard";
-	static readonly Profile: string = "profile";
+	static readonly Dashboard: string = "home";
+	static readonly Reflections: string = "reflections";
+	static readonly ModuleContent: string = "content";
 }

@@ -1,0 +1,21 @@
+@use "./src/styles/variables" as *;
+
+.check-mark-wrapper {
+	height: 27px;
+	width: 27px;
+	border: 2px solid $SeaGreen;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&.disabled {
+		opacity: 0.6;
+		background-color: $DarkGrey;
+		border-color: $DarkGrey;
+	}
+
+	&.checked {
+		background-color: $SeaGreen;
+		color: $White;
+	}
+}

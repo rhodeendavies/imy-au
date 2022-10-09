@@ -10,22 +10,59 @@ a {
 	}
 }
 
-.heading-1 {
-	font-size: $heading-1;
-	font-weight: $bold-weight;
+.hyper-link {
+	color: $Black;
+	text-decoration: underline;
+
+	&:hover {
+		color: $SeaGreen;
+		text-decoration: underline;
+	}
 }
 
-.heading-2 {
-	font-size: $heading-2;
-	font-weight: $bold-weight;
+.top-heading {
+	font-family: $Poppins;
+	font-size: 48px;
+	font-weight: $bold;
 }
 
-.heading-3 {
-	font-size: $heading-3;
-	font-weight: $medium-weight;
+.main-heading {
+	font-family: $Poppins;
+	font-size: 36px;
+	font-weight: $semi-bold;
 }
 
-.heading-4 {
-	font-size: $heading-4;
-	font-weight: $light-weight;
+.section-heading {
+	font-family: $Poppins;
+	font-size: 24px;
+	font-weight: $semi-bold;
+}
+
+.sub-heading {
+	font-family: $Poppins;
+	font-size: 18px;
+	font-weight: $semi-bold;
+}
+
+.body-large {
+	font-weight: $regular;
+	font-size: 22px;
+	font-family: $Roboto;
+}
+
+.body-small {
+	font-weight: $light;
+	font-size: 16px;
+	font-family: $Roboto;
+}
+
+.label {
+	font-size: 24px;
+	font-weight: $bold;
+	color: $SeaGreen;
+}
+
+// utils
+.text-center {
+	text-align: center;
 }

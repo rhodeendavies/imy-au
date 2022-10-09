@@ -36,7 +36,7 @@ export class InputBox {
 
 		setTimeout(() => {
 			this.initDone = true;
-		}, 10);
+		});
 	}
 
 	setInputElement() {
@@ -54,7 +54,7 @@ export class InputBox {
 		if (this.onFocus != null) {
 			setTimeout(() => {
 				this.onFocus();
-			}, 10);
+			});
 		}
 	}
 
@@ -62,7 +62,7 @@ export class InputBox {
 		if (this.onBlur != null) {
 			setTimeout(() => {
 				this.onBlur();
-			}, 10);
+			});
 		}
 	}
 
@@ -70,7 +70,7 @@ export class InputBox {
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
-			}, 10);
+			});
 		}
 	}
 
@@ -83,7 +83,7 @@ export class InputBox {
 				if (this.onEnter != null) {
 					setTimeout(() => {
 						this.onEnter();
-					}, 10);
+					});
 				}
 			}
 		}
@@ -91,7 +91,7 @@ export class InputBox {
 
 	@computedFrom("value")
 	get ErrorText(): string {
-		if (this.value.isNullOrEmpty() && this.required) {
+		if (ComponentHelper.NullOrEmpty(this.value) && this.required) {
 			return "Required";
 		}
 		return "";
@@ -99,12 +99,12 @@ export class InputBox {
 
 	@computedFrom("label")
 	get ShowLabel(): boolean {
-		return !this.label.isNullOrEmpty();
+		return !ComponentHelper.NullOrEmpty(this.label);
 	}
 
 	@computedFrom("subLabel")
 	get ShowSubLabel(): boolean {
-		return !this.subLabel.isNullOrEmpty();
+		return !ComponentHelper.NullOrEmpty(this.subLabel);
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -129,6 +129,7 @@ export class InputBox {
 		let classes = "";
 		if (this.disabled) classes += " disable-input";
 		if (!this.valid) classes += " invalid-input";
+		if (this.ShowPassword) classes += " password-input";
 		return classes;
 	}
 }

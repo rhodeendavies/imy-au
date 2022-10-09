@@ -7,6 +7,7 @@
 
 @use "resources/accordion/accordion";
 @use "resources/checkbox/checkbox";
+@use "resources/checkMark/check-mark";
 @use "resources/iconButton/icon-button";
 @use "resources/inputBox/input-box";
 @use "resources/inputList/input-list";
@@ -16,6 +17,12 @@
 @use "resources/pageLoader/page-loader";
 @use "resources/popup/popup";
 @use "resources/radioButton/radio-button";
+@use "resources/toast/toast";
 
+@use "AdminDashboard/admin-dashboard";
+@use "Dashboard/dashboard";
+@use "Dashboard/ModuleContent/module-content";
+@use "Dashboard/ModuleContent/Week/week";
+@use "Reflections/reflections";
 @use "Login/login";
 @use "navbar/navbar";

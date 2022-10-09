@@ -5,16 +5,23 @@
 	align-items: center;
 	gap: 5px;
 	flex-wrap: wrap;
-	margin-top: 15px;
+	margin-top: 30px;
 }
 
 .btn {
 	outline: none;
 	white-space: nowrap;
-	border-radius: $BorderRadius;
-	text-transform: uppercase;
-	font-size: $heading-3;
-	font-weight: $medium-weight;
+	border-radius: $BorderRadiusSmall;
+	font-size: 18px;
+	font-weight: $semi-bold;
+	font-family: $Poppins;
+	height: 40px;
+	padding: 0 20px;
+	min-width: 150px;
+
+	&:hover {
+		cursor: pointer;
+	}
 	
 	&:focus {
 		box-shadow: none;
@@ -22,30 +29,30 @@
 	
 	&:disabled {
 		pointer-events: none;
-		border: 1px solid $DarkGrey;
-		color: $DarkGrey;
-		background-color: none;
+		border: none;
+		color: $White;
+		background-color: $DarkGrey;
+		opacity: 0.6;
 	}
 }
 
 .btn-default {
-	border: 1px solid $Black;
-	color: $Black;
-	background-color: $White;
+	border: 1px solid $SeaGreen;
+	color: $SeaGreen;
+	background-color: transparent;
 
 	&:hover {
-		background-color: $Grey;
-		border-color: $Grey !important;
+		background-color: $PaleBlue;
+		border-color: $PaleBlue;
 	}
 }
 
 .btn-primary {
-	border: 1px solid $White;
-	background-color: $Blue;
+	border: none;
+	background-color: $SeaGreen;
 	color: $White;
 
 	&:hover {
-		color: white;
-		background-color: $DarkBlue;
+		background-color: $DarkGreen;
 	}
 }

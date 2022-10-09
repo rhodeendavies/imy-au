@@ -1,0 +1,46 @@
+<template>
+	<require from="./Week/week"></require>
+	
+	<div class="module-content-wrapper ${IsResourceSelected ? 'resource-open' : ''}">
+		<div class="dash-section-heading">
+			<div class="main-heading">
+				${moduleHeading}
+			</div>
+	
+			<div class="dash-week-dates">
+				<span>
+					Week ${weekNumber}
+				</span>
+				<span class="week-dates-divider"></span>
+				<span>
+					${weekDates}
+				</span>
+			</div>
+		</div>
+
+		<div class="module-content">
+			<div class="module-content-header">
+				Module Content
+			</div>
+		
+			<div class="module-weeks">
+				<week repeat.for="week of weeks" week.bind="week"></week>
+			</div>
+		</div>
+
+		<div class="resource-wrapper" if.bind="IsResourceSelected">
+			<div class="resource-heading">${resourceSelected.index}. ${resourceSelected.title}</div>
+			<div class="resource-video-wrapper">
+				<div class="resource-video">
+
+				</div>
+			</div>
+			<div class="resource-action">
+				<button class="btn btn-default">
+					<span class="far fa-folder"></span>
+					Resources
+				</button>
+			</div>
+		</div>
+	</div>
+</template>

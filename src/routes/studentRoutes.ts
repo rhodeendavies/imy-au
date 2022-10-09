@@ -8,25 +8,40 @@ export class StudentRoutes {
 
 	static getRoutes(): RouteConfig[] {
 		return [{
-			route: 'dashboard',
+			route: 'home',
 			name: Routes.Dashboard,
 			moduleId: 'Dashboard/dashboard',
 			nav: true,
-			title: 'Dashboard',
+			title: 'Home',
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
 				authenticated: true
 			} as RouterSettings
 		}, {
-			route: 'profile',
-			name: Routes.Profile,
-			moduleId: 'Profile/profile',
+			route: 'reflections',
+			name: Routes.Reflections,
+			moduleId: 'Reflections/reflections',
 			nav: true,
-			title: 'Profile',
+			title: 'Reflections',
 			settings: {
 				roles: [Roles.Student],
-				navbar: false,
+				navbar: true,
+				authenticated: true
+			} as RouterSettings
+		}]
+	}
+
+	static getDashboardSubRoutes(): RouteConfig[] {
+		return [{
+			route: ['', 'content/:contentId?'],
+			name: Routes.ModuleContent,
+			moduleId: 'Dashboard/ModuleContent/module-content',
+			nav: true,
+			title: 'Content',
+			settings: {
+				roles: [Roles.Student],
+				navbar: true,
 				authenticated: true
 			} as RouterSettings
 		}]

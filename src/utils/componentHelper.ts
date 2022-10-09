@@ -6,4 +6,8 @@ export class ComponentHelper {
 	static Sleep(ms: number): Promise<void> {
 		return new Promise(resolve => setTimeout(resolve, ms) );
 	}
+
+	static NullOrEmpty(value: string): boolean {
+		return value == null || value == "";
+	}
 }

@@ -6,7 +6,7 @@ import { Events } from "utils/constants";
 @autoinject
 export class Accordion {
 
-	@bindable isOpen: boolean = false;
+	@bindable open: boolean = false;
 	@bindable disabled: boolean = false;
 	@bindable group: string = "";
 	@bindable id: string = "";
@@ -19,9 +19,9 @@ export class Accordion {
 	attached() {
 		this.toggleSub = this.ea.subscribe(Events.AccordionToggle, (response: AccordionSubscription) => {
 			if (response.id == this.id) {
-				this.isOpen = !this.isOpen;
-			} else if (response.group == this.group) {
-				this.isOpen = false;
+				this.open = !this.open;
+			} else if (this.group != "" && response.group == this.group) {
+				this.open = false;
 			}
 		});
 	}

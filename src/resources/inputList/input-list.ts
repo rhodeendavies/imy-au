@@ -29,7 +29,7 @@ export class InputList {
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
-			}, 10);
+			});
 		}
 	}
 

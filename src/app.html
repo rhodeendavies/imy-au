@@ -1,17 +1,24 @@
 <template>
-	<require from="bootstrap/dist/css/bootstrap.min.css"></require>
 	<require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
 	<require from="./styles.css"></require>
 	<require from="navbar/navbar"></require>
 
-	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
-		<page-loader if.bind="Loading"></page-loader>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"> 
 
+	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
+		
+		<page-loader if.bind="Loading"></page-loader>
+		
 		<div class="app-nav">
 			<navbar></navbar>
 		</div>
 		<div class="app-body">
 			<router-view></router-view>
 		</div>
+		
+		<toast view-model.ref="toast"></toast>
 	</div>
+	
 </template>

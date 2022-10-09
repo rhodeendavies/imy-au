@@ -21,16 +21,17 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
-			await ComponentHelper.Sleep(1000);
+			await ComponentHelper.Sleep(100);
 
 			this.user = new UserDetails();
 			this.user.authenticated = true;
 			switch (this.Role) {
 				case Roles.Admin:
-					this.router.navigate("admin-dashboard");
+					this.router.navigate(Routes.AdminDash);
 					break;
 				case Roles.Student:
-					this.router.navigate("dashboard");
+					this.router.navigate(Routes.Dashboard);
+					// this.router.navigate(`${Routes.Dashboard}/content/1`);
 					break
 				default:
 					throw "Invalid login";
@@ -49,7 +50,7 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
-			await ComponentHelper.Sleep(1000);
+			await ComponentHelper.Sleep(100);
 
 			this.user = null;
 			this.ea.publish(Events.Logout);

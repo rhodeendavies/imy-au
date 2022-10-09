@@ -1,0 +1,55 @@
+<template>
+	<modal view-model.ref="ratingModal">
+		<div slot="header">
+			Rate the video
+		</div>
+		<div slot="body">
+			<radio-button options.bind="videoRatingOptions" value.bind="ratingSelected"
+				label="You've finished a video. Rate your understanding of the concepts in the video.">
+			</radio-button>
+
+			<div class="btn-row">
+				<button class="btn btn-primary" click.delegate="submitRating()"
+					disabled.bind="ratingSelected == null">
+					Finish
+				</button>
+			</div>
+		</div>
+	</modal>
+
+	<div class="week-wrapper">
+		<accordion>
+			<div slot="header" class="week-heading">
+				<div class="section-heading">
+					WEEK ${week.index}: ${week.title}
+				</div>
+				<div>
+					${week.watchedVideos}/${week.totalVideos} videos | ${week.totalRunTime} min | ${week.dates}
+				</div>
+			</div>
+			<div slot="body">
+				<div repeat.for="resource of week.resources" class="week-resource ${resource.active ? 'week-resource-active' : ''}"
+					click.delegate="selectResource(resource)">
+					<check-mark checked.bind="resource.watched" on-change.call="completeResource(resource)"></check-mark>
+					
+					<div class="week-title">
+						<div class="body-large">
+							${resource.index}. ${resource.title}
+						</div>
+						<div class="week-runtime">
+							<span class="fas fa-play-circle"></span>
+							<span>${resource.runTime} min</span>
+						</div>
+					</div>
+					
+					<div class="resources-btn">
+						<button class="btn btn-default" click.delegate="downloadResources(resource, $event)">
+							<span class="far fa-folder"></span>
+							Resources
+						</button>
+					</div>
+				</div>
+			</div>
+		</accordion>
+	</div>
+</template>

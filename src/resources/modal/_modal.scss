@@ -4,35 +4,50 @@
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
-	top: 0;
+	top: -150vh;
 	left: 0;
 	z-index: 10;
-	display: none;
+	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: all 0s 0.3s;
 
 	&.modal-open {
-		display: flex;
+		transition: all 0s 0s;
+		top: 0;
+
+		.modal-box {
+			top: 0;
+			opacity: 1;
+		}
 	}
 
 	.modal-box {
 		border-radius: $BorderRadius;
 		box-shadow: $BoxShadow;
-		max-width: 500px;
+		position: relative;
+		top: -100px;
+		opacity: 0;
+		transition: all 0.3s;
 
 		.modal-header {
-			background-color: $Black;
+			background-color: $SeaGreen;
 			color: $White;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			height: 50px;
-			padding: 0 20px;
+			padding: 20px 40px;
+			font-size: 40px;
+			font-family: $Poppins;
+			font-weight: $semi-bold;
+			border-radius: $BorderRadiusTop;
 		}
 
 		.modal-body {
-			padding: 20px;
+			padding: 40px;
 			background-color: $White;
+			border-radius: $BorderRadiusBottom;
+			font-size: 24px;
 		}
 	}
 }
@@ -41,13 +56,16 @@
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
-	top: 0;
+	top: -150vh;
 	left: 0;
 	z-index: 9;
-	background-color: $Black60;
-	display: none;
+	background-color: $White;
+	transition: opacity 0.3s, top 0s 0.5s;
+	opacity: 0;
 
 	&.modal-overlay-open {
-		display: block;
+		transition: opacity 0.3s, top 0s 0s;
+		opacity: 0.8;
+		top: 0;
 	}
 }
