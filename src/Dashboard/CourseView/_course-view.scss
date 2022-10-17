@@ -1,32 +1,32 @@
 @use "./src/styles/variables"as *;
 
-.module-content-wrapper {
+.course-wrapper {
 	display: grid;
 	grid-template-columns: minmax(300px, 1fr);
 	grid-template-rows: auto minmax(0, 1fr);
 	gap: 40px;
 	height: 100%;
 	
-	&.resource-open {
+	&.lesson-open {
 		grid-template-columns: minmax(300px, 1fr) 60%;
 
 		.dash-section-heading {
 			grid-column: 2;
 		}
 
-		.module-content {
+		.course-content {
 			grid-row: 1/ span 2;
 			border-right: 1px solid $DarkGrey40;
 			padding-right: 40px;
 		}
 	}
 	
-	.module-content {
+	.course-content {
 		display: grid;
 		grid-template-rows: 75px minmax(0, 1fr);
 		height: 100%;
 
-		.module-content-header {
+		.course-content-header {
 			height: 100%;
 			background-color: $SeaGreen;
 			border-radius: $BorderRadiusTop;
@@ -40,26 +40,26 @@
 			text-transform: uppercase;
 		}
 
-		.module-weeks {
+		.course-sections {
 			max-height: 100%;
 			overflow: auto;
 		}
 	}
 
-	.resource-wrapper {
+	.lesson-wrapper {
 		display: grid;
 		grid-template-rows: auto minmax(300px, 1fr) auto;
 
-		.resource-heading {
+		.lesson-heading {
 			font-family: $Poppins;
 			font-size: 40px;
 			font-weight: $semi-bold;
 		}
 
-		.resource-video-wrapper {
+		.lesson-video-wrapper {
 			padding: 40px 0;
 			
-			.resource-video {
+			.lesson-video {
 				min-width: 300px;
 				height: 100%;
 				width: 100%;
@@ -67,7 +67,7 @@
 			}
 		}
 
-		.resource-action {
+		.lesson-action {
 			display: flex;
 			justify-content: flex-end;
 		}

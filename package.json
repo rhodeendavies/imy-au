@@ -17,15 +17,18 @@
 		"aurelia-router": "^1.7.1",
 		"aurelia-validation": "^2.0.0-rc2",
 		"jquery": "^3.6.0",
+		"luxon": "^3.0.4",
 		"popper.js": "^1.16.1",
 		"whatwg-fetch": "^3.6.2"
 	},
 	"devDependencies": {
+		"@types/luxon": "^3.0.2",
 		"@types/node": "^17.0.35",
 		"@typescript-eslint/eslint-plugin": "^5.25.0",
 		"@typescript-eslint/parser": "^5.25.0",
 		"aurelia-cli": "^3.0.0",
 		"aurelia-testing": "^1.1.0",
+		"bootstrap": "^4.6.1",
 		"connect": "^3.7.0",
 		"connect-history-api-fallback": "^1.6.0",
 		"connect-injector": "^0.4.4",

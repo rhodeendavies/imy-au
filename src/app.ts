@@ -2,7 +2,7 @@ import { RouteManager } from './routes/routeManager';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { autoinject } from 'aurelia-framework';
 import { AuthenticationService } from 'services/authenticationService';
-import { AuthorizeStep } from 'services/authorizeSteo';
+import { AuthorizeStep } from 'services/authorizeStep';
 import { Toast } from 'resources/toast/toast';
 import { ApplicationState } from 'applicationState';
 

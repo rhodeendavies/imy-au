@@ -5,15 +5,18 @@ import { StudentRoutes } from "routes/studentRoutes";
 @autoinject
 export class Dashboard {
 
-	
-	resourceOpen: boolean = false;
+	lessonOpen: boolean = false;
 
-	constructor (private router: Router) {}
+	constructor(private router: Router) { }
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
 		config.title = 'Aurelia';
 		config.map(StudentRoutes.getDashboardSubRoutes());
 
 		this.router = router;
+	}
+
+	navigate(fragment: string) {
+		this.router.navigate(fragment);
 	}
 }

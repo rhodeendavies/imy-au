@@ -26,9 +26,9 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 50px;
+			margin-bottom: 25px;
 			
-			.dash-week-dates {
+			.dash-section-dates {
 				display: flex;
 				align-items: center;
 				gap: 20px;
@@ -36,7 +36,7 @@
 				font-size: 30px;
 				font-weight: $regular;
 	
-				.week-dates-divider {
+				.section-dates-divider {
 					height: 15px;
 					width: 15px;
 					border-radius: 15px;

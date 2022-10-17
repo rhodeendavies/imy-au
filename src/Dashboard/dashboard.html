@@ -1,11 +1,11 @@
 <template>
-	<div class="page dashboard-page ${resourceOpen ? 'dashboard-page-wide' : ''}">
+	<div class="page dashboard-page ${lessonOpen ? 'dashboard-page-wide' : ''}">
 		<div class="dash-section">
 			
 			<router-view></router-view>
 		</div>
 
-		<div class="dash-section" if.bind="!resourceOpen">
+		<div class="dash-section" if.bind="!lessonOpen">
 			
 		</div>
 	</div>

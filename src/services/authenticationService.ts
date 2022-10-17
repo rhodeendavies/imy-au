@@ -31,7 +31,7 @@ export class AuthenticationService {
 					break;
 				case Roles.Student:
 					this.router.navigate(Routes.Dashboard);
-					// this.router.navigate(`${Routes.Dashboard}/content/1`);
+					// this.router.navigate(`${Routes.Dashboard}/${Routes.ModuleContent}/8`);
 					break
 				default:
 					throw "Invalid login";

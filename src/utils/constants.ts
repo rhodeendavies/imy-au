@@ -9,5 +9,5 @@ export class Routes {
 	static readonly Login: string = "login";
 	static readonly Dashboard: string = "home";
 	static readonly Reflections: string = "reflections";
-	static readonly ModuleContent: string = "content";
+	static readonly CourseContent: string = "content";
 }

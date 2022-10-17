@@ -7,6 +7,14 @@
 		}
 	}
 
+	&.accordion-disabled {
+		.accordion-header {
+			opacity: 0.6;
+			background-color: $LightGrey;
+			pointer-events: none;
+		}
+	}
+
 	.accordion-header {
 		padding: 25px 20px;
 		display: flex;

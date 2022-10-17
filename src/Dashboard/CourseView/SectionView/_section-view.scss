@@ -1,0 +1,17 @@
+@use "./src/styles/variables"as *;
+
+.section-wrapper {
+	margin-bottom: 5px;
+
+	&.section-unavailable {
+		opacity: 0.5;
+		pointer-events: none;
+		background-color: $LighterGrey;
+	}
+
+	.section-heading-wrapper {
+		.section-heading {
+			margin-bottom: 25px;
+		}
+	}
+}
