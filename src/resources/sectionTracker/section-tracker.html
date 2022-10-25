@@ -1,0 +1,18 @@
+<template>
+	<div class="section-tracker-wrapper">
+		<div class="tracker-arrow ${activeSection.prev == null ? 'tracker-arrow-disabled' : ''}"
+			click.delegate="moveBackward()">
+			<span class="fas fa-chevron-left"></span>
+		</div>
+		<div class="tracker-sections">
+			<div class="tracker-section ${section.active ? 'tracker-section-active' : ''}" repeat.for="section of sections"
+				click.delegate="setActiveSection(section)">
+
+			</div>
+		</div>
+		<div class="tracker-arrow ${activeSection.next == null ? 'tracker-arrow-disabled' : ''}"
+			click.delegate="moveForward()">
+			<span class="fas fa-chevron-right"></span>
+		</div>
+	</div>
+</template>

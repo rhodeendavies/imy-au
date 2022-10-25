@@ -3,3 +3,9 @@ export enum Roles {
 	Student = "student",
 	Unauthenticated = "unauthenticated"
 }
+
+export enum ReflectionSections {
+	Planning = 0,
+	Monitoring = 1,
+	Evaluating = 2
+}

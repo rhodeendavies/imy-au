@@ -1,0 +1,30 @@
+@use "./src/styles/variables"as *;
+
+.reflections-page {
+	display: grid;
+	grid-template-columns: 30% 1fr;
+	padding-top: 20px;
+
+	.reflections-section {
+		padding: 20px 40px;
+		max-height: 100%;
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr);
+
+		&:first-child {
+			border-right: 1px solid $DarkGrey40;
+		}
+
+		.reflection-section-heading {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 25px;
+		}
+
+		.reflection-accordion {
+			border-bottom: 1px solid $DarkGrey20;
+			margin: 0;
+		}
+	}
+}

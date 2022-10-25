@@ -1,15 +1,14 @@
 <template>
-
 	<div class="accordion-wrapper ${AccordionClasses}">
 		<div class="accordion-header" click.delegate="toggleAccordion()">
 			<slot name="header">
 	
 			</slot>
-			<div class="accordion-chevron">
+			<div class="accordion-chevron" if.bind="!onlyHeader">
 				<span class="fas fa-chevron-up ${open ? 'accordion-chevron-open' : ''}"></span>
 			</div>
 		</div>
-		<div class="accordion-body-wrapper">
+		<div class="accordion-body-wrapper" show.bind="!onlyHeader">
 			<div class="accordion-body">
 				<slot name="body">
 		

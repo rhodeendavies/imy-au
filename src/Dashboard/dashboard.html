@@ -1,12 +1,25 @@
 <template>
+	<require from="./../Reflections/ReflectionsDetails/reflections-details"></require>
+
 	<div class="page dashboard-page ${lessonOpen ? 'dashboard-page-wide' : ''}">
 		<div class="dash-section">
-			
 			<router-view></router-view>
 		</div>
 
-		<div class="dash-section" if.bind="!lessonOpen">
+		<div class="dash-section reflection-section" if.bind="!lessonOpen">
+			<div class="dash-section-heading">
+				<div class="main-heading">
+					Reflections
+				</div>
+		
+				<div>
+					<button class="btn btn-primary" click.delegate="navigateToReflection()">
+						View all
+					</button>
+				</div>
+			</div>
 			
+			<reflections-details reflections.bind="selectedReflections"></reflections-details>
 		</div>
 	</div>
 </template>

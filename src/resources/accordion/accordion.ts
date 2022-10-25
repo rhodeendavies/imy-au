@@ -6,6 +6,7 @@ import { Events } from "utils/constants";
 @autoinject
 export class Accordion {
 
+	@bindable onlyHeader: boolean = false;
 	@bindable open: boolean = false;
 	@bindable disabled: boolean = false;
 	@bindable group: string = "";
@@ -44,6 +45,7 @@ export class Accordion {
 		let classes = "";
 		if (this.open) classes += " accordion-open";
 		if (this.disabled) classes += " accordion-disabled";
+		if (this.onlyHeader) classes += " accordion-header-only";
 		return classes;
 	}
 }

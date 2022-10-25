@@ -18,6 +18,11 @@
 		padding: 20px 40px;
 		max-height: 100%;
 
+		&.reflection-section {
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr);
+		}
+
 		&:first-child {
 			border-right: 1px solid $DarkGrey40;
 		}

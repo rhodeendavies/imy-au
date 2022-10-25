@@ -21,10 +21,6 @@ export class SectionView {
 	constructor(private localParent: CourseView, private appState: ApplicationState) {}
 
 	attached() {
-		this.init();
-	}
-
-	init() {
 		if (this.section.id == this.localParent.currentSection.id) {
 			const numOfLessons = this.section.lessons.length;
 			for (let index = 0; index < numOfLessons; index++) {
@@ -56,7 +52,14 @@ export class SectionView {
 	submitRating() {
 		this.lessonCompleted.rating = this.ratingSelected;
 		this.triggerRatingModal();
+		// TODO: make call to set lesson as complete -> on success do following
+		const nextLesson = this.section.lessons.find(x => x.order == (this.lessonCompleted.order + 1));
+		if (nextLesson != null) {
+			nextLesson.available = true;
+			this.selectLesson(nextLesson);
+		}
 		this.lessonCompleted = null;
+
 	}
 
 	downloadLesson(lesson: Lesson, event: Event) {

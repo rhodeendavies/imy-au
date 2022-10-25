@@ -17,6 +17,7 @@
 @use "resources/pageLoader/page-loader";
 @use "resources/popup/popup";
 @use "resources/radioButton/radio-button";
+@use "resources/sectionTracker/section-tracker";
 @use "resources/toast/toast";
 
 @use "AdminDashboard/admin-dashboard";
@@ -25,5 +26,6 @@
 @use "Dashboard/CourseView/SectionView/section-view";
 @use "Dashboard/CourseView/SectionView/LessonView/lesson-view";
 @use "Reflections/reflections";
+@use "Reflections/ReflectionsDetails/reflections-details";
 @use "Login/login";
 @use "navbar/navbar";

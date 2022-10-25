@@ -8,11 +8,10 @@ import { DateTime, Interval } from "luxon";
 export class CourseView {
 
 	// DEMO DATA
-	sections: Section[];
 	lessonOrder: number = 0;
 	// END OF DEMO DATA
-
-
+	
+	sections: Section[];
 	courseHeading: string = "IMY 110: Markup Languages";
 	currentSection: Section;
 	lessonSelected: Lesson;
@@ -25,10 +24,6 @@ export class CourseView {
 	}
 
 	attached() {
-		this.init();
-	}
-
-	init() {
 		// TODO: replace with call to fetch data
 		this.createDemoData();
 
@@ -119,7 +114,7 @@ export class CourseView {
 
 	createDemoLesson(name: string, watched: boolean = false): Lesson {
 		return {
-			id: 0,
+			id: this.lessonOrder,
 			name: name,
 			order: this.lessonOrder++,
 			section: null,

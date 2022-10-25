@@ -2,6 +2,10 @@
 
 .accordion-wrapper {
 	&.accordion-open {
+		.accordion-header {
+			background-color: $LighterGrey !important;
+		}
+
 		.accordion-body-wrapper {
 			max-height: 1000px;
 		}
@@ -12,6 +16,12 @@
 			opacity: 0.6;
 			background-color: $LightGrey;
 			pointer-events: none;
+		}
+	}
+
+	&.accordion-header-only {
+		.accordion-header {
+			background-color: $White;
 		}
 	}
 

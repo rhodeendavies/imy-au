@@ -1,0 +1,16 @@
+<template>
+	<require from="resources/sectionTracker/section-tracker"></require>
+
+	<div class="reflections-details-wrapper">
+		<div class="reflections-details" if.bind="ShowPlanning">
+			Planning
+		</div>
+		<div class="reflections-details" if.bind="ShowMonitoring">
+			Monitoring
+		</div>
+		<div class="reflections-details" if.bind="ShowEvaluating">
+			Evaluating
+		</div>
+		<section-tracker num-of-sections.bind="3" section.bind="activeSection"></section-tracker>
+	</div>
+</template>

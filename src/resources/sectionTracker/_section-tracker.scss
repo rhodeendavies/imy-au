@@ -1,0 +1,46 @@
+@use "./src/styles/variables" as *;
+
+.section-tracker-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.tracker-arrow {
+		color: $Black;
+		transition: all 0.3s;
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		font-size: 30px;
+
+		&.tracker-arrow-disabled {
+			color: $LightGrey !important;
+		}
+
+		&:hover {
+			color: $DarkGrey;
+		}
+	}
+
+	.tracker-sections {
+		display: flex;
+		gap: 20px;
+
+		.tracker-section {
+			height: 20px;
+			width: 20px;
+			border-radius: 20px;
+			background-color: $LightGrey;
+			transition: all 0.3s;
+			cursor: pointer;
+
+			&.tracker-section-active {
+				background-color: $SeaGreen;
+			}
+
+			&:hover {
+				background-color: $SeaGreen60;
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+@use "./src/styles/variables"as *;
+
+.reflections-details-wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding-bottom: 20px;
+
+	.reflections-details {
+		flex: 1;
+	}
+}
