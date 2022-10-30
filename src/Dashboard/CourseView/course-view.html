@@ -1,0 +1,46 @@
+<template>
+	<require from="./SectionView/section-view"></require>
+	
+	<div class="course-wrapper ${IsLessonSelected ? 'lesson-open' : ''}">
+		<div class="dash-section-heading">
+			<div class="main-heading">
+				${courseHeading}
+			</div>
+	
+			<div class="course-section-dates">
+				<span>
+					Week ${currentSection.order}
+				</span>
+				<span class="section-dates-divider"></span>
+				<span>
+					${currentSection.dateString}
+				</span>
+			</div>
+		</div>
+
+		<div class="accordion-content course-content">
+			<div class="accordion-content-header">
+				Module Content
+			</div>
+		
+			<div class="accordion-sections">
+				<section-view repeat.for="section of sections" section.bind="section"></section-view>
+			</div>
+		</div>
+
+		<div class="lesson-wrapper" if.bind="IsLessonSelected">
+			<div class="lesson-heading">${lessonSelected.order}. ${lessonSelected.name}</div>
+			<div class="lesson-video-wrapper">
+				<div class="lesson-video">
+
+				</div>
+			</div>
+			<div class="lesson-action">
+				<button class="btn btn-default">
+					<span class="far fa-folder"></span>
+					Resources
+				</button>
+			</div>
+		</div>
+	</div>
+</template>

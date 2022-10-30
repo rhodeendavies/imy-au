@@ -1,65 +1,58 @@
 @use "./src/styles/variables"as *;
 
-.module-content-wrapper {
+.course-wrapper {
 	display: grid;
 	grid-template-columns: minmax(300px, 1fr);
 	grid-template-rows: auto minmax(0, 1fr);
-	gap: 40px;
+	gap: 50px;
 	height: 100%;
 	
-	&.resource-open {
+	&.lesson-open {
 		grid-template-columns: minmax(300px, 1fr) 60%;
 
 		.dash-section-heading {
 			grid-column: 2;
 		}
 
-		.module-content {
+		.course-content {
 			grid-row: 1/ span 2;
 			border-right: 1px solid $DarkGrey40;
 			padding-right: 40px;
 		}
 	}
-	
-	.module-content {
-		display: grid;
-		grid-template-rows: 75px minmax(0, 1fr);
-		height: 100%;
 
-		.module-content-header {
-			height: 100%;
-			background-color: $SeaGreen;
-			border-radius: $BorderRadiusTop;
-			color: $White;
-			padding: 0 20px;
-			font-family: $Poppins;
-			font-size: 30px;
-			font-weight: $semi-bold;
+	.dash-section-heading {
+		.course-section-dates {
 			display: flex;
 			align-items: center;
-			text-transform: uppercase;
-		}
+			gap: 20px;
+			font-family: $Poppins;
+			font-size: 30px;
+			font-weight: $regular;
 
-		.module-weeks {
-			max-height: 100%;
-			overflow: auto;
+			.section-dates-divider {
+				height: 15px;
+				width: 15px;
+				border-radius: 15px;
+				background-color: $Orange;
+			}
 		}
 	}
 
-	.resource-wrapper {
+	.lesson-wrapper {
 		display: grid;
 		grid-template-rows: auto minmax(300px, 1fr) auto;
 
-		.resource-heading {
+		.lesson-heading {
 			font-family: $Poppins;
 			font-size: 40px;
 			font-weight: $semi-bold;
 		}
 
-		.resource-video-wrapper {
+		.lesson-video-wrapper {
 			padding: 40px 0;
 			
-			.resource-video {
+			.lesson-video {
 				min-width: 300px;
 				height: 100%;
 				width: 100%;
@@ -67,7 +60,7 @@
 			}
 		}
 
-		.resource-action {
+		.lesson-action {
 			display: flex;
 			justify-content: flex-end;
 		}

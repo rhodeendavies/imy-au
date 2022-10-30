@@ -1,0 +1,41 @@
+@use "./src/styles/variables"as *;
+
+.section-lesson {
+	display: grid;
+	grid-template-columns: 50px auto auto;
+	padding: 20px;
+	transition: all 0.3s;
+	cursor: pointer;
+	border-bottom: 1px solid $DarkGrey20;
+
+	&:hover {
+		background-color: $LighterGrey;
+	}
+
+	&.section-lesson-active {
+		background-color: $LightGrey;
+	}
+
+	&.section-lesson-unavailable {
+		opacity: 0.5;
+		pointer-events: none;
+		background-color: $LighterGrey;
+	}
+
+	.section-name {
+		color: $DarkGrey;
+
+		.body-large {
+			margin-bottom: 15px;
+		}
+
+		.section-runtime {
+			padding-left: 30px;
+		}
+	}
+
+	.lessons-btn {
+		justify-self: flex-end;
+		align-self: flex-end;
+	}
+}

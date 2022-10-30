@@ -1,0 +1,30 @@
+<template>
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="reflection-header-icon">
+				<span class="icon">rate_review</span>
+			</div>
+			<div class="reflection-header">
+				EVALUATING: End of the content
+			</div>
+		</div>
+	
+		<div class="reflection-body">
+			<div class="reflection-text">
+				${evaluatingReflection.summary}
+			</div>
+			<div class="strats-summary">
+				<div class="sub-heading mb-20">Rating your strategies this week</div>
+				<div class="category-summary" repeat.for="category of evaluatingReflection.strategies">
+					<div class="category-icon category-icon-rating saturate-${category.ratingPercentage}">
+						<span>${category.rating}/3</span>
+					</div>
+					<div class="category-text">
+						<div class="category-heading">${category.title}</div>
+						<div class="category-body">${category.strategy}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

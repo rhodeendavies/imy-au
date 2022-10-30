@@ -1,13 +1,36 @@
 <template>
-	<div class="dash-section-heading">
-		<div class="main-heading">
-			Reflections
+	<require from="./ReflectionsDetails/reflections-details"></require>
+
+	<div class="page dashboard-page reflections-page">
+		<div class="reflections-section accordion-content">
+			<div class="accordion-content-header">
+				Reflections
+			</div>
+		
+			<div class="accordion-sections">
+				<div class="section-wrapper reflection-accordion" repeat.for="section of sections">
+					<accordion only-header.bind="true" click.delegate="selectSection(section)" open.bind="section.open">
+						<div slot="header" class="section-heading-wrapper">
+							<div class="section-heading">
+								WEEK ${section.order}: ${section.name}
+							</div>
+							<div>
+								${section.dateString}
+							</div>
+						</div>
+					</accordion>
+				</div>
+			</div>
 		</div>
 
-		<div>
-			<button class="btn btn-primary">
-				View all
-			</button>
+		<div class="reflections-section">
+			<div class="reflection-section-heading">
+				<div class="main-heading">
+					Week ${sectionSelected.order} reflections
+				</div>
+			</div>
+			<reflections-details reflections.bind="selectedReflections"></reflections-details>
 		</div>
 	</div>
+
 </template>

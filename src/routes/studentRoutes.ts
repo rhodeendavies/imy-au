@@ -35,8 +35,8 @@ export class StudentRoutes {
 	static getDashboardSubRoutes(): RouteConfig[] {
 		return [{
 			route: ['', 'content/:contentId?'],
-			name: Routes.ModuleContent,
-			moduleId: 'Dashboard/ModuleContent/module-content',
+			name: Routes.CourseContent,
+			moduleId: 'Dashboard/CourseView/course-view',
 			nav: true,
 			title: 'Content',
 			settings: {

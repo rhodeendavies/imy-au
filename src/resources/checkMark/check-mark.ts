@@ -15,6 +15,8 @@ export class CheckMark {
 	}
 
 	toggleCheck(event: Event) {
+		if (this.disabled) return;
+
 		if (this.stopPropagation) {
 			event.stopPropagation();
 		}
@@ -28,10 +30,9 @@ export class CheckMark {
 	}
 
 
-	@computedFrom("disabled", "checked")
+	@computedFrom("checked")
 	get CheckMarkClasses(): string {
 		let classes = "";
-		if (this.disabled) classes += " disabled";
 		if (this.checked) classes += " checked";
 		return classes;
 	}

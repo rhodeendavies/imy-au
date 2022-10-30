@@ -1,0 +1,9 @@
+<template>
+	<require from="./planning/planning"></require>
+	<require from="./monitoring/monitoring"></require>
+	<require from="./evaluation/evaluation"></require>
+
+	<planning if.bind="localParent.ShowPlanning"></planning>
+	<monitoring if.bind="localParent.ShowMonitoring"></monitoring>
+	<evaluation if.bind="localParent.ShowEvaluating"></evaluation>
+</template>

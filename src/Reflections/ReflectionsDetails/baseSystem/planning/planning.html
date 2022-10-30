@@ -1,0 +1,30 @@
+<template>
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="reflection-header-icon">
+				<span class="icon">edit</span>
+			</div>
+			<div class="reflection-header">
+				PLANNING: Start of the week
+			</div>
+		</div>
+	
+		<div class="reflection-body">
+			<div class="reflection-text">
+				${planningReflection.strengths}
+			</div>
+			<div class="strats-summary">
+				<div class="sub-heading mb-20">Your learning strategies for this week</div>
+				<div class="category-summary" repeat.for="category of planningReflection.strategies">
+					<div class="category-icon">
+						<span class="icon">${category.icon}</span>
+					</div>
+					<div class="category-text">
+						<div class="category-heading">${category.title}</div>
+						<div class="category-body">${category.strategy}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

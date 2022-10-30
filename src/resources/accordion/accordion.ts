@@ -1,11 +1,12 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
-import { autoinject, bindable } from "aurelia-framework";
+import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
 
 @autoinject
 export class Accordion {
 
+	@bindable onlyHeader: boolean = false;
 	@bindable open: boolean = false;
 	@bindable disabled: boolean = false;
 	@bindable group: string = "";
@@ -37,6 +38,15 @@ export class Accordion {
 			id: this.id
 		}
 		this.ea.publish(Events.AccordionToggle, data);
+	}
+
+	@computedFrom("open", "disabled")
+	get AccordionClasses(): string {
+		let classes = "";
+		if (this.open) classes += " accordion-open";
+		if (this.disabled) classes += " accordion-disabled";
+		if (this.onlyHeader) classes += " accordion-header-only";
+		return classes;
 	}
 }
 

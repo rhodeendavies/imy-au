@@ -27,3 +27,45 @@
 	max-height: 100%;
 	overflow: auto;
 }
+
+.accordion-content {
+	display: grid;
+	grid-template-rows: 75px minmax(0, 1fr);
+	height: 100%;
+
+	.accordion-content-header {
+		height: 100%;
+		background-color: $SeaGreen;
+		border-radius: $BorderRadiusTop;
+		color: $White;
+		padding: 0 20px;
+		font-family: $Poppins;
+		font-size: 30px;
+		font-weight: $semi-bold;
+		display: flex;
+		align-items: center;
+		text-transform: uppercase;
+		min-height: 75px;
+	}
+
+	.accordion-sections {
+		max-height: 100%;
+		overflow: auto;
+
+		.section-wrapper {
+			margin-bottom: 5px;
+		
+			&.section-unavailable {
+				opacity: 0.5;
+				pointer-events: none;
+				background-color: $LighterGrey;
+			}
+		
+			.section-heading-wrapper {
+				.section-heading {
+					margin-bottom: 25px;
+				}
+			}
+		}
+	}
+}

@@ -27,10 +27,6 @@ export class InputBox {
 	}
 
 	attached() {
-		this.init();
-	}
-
-	init() {
 		this.initDone = false;
 		this.setInputElement();
 
