@@ -12,14 +12,17 @@
 					Reflections
 				</div>
 		
-				<div>
+				<div class="wrap-gap">
+					<button class="btn btn-primary" click.delegate="triggerDailyReflection()">
+						New daily reflection
+					</button>
 					<button class="btn btn-primary" click.delegate="navigateToReflection()">
 						View all
 					</button>
 				</div>
 			</div>
 			
-			<reflections-details reflections.bind="selectedReflections"></reflections-details>
+			<reflections-details reflection.bind="currentReflection"></reflections-details>
 		</div>
 	</div>
 </template>

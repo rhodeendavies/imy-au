@@ -6,7 +6,7 @@ import { UserDetails, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events, Routes } from "utils/constants";
-import { Roles } from "utils/enums";
+import { Roles, Systems } from "utils/enums";
 import { log } from "utils/log";
 
 @autoinject
@@ -64,6 +64,10 @@ export class AuthenticationService {
 
 	get Authenticated(): boolean {
 		return this.user !== null && this.user !== undefined && this.user.authenticated;
+	}
+
+	get System(): Systems {
+		return this.user !== null && this.user !== undefined && this.user.system;
 	}
 
 	@computedFrom("busy.Active")

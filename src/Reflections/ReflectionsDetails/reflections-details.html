@@ -1,16 +1,13 @@
 <template>
 	<require from="resources/sectionTracker/section-tracker"></require>
+	<require from="./baseSystem/base-system"></require>
+	<require from="./ludus/ludus"></require>
+	<require from="./paidia/paidia"></require>
 
 	<div class="reflections-details-wrapper">
-		<div class="reflections-details" if.bind="ShowPlanning">
-			Planning
-		</div>
-		<div class="reflections-details" if.bind="ShowMonitoring">
-			Monitoring
-		</div>
-		<div class="reflections-details" if.bind="ShowEvaluating">
-			Evaluating
-		</div>
-		<section-tracker num-of-sections.bind="3" section.bind="activeSection"></section-tracker>
+		<base-system if.bind="ShowBaseSystem" reflection.bind="reflection"></base-system>
+		<ludus if.bind="ShowLudus"></ludus>
+		<paidia if.bind="ShowPaidia"></paidia>
+		<section-tracker class="reflection-section-tracker" num-of-sections.bind="3" section.bind="activeSection"></section-tracker>
 	</div>
 </template>

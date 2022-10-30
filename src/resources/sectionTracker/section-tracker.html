@@ -2,7 +2,7 @@
 	<div class="section-tracker-wrapper">
 		<div class="tracker-arrow ${activeSection.prev == null ? 'tracker-arrow-disabled' : ''}"
 			click.delegate="moveBackward()">
-			<span class="fas fa-chevron-left"></span>
+			<span class="icon">chevron_left</span>
 		</div>
 		<div class="tracker-sections">
 			<div class="tracker-section ${section.active ? 'tracker-section-active' : ''}" repeat.for="section of sections"
@@ -12,7 +12,7 @@
 		</div>
 		<div class="tracker-arrow ${activeSection.next == null ? 'tracker-arrow-disabled' : ''}"
 			click.delegate="moveForward()">
-			<span class="fas fa-chevron-right"></span>
+			<span class="icon">chevron_right</span>
 		</div>
 	</div>
 </template>

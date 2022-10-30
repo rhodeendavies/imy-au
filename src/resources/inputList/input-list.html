@@ -4,7 +4,7 @@
 		<div repeat.for="input of inputs">
 			<input-box value.bind="input.value" id.bind="input.id" on-change.call="updateValues()"></input-box>
 			<div if.bind="LastIndex == $index">
-				<span class="fas fa-plus"></span>
+				<span class="icon">add</span>
 			</div>
 		</div>
 	</div>

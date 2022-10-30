@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Section } from "models/course";
 import { DateTime, Interval } from "luxon";
-import { Reflection } from "models/reflections";
+import { BaseSystemReflection } from "models/reflections";
 
 @autoinject
 export class Reflections {
@@ -12,7 +12,7 @@ export class Reflections {
 	// END OF DEMO DATA
 
 	sections: Section[];
-	selectedReflections: Reflection[] = [];
+	selectedReflections: BaseSystemReflection[] = [];
 	sectionSelected: Section;
 	
 	constructor(private router: Router) { }

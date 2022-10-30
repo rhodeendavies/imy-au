@@ -5,7 +5,7 @@
 	
 			</slot>
 			<div class="accordion-chevron" if.bind="!onlyHeader">
-				<span class="fas fa-chevron-up ${open ? 'accordion-chevron-open' : ''}"></span>
+				<span class="icon">${open ? 'expand_less' : 'expand_more'}</span>
 			</div>
 		</div>
 		<div class="accordion-body-wrapper" show.bind="!onlyHeader">

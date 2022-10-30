@@ -11,7 +11,6 @@
 		width: 20px;
 		height: 20px;
 		cursor: pointer;
-		font-size: 30px;
 
 		&.tracker-arrow-disabled {
 			color: $LightGrey !important;
@@ -19,6 +18,10 @@
 
 		&:hover {
 			color: $DarkGrey;
+		}
+
+		.icon {
+			font-size: 30px;
 		}
 	}
 

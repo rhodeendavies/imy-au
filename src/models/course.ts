@@ -26,6 +26,7 @@ export class Section {
 	lessons: Lesson[];
 	totalRunTime: number;
 
+	// frontend only
 	totalVideos?: number;
 	watchedVideos?: number;
 	dateString?: string;
@@ -58,7 +59,8 @@ export class Lesson {
 	resources: string;
 	topics: string[];
 	runTime: number;
-	
+
+	// frontend only
 	watched?: boolean;
 	rating?: number;
 	available?: boolean;

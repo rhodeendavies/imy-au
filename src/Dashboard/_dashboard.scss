@@ -2,7 +2,7 @@
 
 .dashboard-page {
 	display: grid;
-	grid-template-columns: 1fr 30%;
+	grid-template-columns: 1fr 35%;
 	grid-template-rows: minmax(0, 1fr);
 	padding-top: 20px;
 
@@ -21,6 +21,7 @@
 		&.reflection-section {
 			display: grid;
 			grid-template-rows: auto minmax(0, 1fr);
+			gap: 50px;
 		}
 
 		&:first-child {
@@ -31,23 +32,6 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 25px;
-			
-			.dash-section-dates {
-				display: flex;
-				align-items: center;
-				gap: 20px;
-				font-family: $Poppins;
-				font-size: 30px;
-				font-weight: $regular;
-	
-				.section-dates-divider {
-					height: 15px;
-					width: 15px;
-					border-radius: 15px;
-					background-color: $Orange;
-				}
-			}
 		}
 	}
 }

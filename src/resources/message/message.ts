@@ -8,13 +8,13 @@ export class Message {
 	get Icon(): string {
 		switch (this.type) {
 			case MessageTypes.Error:
-				return "fas fa-times";
+				return "error";
 			case MessageTypes.Warning:
-				return "fas fa-exclamation-triangle";
+				return "warning";
 			case MessageTypes.Success:
-				return "fas fa-check";
+				return "check";
 			case MessageTypes.Info:
-				return "fas fa-info";
+				return "info";
 			default:
 				break;
 		}

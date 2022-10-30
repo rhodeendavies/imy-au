@@ -21,8 +21,8 @@
 					id.bind="id" />
 
 				<div if.bind="ShowPassword" click.delegate="togglePassword()" class="input-password-toggle">
-					<span if.bind="ShowHiddenPassword" class="fas fa-eye"></span>
-					<span if.bind="!ShowHiddenPassword" class="fas fa-eye-slash"></span>
+					<span if.bind="ShowHiddenPassword" class="icon">visibility</span>
+					<span if.bind="!ShowHiddenPassword" class="icon">visibility_off</span>
 				</div>
 			</div>
 		</div>

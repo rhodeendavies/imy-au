@@ -8,9 +8,9 @@ $Poppins: 'Poppins', sans-serif;
 $Roboto: 'Roboto', sans-serif;
 
 // colours
-$Black: black;
-$White: white;
-$Error: red; //TODO: find suitable colour for errors
+$Black: #000;
+$White: #fff;
+$Error: #ff0000; //TODO: find suitable colour for errors
 
 $SeaGreen: #0D7F77;
 $DarkGreen: #054A45;
@@ -35,3 +35,15 @@ $BorderRadiusTop: $BorderRadius $BorderRadius 0 0;
 $BorderRadiusBottom: 0 0 $BorderRadius $BorderRadius;
 
 $BoxShadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+$BoxShadowTop: 0px 3px 6px rgba(0, 0, 0, 0.16);
+
+@mixin saturate-x {
+	@for $i from 0 through 100 {
+		.saturate-#{$i} {
+			$i: calc($i / 100);
+			background-color: rgb(13 * $i,  127 * $i, 119 * $i);
+		}
+	}
+}
+
+@include saturate-x;
