@@ -49,6 +49,9 @@ export class Reflections {
 			endDate: DateTime.fromObject({day: 16, month: 10}).toJSDate(),
 			course: null,
 			totalRunTime: 120,
+			planningDone: false,
+			monitoringDone: false,
+			evaluationDone: false,
 			lessons: []
 		}, {
 			id: 1,
@@ -58,6 +61,9 @@ export class Reflections {
 			endDate: DateTime.fromObject({day: 30, month: 10}).toJSDate(),
 			course: null,
 			totalRunTime: 120,
+			planningDone: false,
+			monitoringDone: false,
+			evaluationDone: false,
 			lessons: []
 		}, {
 			id: 2,
@@ -67,6 +73,9 @@ export class Reflections {
 			endDate: DateTime.fromObject({day: 13, month: 11}).toJSDate(),
 			course: null,
 			totalRunTime: 120,
+			planningDone: false,
+			monitoringDone: false,
+			evaluationDone: false,
 			lessons: []
 		}];
 	}

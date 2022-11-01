@@ -1,3 +1,4 @@
+import { ApplicationState } from "applicationState";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
@@ -15,7 +16,7 @@ export class AuthenticationService {
 	busy: Busy = new Busy();
 	private user: UserDetails;
 
-	constructor(private router: Router, private ea: EventAggregator) {}
+	constructor(private router: Router, private appState: ApplicationState, private ea: EventAggregator) { }
 
 	async login(userLogin: UserLogin): Promise<ApiResponse> {
 		try {
@@ -38,6 +39,7 @@ export class AuthenticationService {
 			}
 
 			this.ea.publish(Events.Login);
+			this.appState.determineReflectionToShow();
 			return new ApiResponse(true, "");
 		} catch (error) {
 			return new ApiResponse(false, "An error occurred");
@@ -85,7 +87,7 @@ export class AuthenticationService {
 			this.redirectToLogin();
 			return Roles.Unauthenticated;
 		}
-		
+
 		return this.user.role;
 	}
 }

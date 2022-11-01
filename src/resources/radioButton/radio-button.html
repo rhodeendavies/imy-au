@@ -3,7 +3,7 @@
 		${label}
 	</div>
 
-	<div if.bind="options.length > 0" class="radio-options-wrapper">
+	<div if.bind="options.length > 0 && !blocks" class="radio-options-wrapper">
 		<p repeat.for="option of options" click.delegate="optionSelected(option)"
 			class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''}">
 			<span class="radio-circle">
@@ -11,5 +11,13 @@
 			</span>
 			${option.name}
 		</p>
+	</div>
+
+	<div if.bind="options.length > 0 && blocks" class="radio-blocks-wrapper">
+		<rating-box repeat.for="option of options" click.delegate="optionSelected(option)" active.bind="option.selected"
+			disabled.bind="option.disabled" clickable.bind="true">
+			<div slot="header">${option.subText}</div>
+			<div slot="body">${option.name}</div>
+		</rating-box>
 	</div>
 </template>

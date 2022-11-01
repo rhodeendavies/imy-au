@@ -3,7 +3,7 @@ import { BaseSystemEvaluating } from "models/reflections";
 import { BaseSystem } from "../base-system";
 
 @autoinject
-export class Evaluation {
+export class BaseEvaluationDetails {
 	evaluatingReflection: BaseSystemEvaluating;
 
 	constructor(private localParent: BaseSystem) {}

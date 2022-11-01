@@ -3,7 +3,7 @@ import { BaseSystemMonitoring } from "models/reflections";
 import { BaseSystem } from "../base-system";
 
 @autoinject
-export class Monitoring {
+export class BaseMonitoringDetails {
 	monitoringReflection: BaseSystemMonitoring;
 
 	constructor(private localParent: BaseSystem) {}

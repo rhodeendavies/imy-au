@@ -2,6 +2,7 @@ export class Events {
 	static readonly AccordionToggle: string = "AccordionToggle";
 	static readonly Login: string = "Login";
 	static readonly Logout: string = "Logout";
+	static readonly LessonRated: string = "LessonRated";
 }
 
 export class Routes {
