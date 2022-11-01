@@ -1,9 +1,9 @@
 <template>
-	<require from="./planning/planning"></require>
-	<require from="./monitoring/monitoring"></require>
-	<require from="./evaluation/evaluation"></require>
+	<require from="./planning/base-planning-details"></require>
+	<require from="./monitoring/base-monitoring-details"></require>
+	<require from="./evaluation/base-evaluation-details"></require>
 
-	<planning if.bind="localParent.ShowPlanning"></planning>
-	<monitoring if.bind="localParent.ShowMonitoring"></monitoring>
-	<evaluation if.bind="localParent.ShowEvaluating"></evaluation>
+	<base-planning-details if.bind="localParent.ShowPlanning"></base-planning-details>
+	<base-monitoring-details if.bind="localParent.ShowMonitoring"></base-monitoring-details>
+	<base-evaluation-details if.bind="localParent.ShowEvaluating"></base-evaluation-details>
 </template>

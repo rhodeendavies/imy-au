@@ -1,0 +1,45 @@
+@use "./src/styles/variables"as *;
+
+.rating-box-wrapper {
+	padding: 15px 30px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	border-radius: $BorderRadius;
+	box-shadow: $BoxShadow;
+	font-family: $Roboto;
+	font-size: 20px;
+	font-weight: $light;
+	text-align: center;
+	background-color: $White;
+	transition: all 0.3s;
+
+	&.disabled-rating-box {
+		background-color: $LightGrey;
+		color: $DarkGrey;
+	}
+
+	&.clickable-rating-box {
+		cursor: pointer;
+
+		&:hover {
+			background-color: $LightGrey;
+		}
+	}
+
+	&.active-rating-box {
+		background-color: $SeaGreen;
+		color: $White;
+
+		&:hover {
+			background-color: $SeaGreen;
+		}
+	}
+
+	.main-text {
+		font-family: $Poppins;
+		font-size: 30px;
+		font-weight: $semi-bold;
+	}
+}

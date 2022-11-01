@@ -3,7 +3,7 @@ import { BaseSystemPlanning } from "models/reflections";
 import { BaseSystem } from "../base-system";
 
 @autoinject
-export class Planning {
+export class BasePlanningDetails {
 	planningReflection: BaseSystemPlanning;
 
 	constructor(private localParent: BaseSystem) {}

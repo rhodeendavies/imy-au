@@ -17,9 +17,7 @@ export class Navbar {
 	}
 
 	attached() {
-		this.loginSub = this.ea.subscribe(Events.Login, () => {
-			this.createRoutes();
-		});
+		this.loginSub = this.ea.subscribe(Events.Login, () => this.createRoutes());
 	}
 
 	detached() {

@@ -1,9 +1,9 @@
 <template>
-	<require from="./planning/planning"></require>
-	<require from="./monitoring/monitoring"></require>
-	<require from="./evaluation/evaluation"></require>
+	<require from="./planning/ludus-planning-details"></require>
+	<require from="./monitoring/ludus-monitoring-details"></require>
+	<require from="./evaluation/ludus-evaluation-details"></require>
 
-	<planning if.bind="localParent.ShowPlanning"></planning>
-	<monitoring if.bind="localParent.ShowMonitoring"></monitoring>
-	<evaluation if.bind="localParent.ShowEvaluating"></evaluation>
+	<ludus-planning-details if.bind="localParent.ShowPlanning"></ludus-planning-details>
+	<ludus-monitoring-details if.bind="localParent.ShowMonitoring"></ludus-monitoring-details>
+	<ludus-evaluation-details if.bind="localParent.ShowEvaluating"></ludus-evaluation-details>
 </template>

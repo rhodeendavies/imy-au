@@ -51,3 +51,10 @@
 		}
 	}
 }
+
+.radio-blocks-wrapper {
+	display: grid;
+	gap: 40px;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	grid-template-rows: repeat(auto-fill, minmax(0, 1fr));
+}

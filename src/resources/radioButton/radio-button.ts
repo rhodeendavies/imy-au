@@ -9,6 +9,7 @@ export class RadioButton {
 	@bindable onChange;
 	@bindable label: string = "";
 	@bindable id: string = "";
+	@bindable blocks: boolean = false;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("radioButton");
@@ -35,6 +36,7 @@ export class RadioButton {
 
 export class RadioOption {
 	name: string;
+	subText?: string;
 	value: any;
 	disabled?: boolean;
 	selected?: boolean;

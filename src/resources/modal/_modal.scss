@@ -29,6 +29,10 @@
 		top: -100px;
 		opacity: 0;
 		transition: all 0.3s;
+		width: 90%;
+		height: 90%;
+		display: grid;
+		grid-template-rows: 90px 1fr;
 
 		.modal-header {
 			background-color: $SeaGreen;

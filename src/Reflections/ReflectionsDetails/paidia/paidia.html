@@ -1,9 +1,9 @@
 <template>
-	<require from="./planning/planning"></require>
-	<require from="./monitoring/monitoring"></require>
-	<require from="./evaluation/evaluation"></require>
+	<require from="./planning/paidia-planning-details"></require>
+	<require from="./monitoring/paidia-monitoring-details"></require>
+	<require from="./evaluation/paidia-evaluation-details"></require>
 
-	<planning if.bind="localParent.ShowPlanning"></planning>
-	<monitoring if.bind="localParent.ShowMonitoring"></monitoring>
-	<evaluation if.bind="localParent.ShowEvaluating"></evaluation>
+	<paidia-planning-details if.bind="localParent.ShowPlanning"></paidia-planning-details>
+	<paidia-monitoring-details if.bind="localParent.ShowMonitoring"></paidia-monitoring-details>
+	<paidia-evaluation-details if.bind="localParent.ShowEvaluating"></paidia-evaluation-details>
 </template>

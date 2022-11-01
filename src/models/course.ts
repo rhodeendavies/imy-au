@@ -25,6 +25,9 @@ export class Section {
 	course: Course;
 	lessons: Lesson[];
 	totalRunTime: number;
+	planningDone: boolean;
+	monitoringDone: boolean;
+	evaluationDone: boolean;
 
 	// frontend only
 	totalVideos?: number;
@@ -59,10 +62,10 @@ export class Lesson {
 	resources: string;
 	topics: string[];
 	runTime: number;
+	rating: number;
 
 	// frontend only
 	watched?: boolean;
-	rating?: number;
 	available?: boolean;
 
 	constructor() {

@@ -2,6 +2,9 @@
 	<require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
 	<require from="./styles.css"></require>
 	<require from="navbar/navbar"></require>
+	<require from="Reflections/ReflectionPrompts/planning/planning-prompts"></require>
+	<require from="Reflections/ReflectionPrompts/monitoring/monitoring-prompts"></require>
+	<require from="Reflections/ReflectionPrompts/evaluation/evaluation-prompts"></require>
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,7 +13,6 @@
 		&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"> 
 
 	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
-		
 		<page-loader if.bind="Loading"></page-loader>
 		
 		<div class="app-nav">
@@ -21,6 +23,51 @@
 		</div>
 		
 		<toast view-model.ref="toast"></toast>
+
+		<modal view-model.ref="ratingModal">
+			<div slot="header">
+				Rate the video
+			</div>
+			<div slot="body">
+				<radio-button options.bind="videoRatingOptions" value.bind="appState.ratingSelected" blocks.bind="true"
+					label="You've finished ${appState.watchedLesson}. Rate your understanding of the concepts in the video.">
+				</radio-button>
+	
+				<div class="btn-row">
+					<button class="btn btn-primary" click.delegate="submitRating()"
+						disabled.bind="appState.ratingSelected == null">
+						Finish
+					</button>
+				</div>
+			</div>
+		</modal>
+
+		<modal view-model.ref="planningModal">
+			<div slot="header">
+				PLANNING: Start of the week (${appState.reflectionSection})
+			</div>
+			<div slot="body">
+				<planning-prompts></planning-prompts>
+			</div>
+		</modal>
+		
+		<modal view-model.ref="monitoringModal">
+			<div slot="header">
+				MONITORING: Halfway through the content (${appState.reflectionSection})
+			</div>
+			<div slot="body">
+				<monitoring-prompts></monitoring-prompts>
+			</div>
+		</modal>
+
+		<modal view-model.ref="evaluationModal">
+			<div slot="header">
+				EVALUATING: End of the content (${appState.reflectionSection})
+			</div>
+			<div slot="body">
+				<evaluation-prompts></evaluation-prompts>
+			</div>
+		</modal>
 	</div>
 	
 </template>
