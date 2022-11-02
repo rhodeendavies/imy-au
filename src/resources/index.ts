@@ -16,5 +16,6 @@ export function configure(config: FrameworkConfiguration): void {
 		'./radioButton/radio-button',
 		'./ratingBox/rating-box',
 		'./toast/toast',
+		'./valueConverters/dateFormat'
 	]);
 }

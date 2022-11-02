@@ -1,3 +1,5 @@
+import { BaseSystemReflection } from "./reflections";
+
 export class Course {
 	id: number;
 	name: string;
@@ -28,6 +30,7 @@ export class Section {
 	planningDone: boolean;
 	monitoringDone: boolean;
 	evaluationDone: boolean;
+	baseReflection: BaseSystemReflection;
 
 	// frontend only
 	totalVideos?: number;

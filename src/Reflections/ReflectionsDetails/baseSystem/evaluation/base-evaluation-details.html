@@ -11,6 +11,15 @@
 	
 		<div class="reflection-body">
 			<div class="reflection-text">
+				<div if.bind="localParent.FullReflection">
+					<div class="sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
+					<div class="evaluation-feelings">
+						<rating-box repeat.for="feeling of evaluatingReflection.feelings">
+							<div slot="header">${feeling.feelingRating}/5</div>
+							<div slot="body">${feeling.feelingDate | dateFormat}</div>
+						</rating-box>
+					</div>
+				</div>
 				${evaluatingReflection.summary}
 			</div>
 			<div class="strats-summary">

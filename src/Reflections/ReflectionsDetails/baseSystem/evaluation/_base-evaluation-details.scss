@@ -1,1 +1,7 @@
 @use "./src/styles/variables"as *;
+
+.evaluation-feelings {
+	grid-template-columns: repeat(3, minmax(100px, 200px));
+	gap: 100px;
+	margin: 20px 0;
+}

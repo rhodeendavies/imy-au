@@ -2,9 +2,12 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { DateTime } from "luxon";
 import { Lesson, Section } from "models/course";
+import { BaseSystemReflection, Strategy } from "models/reflections";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
+import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
+import { StrategyCategories } from "utils/enums";
 import { LessonRatedEvent } from "utils/eventModels";
 
 @autoinject
@@ -17,9 +20,7 @@ export class ApplicationState {
 	private sections: Section[];
 	private currentSection: Section;
 	private lessonCompleted: Lesson;
-	private sectionPlanning: Section;
-	private sectionMonitoring: Section;
-	private sectionEvaluation: Section;
+	private sectionReflecting: Section;
 
 	ratingSelected: number = null;
 
@@ -77,8 +78,8 @@ export class ApplicationState {
 	}
 
 	triggerPlanningModal(section: Section) {
-		this.sectionPlanning = section;
-		this.reflectionSection = this.sectionPlanning.name;
+		this.sectionReflecting = section;
+		this.reflectionSection = this.sectionReflecting.name;
 		this.planningModal.toggle();
 	}
 
@@ -87,13 +88,13 @@ export class ApplicationState {
 		if (this.planningModal.Open) {
 			this.planningModal.toggle();
 		}
-		this.sectionPlanning.planningDone = true;
+		this.sectionReflecting.planningDone = true;
 		this.determineReflectionToShow();
 	}
 
 	triggerMonitoringModal(section: Section) {
-		this.sectionMonitoring = section;
-		this.reflectionSection = this.sectionMonitoring.name;
+		this.sectionReflecting = section;
+		this.reflectionSection = this.sectionReflecting.name;
 		this.monitoringModal.toggle();
 	}
 
@@ -102,13 +103,13 @@ export class ApplicationState {
 		if (this.monitoringModal.Open) {
 			this.monitoringModal.toggle();
 		}
-		this.sectionMonitoring.monitoringDone = true;
+		this.sectionReflecting.monitoringDone = true;
 		this.determineReflectionToShow();
 	}
 
 	triggerEvaluationModal(section: Section) {
-		this.sectionEvaluation = section;
-		this.reflectionSection = this.sectionEvaluation.name;
+		this.sectionReflecting = section;
+		this.reflectionSection = this.sectionReflecting.name;
 		this.evaluationModal.toggle();
 	}
 
@@ -117,7 +118,7 @@ export class ApplicationState {
 		if (this.evaluationModal.Open) {
 			this.evaluationModal.toggle();
 		}
-		this.sectionEvaluation.evaluationDone = true;
+		this.sectionReflecting.evaluationDone = true;
 		this.determineReflectionToShow();
 	}
 
@@ -170,6 +171,7 @@ export class ApplicationState {
 
 	getSections(): Section[] {
 		if (this.sections == null || this.sections.length == 0) {
+			// TODO: replace with call
 			[this.sections, this.currentSection] = this.createDemoData();
 		}
 		return this.sections;
@@ -182,11 +184,18 @@ export class ApplicationState {
 		return this.currentSection;
 	}
 
+	getCurrentReflection(): BaseSystemReflection {
+		if (this.currentSection == null) {
+			this.getSections();
+		}
+		return this.currentSection.baseReflection;
+	}
+
 
 	// DEMO DATA
 	lessonOrder: number = 1;
 
-	createDemoData(): [Section[], Section] {
+	private createDemoData(): [Section[], Section] {
 		const sections: Section[] = [{
 			id: 0,
 			name: "Introduction to web",
@@ -198,6 +207,7 @@ export class ApplicationState {
 			planningDone: true,
 			monitoringDone: false,
 			evaluationDone: false,
+			baseReflection: this.createDemoReflectionData(),
 			lessons: [
 				this.createDemoLesson("Block and inline elements", true),
 				this.createDemoLesson("Images - part 1", true),
@@ -216,6 +226,7 @@ export class ApplicationState {
 			planningDone: false,
 			monitoringDone: false,
 			evaluationDone: false,
+			baseReflection: this.createDemoReflectionData(),
 			lessons: [
 				this.createDemoLesson("Block and inline elements"),
 				this.createDemoLesson("Images - part 1"),
@@ -234,6 +245,7 @@ export class ApplicationState {
 			planningDone: false,
 			monitoringDone: false,
 			evaluationDone: false,
+			baseReflection: this.createDemoReflectionData(),
 			lessons: [
 				this.createDemoLesson("Block and inline elements"),
 				this.createDemoLesson("Images - part 1"),
@@ -246,7 +258,7 @@ export class ApplicationState {
 		return [sections, sections[1]]
 	}
 
-	createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
+	private createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
 		return {
 			id: this.lessonOrder,
 			name: name,
@@ -259,6 +271,49 @@ export class ApplicationState {
 			runTime: 120,
 			rating: watched ? rating : null
 		}
+	}
+
+	private createDemoReflectionData(): BaseSystemReflection {
+		const strategies: Strategy[] = [{
+			title: StrategyCategories.Learning,
+			strategy: "a test",
+			rating: 1
+		}, {
+			title: StrategyCategories.Reviewing,
+			strategy: "a test",
+			rating: 2
+		}, {
+			title: StrategyCategories.Practicing,
+			strategy: "a test",
+			rating: 3
+		}, {
+			title: StrategyCategories.Extending,
+			strategy: "a test",
+			rating: 0
+		}]
+		const reflection = new BaseSystemReflection();
+		reflection.planningReflection.feeling = 3;
+		reflection.planningReflection.strengths = ComponentHelper.LoremIpsum();
+		reflection.planningReflection.strategies = strategies;
+
+		reflection.monitoringReflection.feeling = 2;
+		reflection.monitoringReflection.currentQuestions = ComponentHelper.LoremIpsum();
+		reflection.monitoringReflection.strategies = strategies;
+
+		reflection.evaluatingReflection.feelings = [{
+			feelingRating: 3,
+			feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
+		}, {
+			feelingRating: 2,
+			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
+		}, {
+			feelingRating: 4,
+			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
+		}];
+		reflection.evaluatingReflection.summary = ComponentHelper.LoremIpsum();
+		reflection.evaluatingReflection.strategies = strategies;
+
+		return reflection;
 	}
 	// END OF DEMO DATA
 }

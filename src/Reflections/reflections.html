@@ -6,7 +6,7 @@
 			<div class="accordion-content-header">
 				Reflections
 			</div>
-		
+
 			<div class="accordion-sections">
 				<div class="section-wrapper reflection-accordion" repeat.for="section of sections">
 					<accordion only-header.bind="true" click.delegate="selectSection(section)" open.bind="section.open">
@@ -29,7 +29,9 @@
 					Week ${sectionSelected.order} reflections
 				</div>
 			</div>
-			<reflections-details reflections.bind="selectedReflections"></reflections-details>
+			<reflections-details reflection.bind="sectionSelected.baseReflection"
+				if.bind="sectionSelected.baseReflection != null">
+			</reflections-details>
 		</div>
 	</div>
 

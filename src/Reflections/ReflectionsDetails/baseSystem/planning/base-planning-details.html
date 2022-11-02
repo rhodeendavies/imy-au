@@ -10,6 +10,14 @@
 		</div>
 	
 		<div class="reflection-body">
+			<div class="reflection-text" if.bind="localParent.FullReflection">
+				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
+				${planningReflection.feeling}/5
+			</div>
+
+			<div if.bind="localParent.FullReflection">
+				Reflecting on how to use your strengths this week
+			</div>
 			<div class="reflection-text">
 				${planningReflection.strengths}
 			</div>

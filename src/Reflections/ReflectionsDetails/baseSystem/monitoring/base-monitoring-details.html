@@ -10,6 +10,10 @@
 		</div>
 	
 		<div class="reflection-body">
+			<div class="reflection-text" if.bind="localParent.FullReflection">
+				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
+				${monitoringReflection.feeling}/5
+			</div>
 			<div class="reflection-text">
 				<div class="sub-heading">Current questions or confusion</div>
 				${monitoringReflection.currentQuestions}

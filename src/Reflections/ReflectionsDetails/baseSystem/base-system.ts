@@ -1,5 +1,6 @@
-import { autoinject, bindable } from "aurelia-framework";
+import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { BaseSystemReflection } from "models/reflections";
+import { AuthenticationService } from "services/authenticationService";
 import { EnumHelper } from "utils/enumHelper";
 import { ReflectionsDetails } from "../reflections-details";
 
@@ -8,7 +9,7 @@ export class BaseSystem {
 
 	@bindable reflection: BaseSystemReflection;
 
-	constructor(private localParent: ReflectionsDetails) {}
+	constructor(public localParent: ReflectionsDetails, private authService: AuthenticationService) {}
 
 	attached() {
 		if (this.reflection != null) {
@@ -17,5 +18,15 @@ export class BaseSystem {
 				x.ratingPercentage = Math.ceil(x.rating / 3 * 100);
 			})
 		}
+	}
+
+	@computedFrom("localParent.dashboardVersion")
+	get FullReflection(): boolean {
+		return !this.localParent.dashboardVersion;
+	}
+
+	@computedFrom("authService.Course")
+	get Course(): string {
+		return this.authService.Course;
 	}
 }

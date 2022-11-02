@@ -13,32 +13,48 @@ export class BaseSystemReflection {
 }
 
 export class BaseSystemPlanning {
+	feeling: number;
 	strengths: string;
 	strategies: Strategy[];
 
 	constructor() {
+		this.feeling = null;
 		this.strengths = "";
 		this.strategies = [];
 	}
 }
 
 export class BaseSystemMonitoring {
+	feeling: number;
 	currentQuestions: string;
 	strategies: Strategy[];
 
 	constructor() {
+		this.feeling = null;
 		this.currentQuestions = "";
 		this.strategies = [];
 	}
 }
 
 export class BaseSystemEvaluating {
+	feelings: BaseSystemFeeling[];
 	summary: string;
 	strategies: Strategy[];
 
 	constructor() {
 		this.summary = "";
 		this.strategies = [];
+		this.feelings = [];
+	}
+}
+
+export class BaseSystemFeeling {
+	feelingRating: number;
+	feelingDate: Date;
+
+	constructor() {
+		this.feelingRating = null;
+		this.feelingDate = null;
 	}
 }
 

@@ -22,10 +22,13 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
+			// DEMO
 			await ComponentHelper.Sleep(100);
-
 			this.user = new UserDetails();
 			this.user.authenticated = true;
+			this.user.course = "IMY 110";
+			// END OF DATA
+
 			switch (this.Role) {
 				case Roles.Admin:
 					this.router.navigate(Routes.AdminDash);
@@ -52,7 +55,9 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
+			// DEMO
 			await ComponentHelper.Sleep(100);
+			// END OF DATA
 
 			this.user = null;
 			this.ea.publish(Events.Logout);
@@ -70,6 +75,10 @@ export class AuthenticationService {
 
 	get System(): Systems {
 		return this.user !== null && this.user !== undefined && this.user.system;
+	}
+
+	get Course(): string {
+		return this.user !== null && this.user !== undefined && this.user.course;
 	}
 
 	@computedFrom("busy.Active")
