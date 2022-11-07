@@ -2,7 +2,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { DateTime } from "luxon";
 import { Lesson, Section } from "models/course";
-import { BaseSystemReflection, Strategy } from "models/reflections";
+import { BaseSystemEvaluating, BaseSystemReflection, Strategy } from "models/reflections";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
 import { ComponentHelper } from "utils/componentHelper";
@@ -125,7 +125,7 @@ export class ApplicationState {
 	determineReflectionToShow() {
 		if (this.sections == null || this.sections.length == 0) {
 			this.getSections();
-				if (this.sections == null || this.sections.length == 0 || this.currentSection == null) return;
+			if (this.sections == null || this.sections.length == 0 || this.currentSection == null) return;
 		}
 
 		const numOfSections = this.sections.length;
@@ -208,6 +208,11 @@ export class ApplicationState {
 			monitoringDone: false,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(),
+			publicBaseReflections: [
+				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
+				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
+				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation()
+			],
 			lessons: [
 				this.createDemoLesson("Block and inline elements", true),
 				this.createDemoLesson("Images - part 1", true),
@@ -227,6 +232,11 @@ export class ApplicationState {
 			monitoringDone: false,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(true, false, false),
+			publicBaseReflections: [
+				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
+				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(false),
+				this.createDemoBaseEvaluation()
+			],
 			lessons: [
 				this.createDemoLesson("Block and inline elements"),
 				this.createDemoLesson("Images - part 1"),
@@ -246,6 +256,7 @@ export class ApplicationState {
 			monitoringDone: false,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(false, false, false),
+			publicBaseReflections: [],
 			lessons: [
 				this.createDemoLesson("Block and inline elements"),
 				this.createDemoLesson("Images - part 1"),
@@ -290,7 +301,7 @@ export class ApplicationState {
 			title: StrategyCategories.Extending,
 			strategy: "a test",
 			rating: 0
-		}]
+		}];
 		const reflection = new BaseSystemReflection();
 		if (planning) {
 			reflection.planningReflection.feeling = 3;
@@ -311,24 +322,46 @@ export class ApplicationState {
 		}
 
 		if (evaluating) {
-			reflection.evaluatingReflection.feelings = [{
-				feelingRating: 3,
-				feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
-			}, {
-				feelingRating: 2,
-				feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
-			}, {
-				feelingRating: 4,
-				feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-			}];
-			reflection.evaluatingReflection.summary = ComponentHelper.LoremIpsum();
-			reflection.evaluatingReflection.strategies = strategies;
-			reflection.evaluatingReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
+			reflection.evaluatingReflection = this.createDemoBaseEvaluation();
 		} else {
 			reflection.evaluatingReflection = null;
 		}
 
 		return reflection;
+	}
+
+	createDemoBaseEvaluation(loremIpsum: boolean = true): BaseSystemEvaluating {
+		const evaluatingReflection = new BaseSystemEvaluating();
+		evaluatingReflection.feelings = [{
+			feelingRating: 3,
+			feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
+		}, {
+			feelingRating: 2,
+			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
+		}, {
+			feelingRating: 4,
+			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
+		}];
+		evaluatingReflection.summary = loremIpsum ? ComponentHelper.LoremIpsum() : ComponentHelper.DonecInterdum();
+		evaluatingReflection.strategies = [{
+			title: StrategyCategories.Learning,
+			strategy: "a test",
+			rating: 1
+		}, {
+			title: StrategyCategories.Reviewing,
+			strategy: "a test",
+			rating: 2
+		}, {
+			title: StrategyCategories.Practicing,
+			strategy: "a test",
+			rating: 3
+		}, {
+			title: StrategyCategories.Extending,
+			strategy: "a test",
+			rating: 0
+		}];
+		evaluatingReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
+		return evaluatingReflection;
 	}
 	// END OF DEMO DATA
 }

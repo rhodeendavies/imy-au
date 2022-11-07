@@ -1,4 +1,4 @@
-import { BaseSystemReflection } from "./reflections";
+import { BaseSystemEvaluating, BaseSystemReflection } from "./reflections";
 
 export class Course {
 	id: number;
@@ -31,6 +31,7 @@ export class Section {
 	monitoringDone: boolean;
 	evaluationDone: boolean;
 	baseReflection: BaseSystemReflection;
+	publicBaseReflections: BaseSystemEvaluating[];
 
 	// frontend only
 	totalVideos?: number;
@@ -48,6 +49,12 @@ export class Section {
 		this.course = null;
 		this.lessons = [];
 		this.totalRunTime = 0;
+		this.planningDone = false;
+		this.monitoringDone = false;
+		this.evaluationDone = false;
+		this.baseReflection = null;
+		this.publicBaseReflections = null;
+
 		this.totalVideos = 0;
 		this.watchedVideos = 0;
 		this.dateString = "";

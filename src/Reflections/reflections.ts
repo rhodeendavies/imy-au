@@ -9,6 +9,7 @@ export class Reflections {
 
 	sections: Section[];
 	sectionSelected: Section;
+	showPublicReflections: boolean = false;
 	
 	constructor(private router: Router, private appState: ApplicationState) { }
 
@@ -49,5 +50,9 @@ export class Reflections {
 		}
 		this.sectionSelected = section;
 		this.sectionSelected.open = true;
+	}
+
+	togglePublicReflections() {
+		this.showPublicReflections = !this.showPublicReflections;
 	}
 }

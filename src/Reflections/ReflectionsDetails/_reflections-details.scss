@@ -10,6 +10,10 @@
 	overflow: hidden;
 	height: 100%;
 
+	&.public-reflections-details-wrapper {
+		height: initial;
+	}
+
 	>*:not(.reflection-section-tracker) {
 		flex: 1;
 	}
