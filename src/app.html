@@ -2,6 +2,7 @@
 	<require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
 	<require from="./styles.css"></require>
 	<require from="navbar/navbar"></require>
+	<require from="Reflections/ReflectionPrompts/dailyReflection/daily-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/planning/planning-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/monitoring/monitoring-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/evaluation/evaluation-prompts"></require>
@@ -42,8 +43,23 @@
 			</div>
 		</modal>
 
+		<modal view-model.ref="dailyReflectionModal">
+			<div slot="header" class="flex-gap-lg">
+				<span class="square-icon">
+					<span class="icon">edit</span>
+				</span>
+				New daily reflection
+			</div>
+			<div slot="body">
+				<daily-prompts></daily-prompts>
+			</div>
+		</modal>
+
 		<modal view-model.ref="planningModal">
-			<div slot="header">
+			<div slot="header" class="flex-gap-lg">
+				<span class="square-icon">
+					<span class="icon">edit</span>
+				</span>
 				PLANNING: Start of the week (${appState.reflectionSection})
 			</div>
 			<div slot="body">

@@ -14,6 +14,7 @@ import { LessonRatedEvent } from "utils/eventModels";
 export class ApplicationState {
 	private toast: Toast;
 	private ratingModal: Modal;
+	private dailyModal: Modal;
 	private planningModal: Modal;
 	private monitoringModal: Modal;
 	private evaluationModal: Modal;
@@ -35,6 +36,10 @@ export class ApplicationState {
 
 	setRatingModal(_modal: Modal) {
 		this.ratingModal = _modal;
+	}
+
+	setDailyModal(_modal: Modal) {
+		this.dailyModal = _modal;
 	}
 
 	setPlanningModal(_modal: Modal) {
@@ -64,7 +69,7 @@ export class ApplicationState {
 	submitRating() {
 		this.lessonCompleted.rating = this.ratingSelected;
 
-		// TODO: make call to set lesson as complete -> on success do following
+		// TODO: make call to set rating as complete -> on success do following
 		if (this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
@@ -77,6 +82,19 @@ export class ApplicationState {
 		this.determineReflectionToShow();
 	}
 
+	triggerDailyModal() {
+		this.dailyModal.toggle();
+		this.ea.publish(Events.DailyTriggered);
+	}
+
+	submitDaily(daily: any) {
+		// TODO: make call to set reflection as complete -> on success do following
+		if (this.dailyModal.Open) {
+			this.dailyModal.toggle();
+		}
+		this.sectionReflecting.planningDone = true;
+	}
+
 	triggerPlanningModal(section: Section) {
 		this.sectionReflecting = section;
 		this.reflectionSection = this.sectionReflecting.name;
@@ -84,7 +102,7 @@ export class ApplicationState {
 	}
 
 	submitPlanning(planning: any) {
-		// TODO: make call to set lesson as complete -> on success do following
+		// TODO: make call to set reflection as complete -> on success do following
 		if (this.planningModal.Open) {
 			this.planningModal.toggle();
 		}
@@ -99,7 +117,7 @@ export class ApplicationState {
 	}
 
 	submitMonitoring(monitoring: any) {
-		// TODO: make call to set lesson as complete -> on success do following
+		// TODO: make call to set reflection as complete -> on success do following
 		if (this.monitoringModal.Open) {
 			this.monitoringModal.toggle();
 		}
@@ -114,7 +132,7 @@ export class ApplicationState {
 	}
 
 	submitEvaluation(evaluation: any) {
-		// TODO: make call to set lesson as complete -> on success do following
+		// TODO: make call to set reflection as complete -> on success do following
 		if (this.evaluationModal.Open) {
 			this.evaluationModal.toggle();
 		}
@@ -216,7 +234,7 @@ export class ApplicationState {
 			lessons: [
 				this.createDemoLesson("Block and inline elements", true),
 				this.createDemoLesson("Images - part 1", true),
-				this.createDemoLesson("Images - part 2", true, null),
+				this.createDemoLesson("Images - part 2", true),
 				this.createDemoLesson("Images - examples"),
 				this.createDemoLesson("Video and audio")
 			]
@@ -228,7 +246,7 @@ export class ApplicationState {
 			endDate: DateTime.fromObject({ day: 30, month: 10 }).toJSDate(),
 			course: null,
 			totalRunTime: 120,
-			planningDone: false,
+			planningDone: true,
 			monitoringDone: false,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(true, false, false),

@@ -6,6 +6,7 @@ export class UserDetails {
 	authenticated: boolean;
 	system: Systems;
 	course: string;
+	lastDailyReflection: Date;
 
 	constructor() {
 		this.studentNumber = "";
@@ -13,6 +14,7 @@ export class UserDetails {
 		this.authenticated = false;
 		this.system = Systems.BaseSystem;
 		this.course = "";
+		this.lastDailyReflection = null;
 	}
 }
 

@@ -2,6 +2,7 @@ import { ApplicationState } from "applicationState";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
+import { DateTime } from "luxon";
 import { ApiResponse } from "models/apiResponse";
 import { UserDetails, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
@@ -27,6 +28,7 @@ export class AuthenticationService {
 			this.user = new UserDetails();
 			this.user.authenticated = true;
 			this.user.course = "IMY 110";
+			this.user.lastDailyReflection = DateTime.fromObject({ day: 7, month: 11 }).toJSDate();
 			// END OF DATA
 
 			switch (this.Role) {
@@ -79,6 +81,10 @@ export class AuthenticationService {
 
 	get Course(): string {
 		return this.user !== null && this.user !== undefined && this.user.course;
+	}
+
+	get LastDailyReflection(): Date {
+		return this.user !== null && this.user !== undefined && this.user.lastDailyReflection;
 	}
 
 	@computedFrom("busy.Active")

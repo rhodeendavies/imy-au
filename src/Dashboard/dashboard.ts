@@ -38,4 +38,8 @@ export class Dashboard {
 	navigateToReflection() {
 		this.navigateToRoute(`${Routes.Reflections}`)
 	}
+
+	triggerDailyReflection() {
+		this.appState.triggerDailyModal();
+	}
 }

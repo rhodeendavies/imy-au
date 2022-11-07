@@ -14,8 +14,9 @@ export class App {
 	private toast: Toast;
 	
 	// MODALS
-	private planningModal: Modal;
 	private ratingModal: Modal;
+	private dailyReflectionModal: Modal;
+	private planningModal: Modal;
 	private monitoringModal: Modal;
 	private evaluationModal: Modal;
 	videoRatingOptions: RadioOption[] = [
@@ -35,6 +36,7 @@ export class App {
 	attached() {
 		this.appState.setToast(this.toast);
 		this.appState.setRatingModal(this.ratingModal);
+		this.appState.setDailyModal(this.dailyReflectionModal);
 		this.appState.setPlanningModal(this.planningModal);
 		this.appState.setMonitoringModal(this.monitoringModal);
 		this.appState.setEvaluationModal(this.evaluationModal);
