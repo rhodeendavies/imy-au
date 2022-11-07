@@ -7,9 +7,19 @@
 			<div class="reflection-header">
 				PLANNING: Start of the week
 			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && planningReflection.dateRecorded != null">
+				<span>${planningReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${planningReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="planningReflection == null">
+			<!-- should realistically never show -->
+			You haven't completed this reflection yet. The week needs to start first
 		</div>
 	
-		<div class="reflection-body">
+		<div class="reflection-body" if.bind="planningReflection != null">
 			<div class="reflection-text" if.bind="localParent.FullReflection">
 				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
 				${planningReflection.feeling}/5

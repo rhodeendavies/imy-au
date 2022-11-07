@@ -9,7 +9,8 @@
 
 			<div class="accordion-sections">
 				<div class="section-wrapper reflection-accordion" repeat.for="section of sections">
-					<accordion only-header.bind="true" click.delegate="selectSection(section)" open.bind="section.open">
+					<accordion only-header.bind="true" click.delegate="selectSection(section)" open.bind="section.open"
+						disabled.bind="!section.available">
 						<div slot="header" class="section-heading-wrapper">
 							<div class="section-heading">
 								WEEK ${section.order}: ${section.name}

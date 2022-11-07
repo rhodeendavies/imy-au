@@ -226,7 +226,7 @@ export class ApplicationState {
 			planningDone: false,
 			monitoringDone: false,
 			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(),
+			baseReflection: this.createDemoReflectionData(true, false, false),
 			lessons: [
 				this.createDemoLesson("Block and inline elements"),
 				this.createDemoLesson("Images - part 1"),
@@ -245,7 +245,7 @@ export class ApplicationState {
 			planningDone: false,
 			monitoringDone: false,
 			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(),
+			baseReflection: this.createDemoReflectionData(false, false, false),
 			lessons: [
 				this.createDemoLesson("Block and inline elements"),
 				this.createDemoLesson("Images - part 1"),
@@ -273,7 +273,7 @@ export class ApplicationState {
 		}
 	}
 
-	private createDemoReflectionData(): BaseSystemReflection {
+	private createDemoReflectionData(planning: boolean = true, monitoring: boolean = true, evaluating: boolean = true): BaseSystemReflection {
 		const strategies: Strategy[] = [{
 			title: StrategyCategories.Learning,
 			strategy: "a test",
@@ -292,26 +292,41 @@ export class ApplicationState {
 			rating: 0
 		}]
 		const reflection = new BaseSystemReflection();
-		reflection.planningReflection.feeling = 3;
-		reflection.planningReflection.strengths = ComponentHelper.LoremIpsum();
-		reflection.planningReflection.strategies = strategies;
+		if (planning) {
+			reflection.planningReflection.feeling = 3;
+			reflection.planningReflection.strengths = ComponentHelper.LoremIpsum();
+			reflection.planningReflection.strategies = strategies;
+			reflection.planningReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
+		} else {
+			reflection.planningReflection = null;
+		}
 
-		reflection.monitoringReflection.feeling = 2;
-		reflection.monitoringReflection.currentQuestions = ComponentHelper.LoremIpsum();
-		reflection.monitoringReflection.strategies = strategies;
+		if (monitoring) {
+			reflection.monitoringReflection.feeling = 2;
+			reflection.monitoringReflection.currentQuestions = ComponentHelper.LoremIpsum();
+			reflection.monitoringReflection.strategies = strategies;
+			reflection.monitoringReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
+		} else {
+			reflection.monitoringReflection = null;
+		}
 
-		reflection.evaluatingReflection.feelings = [{
-			feelingRating: 3,
-			feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 2,
-			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}];
-		reflection.evaluatingReflection.summary = ComponentHelper.LoremIpsum();
-		reflection.evaluatingReflection.strategies = strategies;
+		if (evaluating) {
+			reflection.evaluatingReflection.feelings = [{
+				feelingRating: 3,
+				feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
+			}, {
+				feelingRating: 2,
+				feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
+			}, {
+				feelingRating: 4,
+				feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
+			}];
+			reflection.evaluatingReflection.summary = ComponentHelper.LoremIpsum();
+			reflection.evaluatingReflection.strategies = strategies;
+			reflection.evaluatingReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
+		} else {
+			reflection.evaluatingReflection = null;
+		}
 
 		return reflection;
 	}

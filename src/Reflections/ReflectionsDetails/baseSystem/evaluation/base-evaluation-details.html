@@ -7,9 +7,19 @@
 			<div class="reflection-header">
 				EVALUATING: End of the content
 			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && evaluatingReflection.dateRecorded != null">
+				<span>${evaluatingReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${evaluatingReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
 		</div>
-	
-		<div class="reflection-body">
+
+		<div class="reflection-body" if.bind="evaluatingReflection == null">
+			You haven't completed this reflection yet. You need to finish watching this
+			week's videos to do so.
+		</div>
+
+		<div class="reflection-body" if.bind="evaluatingReflection != null">
 			<div class="reflection-text">
 				<div if.bind="localParent.FullReflection">
 					<div class="sub-heading">Summary of your feelings about ${localParent.Course} this week</div>

@@ -7,10 +7,6 @@ import { ApplicationState } from "applicationState";
 @autoinject
 export class Reflections {
 
-	// DEMO DATA
-	lessonOrder: number = 0;
-	// END OF DEMO DATA
-
 	sections: Section[];
 	sectionSelected: Section;
 	
@@ -47,6 +43,7 @@ export class Reflections {
 	}
 
 	selectSection(section: Section) {
+		if (!section.available) return;
 		if (this.sectionSelected != null) {
 			this.sectionSelected.open = false;
 		}

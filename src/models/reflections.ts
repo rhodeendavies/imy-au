@@ -16,11 +16,13 @@ export class BaseSystemPlanning {
 	feeling: number;
 	strengths: string;
 	strategies: Strategy[];
+	dateRecorded: Date;
 
 	constructor() {
 		this.feeling = null;
 		this.strengths = "";
 		this.strategies = [];
+		this.dateRecorded = null;
 	}
 }
 
@@ -28,11 +30,13 @@ export class BaseSystemMonitoring {
 	feeling: number;
 	currentQuestions: string;
 	strategies: Strategy[];
+	dateRecorded: Date;
 
 	constructor() {
 		this.feeling = null;
 		this.currentQuestions = "";
 		this.strategies = [];
+		this.dateRecorded = null;
 	}
 }
 
@@ -40,11 +44,13 @@ export class BaseSystemEvaluating {
 	feelings: BaseSystemFeeling[];
 	summary: string;
 	strategies: Strategy[];
+	dateRecorded: Date;
 
 	constructor() {
 		this.summary = "";
 		this.strategies = [];
 		this.feelings = [];
+		this.dateRecorded = null;
 	}
 }
 
