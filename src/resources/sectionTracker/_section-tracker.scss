@@ -5,6 +5,16 @@
 	justify-content: space-between;
 	align-items: center;
 
+	&.bar-section-tracker {
+		justify-content: center;
+
+		.tracker-sections .tracker-section {
+			height: 8px;
+			width: 250px;
+			border-radius: 0;
+		}
+	}
+
 	.tracker-arrow {
 		color: $Black;
 		transition: all 0.3s;
@@ -37,8 +47,12 @@
 			transition: all 0.3s;
 			cursor: pointer;
 
-			&.tracker-section-active {
+			&.section-active-true {
 				background-color: $SeaGreen;
+			}
+
+			&.section-disabled-true {
+				pointer-events: none;
 			}
 
 			&:hover {

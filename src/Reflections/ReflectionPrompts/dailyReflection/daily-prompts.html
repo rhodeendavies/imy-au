@@ -1,19 +1,37 @@
 <template>
-	<div if.bind="ShowOverview">
-		<p>
-			Daily reflections are optional, quick reflections that can be done once every 24 hours. They allow you to keep a
-			closer eye on your feelings about the module
-			and your progress towards your learning strategies.
-		</p>
+	<require from="resources/sectionTracker/section-tracker"></require>
+	<require from="./baseSystem/base-daily"></require>
+	<require from="./ludus/ludus-daily"></require>
+	<require from="./paidia/paidia-daily"></require>
 
-		<p class="mt-15">
-			Summaries of your reflections are shown once you've watched all the videos for the week.
-		</p>
+	<div class="prompt-wrapper">
+		<div class="prompt-body" if.bind="ShowOverview">
+			<p>
+				Daily reflections are optional, quick reflections that can be done once every 24 hours. They allow you
+				to keep a
+				closer eye on your feelings about the module
+				and your progress towards your learning strategies.
+			</p>
 
-		<button class="btn btn-primary mt-30" click.delegate="submitDaily()" disabled.bind="!dailyReflectionAvailable">
-			Let's go
-		</button>
-		<div class="body-small mt-10">${timeTillNextReflection} until next reflection opportunity</div>
+			<p class="mt-15">
+				Summaries of your reflections are shown once you've watched all the videos for the week.
+			</p>
+
+			<button class="btn btn-primary mt-30" click.delegate="startDaily()"
+				disabled.bind="!dailyReflectionAvailable">
+				Let's go
+			</button>
+			<div class="body-small mt-10" if.bind="!dailyReflectionAvailable">
+				${timeTillNextReflection} until next reflection opportunity
+			</div>
+		</div>
+
+		<base-daily class="prompt-body" if.bind="ShowBaseSystem"></base-daily>
+		<ludus-daily class="prompt-body" if.bind="ShowLudus"></ludus-daily>
+		<paidia-daily class="prompt-body" if.bind="ShowPaidia"></paidia-daily>
+
+		<section-tracker class="prompt-section-tracker" num-of-sections.bind="3" section.bind="activeSection"
+			bars.bind="true" view-model.ref="tracker" linear.bind="true">
+		</section-tracker>
 	</div>
-
 </template>

@@ -22,12 +22,13 @@
 @use "resources/toast/toast";
 
 @use "AdminDashboard/admin-dashboard";
-@use "Dashboard/dashboard";
 @use "Dashboard/CourseView/course-view";
-@use "Dashboard/CourseView/SectionView/section-view";
 @use "Dashboard/CourseView/SectionView/LessonView/lesson-view";
+@use "Dashboard/CourseView/SectionView/section-view";
+@use "Dashboard/dashboard";
+@use "Reflections/ReflectionPrompts/reflection-prompts";
 @use "Reflections/reflections";
-@use "Reflections/ReflectionsDetails/reflections-details";
 @use "Reflections/ReflectionsDetails/baseSystem/evaluation/base-evaluation-details";
+@use "Reflections/ReflectionsDetails/reflections-details";
 @use "Login/login";
 @use "navbar/navbar";

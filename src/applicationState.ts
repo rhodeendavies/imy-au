@@ -88,11 +88,10 @@ export class ApplicationState {
 	}
 
 	submitDaily(daily: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+		// TODO: make call to set daily reflection as complete -> on success do following
 		if (this.dailyModal.Open) {
 			this.dailyModal.toggle();
 		}
-		this.sectionReflecting.planningDone = true;
 	}
 
 	triggerPlanningModal(section: Section) {

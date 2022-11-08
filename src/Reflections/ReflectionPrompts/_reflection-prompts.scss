@@ -1,0 +1,11 @@
+@use "./src/styles/variables"as *;
+
+.prompt-modal-body {
+	height: 100%;
+}
+
+.prompt-wrapper {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
+	height: 100%;
+}

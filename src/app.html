@@ -50,7 +50,7 @@
 				</span>
 				New daily reflection
 			</div>
-			<div slot="body">
+			<div slot="body" class="prompt-modal-body">
 				<daily-prompts></daily-prompts>
 			</div>
 		</modal>
@@ -62,25 +62,31 @@
 				</span>
 				PLANNING: Start of the week (${appState.reflectionSection})
 			</div>
-			<div slot="body">
+			<div slot="body" class="prompt-modal-body">
 				<planning-prompts></planning-prompts>
 			</div>
 		</modal>
 		
 		<modal view-model.ref="monitoringModal">
 			<div slot="header">
+				<span class="square-icon">
+					<span class="icon">bar_chart</span>
+				</span>
 				MONITORING: Halfway through the content (${appState.reflectionSection})
 			</div>
-			<div slot="body">
+			<div slot="body" class="prompt-modal-body">
 				<monitoring-prompts></monitoring-prompts>
 			</div>
 		</modal>
 
 		<modal view-model.ref="evaluationModal">
 			<div slot="header">
+				<span class="square-icon">
+					<span class="icon">rate_review</span>
+				</span>
 				EVALUATING: End of the content (${appState.reflectionSection})
 			</div>
-			<div slot="body">
+			<div slot="body" class="prompt-modal-body">
 				<evaluation-prompts></evaluation-prompts>
 			</div>
 		</modal>
