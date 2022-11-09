@@ -1,5 +1,15 @@
 import { StrategyCategories } from "utils/enums";
 
+export class BaseSystemDaily {
+	feeling: number;
+	strategies: Strategy[];
+
+	constructor() {
+		this.feeling = null;
+		this.strategies = [];
+	}
+}
+
 export class BaseSystemReflection {
 	planningReflection: BaseSystemPlanning;
 	monitoringReflection: BaseSystemMonitoring;

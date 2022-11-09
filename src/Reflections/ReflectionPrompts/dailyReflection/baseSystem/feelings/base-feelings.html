@@ -1,7 +1,14 @@
 <template>
-	FEELINGS
+	<require from="resources/slider/slider"></require>
 
-	<button class="btn btn-primary" click.delegate="localParent.nextStep()">
-		Next
-	</button>
+	<div>
+		<p class="reflection-question">How do you feel about ${Course} right now?</p>
+		<slider value.bind="feeling"></slider>
+	</div>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="feeling == null">
+			Next
+		</button>
+	</div>
 </template>

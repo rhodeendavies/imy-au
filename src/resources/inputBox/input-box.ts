@@ -5,17 +5,20 @@ import { ComponentHelper } from 'utils/componentHelper';
 export class InputBox {
 
 	@bindable type: string = InputTypes.text;
+
 	@bindable label: string = "";
 	@bindable subLabel: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) value: string;
 	@bindable placeholder: string = "";
 	@bindable valid: boolean = true;
-	@bindable required: boolean = true;
+	@bindable required: boolean = false;
 	@bindable disabled: boolean = false;
+
 	@bindable onFocus;
 	@bindable onBlur;
 	@bindable onChange;
 	@bindable onEnter;
+
 	@bindable id: string = "";
 	@bindable inputElement: HTMLInputElement = null;
 
@@ -106,7 +109,7 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.type == InputTypes.large;
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -126,11 +129,13 @@ export class InputBox {
 		if (this.disabled) classes += " disable-input";
 		if (!this.valid) classes += " invalid-input";
 		if (this.ShowPassword) classes += " password-input";
+		if (this.type == InputTypes.large) classes += " large-input";
 		return classes;
 	}
 }
 
 enum InputTypes {
 	text = "text",
+	large = "large",
 	password = "password"
 }

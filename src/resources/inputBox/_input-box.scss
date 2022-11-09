@@ -28,6 +28,15 @@
 		}
 	}
 
+	&.large-input {
+		.input-box {
+			input {
+				font-size: 30px !important;
+				text-align: center;
+			}
+		}
+	}
+
 	.input-label-wrapper {
 		width: 100%;
 		margin-bottom: 7px;
@@ -39,9 +48,6 @@
 		.input-label {
 			font-size: 22px;
 			font-weight: $light;
-		}
-
-		.input-sub-label {
 		}
 	}
 
@@ -66,6 +72,7 @@
 				width: 100%;
 				border: none;
 				background-color: transparent;
+				font-size: 20px;
 	
 				&:hover {
 					background-color: $LightGrey;

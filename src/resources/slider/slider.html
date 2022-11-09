@@ -1,0 +1,21 @@
+<template>
+	<div class="slider-wrapper">
+		<div class="slider-text">
+			Not great
+		</div>
+
+		<div class="slider-bar-wrapper">
+			<div class="slider-tick" repeat.for="tick of ticks" click.delegate="selectTick(tick)">
+				<span>${tick}</span>
+				<span></span>
+			</div>
+
+			<div class="slider-circle" style.bind="Left"><span></span></div>
+			<div class="slider-bar"></div>
+		</div>
+
+		<div class="slider-text">
+			Excellent
+		</div>
+	</div>
+</template>
