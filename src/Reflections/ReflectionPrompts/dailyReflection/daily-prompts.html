@@ -25,9 +25,9 @@
 			</div>
 		</div>
 
-		<base-daily class="prompt-body" if.bind="ShowBaseSystem"></base-daily>
-		<ludus-daily class="prompt-body" if.bind="ShowLudus"></ludus-daily>
-		<paidia-daily class="prompt-body" if.bind="ShowPaidia"></paidia-daily>
+		<base-daily class="prompt-body" show.bind="ShowBaseSystem"></base-daily>
+		<ludus-daily class="prompt-body" show.bind="ShowLudus"></ludus-daily>
+		<paidia-daily class="prompt-body" show.bind="ShowPaidia"></paidia-daily>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="3" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

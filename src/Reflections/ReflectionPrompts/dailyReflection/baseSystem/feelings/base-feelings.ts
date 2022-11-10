@@ -5,16 +5,10 @@ import { BaseDaily } from "../base-daily";
 @autoinject
 export class BaseFeelings {
 
-	feeling: number = null;
-
 	constructor(private localParent: BaseDaily, private authService: AuthenticationService) {}
 
-	attached() {
-		this.feeling = null;
-	}
-
 	nextStep() {
-		if (this.feeling == null) return;
+		if (this.localParent.model.feeling == null) return;
 
 		this.localParent.nextStep();
 	}
