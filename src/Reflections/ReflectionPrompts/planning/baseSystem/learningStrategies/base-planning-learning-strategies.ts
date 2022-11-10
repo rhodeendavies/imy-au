@@ -65,7 +65,7 @@ export class BasePlanningLearningStrategies {
 
 	submit() {
 		if (!this.AllowSubmit) return;
-		this.localParent.submitDaily();
+		this.localParent.submitPlanning();
 	}
 
 	get AllowSubmit(): boolean {

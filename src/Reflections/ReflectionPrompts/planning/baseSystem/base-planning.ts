@@ -18,7 +18,7 @@ export class BasePlanning {
 		this.localParent.nextStep();
 	}
 
-	submitDaily() {
+	submitPlanning() {
 		this.localParent.submitPlanning();
 	}
 

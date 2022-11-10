@@ -114,6 +114,7 @@ export class ApplicationState {
 		this.sectionReflecting = section;
 		this.reflectionSection = this.sectionReflecting.name;
 		this.monitoringModal.toggle();
+		this.ea.publish(Events.MonitoringTriggered);
 	}
 
 	submitMonitoring(monitoring: any) {
@@ -246,7 +247,7 @@ export class ApplicationState {
 			endDate: DateTime.fromObject({ day: 30, month: 10 }).toJSDate(),
 			course: null,
 			totalRunTime: 120,
-			planningDone: false,
+			planningDone: true,
 			monitoringDone: false,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(true, false, false),
@@ -256,9 +257,9 @@ export class ApplicationState {
 				this.createDemoBaseEvaluation()
 			],
 			lessons: [
-				this.createDemoLesson("Block and inline elements"),
-				this.createDemoLesson("Images - part 1"),
-				this.createDemoLesson("Images - part 2"),
+				this.createDemoLesson("Block and inline elements", true),
+				this.createDemoLesson("Images - part 1", true),
+				this.createDemoLesson("Images - part 2", true),
 				this.createDemoLesson("Images - examples"),
 				this.createDemoLesson("Video and audio")
 			]
