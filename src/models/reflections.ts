@@ -1,3 +1,4 @@
+import { RadioOption } from "resources/radioButton/radio-button";
 import { StrategyCategories } from "utils/enums";
 
 export class BaseSystemDaily {
@@ -82,6 +83,7 @@ export class Strategy {
 	// frontend only
 	ratingPercentage?: number;
 	icon?: string;
+	options?: RadioOption[];
 
 	constructor() {
 		this.title = null;
@@ -89,5 +91,6 @@ export class Strategy {
 		this.rating = 0;
 		this.ratingPercentage = 0;
 		this.icon = "";
+		this.options = [];
 	}
 }

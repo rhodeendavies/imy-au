@@ -27,9 +27,10 @@
 @use "Dashboard/CourseView/SectionView/LessonView/lesson-view";
 @use "Dashboard/CourseView/SectionView/section-view";
 @use "Dashboard/dashboard";
+@use "Login/login";
+@use "navbar/navbar";
+@use "Reflections/ReflectionPrompts/planning/baseSystem/learningStrategies/base-planning-learning-strategies";
 @use "Reflections/ReflectionPrompts/reflection-prompts";
 @use "Reflections/reflections";
 @use "Reflections/ReflectionsDetails/baseSystem/evaluation/base-evaluation-details";
 @use "Reflections/ReflectionsDetails/reflections-details";
-@use "Login/login";
-@use "navbar/navbar";

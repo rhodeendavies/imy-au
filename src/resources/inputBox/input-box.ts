@@ -10,9 +10,10 @@ export class InputBox {
 	@bindable subLabel: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) value: string;
 	@bindable placeholder: string = "";
-	@bindable valid: boolean = true;
-	@bindable required: boolean = false;
+	@bindable({ defaultBindingMode: bindingMode.twoWay }) valid: boolean = true;
 	@bindable disabled: boolean = false;
+	@bindable min: number = 50;
+	@bindable max: number = 500;
 
 	@bindable onFocus;
 	@bindable onBlur;
@@ -88,14 +89,6 @@ export class InputBox {
 		}
 	}
 
-	@computedFrom("value")
-	get ErrorText(): string {
-		if (ComponentHelper.NullOrEmpty(this.value) && this.required) {
-			return "Required";
-		}
-		return "";
-	}
-
 	@computedFrom("label")
 	get ShowLabel(): boolean {
 		return !ComponentHelper.NullOrEmpty(this.label);
@@ -117,25 +110,37 @@ export class InputBox {
 		return this.type == InputTypes.password;
 	}
 
+	@computedFrom("type")
+	get ShowTextarea(): boolean {
+		return this.type == InputTypes.textarea;
+	}
+
+	@computedFrom("value.length")
+	get Valid(): boolean {
+		this.valid = this.value.length >= this.min && this.value.length <= this.max;
+		return this.valid;
+	}
+
 	@computedFrom("type", "showPasswordToggle")
 	get ShowHiddenPassword(): boolean {
 		this.setInputElement();
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
-	@computedFrom("disabled")
+	@computedFrom("disabled", "type", "showPasswordToggle")
 	get InputClasses(): string {
 		let classes = "";
 		if (this.disabled) classes += " disable-input";
-		if (!this.valid) classes += " invalid-input";
 		if (this.ShowPassword) classes += " password-input";
 		if (this.type == InputTypes.large) classes += " large-input";
+		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
 	}
 }
 
 enum InputTypes {
 	text = "text",
+	textarea = "textarea",
 	large = "large",
 	password = "password"
 }

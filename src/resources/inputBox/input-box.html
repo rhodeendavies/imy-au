@@ -17,19 +17,28 @@
 
 				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
 					blur.trigger="onBlurTrigger()" if.bind="ShowHiddenPassword" value.bind="value"
-					placeholder.bind="placeholder" type="password" disabled.bind="disabled"
-					id.bind="id" />
+					placeholder.bind="placeholder" type="password" disabled.bind="disabled" id.bind="id" />
 
 				<div if.bind="ShowPassword" click.delegate="togglePassword()" class="input-password-toggle">
 					<span if.bind="ShowHiddenPassword" class="icon">visibility</span>
 					<span if.bind="!ShowHiddenPassword" class="icon">visibility_off</span>
 				</div>
+
+				<textarea change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
+					blur.trigger="onBlurTrigger()" if.bind="ShowTextarea" value.bind="value" placeholder.bind="placeholder"
+					disabled.bind="disabled" id.bind="id">
+				</textarea>
 			</div>
 		</div>
 
-		<div class="input-error" if.bind="required">
-			<div if.bind="!valid">
-				*${ErrorText}
+		<div class="input-limit-wrapper" if.bind="ShowTextarea">
+			<div class="input-minimum ${Valid ? 'input-minimum-reached' : ''}">
+				<div class="icon">check_circle</div>
+				<div>${value.length}/${min} characters required</div>
+			</div>
+
+			<div class="${value.length > max ? 'input-maxed' : ''}">
+				<div>${value.length}/${max} characters max</div>
 			</div>
 		</div>
 	</div>

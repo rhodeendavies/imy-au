@@ -1,0 +1,15 @@
+<template>
+	<div>
+		<p class="reflection-question mb-30">
+			What strengths do you have this week? How can you use these to optimize your learning in ${localParent.Course} this week?
+		</p>
+
+		<input-box type="textarea" value.bind="localParent.model.strengths" valid.bind="valid"></input-box>
+	</div>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!valid">
+			Next
+		</button>
+	</div>
+</template>

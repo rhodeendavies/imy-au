@@ -98,6 +98,7 @@ export class ApplicationState {
 		this.sectionReflecting = section;
 		this.reflectionSection = this.sectionReflecting.name;
 		this.planningModal.toggle();
+		this.ea.publish(Events.PlanningTriggered);
 	}
 
 	submitPlanning(planning: any) {
@@ -245,7 +246,7 @@ export class ApplicationState {
 			endDate: DateTime.fromObject({ day: 30, month: 10 }).toJSDate(),
 			course: null,
 			totalRunTime: 120,
-			planningDone: true,
+			planningDone: false,
 			monitoringDone: false,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(true, false, false),

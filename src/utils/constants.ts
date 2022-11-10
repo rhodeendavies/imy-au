@@ -4,6 +4,7 @@ export class Events {
 	static readonly Logout: string = "Logout";
 	static readonly LessonRated: string = "LessonRated";
 	static readonly DailyTriggered: string = "DailyTriggered";
+	static readonly PlanningTriggered: string = "PlanningTriggered";
 }
 
 export class Routes {

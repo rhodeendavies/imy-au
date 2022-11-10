@@ -37,6 +37,14 @@
 		}
 	}
 
+	&.textarea-input {
+		.input-box-wrapper {
+			.input-box {
+				height: 100px;
+			}
+		}
+	}
+
 	.input-label-wrapper {
 		width: 100%;
 		margin-bottom: 7px;
@@ -66,13 +74,15 @@
 			transition: all 0.3s ease;
 			outline: 2px solid $SeaGreen;
 			
-			input {
+			input, textarea {
 				transition: all 0.3s ease;
 				padding: 0 10px;
 				width: 100%;
 				border: none;
 				background-color: transparent;
 				font-size: 20px;
+				resize: none;
+				outline: none;
 	
 				&:hover {
 					background-color: $LightGrey;
@@ -107,13 +117,28 @@
 		}
 	}
 
-	.input-error {
-		font-size: 10px;
-		text-transform: uppercase;
-		$White-space: nowrap;
-		height: 15px;
-		margin-top: 3px;
-		text-align: right;
-		font-weight: $light;
+	.input-limit-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 5px;
+		color: $DarkGrey60;
+		font-size: 15px;
+
+		.input-minimum {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			&.input-minimum-reached {
+				.icon {
+					color: $Orange;
+				}
+			}
+		}
+
+		.input-maxed {
+			// TODO: add style?
+		}
 	}
 }

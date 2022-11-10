@@ -23,14 +23,6 @@
 	padding: 10px 0;
 	gap: 25px;
 
-	.base-strategy-heading {
-		color: $SeaGreen;
-		font-family: $Poppins;
-		font-size: 20px;
-		font-weight: $semi-bold;
-		text-transform: uppercase;
-	}
-
 	.base-strategy-rating {
 		display: flex;
 		align-items: center;
@@ -41,4 +33,12 @@
 			font-weight: $bold;
 		}
 	}
+}
+
+.base-strategy-heading {
+	color: $SeaGreen;
+	font-family: $Poppins;
+	font-size: 20px;
+	font-weight: $semi-bold;
+	text-transform: uppercase;
 }
