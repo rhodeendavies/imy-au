@@ -52,16 +52,24 @@ export class BaseSystemMonitoring {
 }
 
 export class BaseSystemEvaluating {
+	feeling: number;
+	feelingsAffect: string;
 	feelings: BaseSystemFeeling[];
+	topics: Topic[];
 	summary: string;
 	strategies: Strategy[];
 	dateRecorded: Date;
+	postToPublic: boolean;
 
 	constructor() {
+		this.feeling = null;
+		this.feelingsAffect = "";
+		this.feelings = [];
+		this.topics = [];
 		this.summary = "";
 		this.strategies = [];
-		this.feelings = [];
 		this.dateRecorded = null;
+		this.postToPublic = false;
 	}
 }
 
@@ -92,5 +100,15 @@ export class Strategy {
 		this.ratingPercentage = 0;
 		this.icon = "";
 		this.options = [];
+	}
+}
+
+export class Topic {
+	title: string;
+	rating: number;
+
+	constructor() {
+		this.title = null;
+		this.rating = 0;
 	}
 }

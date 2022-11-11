@@ -1,7 +1,8 @@
 @use "./src/styles/variables"as *;
 
 .evaluation-feelings {
-	grid-template-columns: repeat(3, minmax(100px, 200px));
-	gap: 100px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 170px));
+	gap: 50px;
 	margin: 20px 0;
 }

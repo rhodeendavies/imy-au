@@ -130,6 +130,7 @@ export class ApplicationState {
 		this.sectionReflecting = section;
 		this.reflectionSection = this.sectionReflecting.name;
 		this.evaluationModal.toggle();
+		this.ea.publish(Events.EvaluationTriggered);
 	}
 
 	submitEvaluation(evaluation: any) {
@@ -248,7 +249,7 @@ export class ApplicationState {
 			course: null,
 			totalRunTime: 120,
 			planningDone: true,
-			monitoringDone: false,
+			monitoringDone: true,
 			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(true, false, false),
 			publicBaseReflections: [
@@ -260,8 +261,8 @@ export class ApplicationState {
 				this.createDemoLesson("Block and inline elements", true),
 				this.createDemoLesson("Images - part 1", true),
 				this.createDemoLesson("Images - part 2", true),
-				this.createDemoLesson("Images - examples"),
-				this.createDemoLesson("Video and audio")
+				this.createDemoLesson("Images - examples", true),
+				this.createDemoLesson("Video and audio", true)
 			]
 		}, {
 			id: 2,
@@ -357,6 +358,12 @@ export class ApplicationState {
 		}, {
 			feelingRating: 2,
 			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
+		}, {
+			feelingRating: 4,
+			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
+		}, {
+			feelingRating: 4,
+			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
 		}, {
 			feelingRating: 4,
 			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()

@@ -1,15 +1,32 @@
 @use "./src/styles/variables" as *;
 
 .check-mark-wrapper {
-	height: 27px;
-	width: 27px;
-	border: 2px solid $SeaGreen;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	cursor: pointer;
 
+	&:hover {
+		.check-mark {
+			background-color: $SeaGreen40;
+		}
+	}
+	
 	&.checked {
-		background-color: $SeaGreen;
-		color: $White;
+		.check-mark {
+			background-color: $SeaGreen;
+			color: $White;
+		}
+	}
+
+	.check-mark {
+		height: 27px;
+		width: 27px;
+		border: 2px solid $SeaGreen;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s;
 	}
 }

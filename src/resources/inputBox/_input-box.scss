@@ -40,7 +40,20 @@
 	&.textarea-input {
 		.input-box-wrapper {
 			.input-box {
-				height: 100px;
+				height: initial;
+				position: relative;
+
+				textarea {
+					position: absolute;
+					z-index: 1;
+					left: 0;
+					top: 0;
+					height: 100%;
+				}
+
+				.input-height-test {
+					opacity: 0;
+				}
 			}
 		}
 	}

@@ -1,0 +1,19 @@
+@use "./src/styles/variables"as *;
+
+.base-evaluation-feelings-wrapper {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	grid-template-rows: 1fr;
+	gap: 50px;
+
+	> div:first-child {
+		padding-right: 50px;
+		border-right: 1px solid $DarkGrey60;
+	}
+
+	.base-evaluation-feelings {
+		display: flex;
+		flex-direction: column;
+		gap: 50px;
+	}
+}

@@ -7,7 +7,13 @@
 .prompt-wrapper {
 	display: grid;
 	grid-template-rows: minmax(0, 1fr) auto;
+	gap: 20px;
 	height: 100%;
+
+	.prompt-body {
+		display: grid;
+		grid-template-rows: 1fr;
+	}
 }
 
 .reflection-question {

@@ -1,7 +1,26 @@
 <template>
-	<div class="btn-row">
-		<button class="btn btn-primary" click.delegate="submitEvaluation()">
-			Finish
-		</button>
+	<require from="resources/sectionTracker/section-tracker"></require>
+	<require from="./baseSystem/base-evaluation"></require>
+	<require from="./ludus/ludus-evaluation"></require>
+	<require from="./paidia/paidia-evaluation"></require>
+
+	<div class="prompt-wrapper">
+		<div class="prompt-body-overview" if.bind="ShowOverview">
+			<p>
+				You've finished all the content for this week. Take a few minutes to reflect on your learning this week.
+			</p>
+
+			<button class="btn btn-primary mt-30" click.delegate="nextStep()">
+				Let's go
+			</button>
+		</div>
+
+		<base-evaluation class="prompt-body" show.bind="ShowBaseSystem"></base-evaluation>
+		<ludus-evaluation class="prompt-body" show.bind="ShowLudus"></ludus-evaluation>
+		<paidia-evaluation class="prompt-body" show.bind="ShowPaidia"></paidia-evaluation>
+
+		<section-tracker class="prompt-section-tracker" num-of-sections.bind="5" section.bind="activeSection"
+			bars.bind="true" view-model.ref="tracker" linear.bind="true">
+		</section-tracker>
 	</div>
 </template>

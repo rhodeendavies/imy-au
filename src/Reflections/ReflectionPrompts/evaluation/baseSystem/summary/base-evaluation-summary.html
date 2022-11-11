@@ -1,0 +1,21 @@
+<template>
+	<div>
+		<p class="reflection-question mb-30">
+			Summarise your experience of your learning in ${localParent.Course} this week.
+		</p>
+
+		<input-box type="textarea" value.bind="localParent.model.summary" valid.bind="valid"></input-box>
+
+		<div class="check-mark-wrapper mt-20">
+			<check-mark checked.bind="localParent.model.postToPublic">
+				<p class="body-small">Allow this summary to be posted <strong>anonymously</strong> on the public forum</p>
+			</check-mark>
+		</div>
+	</div>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!valid">
+			Finish
+		</button>
+	</div>
+</template>

@@ -25,6 +25,7 @@ export class InputBox {
 
 	showPasswordToggle: boolean = false;
 	initDone: boolean = false;
+	heightTest: string = "";
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("inputBox");
@@ -33,6 +34,7 @@ export class InputBox {
 	attached() {
 		this.initDone = false;
 		this.setInputElement();
+		this.heightTest = new Array(Math.ceil(this.max / 2)).join("# ");
 
 		setTimeout(() => {
 			this.initDone = true;
@@ -117,7 +119,7 @@ export class InputBox {
 
 	@computedFrom("value.length")
 	get Valid(): boolean {
-		this.valid = this.value.length >= this.min && this.value.length <= this.max;
+		this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
 		return this.valid;
 	}
 
