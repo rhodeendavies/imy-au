@@ -75,8 +75,10 @@ export class Lesson {
 	rating: number;
 
 	// frontend only
+	ratingPercentage?: number;
 	watched?: boolean;
 	available?: boolean;
+	topicsString?: string;
 
 	constructor() {
 		this.id = 0;

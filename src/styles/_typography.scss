@@ -97,6 +97,49 @@ strong {
 	font-variation-settings: 'FILL' 1;
 }
 
+.summary-with-icon {
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	gap: 10px;
+
+	.summary-icon {
+		color: $SeaGreen;
+		
+		&.rating-icon {
+			height: 40px;
+			width: 40px;
+			border-radius: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: $Poppins;
+			font-weight: $bold;
+			color: $White;
+		}
+	
+		.icon {
+			font-size: 35px;
+		}
+	}
+
+	.summary-text {
+		.summary-heading {
+			color: $SeaGreen;
+			font-family: $Poppins;
+			font-size: 16px;
+			font-weight: $bold;
+			margin-bottom: 5px;
+			text-transform: uppercase;
+		}
+
+		.summary-body {
+			font-weight: $light;
+			font-size: 16px;
+		}
+	}
+}
+
 // utils
 .text-center {
 	text-align: center;

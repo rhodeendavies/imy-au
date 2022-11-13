@@ -12,11 +12,23 @@ export class BaseSystem {
 	constructor(public localParent: ReflectionsDetails, private authService: AuthenticationService) {}
 
 	attached() {
+		this.initReflection();
+	}
+	
+	initReflection() {
 		if (this.reflection != null) {
-			this.reflection.planningReflection.strategies.forEach(x => {
+			this.reflection.planningReflection?.strategies.forEach(x => {
 				x.icon = EnumHelper.GetCategoryIcon(x.title);
 				x.ratingPercentage = Math.ceil(x.rating / 3 * 100);
-			})
+			});
+			this.reflection.monitoringReflection?.strategies.forEach(x => {
+				x.icon = EnumHelper.GetCategoryIcon(x.title);
+				x.ratingPercentage = Math.ceil(x.rating / 3 * 100);
+			});
+			this.reflection.evaluatingReflection?.strategies.forEach(x => {
+				x.icon = EnumHelper.GetCategoryIcon(x.title);
+				x.ratingPercentage = Math.ceil(x.rating / 3 * 100);
+			});
 		}
 	}
 
@@ -28,5 +40,11 @@ export class BaseSystem {
 	@computedFrom("authService.Course")
 	get Course(): string {
 		return this.authService.Course;
+	}
+
+	@computedFrom("reflection.id")
+	get Reflection(): BaseSystemReflection {
+		this.initReflection();
+		return this.reflection;
 	}
 }

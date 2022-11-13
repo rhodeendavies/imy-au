@@ -5,6 +5,18 @@
 }
 
 .radio-options-wrapper {
+	&.radio-options-inline {
+		display: grid;
+		align-items: center;
+		grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+		justify-items: center;
+		gap: 40px;
+
+		.radio-option {
+			margin: 0;
+		}
+	}
+
 	.radio-option {
 		cursor: pointer;
 		display: flex;

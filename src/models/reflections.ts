@@ -12,11 +12,13 @@ export class BaseSystemDaily {
 }
 
 export class BaseSystemReflection {
+	id: number;
 	planningReflection: BaseSystemPlanning;
 	monitoringReflection: BaseSystemMonitoring;
 	evaluatingReflection: BaseSystemEvaluating;
 
 	constructor() {
+		this.id = 0;
 		this.planningReflection = new BaseSystemPlanning();
 		this.monitoringReflection = new BaseSystemMonitoring();
 		this.evaluatingReflection = new BaseSystemEvaluating();

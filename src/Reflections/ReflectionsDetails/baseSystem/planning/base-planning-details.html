@@ -7,39 +7,39 @@
 			<div class="reflection-header">
 				PLANNING: Start of the week
 			</div>
-			<div class="reflection-date" if.bind="localParent.FullReflection && planningReflection.dateRecorded != null">
-				<span>${planningReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+			<div class="reflection-date" if.bind="localParent.FullReflection && PlanningReflection.dateRecorded != null">
+				<span>${PlanningReflection.dateRecorded | dateFormat:'d LLLL'}</span>
 				<div class="reflection-date-separator"></div>
-				<span>${planningReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+				<span>${PlanningReflection.dateRecorded | dateFormat:'HH:mm'}</span>
 			</div>
 		</div>
 
-		<div class="reflection-body" if.bind="planningReflection == null">
+		<div class="reflection-body" if.bind="PlanningReflection == null">
 			<!-- should realistically never show -->
 			You haven't completed this reflection yet. The week needs to start first
 		</div>
 	
-		<div class="reflection-body" if.bind="planningReflection != null">
+		<div class="reflection-body" if.bind="PlanningReflection != null">
 			<div class="reflection-text" if.bind="localParent.FullReflection">
 				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
-				${planningReflection.feeling}/5
+				${PlanningReflection.feeling}/5
 			</div>
 
 			<div if.bind="localParent.FullReflection">
 				Reflecting on how to use your strengths this week
 			</div>
 			<div class="reflection-text">
-				${planningReflection.strengths}
+				${PlanningReflection.strengths}
 			</div>
 			<div class="strats-summary">
 				<div class="sub-heading mb-20">Your learning strategies for this week</div>
-				<div class="category-summary" repeat.for="category of planningReflection.strategies">
-					<div class="category-icon">
+				<div class="summary-with-icon" repeat.for="category of PlanningReflection.strategies">
+					<div class="summary-icon">
 						<span class="icon">${category.icon}</span>
 					</div>
-					<div class="category-text">
-						<div class="category-heading">${category.title}</div>
-						<div class="category-body">${category.strategy}</div>
+					<div class="summary-text">
+						<div class="summary-heading">${category.title}</div>
+						<div class="summary-body">${category.strategy}</div>
 					</div>
 				</div>
 			</div>

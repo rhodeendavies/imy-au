@@ -57,3 +57,9 @@ export enum StrategyCategoryIcons {
 	Practicing = "keyboard",
 	Extending = "bubble_chart "
 }
+
+export enum BaseTopicRating {
+	Mastered= "Mastered",
+	SortOfMastered= "Sort of mastered",
+	NotYetMastered= "Not yet mastered"
+}

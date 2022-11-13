@@ -1,1 +1,36 @@
 @use "./src/styles/variables"as *;
+
+.evaluation-topics-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 300px;
+	gap: 20px;
+
+	.evaluation-topics-question {
+		border-right: 1px solid $DarkGrey60;
+		padding-right: 20px;
+
+		.evaluation-topic {
+			display: grid;
+			grid-template-columns: 250px 1fr;
+			gap: 20px;
+			padding-bottom: 20px;
+			margin-bottom: 20px;
+			align-items: center;
+			max-width: 900px;
+
+			&.bordered {
+				border-bottom: 1px solid $DarkGrey60;
+			}
+
+			.evaluation-topic-headings {
+				display: grid;
+				align-items: center;
+				grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+				font-weight: $bold;
+				justify-items: center;
+				gap: 40px;
+				text-align: center;
+			}
+		}
+	}
+}

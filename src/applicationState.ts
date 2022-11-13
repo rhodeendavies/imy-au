@@ -214,6 +214,7 @@ export class ApplicationState {
 
 	// DEMO DATA
 	lessonOrder: number = 1;
+	reflectionId: number = 1;
 
 	private createDemoData(): [Section[], Section] {
 		const sections: Section[] = [{
@@ -250,7 +251,7 @@ export class ApplicationState {
 			totalRunTime: 120,
 			planningDone: true,
 			monitoringDone: true,
-			evaluationDone: false,
+			evaluationDone: true,
 			baseReflection: this.createDemoReflectionData(true, false, false),
 			publicBaseReflections: [
 				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
@@ -289,7 +290,7 @@ export class ApplicationState {
 		return [sections, sections[1]]
 	}
 
-	private createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
+	createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
 		return {
 			id: this.lessonOrder,
 			name: name,
@@ -323,6 +324,7 @@ export class ApplicationState {
 			rating: 0
 		}];
 		const reflection = new BaseSystemReflection();
+		reflection.id = this.reflectionId++;
 		if (planning) {
 			reflection.planningReflection.feeling = 3;
 			reflection.planningReflection.strengths = ComponentHelper.LoremIpsum();

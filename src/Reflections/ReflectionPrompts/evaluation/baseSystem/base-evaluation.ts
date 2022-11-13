@@ -29,6 +29,14 @@ export class BaseEvaluation {
 			feelingRating: 4,
 			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
 		}];
+
+		this.model.topics = [
+			{ title: "Topic #1", rating: null },
+			{ title: "Topic #2", rating: null },
+			{ title: "Topic #3", rating: null },
+			{ title: "Topic #4", rating: null },
+			{ title: "Topic #5", rating: null }
+		];
 	}
 
 	nextStep() {

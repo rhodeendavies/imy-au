@@ -1,4 +1,4 @@
-import { autoinject, bindable, bindingMode } from 'aurelia-framework';
+import { autoinject, bindable, bindingMode, computedFrom } from 'aurelia-framework';
 import { ComponentHelper } from 'utils/componentHelper';
 
 @autoinject
@@ -9,10 +9,24 @@ export class RadioButton {
 	@bindable onChange;
 	@bindable label: string = "";
 	@bindable id: string = "";
-	@bindable blocks: boolean = false;
+	@bindable type: RadioButtonTypes = RadioButtonTypes.normal;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("radioButton");
+	}
+
+	attached() {
+		const tempList = this.options.map(x => {
+			const newItem: RadioOption = {
+				name: x.name,
+				subText: x.subText,
+				value: x.value,
+				disabled: x.disabled,
+				selected: x.selected
+			}
+			return newItem;
+		});
+		this.options = tempList;
 	}
 
 	optionSelected(option: RadioOption) {
@@ -32,6 +46,16 @@ export class RadioButton {
 	valueChanged() {
 		this.options.forEach(x => x.selected = x.value == this.value);
 	}
+
+	@computedFrom("type")
+	get Blocks(): boolean {
+		return this.type == RadioButtonTypes.blocks;
+	}
+
+	@computedFrom("type")
+	get Inline(): boolean {
+		return this.type == RadioButtonTypes.inline;
+	}
 }
 
 export class RadioOption {
@@ -40,4 +64,10 @@ export class RadioOption {
 	value: any;
 	disabled?: boolean;
 	selected?: boolean;
+}
+
+enum RadioButtonTypes {
+	normal = "normal",
+	blocks = "blocks",
+	inline= "inline"
 }

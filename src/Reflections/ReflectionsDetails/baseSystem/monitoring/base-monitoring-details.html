@@ -7,36 +7,36 @@
 			<div class="reflection-header">
 				MONITORING: Halfway through the content
 			</div>
-			<div class="reflection-date" if.bind="localParent.FullReflection && monitoringReflection.dateRecorded != null">
-				<span>${monitoringReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+			<div class="reflection-date" if.bind="localParent.FullReflection && MonitoringReflection.dateRecorded != null">
+				<span>${MonitoringReflection.dateRecorded | dateFormat:'d LLLL'}</span>
 				<div class="reflection-date-separator"></div>
-				<span>${monitoringReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+				<span>${MonitoringReflection.dateRecorded | dateFormat:'HH:mm'}</span>
 			</div>
 		</div>
 
-		<div class="reflection-body" if.bind="monitoringReflection == null">
+		<div class="reflection-body" if.bind="MonitoringReflection == null">
 			You haven't completed this reflection yet. You need to finish watching half of this
 			week's videos to do so.
 		</div>
 	
-		<div class="reflection-body" if.bind="monitoringReflection != null">
+		<div class="reflection-body" if.bind="MonitoringReflection != null">
 			<div class="reflection-text" if.bind="localParent.FullReflection">
 				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
-				${monitoringReflection.feeling}/5
+				${MonitoringReflection.feeling}/5
 			</div>
 			<div class="reflection-text">
 				<div class="sub-heading">Current questions or confusion</div>
-				${monitoringReflection.currentQuestions}
+				${MonitoringReflection.currentQuestions}
 			</div>
 			<div class="strats-summary">
 				<div class="sub-heading mb-20">Rating your strategies so far</div>
-				<div class="category-summary" repeat.for="category of monitoringReflection.strategies">
-					<div class="category-icon category-icon-rating saturate-${category.ratingPercentage}">
+				<div class="summary-with-icon" repeat.for="category of MonitoringReflection.strategies">
+					<div class="summary-icon rating-icon saturate-${category.ratingPercentage}">
 						<span>${category.rating}/3</span>
 					</div>
-					<div class="category-text">
-						<div class="category-heading">${category.title}</div>
-						<div class="category-body">${category.strategy}</div>
+					<div class="summary-text">
+						<div class="summary-heading">${category.title}</div>
+						<div class="summary-body">${category.strategy}</div>
 					</div>
 				</div>
 			</div>

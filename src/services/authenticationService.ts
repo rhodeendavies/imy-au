@@ -28,7 +28,7 @@ export class AuthenticationService {
 			this.user = new UserDetails();
 			this.user.authenticated = true;
 			this.user.course = "IMY 110";
-			this.user.lastDailyReflection = DateTime.fromObject({ day: 7, month: 11 }).toJSDate();
+			this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
 			// END OF DATA
 
 			switch (this.Role) {
