@@ -1,3 +1,4 @@
+import { ApiWrapper } from "api";
 import { ApplicationState } from "applicationState";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
@@ -17,19 +18,18 @@ export class AuthenticationService {
 	busy: Busy = new Busy();
 	private user: UserDetails;
 
-	constructor(private router: Router, private appState: ApplicationState, private ea: EventAggregator) { }
+	constructor(
+		private router: Router,
+		private appState: ApplicationState,
+		private ea: EventAggregator,
+		private api: ApiWrapper
+	) { }
 
 	async login(userLogin: UserLogin): Promise<ApiResponse> {
 		try {
 			this.busy.on();
 
-			// DEMO
-			await ComponentHelper.Sleep(100);
-			this.user = new UserDetails();
-			this.user.authenticated = true;
-			this.user.course = "IMY 110";
-			this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
-			// END OF DATA
+			const response = await this.api.post("users/login", userLogin);
 
 			switch (this.Role) {
 				case Roles.Admin:

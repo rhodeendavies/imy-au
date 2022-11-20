@@ -73,10 +73,10 @@ export class Lesson {
 	topics: string[];
 	runTime: number;
 	rating: number;
+	watched: boolean;
 
 	// frontend only
 	ratingPercentage?: number;
-	watched?: boolean;
 	available?: boolean;
 	topicsString?: string;
 

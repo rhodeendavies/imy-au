@@ -1,11 +1,16 @@
 import 'bootstrap';
 import { Aurelia } from 'aurelia-framework';
 import environment from './environment';
+import { ApiWrapper } from 'api';
+import { ApplicationState } from 'applicationState';
 
 export function configure(aurelia: Aurelia): void {
 	aurelia.use
 		.standardConfiguration()
-		.feature('resources');
+		.feature('resources')
+		.plugin('aurelia-configuration')
+		.singleton(ApplicationState)
+		.singleton(ApiWrapper);
 
 	aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
 
