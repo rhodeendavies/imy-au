@@ -6,7 +6,6 @@
 @use "styles/grid-flex";
 
 @use "resources/accordion/accordion";
-@use "resources/checkbox/checkbox";
 @use "resources/checkMark/check-mark";
 @use "resources/iconButton/icon-button";
 @use "resources/inputBox/input-box";
@@ -19,14 +18,20 @@
 @use "resources/radioButton/radio-button";
 @use "resources/ratingBox/rating-box";
 @use "resources/sectionTracker/section-tracker";
+@use "resources/slider/slider";
 @use "resources/toast/toast";
 
 @use "AdminDashboard/admin-dashboard";
-@use "Dashboard/dashboard";
 @use "Dashboard/CourseView/course-view";
-@use "Dashboard/CourseView/SectionView/section-view";
 @use "Dashboard/CourseView/SectionView/LessonView/lesson-view";
-@use "Reflections/reflections";
-@use "Reflections/ReflectionsDetails/reflections-details";
+@use "Dashboard/CourseView/SectionView/section-view";
+@use "Dashboard/dashboard";
 @use "Login/login";
 @use "navbar/navbar";
+@use "Reflections/ReflectionPrompts/evaluation/baseSystem/feelings/base-evaluation-feelings";
+@use "Reflections/ReflectionPrompts/evaluation/evaluation-prompts";
+@use "Reflections/ReflectionPrompts/planning/baseSystem/learningStrategies/base-planning-learning-strategies";
+@use "Reflections/ReflectionPrompts/reflection-prompts";
+@use "Reflections/reflections";
+@use "Reflections/ReflectionsDetails/baseSystem/evaluation/base-evaluation-details";
+@use "Reflections/ReflectionsDetails/reflections-details";

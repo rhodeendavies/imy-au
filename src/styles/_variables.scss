@@ -10,7 +10,7 @@ $Roboto: 'Roboto', sans-serif;
 // colours
 $Black: #000;
 $White: #fff;
-$Error: #ff0000; //TODO: find suitable colour for errors
+$Error: #e75137; //TODO: find suitable colour for errors
 
 $SeaGreen: #0D7F77;
 $DarkGreen: #054A45;
@@ -21,6 +21,7 @@ $DarkGrey: #505050;
 $Orange: #F26430;
 
 $SeaGreen60: rgba($SeaGreen, 0.6);
+$SeaGreen40: rgba($SeaGreen, 0.4);
 
 $LightGrey60: rgba($LightGrey, 0.6);
 

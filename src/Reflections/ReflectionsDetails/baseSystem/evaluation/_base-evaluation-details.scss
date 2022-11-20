@@ -1,1 +1,8 @@
 @use "./src/styles/variables"as *;
+
+.evaluation-feelings {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 170px));
+	gap: 50px;
+	margin: 20px 0;
+}

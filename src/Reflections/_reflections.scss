@@ -26,5 +26,9 @@
 			border-bottom: 1px solid $DarkGrey20;
 			margin: 0;
 		}
+
+		.public-reflections {
+			overflow: auto;
+		}
 	}
 }

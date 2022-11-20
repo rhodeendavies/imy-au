@@ -15,8 +15,6 @@ export class Login {
 		if (this.authService.Authenticated) {
 			this.authService.logout();
 		}
-
-		// this.login();
 	}
 
 	async login() {

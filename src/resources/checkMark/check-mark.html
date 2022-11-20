@@ -1,5 +1,8 @@
 <template>
 	<div class="check-mark-wrapper ${CheckMarkClasses}" click.delegate="toggleCheck($event)">
-		<span if.bind="checked" class="icon">check</span>
+		<div class="check-mark ${CheckMarkClasses}">
+			<span if.bind="checked" class="icon">check</span>
+		</div>
+		<slot></slot>
 	</div>
 </template>

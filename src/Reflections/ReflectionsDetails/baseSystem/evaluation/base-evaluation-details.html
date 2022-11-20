@@ -1,27 +1,46 @@
 <template>
 	<div class="reflections-details">
 		<div class="reflection-header-wrapper">
-			<div class="reflection-header-icon">
+			<div class="circle-icon">
 				<span class="icon">rate_review</span>
 			</div>
 			<div class="reflection-header">
 				EVALUATING: End of the content
 			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && EvaluatingReflection.dateRecorded != null">
+				<span>${EvaluatingReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${EvaluatingReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
 		</div>
-	
-		<div class="reflection-body">
+
+		<div class="reflection-body" if.bind="EvaluatingReflection == null">
+			You haven't completed this reflection yet. You need to finish watching this
+			week's videos to do so.
+		</div>
+
+		<div class="reflection-body" if.bind="EvaluatingReflection != null">
 			<div class="reflection-text">
-				${evaluatingReflection.summary}
+				<div if.bind="localParent.FullReflection">
+					<div class="sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
+					<div class="evaluation-feelings">
+						<rating-box repeat.for="feeling of EvaluatingReflection.feelings">
+							<div slot="header">${feeling.feelingRating}/5</div>
+							<div slot="body">${feeling.feelingDate | dateFormat}</div>
+						</rating-box>
+					</div>
+				</div>
+				${EvaluatingReflection.summary}
 			</div>
 			<div class="strats-summary">
 				<div class="sub-heading mb-20">Rating your strategies this week</div>
-				<div class="category-summary" repeat.for="category of evaluatingReflection.strategies">
-					<div class="category-icon category-icon-rating saturate-${category.ratingPercentage}">
+				<div class="summary-with-icon" repeat.for="category of EvaluatingReflection.strategies">
+					<div class="summary-icon rating-icon saturate-${category.ratingPercentage}">
 						<span>${category.rating}/3</span>
 					</div>
-					<div class="category-text">
-						<div class="category-heading">${category.title}</div>
-						<div class="category-body">${category.strategy}</div>
+					<div class="summary-text">
+						<div class="summary-heading">${category.title}</div>
+						<div class="summary-body">${category.strategy}</div>
 					</div>
 				</div>
 			</div>

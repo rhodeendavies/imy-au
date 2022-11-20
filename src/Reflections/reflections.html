@@ -1,15 +1,17 @@
 <template>
 	<require from="./ReflectionsDetails/reflections-details"></require>
+	<require from="./PublicReflections/public-reflections"></require>
 
 	<div class="page dashboard-page reflections-page">
 		<div class="reflections-section accordion-content">
 			<div class="accordion-content-header">
 				Reflections
 			</div>
-		
+
 			<div class="accordion-sections">
 				<div class="section-wrapper reflection-accordion" repeat.for="section of sections">
-					<accordion only-header.bind="true" click.delegate="selectSection(section)" open.bind="section.open">
+					<accordion only-header.bind="true" click.delegate="selectSection(section)" open.bind="section.open"
+						disabled.bind="!section.available">
 						<div slot="header" class="section-heading-wrapper">
 							<div class="section-heading">
 								WEEK ${section.order}: ${section.name}
@@ -26,10 +28,22 @@
 		<div class="reflections-section">
 			<div class="reflection-section-heading">
 				<div class="main-heading">
-					Week ${sectionSelected.order} reflections
+					Week ${sectionSelected.order} <span if.bind="showPublicReflections">public</span> reflections
+				</div>
+				<div>
+					<button class="btn btn-primary" click.delegate="togglePublicReflections()">
+						<span if.bind="!showPublicReflections">Public reflections</span>
+						<span if.bind="showPublicReflections">Private reflections</span>
+					</button>
 				</div>
 			</div>
-			<reflections-details reflections.bind="selectedReflections"></reflections-details>
+			<public-reflections class="public-reflections"
+				if.bind="showPublicReflections && sectionSelected.baseReflection != null">
+			</public-reflections>
+
+			<reflections-details reflection.bind="sectionSelected.baseReflection"
+				if.bind="!showPublicReflections && sectionSelected.baseReflection != null">
+			</reflections-details>
 		</div>
 	</div>
 

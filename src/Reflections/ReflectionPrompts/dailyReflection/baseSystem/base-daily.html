@@ -1,0 +1,7 @@
+<template>
+	<require from="./feelings/base-feelings"></require>
+	<require from="./learningStrategies/base-learning-strategies"></require>
+
+	<base-feelings if.bind="localParent.ShowFeelings"></base-feelings>
+	<base-learning-strategies if.bind="localParent.ShowLearningStrategies"></base-learning-strategies>
+</template>

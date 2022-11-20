@@ -3,7 +3,6 @@ import { FrameworkConfiguration } from 'aurelia-framework';
 export function configure(config: FrameworkConfiguration): void {
 	config.globalResources([
 		'./accordion/accordion',
-		'./checkbox/checkbox',
 		'./checkMark/check-mark',
 		'./iconButton/icon-button',
 		'./inputBox/input-box',
@@ -16,5 +15,6 @@ export function configure(config: FrameworkConfiguration): void {
 		'./radioButton/radio-button',
 		'./ratingBox/rating-box',
 		'./toast/toast',
+		'./valueConverters/dateFormat'
 	]);
 }

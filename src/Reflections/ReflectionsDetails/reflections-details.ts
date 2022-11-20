@@ -8,6 +8,7 @@ import { ReflectionSections, Systems } from "utils/enums";
 export class ReflectionsDetails {
 
 	@bindable reflection: BaseSystemReflection;
+	@bindable dashboardVersion: boolean = false;
 	activeSection: number = ReflectionSections.Planning;
 
 	constructor(private localParent: Reflections, private authService: AuthenticationService) {}

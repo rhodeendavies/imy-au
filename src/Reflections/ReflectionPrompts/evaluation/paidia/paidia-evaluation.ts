@@ -1,6 +1,6 @@
 import { autoinject } from "aurelia-framework";
 
 @autoinject
-export class BaseEvaluation {
+export class PaidiaEvaluation {
 
 }

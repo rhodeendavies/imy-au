@@ -5,12 +5,16 @@ export class UserDetails {
 	role: Roles;
 	authenticated: boolean;
 	system: Systems;
+	course: string;
+	lastDailyReflection: Date;
 
 	constructor() {
 		this.studentNumber = "";
 		this.role = Roles.Student;
 		this.authenticated = false;
 		this.system = Systems.BaseSystem;
+		this.course = "";
+		this.lastDailyReflection = null;
 	}
 }
 

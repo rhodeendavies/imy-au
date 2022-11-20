@@ -1,3 +1,9 @@
 <template>
+	<require from="./feelings/base-planning-feelings"></require>
+	<require from="./strengths/base-planning-strengths"></require>
+	<require from="./learningStrategies/base-planning-learning-strategies"></require>
 
+	<base-planning-feelings if.bind="localParent.ShowFeelings"></base-planning-feelings>
+	<base-planning-strengths if.bind="localParent.ShowStrengths"></base-planning-strengths>
+	<base-planning-learning-strategies if.bind="localParent.ShowLearningStrategies"></base-planning-learning-strategies>
 </template>

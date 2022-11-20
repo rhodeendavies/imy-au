@@ -22,7 +22,9 @@
 				</div>
 			</div>
 			
-			<reflections-details reflection.bind="currentReflection"></reflections-details>
+			<reflections-details reflection.bind="currentReflection" dashboard-version.bind="true"
+				if.bind="currentReflection != null">
+			</reflections-details>
 		</div>
 	</div>
 </template>

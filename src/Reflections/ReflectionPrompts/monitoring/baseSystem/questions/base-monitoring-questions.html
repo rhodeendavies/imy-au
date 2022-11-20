@@ -1,0 +1,15 @@
+<template>
+	<div>
+		<p class="reflection-question mb-30">
+			What questions or confusion do you have about this week's content so far, and how do you plan to address this?
+		</p>
+
+		<input-box type="textarea" value.bind="localParent.model.currentQuestions" valid.bind="valid"></input-box>
+	</div>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!valid">
+			Next
+		</button>
+	</div>
+</template>

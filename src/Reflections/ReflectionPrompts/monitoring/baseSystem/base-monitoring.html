@@ -1,3 +1,9 @@
 <template>
-	
+	<require from="./feelings/base-monitoring-feelings"></require>
+	<require from="./questions/base-monitoring-questions"></require>
+	<require from="./learningStrategies/base-monitoring-learning-strategies"></require>
+
+	<base-monitoring-feelings if.bind="localParent.ShowFeelings"></base-monitoring-feelings>
+	<base-monitoring-questions if.bind="localParent.ShowQuestions"></base-monitoring-questions>
+	<base-monitoring-learning-strategies if.bind="localParent.ShowLearningStrategies"></base-monitoring-learning-strategies>
 </template>

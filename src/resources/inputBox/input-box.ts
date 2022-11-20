@@ -5,22 +5,27 @@ import { ComponentHelper } from 'utils/componentHelper';
 export class InputBox {
 
 	@bindable type: string = InputTypes.text;
+
 	@bindable label: string = "";
 	@bindable subLabel: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) value: string;
 	@bindable placeholder: string = "";
-	@bindable valid: boolean = true;
-	@bindable required: boolean = true;
+	@bindable({ defaultBindingMode: bindingMode.twoWay }) valid: boolean = true;
 	@bindable disabled: boolean = false;
+	@bindable min: number = 50;
+	@bindable max: number = 500;
+
 	@bindable onFocus;
 	@bindable onBlur;
 	@bindable onChange;
 	@bindable onEnter;
+
 	@bindable id: string = "";
 	@bindable inputElement: HTMLInputElement = null;
 
 	showPasswordToggle: boolean = false;
 	initDone: boolean = false;
+	heightTest: string = "";
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("inputBox");
@@ -29,6 +34,7 @@ export class InputBox {
 	attached() {
 		this.initDone = false;
 		this.setInputElement();
+		this.heightTest = new Array(Math.ceil(this.max / 2)).join("# ");
 
 		setTimeout(() => {
 			this.initDone = true;
@@ -63,6 +69,10 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
+		if (this.type == InputTypes.large) {
+			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+		}
+		
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
@@ -85,14 +95,6 @@ export class InputBox {
 		}
 	}
 
-	@computedFrom("value")
-	get ErrorText(): string {
-		if (ComponentHelper.NullOrEmpty(this.value) && this.required) {
-			return "Required";
-		}
-		return "";
-	}
-
 	@computedFrom("label")
 	get ShowLabel(): boolean {
 		return !ComponentHelper.NullOrEmpty(this.label);
@@ -106,12 +108,23 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.type == InputTypes.large;
 	}
 
 	@computedFrom("type", "showPasswordToggle")
 	get ShowPassword(): boolean {
 		return this.type == InputTypes.password;
+	}
+
+	@computedFrom("type")
+	get ShowTextarea(): boolean {
+		return this.type == InputTypes.textarea;
+	}
+
+	@computedFrom("value.length")
+	get Valid(): boolean {
+		this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+		return this.valid;
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -120,17 +133,21 @@ export class InputBox {
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
-	@computedFrom("disabled")
+	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
 	get InputClasses(): string {
 		let classes = "";
 		if (this.disabled) classes += " disable-input";
-		if (!this.valid) classes += " invalid-input";
 		if (this.ShowPassword) classes += " password-input";
+		if (this.type == InputTypes.large) classes += " large-input";
+		if (this.type == InputTypes.large && !this.valid) classes += " large-input-invalid";
+		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
 	}
 }
 
 enum InputTypes {
 	text = "text",
+	textarea = "textarea",
+	large = "large",
 	password = "password"
 }
