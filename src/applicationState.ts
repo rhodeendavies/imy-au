@@ -250,8 +250,8 @@ export class ApplicationState {
 			course: null,
 			totalRunTime: 120,
 			planningDone: true,
-			monitoringDone: true,
-			evaluationDone: true,
+			monitoringDone: false,
+			evaluationDone: false,
 			baseReflection: this.createDemoReflectionData(true, false, false),
 			publicBaseReflections: [
 				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),

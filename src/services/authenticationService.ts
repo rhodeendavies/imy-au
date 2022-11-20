@@ -29,7 +29,15 @@ export class AuthenticationService {
 		try {
 			this.busy.on();
 
-			const response = await this.api.post("users/login", userLogin);
+			// DEMO
+			await ComponentHelper.Sleep(100);
+			this.user = new UserDetails();
+			this.user.authenticated = true;
+			this.user.course = "IMY 110";
+			this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
+			// END OF DATA
+			
+			// const response = await this.api.post("users/login", userLogin);
 
 			switch (this.Role) {
 				case Roles.Admin:
@@ -37,7 +45,6 @@ export class AuthenticationService {
 					break;
 				case Roles.Student:
 					this.router.navigate(Routes.Dashboard);
-					// this.router.navigate(`${Routes.Dashboard}/${Routes.ModuleContent}/8`);
 					break
 				default:
 					throw "Invalid login";

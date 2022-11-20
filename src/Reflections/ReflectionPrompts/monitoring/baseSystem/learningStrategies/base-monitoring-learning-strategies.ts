@@ -47,6 +47,6 @@ export class BaseMonitoringLearningStrategies {
 	}
 
 	get AllowSubmit(): boolean {
-		return this.localParent.model.strategies != null && this.localParent.model.strategies.every(x => x.rating != null);
+		return this.localParent.model.strategies != null && this.localParent.model.strategies.every(x => x.rating != null && x.valid);
 	}
 }

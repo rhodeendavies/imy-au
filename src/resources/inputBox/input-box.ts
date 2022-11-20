@@ -69,6 +69,10 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
+		if (this.type == InputTypes.large) {
+			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+		}
+		
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
@@ -129,12 +133,13 @@ export class InputBox {
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
-	@computedFrom("disabled", "type", "showPasswordToggle")
+	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
 	get InputClasses(): string {
 		let classes = "";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
 		if (this.type == InputTypes.large) classes += " large-input";
+		if (this.type == InputTypes.large && !this.valid) classes += " large-input-invalid";
 		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
 	}

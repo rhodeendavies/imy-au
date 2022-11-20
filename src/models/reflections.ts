@@ -94,6 +94,7 @@ export class Strategy {
 	ratingPercentage?: number;
 	icon?: string;
 	options?: RadioOption[];
+	valid?: boolean;
 
 	constructor() {
 		this.title = null;

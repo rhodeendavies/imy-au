@@ -1,16 +1,6 @@
 @use "./src/styles/variables" as *;
 
 .input-wrapper {
-	&.invalid-input {
-		.input-box {
-			outline: 2px solid $Error !important;
-		}
-
-		.input-error {
-			color: $Error;
-		}
-	}
-
 	&.disable-input {
 		.input-box-wrapper {
 			.input-box {
@@ -29,6 +19,12 @@
 	}
 
 	&.large-input {
+		&.large-input-invalid {
+			.input-box {
+				outline: 2px solid $Error !important;
+			}
+		}
+
 		.input-box {
 			input {
 				font-size: 30px !important;

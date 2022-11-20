@@ -46,7 +46,6 @@ export class EvaluationPrompts extends SectionTrackerParent {
 
 	@computedFrom("activeSection")
 	get ShowTopics(): boolean {
-		log.debug("this.activeSection", this.activeSection)
 		return this.activeSection == EvaluationSections.Topics;
 	}
 
