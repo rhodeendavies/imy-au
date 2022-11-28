@@ -1,14 +1,19 @@
-import { EventAggregator } from "aurelia-event-aggregator";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { DateTime } from "luxon";
 import { Lesson, Section } from "models/course";
 import { BaseSystemEvaluating, BaseSystemReflection, Strategy } from "models/reflections";
+import { Busy } from "resources/busy/busy";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
+import { AuthenticationService } from "services/authenticationService";
+import { CoursesService } from "services/coursesService";
+import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
 import { StrategyCategories } from "utils/enums";
 import { LessonRatedEvent } from "utils/eventModels";
+import { log } from "utils/log";
 
 @autoinject
 export class ApplicationState {
@@ -19,16 +24,20 @@ export class ApplicationState {
 	private monitoringModal: Modal;
 	private evaluationModal: Modal;
 	private sections: Section[];
+	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
 	private lessonCompleted: Lesson;
 	private sectionReflecting: Section;
+	private loginSub: Subscription;
 
 	ratingSelected: number = null;
 
 	watchedLesson: string;
 	reflectionSection: string;
 
-	constructor(private ea: EventAggregator) { }
+	constructor(private ea: EventAggregator, private courseApi: CoursesService, private sectionApi: SectionsService, private authService: AuthenticationService) {
+		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
+	}
 
 	setToast(_toast: Toast) {
 		this.toast = _toast;
@@ -142,9 +151,9 @@ export class ApplicationState {
 		this.determineReflectionToShow();
 	}
 
-	determineReflectionToShow() {
+	async determineReflectionToShow() {
 		if (this.sections == null || this.sections.length == 0) {
-			this.getSections();
+			await this.getSections();
 			if (this.sections == null || this.sections.length == 0 || this.currentSection == null) return;
 		}
 
@@ -189,24 +198,42 @@ export class ApplicationState {
 		}
 	}
 
-	getSections(): Section[] {
+	async getSections(): Promise<Section[]> {
+		if (this.sectionsBusy.Active) {
+			await ComponentHelper.Sleep(500);
+			return this.getSections();
+		}
+
 		if (this.sections == null || this.sections.length == 0) {
-			// TODO: replace with call
-			[this.sections, this.currentSection] = this.createDemoData();
+			this.sectionsBusy.on();
+			log.debug("fetching sections");
+			this.sections = await this.courseApi.getCourseSections(this.authService.CourseId);
+			const now = DateTime.now();
+			this.currentSection = this.sections.find(x => DateTime.fromJSDate(x.startDate).valueOf() <= now.valueOf() && DateTime.fromJSDate(x.endDate).valueOf() > now.valueOf());
+			for (let i = 0; i < this.sections.length; i++) {
+				const section = this.sections[i];
+				log.debug("fetching lessons");
+				section.lessons = await this.sectionApi.getSectionLessons(section.id);
+				section.lessons.forEach(x => x.section = section);
+
+				// TODO: remove
+				section.baseReflection = this.createDemoReflectionData();
+			}
+			this.sectionsBusy.off();
 		}
 		return this.sections;
 	}
 
-	getCurrentSection(): Section {
+	async getCurrentSection(): Promise<Section> {
 		if (this.currentSection == null) {
-			this.getSections();
+			await this.getSections();
 		}
 		return this.currentSection;
 	}
 
-	getCurrentReflection(): BaseSystemReflection {
+	async getCurrentReflection(): Promise<BaseSystemReflection> {
 		if (this.currentSection == null) {
-			this.getSections();
+			await this.getSections();
 		}
 		return this.currentSection.baseReflection;
 	}
@@ -216,83 +243,10 @@ export class ApplicationState {
 	lessonOrder: number = 1;
 	reflectionId: number = 1;
 
-	private createDemoData(): [Section[], Section] {
-		const sections: Section[] = [{
-			id: 0,
-			name: "Introduction to web",
-			order: 1,
-			startDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate(),
-			endDate: DateTime.fromObject({ day: 16, month: 10 }).toJSDate(),
-			course: null,
-			totalRunTime: 120,
-			planningDone: true,
-			monitoringDone: false,
-			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(),
-			publicBaseReflections: [
-				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
-				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
-				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation()
-			],
-			lessons: [
-				this.createDemoLesson("Block and inline elements", true),
-				this.createDemoLesson("Images - part 1", true),
-				this.createDemoLesson("Images - part 2", true),
-				this.createDemoLesson("Images - examples"),
-				this.createDemoLesson("Video and audio")
-			]
-		}, {
-			id: 1,
-			name: "Introduction to HTML",
-			order: 2,
-			startDate: DateTime.fromObject({ day: 17, month: 10 }).toJSDate(),
-			endDate: DateTime.fromObject({ day: 30, month: 10 }).toJSDate(),
-			course: null,
-			totalRunTime: 120,
-			planningDone: true,
-			monitoringDone: false,
-			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(true, false, false),
-			publicBaseReflections: [
-				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
-				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(false),
-				this.createDemoBaseEvaluation()
-			],
-			lessons: [
-				this.createDemoLesson("Block and inline elements", true),
-				this.createDemoLesson("Images - part 1", true),
-				this.createDemoLesson("Images - part 2", true),
-				this.createDemoLesson("Images - examples", true),
-				this.createDemoLesson("Video and audio", true)
-			]
-		}, {
-			id: 2,
-			name: "HTML images, video & audio",
-			order: 3,
-			startDate: DateTime.fromObject({ day: 31, month: 10 }).toJSDate(),
-			endDate: DateTime.fromObject({ day: 13, month: 11 }).toJSDate(),
-			course: null,
-			totalRunTime: 120,
-			planningDone: false,
-			monitoringDone: false,
-			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(false, false, false),
-			publicBaseReflections: [],
-			lessons: [
-				this.createDemoLesson("Block and inline elements"),
-				this.createDemoLesson("Images - part 1"),
-				this.createDemoLesson("Images - part 2"),
-				this.createDemoLesson("Images - examples"),
-				this.createDemoLesson("Video and audio")
-			]
-		}];
-
-		return [sections, sections[1]]
-	}
-
 	createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
 		return {
 			id: this.lessonOrder,
+			engagementId: 0,
 			name: name,
 			order: this.lessonOrder++,
 			section: null,
@@ -300,7 +254,7 @@ export class ApplicationState {
 			resources: "",
 			topics: [""],
 			watched: watched,
-			runTime: 120,
+			videoLength: 120,
 			rating: watched ? rating : null
 		}
 	}

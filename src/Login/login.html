@@ -8,10 +8,10 @@
 			</div>
 			<div class="login-box">
 				<div class="login-input">
-					<input-box value.bind="studentNumber" label="Student number"></input-box>
+					<input-box value.bind="loginModel.studentNumber" label="Student number"></input-box>
 				</div>
 				<div class="login-input">
-					<input-box value.bind="password" label="Password" type="password"></input-box>
+					<input-box value.bind="loginModel.password" label="Password" type="password"></input-box>
 				</div>
 
 				<message if.bind="ShowError">

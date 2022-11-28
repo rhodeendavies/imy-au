@@ -9,7 +9,7 @@ import { AuthenticationService } from "./authenticationService";
 export class AuthorizeStep {
 	constructor(private authService: AuthenticationService) {}
 
-	run(navigationInstruction: NavigationInstruction, next: Next) {
+	async run(navigationInstruction: NavigationInstruction, next: Next) {
 		log.debug("navigating...");
 		
 		const roles = [Roles.Admin, Roles.Student];
@@ -17,7 +17,7 @@ export class AuthorizeStep {
 
 		for (let i = 0; i < rolesLength; i++) {
 			const x = roles[i];
-			if (!this.validateRoute(navigationInstruction, x)) {
+			if (!(await this.validateRoute(navigationInstruction, x))) {
 				log.debug(`not authorized; redirecting`);
 				return next.cancel(new Redirect(Routes.Login));
 			}
@@ -27,9 +27,10 @@ export class AuthorizeStep {
 		return next();
 	}
 
-	validateRoute(navigationInstruction: NavigationInstruction, role: Roles) {
+	async validateRoute(navigationInstruction: NavigationInstruction, role: Roles): Promise<boolean> {
 		const routeRole = navigationInstruction.getAllInstructions().some(x => x.config.settings.roles.includes(role));
 		const requiresAuthentication = navigationInstruction.getAllInstructions().some(x => x.config.settings.authenticated);
-		return (!routeRole || this.authService.Role == role) && (!requiresAuthentication || this.authService.Authenticated)
+		const authenticated = await this.authService.Authenticated();
+		return (!routeRole || this.authService.Role == role) && (!requiresAuthentication || authenticated)
 	}
 }

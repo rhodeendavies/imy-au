@@ -1,16 +1,16 @@
-import { ApiWrapper } from "api";
-import { ApplicationState } from "applicationState";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
-import { DateTime } from "luxon";
 import { ApiResponse } from "models/apiResponse";
+import { Course } from "models/course";
 import { UserDetails, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events, Routes } from "utils/constants";
 import { Roles, Systems } from "utils/enums";
 import { log } from "utils/log";
+import { CoursesService } from "./coursesService";
+import { UsersService } from "./usersService";
 
 @autoinject
 export class AuthenticationService {
@@ -20,9 +20,9 @@ export class AuthenticationService {
 
 	constructor(
 		private router: Router,
-		private appState: ApplicationState,
 		private ea: EventAggregator,
-		private api: ApiWrapper
+		private usersApi: UsersService,
+		private courseApi: CoursesService
 	) { }
 
 	async login(userLogin: UserLogin): Promise<ApiResponse> {
@@ -30,20 +30,24 @@ export class AuthenticationService {
 			this.busy.on();
 
 			// DEMO
-			await ComponentHelper.Sleep(100);
-			this.user = new UserDetails();
-			this.user.authenticated = true;
-			this.user.course = "IMY 110";
-			this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
+			// await ComponentHelper.Sleep(100);
+			// this.user = new UserDetails();
+			// this.user.authenticated = true;
+			// this.user.course = "IMY 110";
+			// this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
 			// END OF DATA
 			
-			// const response = await this.api.post("users/login", userLogin);
+			this.user = await this.usersApi.login(userLogin);
+			this.user.system = Systems.BaseSystem;
 
+			let course: Course = null;
 			switch (this.Role) {
 				case Roles.Admin:
 					this.router.navigate(Routes.AdminDash);
 					break;
 				case Roles.Student:
+					course = await this.courseApi.getCourse(this.user.courseId);
+					this.user.course = course.name;
 					this.router.navigate(Routes.Dashboard);
 					break
 				default:
@@ -51,9 +55,9 @@ export class AuthenticationService {
 			}
 
 			this.ea.publish(Events.Login);
-			this.appState.determineReflectionToShow();
 			return new ApiResponse(true, "");
 		} catch (error) {
+			log.error(error);
 			return new ApiResponse(false, "An error occurred");
 		} finally {
 			this.busy.off();
@@ -78,8 +82,10 @@ export class AuthenticationService {
 		}
 	}
 
-	get Authenticated(): boolean {
-		return this.user !== null && this.user !== undefined && this.user.authenticated;
+	async Authenticated(): Promise<boolean> {
+		if (this.user == null || this.user == undefined) return false;
+		const authenticated = await this.usersApi.authenticate();
+		return authenticated;
 	}
 
 	get System(): Systems {
@@ -88,6 +94,10 @@ export class AuthenticationService {
 
 	get Course(): string {
 		return this.user !== null && this.user !== undefined && this.user.course;
+	}
+
+	get CourseId(): number {
+		return this.user !== null && this.user !== undefined && this.user.courseId;
 	}
 
 	get LastDailyReflection(): Date {

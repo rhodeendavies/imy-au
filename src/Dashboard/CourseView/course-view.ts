@@ -4,38 +4,50 @@ import { Lesson, Section } from "models/course";
 import { Routes } from "utils/constants";
 import { DateTime, Interval } from "luxon";
 import { ApplicationState } from "applicationState";
+import { log } from "utils/log";
+import { Busy } from "resources/busy/busy";
+import { AuthenticationService } from "services/authenticationService";
 
 @autoinject
 export class CourseView {
 
-	courseHeading: string = "IMY 110: Markup Languages";
+	courseHeading: string = "";
 	lessonSelected: Lesson;
 	contentId: number;
 	sections: Section[];
 	currentSection: Section;
+	busy: Busy = new Busy();
 
-	constructor(private localParent: Dashboard, private appState: ApplicationState) { }
+	constructor(private localParent: Dashboard, private appState: ApplicationState, private authService: AuthenticationService) { }
 
 	activate(params) {
 		this.contentId = params.contentId;
 	}
 
-	attached() {
-		this.sections = this.appState.getSections();
-		this.currentSection = this.appState.getCurrentSection();
+	async attached() {
+		try {
+			this.busy.on();
+			this.sections = await this.appState.getSections();
+			this.currentSection = await this.appState.getCurrentSection();
+			this.courseHeading = this.authService.Course;
 
-		this.initData();
+			this.initData();
 
-		if (this.contentId != null) {
-			this.sections.some(section => section.lessons.some(lesson => {
-				if (lesson.id == this.contentId) {
-					this.selectLesson(lesson);
-					section.open = true;
-					return true;
-				}
-			}));
-		} else {
-			this.currentSection.open = true;
+			if (this.contentId != null) {
+				this.sections.some(section => section.lessons.some(lesson => {
+					if (lesson.id == this.contentId) {
+						this.selectLesson(lesson);
+						section.open = true;
+						return true;
+					}
+				}));
+			} else {
+				this.currentSection.open = true;
+			}
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.busy.off();
 		}
 	}
 

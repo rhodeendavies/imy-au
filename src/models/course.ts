@@ -24,7 +24,6 @@ export class Section {
 	order: number;
 	startDate: Date;
 	endDate: Date;
-	course: Course;
 	lessons: Lesson[];
 	totalRunTime: number;
 	planningDone: boolean;
@@ -46,7 +45,6 @@ export class Section {
 		this.order = 0;
 		this.startDate = null;
 		this.endDate = null;
-		this.course = null;
 		this.lessons = [];
 		this.totalRunTime = 0;
 		this.planningDone = false;
@@ -65,13 +63,14 @@ export class Section {
 
 export class Lesson {
 	id: number;
+	engagementId: number;
 	name: string;
 	order: number;
 	section: Section;
 	video: string;
 	resources: string;
 	topics: string[];
-	runTime: number;
+	videoLength: number;
 	rating: number;
 	watched: boolean;
 

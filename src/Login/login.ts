@@ -1,7 +1,9 @@
+import { AureliaConfiguration } from "aurelia-configuration";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { ApiResponse } from "models/apiResponse";
 import { UserLogin } from "models/userDetails";
 import { AuthenticationService } from "services/authenticationService";
+import environment from '../environment'
 
 @autoinject
 export class Login {
@@ -9,12 +11,14 @@ export class Login {
 	loginModel: UserLogin = new UserLogin();
 	response: ApiResponse;
 
-	constructor(private authService: AuthenticationService) { }
+	constructor(private authService: AuthenticationService, private aureliaConfig: AureliaConfiguration) { }
 
-	attached() {
-		if (this.authService.Authenticated) {
+	async attached() {
+		if (await this.authService.Authenticated()) {
 			this.authService.logout();
 		}
+
+		this.loginModel = environment.loginModel;
 	}
 
 	async login() {

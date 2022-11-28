@@ -24,8 +24,8 @@ export class Navbar {
 		this.loginSub.dispose();
 	}
 
-	createRoutes() {
-		if (this.router.navigation == null || !this.authService.Authenticated) return [];
+	async createRoutes() {
+		if (this.router.navigation == null || !(await this.authService.Authenticated())) return [];
 		this.routes = this.router.navigation.filter(x =>
 			x.settings.navbar && x.settings.roles.includes(this.authService.Role));
 	}

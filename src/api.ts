@@ -2,18 +2,21 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
 import { log } from 'utils/log';
 import { AureliaConfiguration } from 'aurelia-configuration';
+import environment from 'environment';
+import { DateHelper } from 'utils/dateHelper';
 
 @autoinject
 export class ApiWrapper {
 	constructor(public client: HttpClient, private aureliaConfig: AureliaConfiguration) {
 		client.configure(config => {
 			config
-			.withBaseUrl(this.aureliaConfig.get("api.baseUrl"))
+			.withBaseUrl(environment.api.baseUrl)
 			.withDefaults({
+				credentials: "include",
 				headers: {
 					ContentType: "application/json",
 					Accept: '*/*',
-					Host: "http://localhost:3000",
+					Host: "http://localhost:3000"
 				}
 			})
 			.rejectErrorResponses();
@@ -33,13 +36,13 @@ export class ApiWrapper {
 			throw new Error("Request did not indicate success");
 		}
 
-		return response;
+		const text = await response.text();
+		return JSON.parse(text, this.dateTimeReceiver);
 	}
 
 	async post(url: string, body: any): Promise<any> {
 		let response: Response;
 		try {
-			log.debug("body", JSON.stringify(body))
 			response = await this.client.fetch(this.buildUrl(url), {
 				method: "POST",
 				body: JSON.stringify(body)
@@ -53,10 +56,22 @@ export class ApiWrapper {
 			throw new Error("Request did not indicate success");
 		}
 
-		return response;
+		const text = await response.text();
+		return JSON.parse(text, this.dateTimeReceiver);
 	}
 
-	buildUrl(apiMethod: string): string {
+	private buildUrl(apiMethod: string): string {
 		return `/api/${apiMethod}`;
+	}
+
+	private dateTimeReceiver = function(key, value) {
+		let a;
+		if (typeof value === 'string') {
+			a = /\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/.exec(value);
+			if (a) {
+				return DateHelper.DateFromString(a[0], "yyyy-LL-dd HH:mm:ss");
+			}
+		}
+		return value;
 	}
 }
