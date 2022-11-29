@@ -9,8 +9,10 @@ import { Events } from 'utils/constants';
 export class Navbar {
 
 	loginSub: Subscription;
+	logoutSub: Subscription;
 	routes: NavModel[];
 	logoutModal: Modal;
+	showNavBar: boolean = false;
 
 	constructor(private router: Router, private authService: AuthenticationService, private ea: EventAggregator) {
 
@@ -18,14 +20,17 @@ export class Navbar {
 
 	attached() {
 		this.loginSub = this.ea.subscribe(Events.Login, () => this.createRoutes());
+		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.createRoutes());
 	}
 
 	detached() {
 		this.loginSub.dispose();
+		this.logoutSub.dispose();
 	}
 
 	async createRoutes() {
-		if (this.router.navigation == null || !(await this.authService.Authenticated())) return [];
+		this.showNavBar = this.router.navigation != null && (await this.authService.Authenticated());
+		if (!this.showNavBar) return [];
 		this.routes = this.router.navigation.filter(x =>
 			x.settings.navbar && x.settings.roles.includes(this.authService.Role));
 	}
@@ -37,6 +42,7 @@ export class Navbar {
 
 	async logout() {
 		await this.authService.logout();
+		this.toggleLogoutModal();
 	}
 
 	toggleLogoutModal() {

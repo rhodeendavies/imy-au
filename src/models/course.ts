@@ -66,11 +66,12 @@ export class Lesson {
 	engagementId: number;
 	name: string;
 	order: number;
-	section: Section;
-	video: string;
-	resources: string;
-	topics: string[];
+	resourcesUrl: string;
 	videoLength: number;
+	videoUrl: string;
+
+	section: Section;
+	topics: string[];
 	rating: number;
 	watched: boolean;
 
@@ -84,8 +85,8 @@ export class Lesson {
 		this.name = "";
 		this.order = 0;
 		this.section = null;
-		this.video = "";
-		this.resources = "";
+		this.videoUrl = "";
+		this.resourcesUrl = "";
 		this.topics = [];
 		this.watched = false;
 		this.rating = null;

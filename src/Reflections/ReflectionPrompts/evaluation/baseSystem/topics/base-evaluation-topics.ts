@@ -27,6 +27,12 @@ export class BaseEvaluationTopics {
 			this.appState.createDemoLesson("Video and audio", true, 2)
 		];
 
+		this.lessons[0].topics = ["Topic #1", "Topic #2", "Topic #3"]
+		this.lessons[1].topics = ["Topic #2"]
+		this.lessons[2].topics = ["Topic #1", "Topic #2", "Topic #4"]
+		this.lessons[3].topics = ["Topic #2", "Topic #4", "Topic #5"]
+		this.lessons[4].topics = ["Topic #4", "Topic #5"]
+		
 		this.initData();
 	}
 
@@ -38,6 +44,7 @@ export class BaseEvaluationTopics {
 	}
 
 	nextStep() {
+		if (!this.AllowNext) return;
 		this.localParent.nextStep();
 	}
 

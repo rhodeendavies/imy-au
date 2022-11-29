@@ -57,6 +57,13 @@
 				height: 100%;
 				width: 100%;
 				background-color: $LightGrey;
+
+				.lesson-video-component {
+					max-height: 100%;
+					max-width: 100%;
+					display: flex;
+					margin: auto;
+				}
 			}
 		}
 

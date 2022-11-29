@@ -7,11 +7,11 @@ import { AuthenticationService } from "./authenticationService";
 
 @autoinject
 export class AuthorizeStep {
-	constructor(private authService: AuthenticationService) {}
+	constructor(private authService: AuthenticationService) { }
 
 	async run(navigationInstruction: NavigationInstruction, next: Next) {
 		log.debug("navigating...");
-		
+
 		const roles = [Roles.Admin, Roles.Student];
 		const rolesLength = roles.length;
 

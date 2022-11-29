@@ -17,6 +17,7 @@ export class CourseView {
 	sections: Section[];
 	currentSection: Section;
 	busy: Busy = new Busy();
+	initDone: boolean = false;
 
 	constructor(private localParent: Dashboard, private appState: ApplicationState, private authService: AuthenticationService) { }
 
@@ -27,6 +28,7 @@ export class CourseView {
 	async attached() {
 		try {
 			this.busy.on();
+			this.initDone = false;
 			this.sections = await this.appState.getSections();
 			this.currentSection = await this.appState.getCurrentSection();
 			this.courseHeading = this.authService.Course;
@@ -47,6 +49,7 @@ export class CourseView {
 		} catch (error) {
 			log.error(error);
 		} finally {
+			this.initDone = true;
 			this.busy.off();
 		}
 	}
@@ -73,6 +76,11 @@ export class CourseView {
 		this.lessonSelected = lesson;
 		this.localParent.lessonOpen = true;
 		this.localParent.navigate(`${Routes.CourseContent}/${lesson.id}`);
+	}
+
+	downloadLesson(lesson: Lesson) {
+		this.appState.triggerToast("Downloading...")
+		window.open(lesson.resourcesUrl, '_blank').focus();
 	}
 
 	@computedFrom("localParent.lessonOpen")

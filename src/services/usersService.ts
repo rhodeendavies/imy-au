@@ -17,6 +17,15 @@ export class UsersService {
 		}
 	}
 
+	async logout(userId: number): Promise<void> {
+		try {
+			return await this.api.post(`users/${userId}/logout`, {});
+		} catch (error) {
+			log.error(error);
+			return null;
+		}
+	}
+
 	async authenticate(): Promise<boolean> {
 		try {
 			return await this.api.get("courses/1") != null;

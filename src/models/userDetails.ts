@@ -1,7 +1,7 @@
 import { Roles, Systems } from "utils/enums";
 
 export class UserDetails {
-	id: string;
+	id: number;
 	username: string;
 	studentNumber: string;
 	role: Roles;

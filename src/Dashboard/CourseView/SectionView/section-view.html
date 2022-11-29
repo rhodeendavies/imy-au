@@ -8,7 +8,7 @@
 					WEEK ${section.order}: ${section.name}
 				</div>
 				<div>
-					${section.watchedVideos}/${section.totalVideos} videos | ${section.totalRunTime} min | ${section.dateString}
+					${section.watchedVideos}/${section.totalVideos} videos | ${section.totalRunTime | seconds} | ${section.dateString}
 				</div>
 			</div>
 			<div slot="body">
@@ -24,7 +24,7 @@
 						</div>
 						<div class="section-runtime">
 							<span class="icon">play_circle</span>
-							<span>${lesson.videoLength} min</span>
+							<span>${lesson.videoLength | seconds}</span>
 						</div>
 					</div>
 					

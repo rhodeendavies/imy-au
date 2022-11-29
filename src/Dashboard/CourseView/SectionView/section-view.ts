@@ -59,8 +59,8 @@ export class SectionView {
 
 	downloadLesson(lesson: Lesson, event: Event) {
 		event.stopPropagation();
-
 		this.appState.triggerToast("Downloading...")
+		window.open(lesson.resourcesUrl, '_blank').focus();
 	}
 
 	@computedFrom("localParent.lessonSelected.id")

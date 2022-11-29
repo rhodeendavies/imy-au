@@ -206,18 +206,27 @@ export class ApplicationState {
 
 		if (this.sections == null || this.sections.length == 0) {
 			this.sectionsBusy.on();
-			log.debug("fetching sections");
 			this.sections = await this.courseApi.getCourseSections(this.authService.CourseId);
 			const now = DateTime.now();
 			this.currentSection = this.sections.find(x => DateTime.fromJSDate(x.startDate).valueOf() <= now.valueOf() && DateTime.fromJSDate(x.endDate).valueOf() > now.valueOf());
 			for (let i = 0; i < this.sections.length; i++) {
 				const section = this.sections[i];
-				log.debug("fetching lessons");
 				section.lessons = await this.sectionApi.getSectionLessons(section.id);
 				section.lessons.forEach(x => x.section = section);
 
 				// TODO: remove
 				section.baseReflection = this.createDemoReflectionData();
+				section.publicBaseReflections = [
+					this.createDemoBaseEvaluation(),
+					this.createDemoBaseEvaluation(false),
+					this.createDemoBaseEvaluation(false),
+					this.createDemoBaseEvaluation(),
+					this.createDemoBaseEvaluation(),
+					this.createDemoBaseEvaluation(false),
+					this.createDemoBaseEvaluation(),
+				]
+				section.planningDone = true;
+				section.planningDone = true;
 			}
 			this.sectionsBusy.off();
 		}
@@ -250,8 +259,8 @@ export class ApplicationState {
 			name: name,
 			order: this.lessonOrder++,
 			section: null,
-			video: "",
-			resources: "",
+			videoUrl: "",
+			resourcesUrl: "",
 			topics: [""],
 			watched: watched,
 			videoLength: 120,

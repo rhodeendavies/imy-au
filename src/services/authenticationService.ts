@@ -69,8 +69,10 @@ export class AuthenticationService {
 			this.busy.on();
 
 			// DEMO
-			await ComponentHelper.Sleep(100);
+			// await ComponentHelper.Sleep(100);
 			// END OF DATA
+
+			this.usersApi.logout(this.user.id);
 
 			this.user = null;
 			this.ea.publish(Events.Logout);
