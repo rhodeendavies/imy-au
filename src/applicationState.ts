@@ -225,7 +225,7 @@ export class ApplicationState {
 					this.createDemoBaseEvaluation(false),
 					this.createDemoBaseEvaluation(),
 				];
-				section.planningDone = true;
+				// section.planningDone = true;
 			}
 			this.sectionsBusy.off();
 		}

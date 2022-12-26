@@ -1,5 +1,22 @@
 @use "./src/styles/variables"as *;
 
+@mixin rangeThumb {
+	width: 18px;
+	height: 18px;
+	margin: -8px 0 0;
+	border-radius: 50%;
+	background: #37adbf;
+	cursor: pointer;
+	border: 0 !important;
+}
+
+@mixin rangeTrack {
+	width: 100%;
+	height: 2px;
+	cursor: pointer;
+	background: #b2b2b2;
+}
+
 .slider-wrapper {
 	display: flex;
 	align-items: center;
@@ -7,84 +24,49 @@
 	padding: 20px;
 	padding-bottom: 50px;
 
-	.slider-text {
-	}
-
 	.slider-bar-wrapper {
-		display: flex;
-		justify-content: space-between;
-		gap: 150px;
-		align-items: center;
 		position: relative;
-
-		.slider-tick {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
-			position: relative;
-
-			&:hover {
-				
-			}
-
-			span {
-				&:first-child {
-					height: 70px;
-					width: 100px;
-					cursor: pointer;
-					position: absolute;
-					z-index: 1;
-					bottom: -40px;
-					color: rgba(80, 80, 80, 0.6);
-					display: flex;
-					align-items: flex-end;
-					justify-content: center;
-					font-size: 20px;
-					top: -20px;
-
-					&:hover {
-						font-weight: $bold;
-
-						&~span {
-							width: 4px;
-						}
-					}
-				}
-
-				&:last-child {
-					height: 30px;
-					width: 2px;
-					background-color: $Black;
-					position: absolute;
-				}
-			}
-		}
-
-		.slider-bar {
-			position: absolute;
+		width: 550px;
+		height: 5px;
+		
+		input {
 			width: 100%;
-			border: 2px solid $Black;
-		}
-
-		.slider-circle {
 			position: absolute;
-			z-index: 2;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			opacity: 1;
-			left: 0;
-			transition: all 0.3s;
-			
-			span {
-				position: absolute;
-				height: 20px;
-				width: 20px;
-				border-radius: 20px;
-				background-color: $Orange;
+			top: 2px;
+			height: 0;
+			-webkit-appearance: none;
+	
+			// Thumb
+			&::-webkit-slider-thumb {
+				-webkit-appearance: none; // needed again for Chrome & Safari
+				@include rangeThumb;
+			}
+	
+			&::-moz-range-thumb {
+				@include rangeThumb;
+			}
+	
+			&::-ms-thumb {
+				@include rangeThumb;
+			}
+	
+			// Track
+			&::-webkit-slider-runnable-track {
+				@include rangeTrack;
+			}
+	
+			&::-moz-range-track {
+				@include rangeTrack;
+			}
+	
+			&::-ms-track {
+				@include rangeTrack;
+			}
+	
+			&:focus {
+				// override outline/background on focus
+				background: none;
+				outline: none;
 			}
 		}
 	}

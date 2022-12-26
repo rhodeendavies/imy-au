@@ -39,6 +39,20 @@ export class BaseSystemPlanning {
 	}
 }
 
+export class LudusSystemPlanning {
+	feeling: number;
+	strengths: string;
+	strategies: Strategy[];
+	dateRecorded: Date;
+
+	constructor() {
+		this.feeling = null;
+		this.strengths = "";
+		this.strategies = [];
+		this.dateRecorded = null;
+	}
+}
+
 export class BaseSystemMonitoring {
 	feeling: number;
 	currentQuestions: string;

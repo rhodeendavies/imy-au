@@ -1,0 +1,22 @@
+<template>
+	<div class="percentage-slider-wrapper">
+		<div class="percentage-wrapper">
+			<div>
+				${percentage}
+			</div>
+		</div>
+		<div class="percentage-input-wrapper">
+			<div class="percentage-text">
+				<div>0%</div>
+				<div>Not great</div>
+			</div>
+
+			<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider" />
+
+			<div class="percentage-text">
+				<div>100%</div>
+				<div>Excellent</div>
+			</div>
+		</div>
+	</div>
+</template>

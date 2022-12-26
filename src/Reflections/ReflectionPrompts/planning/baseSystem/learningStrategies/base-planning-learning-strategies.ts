@@ -1,6 +1,7 @@
 import { autoinject } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
-import { ExtendingStrategies, LearningStrategies, PracticingStrategies, ReviewingStrategies, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
+import { ExtendingStrategies, LearningStrategies, PracticingStrategies, ReviewingStrategies } from "utils/constants";
+import { StrategyCategories, StrategyCategoryIcons } from "utils/enums";
 import { BasePlanning } from "../base-planning";
 
 @autoinject
@@ -20,10 +21,10 @@ export class BasePlanningLearningStrategies {
 			title: StrategyCategories.Learning,
 			icon: StrategyCategoryIcons.Learning,
 			options: [
-				{ name: LearningStrategies.One, value: LearningStrategies.One },
-				{ name: LearningStrategies.Two, value: LearningStrategies.Two },
-				{ name: LearningStrategies.Three, value: LearningStrategies.Three },
-				{ name: LearningStrategies.Four, value: LearningStrategies.Four }
+				{ name: LearningStrategies.One.value, value: LearningStrategies.One.value },
+				{ name: LearningStrategies.Two.value, value: LearningStrategies.Two.value },
+				{ name: LearningStrategies.Three.value, value: LearningStrategies.Three.value },
+				{ name: LearningStrategies.Four.value, value: LearningStrategies.Four.value }
 			],
 			strategy: "",
 			rating: null
@@ -31,10 +32,10 @@ export class BasePlanningLearningStrategies {
 			title: StrategyCategories.Reviewing,
 			icon: StrategyCategoryIcons.Reviewing,
 			options: [
-				{ name: ReviewingStrategies.One, value: ReviewingStrategies.One },
-				{ name: ReviewingStrategies.Two, value: ReviewingStrategies.Two },
-				{ name: ReviewingStrategies.Three, value: ReviewingStrategies.Three },
-				{ name: ReviewingStrategies.Four, value: ReviewingStrategies.Four }
+				{ name: ReviewingStrategies.One.value, value: ReviewingStrategies.One.value },
+				{ name: ReviewingStrategies.Two.value, value: ReviewingStrategies.Two.value },
+				{ name: ReviewingStrategies.Three.value, value: ReviewingStrategies.Three.value },
+				{ name: ReviewingStrategies.Four.value, value: ReviewingStrategies.Four.value }
 			],
 			strategy: "",
 			rating: null
@@ -42,10 +43,10 @@ export class BasePlanningLearningStrategies {
 			title: StrategyCategories.Practicing,
 			icon: StrategyCategoryIcons.Practicing,
 			options: [
-				{ name: PracticingStrategies.One, value: PracticingStrategies.One },
-				{ name: PracticingStrategies.Two, value: PracticingStrategies.Two },
-				{ name: PracticingStrategies.Three, value: PracticingStrategies.Three },
-				{ name: PracticingStrategies.Four, value: PracticingStrategies.Four }
+				{ name: PracticingStrategies.One.value, value: PracticingStrategies.One.value },
+				{ name: PracticingStrategies.Two.value, value: PracticingStrategies.Two.value },
+				{ name: PracticingStrategies.Three.value, value: PracticingStrategies.Three.value },
+				{ name: PracticingStrategies.Four.value, value: PracticingStrategies.Four.value }
 			],
 			strategy: "",
 			rating: null
@@ -53,10 +54,10 @@ export class BasePlanningLearningStrategies {
 			title: StrategyCategories.Extending,
 			icon: StrategyCategoryIcons.Extending,
 			options: [
-				{ name: ExtendingStrategies.One, value: ExtendingStrategies.One },
-				{ name: ExtendingStrategies.Two, value: ExtendingStrategies.Two },
-				{ name: ExtendingStrategies.Three, value: ExtendingStrategies.Three },
-				{ name: ExtendingStrategies.Four, value: ExtendingStrategies.Four }
+				{ name: ExtendingStrategies.One.value, value: ExtendingStrategies.One.value },
+				{ name: ExtendingStrategies.Two.value, value: ExtendingStrategies.Two.value },
+				{ name: ExtendingStrategies.Three.value, value: ExtendingStrategies.Three.value },
+				{ name: ExtendingStrategies.Four.value, value: ExtendingStrategies.Four.value }
 			],
 			strategy: "",
 			rating: null
