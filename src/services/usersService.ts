@@ -26,12 +26,12 @@ export class UsersService {
 		}
 	}
 
-	async authenticate(): Promise<boolean> {
+	async authenticate(): Promise<UserDetails> {
 		try {
-			return await this.api.get("courses/1") != null;
+			return await this.api.get("users/current");
 		} catch (error) {
 			log.error(error);
-			return false;
+			return null;
 		}
 	}
 }

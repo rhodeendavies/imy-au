@@ -66,7 +66,7 @@ export class CourseView {
 				const interval = Interval.fromDateTimes(startDate, endDate);
 				section.dateString = interval.toFormat("d LLL");
 			}
-			section.watchedVideos = section.lessons.filter(x => x.watched).length;
+			section.watchedVideos = section.lessons.filter(x => x.complete).length;
 			section.available = section.order <= this.currentSection.order;
 			section.open = false;
 		});

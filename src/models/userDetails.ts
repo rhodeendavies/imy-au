@@ -5,20 +5,19 @@ export class UserDetails {
 	username: string;
 	studentNumber: string;
 	role: Roles;
+	activated: boolean;
 	courseId: number;
 	
 	course: string;
 	authenticated: boolean;
-	system: Systems;
-	lastDailyReflection: Date;
+	currentSystem: Systems;
 
 	constructor() {
 		this.studentNumber = "";
 		this.role = Roles.Student;
 		this.authenticated = false;
-		this.system = Systems.BaseSystem;
+		this.currentSystem = Systems.BaseSystem;
 		this.courseId = 0;
-		this.lastDailyReflection = null;
 	}
 }
 
@@ -29,5 +28,17 @@ export class UserLogin {
 	constructor() {
 		this.studentNumber = "";
 		this.password = "";
+	}
+}
+
+export class Availability {
+	available: boolean;
+	partial: boolean;
+	lastCompletedAt: Date;
+
+	constructor() {
+		this.available = false;
+		this.partial = false;
+		this.lastCompletedAt = null;
 	}
 }

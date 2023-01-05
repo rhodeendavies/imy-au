@@ -14,8 +14,8 @@
 			<div slot="body">
 				<lesson-view repeat.for="lesson of section.lessons" click.delegate="selectLesson(lesson)"
 					active.bind="SelectedId == lesson.id" available.bind="lesson.available">
-					<check-mark checked.bind="lesson.watched" on-change.call="completeLesson(lesson)"
-						disabled.bind="lesson.watched">
+					<check-mark checked.bind="lesson.complete" on-change.call="completeLesson(lesson)"
+						disabled.bind="lesson.complete">
 					</check-mark>
 					
 					<div class="section-name">

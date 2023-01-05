@@ -73,11 +73,11 @@ export class Lesson {
 	section: Section;
 	topics: string[];
 	rating: number;
-	watched: boolean;
+	complete: boolean;
+	available: boolean;
 
 	// frontend only
 	ratingPercentage?: number;
-	available?: boolean;
 	topicsString?: string;
 
 	constructor() {
@@ -88,7 +88,7 @@ export class Lesson {
 		this.videoUrl = "";
 		this.resourcesUrl = "";
 		this.topics = [];
-		this.watched = false;
+		this.complete = false;
 		this.rating = null;
 		this.available = false;
 	}

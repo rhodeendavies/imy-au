@@ -6,6 +6,7 @@
 	border-radius: $BorderRadius;
 	box-shadow: $BoxShadow;
 	position: fixed;
+	z-index: 99;
 	bottom: -10px;
 	left: 20px;
 	transition: all 0.3s;

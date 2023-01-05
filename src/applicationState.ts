@@ -97,7 +97,6 @@ export class ApplicationState {
 	}
 
 	submitDaily(daily: any) {
-		// TODO: make call to set daily reflection as complete -> on success do following
 		if (this.dailyModal.Open) {
 			this.dailyModal.toggle();
 		}
@@ -165,7 +164,7 @@ export class ApplicationState {
 			for (let lessonIndex = 0; lessonIndex < numOfLessons; lessonIndex++) {
 				const lesson = section.lessons[lessonIndex];
 
-				if (lesson.watched && lesson.rating == null) {
+				if (lesson.complete && lesson.rating == null) {
 					this.triggerRatingModal(lesson, section);
 					return;
 				}
@@ -179,13 +178,13 @@ export class ApplicationState {
 							}
 							break;
 						case Math.ceil(numOfLessons / 2) - 1:
-							if (!section.monitoringDone && lesson.watched) {
+							if (!section.monitoringDone && lesson.complete) {
 								this.triggerMonitoringModal(section);
 								return;
 							}
 							break;
 						case (numOfLessons - 1):
-							if (!section.evaluationDone && lesson.watched) {
+							if (!section.evaluationDone && lesson.complete) {
 								this.triggerEvaluationModal(section);
 								return;
 							}
@@ -199,6 +198,8 @@ export class ApplicationState {
 	}
 
 	async getSections(): Promise<Section[]> {
+		if (!(await this.authService.Authenticated())) return null;
+
 		if (this.sectionsBusy.Active) {
 			await ComponentHelper.Sleep(500);
 			return this.getSections();
@@ -225,7 +226,7 @@ export class ApplicationState {
 					this.createDemoBaseEvaluation(false),
 					this.createDemoBaseEvaluation(),
 				];
-				// section.planningDone = true;
+				section.planningDone = true;
 			}
 			this.sectionsBusy.off();
 		}
@@ -237,6 +238,13 @@ export class ApplicationState {
 			await this.getSections();
 		}
 		return this.currentSection;
+	}
+
+	async getCurrentSectionId(): Promise<number> {
+		if (this.currentSection == null) {
+			await this.getSections();
+		}
+		return this.currentSection.id;
 	}
 
 	async getCurrentReflection(): Promise<BaseSystemReflection> {
@@ -261,7 +269,8 @@ export class ApplicationState {
 			videoUrl: "",
 			resourcesUrl: "",
 			topics: [""],
-			watched: watched,
+			complete: watched,
+			available: true,
 			videoLength: 120,
 			rating: watched ? rating : null
 		}

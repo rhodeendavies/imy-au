@@ -5,9 +5,9 @@ export enum Roles {
 }
 
 export enum Systems {
-	BaseSystem = 0,
-	Ludus = 1,
-	Paidia = 2
+	BaseSystem = "base",
+	Ludus = "ludus",
+	Paidia = "paidia"
 }
 
 export enum ReflectionSections {
@@ -37,7 +37,15 @@ export enum StrategyModifiers {
 }
 
 export enum BaseTopicRating {
-	Mastered= "Mastered",
-	SortOfMastered= "Sort of mastered",
-	NotYetMastered= "Not yet mastered"
+	Mastered = "Mastered",
+	SortOfMastered = "Sort of mastered",
+	NotYetMastered = "Not yet mastered"
+}
+
+export enum ReflectionTypes {
+	Daily = "daily",
+	Planning = "planning",
+	Monitoring = "monitoring",
+	Evaluating = "evaluating",
+	Lesson = "lesson"
 }

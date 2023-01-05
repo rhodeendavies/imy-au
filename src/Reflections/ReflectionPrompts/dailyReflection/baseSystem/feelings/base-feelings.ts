@@ -10,7 +10,11 @@ export class BaseFeelings {
 	nextStep() {
 		if (this.localParent.model.feeling == null) return;
 
-		this.localParent.nextStep();
+		this.localParent.nextStep({
+			courseFeelings: {
+				rating: this.localParent.model.feeling
+			}
+		});
 	}
 
 	@computedFrom("authService.Course")

@@ -5,7 +5,6 @@ import { ApiResponse } from "models/apiResponse";
 import { Course } from "models/course";
 import { UserDetails, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
-import { ComponentHelper } from "utils/componentHelper";
 import { Events, Routes } from "utils/constants";
 import { Roles, Systems } from "utils/enums";
 import { log } from "utils/log";
@@ -28,33 +27,8 @@ export class AuthenticationService {
 	async login(userLogin: UserLogin): Promise<ApiResponse> {
 		try {
 			this.busy.on();
-
-			// DEMO
-			// await ComponentHelper.Sleep(100);
-			// this.user = new UserDetails();
-			// this.user.authenticated = true;
-			// this.user.course = "IMY 110";
-			// this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
-			// END OF DATA
-			
 			this.user = await this.usersApi.login(userLogin);
-			this.user.system = Systems.BaseSystem;
-
-			let course: Course = null;
-			switch (this.Role) {
-				case Roles.Admin:
-					this.router.navigate(Routes.AdminDash);
-					break;
-				case Roles.Student:
-					course = await this.courseApi.getCourse(this.user.courseId);
-					this.user.course = course.name;
-					this.router.navigate(Routes.Dashboard);
-					break
-				default:
-					throw "Invalid login";
-			}
-
-			this.ea.publish(Events.Login);
+			await this.initUser();
 			return new ApiResponse(true, "");
 		} catch (error) {
 			log.error(error);
@@ -64,16 +38,27 @@ export class AuthenticationService {
 		}
 	}
 
+	async initUser() {
+		let course: Course = null;
+		switch (this.Role) {
+			case Roles.Admin:
+				this.router.navigate(Routes.AdminDash);
+				break;
+			case Roles.Student:
+				course = await this.courseApi.getCourse(this.user.courseId);
+				this.user.course = course.name;
+				this.router.navigate(Routes.Dashboard);
+				break
+			default:
+				throw "Invalid login";
+		}
+		this.ea.publish(Events.Login);
+	}
+
 	async logout(): Promise<void> {
 		try {
 			this.busy.on();
-
-			// DEMO
-			// await ComponentHelper.Sleep(100);
-			// END OF DATA
-
 			this.usersApi.logout(this.user.id);
-
 			this.user = null;
 			this.ea.publish(Events.Logout);
 			this.redirectToLogin();
@@ -85,13 +70,15 @@ export class AuthenticationService {
 	}
 
 	async Authenticated(): Promise<boolean> {
-		if (this.user == null || this.user == undefined) return false;
-		const authenticated = await this.usersApi.authenticate();
-		return authenticated;
+		if (this.user == null || this.user == undefined) {
+			this.user = await this.usersApi.authenticate();
+			await this.initUser();
+		}
+		return this.user !== null && this.user !== undefined && this.user.activated;
 	}
 
 	get System(): Systems {
-		return this.user !== null && this.user !== undefined && this.user.system;
+		return this.user !== null && this.user !== undefined && this.user.currentSystem;
 	}
 
 	get Course(): string {
@@ -100,10 +87,6 @@ export class AuthenticationService {
 
 	get CourseId(): number {
 		return this.user !== null && this.user !== undefined && this.user.courseId;
-	}
-
-	get LastDailyReflection(): Date {
-		return this.user !== null && this.user !== undefined && this.user.lastDailyReflection;
 	}
 
 	@computedFrom("busy.Active")

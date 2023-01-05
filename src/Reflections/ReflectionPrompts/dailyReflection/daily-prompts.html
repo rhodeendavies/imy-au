@@ -17,10 +17,10 @@
 			</p>
 
 			<button class="btn btn-primary mt-30" click.delegate="startDaily()"
-				disabled.bind="!dailyReflectionAvailable">
+				disabled.bind="!availability.available">
 				Let's go
 			</button>
-			<div class="body-small mt-10" if.bind="!dailyReflectionAvailable">
+			<div class="body-small mt-10" if.bind="!availability.available">
 				${timeTillNextReflection} until next reflection opportunity
 			</div>
 		</div>

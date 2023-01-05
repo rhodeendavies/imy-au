@@ -2,15 +2,18 @@ import { ApplicationState } from "applicationState";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { DateTime, Duration, Interval } from "luxon";
+import { BaseSystemDailyApiModel } from "models/reflectionsResponses";
+import { Availability } from "models/userDetails";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
+import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
-import { Systems } from "utils/enums";
+import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class DailyPrompts extends SectionTrackerParent {
 
-	dailyReflectionAvailable: boolean;
+	availability: Availability;
 	timeTillNextReflection: string;
 	timer: NodeJS.Timer;
 	triggerSub: Subscription;
@@ -18,19 +21,19 @@ export class DailyPrompts extends SectionTrackerParent {
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private ea: EventAggregator) {
+		private ea: EventAggregator,
+		private reflectionsApi: ReflectionsService) {
 		super();
 	}
 
 	attached() {
 		this.activeSection = DailySections.Overview;
-		this.determineDailyAvailable();
 
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
+			this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
 			this.determineDailyAvailable();
 			this.activeSection = DailySections.Overview;
 		});
-		this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
 	}
 
 	detached() {
@@ -38,19 +41,19 @@ export class DailyPrompts extends SectionTrackerParent {
 		clearInterval(this.timer);
 	}
 
-	determineDailyAvailable(): boolean {
-		if (this.authService.LastDailyReflection == null) return false;
+	async determineDailyAvailable(): Promise<boolean> {
+		this.availability = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Daily, (await this.appState.getCurrentSection()).id);
+		if (this.availability == null) return false;
 
 		const now = DateTime.now();
-		const lastReflection = DateTime.fromJSDate(this.authService.LastDailyReflection);
+		const lastReflection = DateTime.fromJSDate(this.availability.lastCompletedAt);
 		const interval = Interval.fromDateTimes(lastReflection, now);
-		this.dailyReflectionAvailable = interval.length("hours") > 24;
 
 		if (!interval.isValid) return false;
 		const duration = Duration.fromObject({ hours: 24, minutes: 60 }).minus(interval.toDuration(['hours', 'minutes']));
 		this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
 
-		return this.dailyReflectionAvailable;
+		return this.availability.available;
 	}
 
 	startDaily() {
@@ -58,8 +61,15 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.nextStep();
 	}
 
-	submitDaily() {
-		this.appState.submitDaily(true);
+	async submitDaily(model: BaseSystemDailyApiModel, completed: boolean) {
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, await this.appState.getCurrentSectionId(), model);
+		if (!result) {
+			this.appState.triggerToast("Failed to save reflection...");
+			return;
+		}
+		if (completed) {
+			this.appState.submitDaily(true);
+		}
 	}
 
 	@computedFrom("activeSection")

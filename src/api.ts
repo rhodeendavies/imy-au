@@ -24,40 +24,36 @@ export class ApiWrapper {
 	}
 
 	async get(url: string): Promise<any> {
-		let response: Response;
 		try {
-			response = await this.client.fetch(this.buildUrl(url));
+			const response = await this.client.fetch(this.buildUrl(url));
+			if (response == null || !response.ok || response.status === 204) {
+				throw new Error("Request did not indicate success");
+			}
+			const text = await response.text();
+			// log.debug("json", text);
+			return JSON.parse(text, this.dateTimeReceiver);
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while doing GET to url '${url}'`, error);
 			throw error;
 		}
-
-		if (response == null || !response.ok || response.status === 204) {
-			throw new Error("Request did not indicate success");
-		}
-
-		const text = await response.text();
-		return JSON.parse(text, this.dateTimeReceiver);
 	}
 
 	async post(url: string, body: any): Promise<any> {
-		let response: Response;
 		try {
-			response = await this.client.fetch(this.buildUrl(url), {
+			const response = await this.client.fetch(this.buildUrl(url), {
 				method: "POST",
 				body: JSON.stringify(body)
 			});
+			if (response == null || !response.ok || response.status === 204) {
+				throw new Error("Request did not indicate success");
+			}
+			const text = await response.text();
+			// log.debug("json", text);
+			return JSON.parse(text, this.dateTimeReceiver);
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 			throw error;
 		}
-
-		if (response == null || !response.ok || response.status === 204) {
-			throw new Error("Request did not indicate success");
-		}
-
-		const text = await response.text();
-		return JSON.parse(text, this.dateTimeReceiver);
 	}
 
 	private buildUrl(apiMethod: string): string {

@@ -18,9 +18,12 @@ export class Navbar {
 
 	}
 
-	attached() {
+	async attached() {
 		this.loginSub = this.ea.subscribe(Events.Login, () => this.createRoutes());
 		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.createRoutes());
+		if (await this.authService.Authenticated()) {
+			this.createRoutes();
+		}
 	}
 
 	detached() {

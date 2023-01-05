@@ -29,7 +29,7 @@ export class SectionView {
 			const numOfLessons = this.section.lessons.length;
 			for (let index = 0; index < numOfLessons; index++) {
 				const lesson = this.section.lessons[index];
-				lesson.available = lesson.watched || index == 0 || this.section.lessons[index - 1].watched;
+				lesson.available = lesson.complete || index == 0 || this.section.lessons[index - 1].complete;
 			}
 		} else {
 			this.section.lessons.forEach(x => x.available = true);
@@ -46,7 +46,7 @@ export class SectionView {
 	}
 
 	completeLesson(lesson: Lesson) {
-		if (!lesson.watched) return
+		if (!lesson.complete) return
 		this.appState.triggerRatingModal(lesson, this.section);
 	}
 

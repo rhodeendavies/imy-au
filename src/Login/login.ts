@@ -14,10 +14,7 @@ export class Login {
 	constructor(private authService: AuthenticationService, private aureliaConfig: AureliaConfiguration) { }
 
 	async attached() {
-		if (await this.authService.Authenticated()) {
-			this.authService.logout();
-		}
-
+		await this.authService.Authenticated();
 		this.loginModel = environment.loginModel;
 	}
 
