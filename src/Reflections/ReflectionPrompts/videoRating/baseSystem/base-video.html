@@ -1,0 +1,12 @@
+<template>
+	<radio-button options.bind="videoRatingOptions" value.bind="ratingSelected" type="blocks"
+		label="You've finished ${appState.watchedLesson.name}. Rate your understanding of the concepts in the video.">
+	</radio-button>
+
+	<div class="btn-row">
+		<button class="btn btn-primary" click.delegate="submitRating()"
+			disabled.bind="ratingSelected == null">
+			Finish
+		</button>
+	</div>
+</template>

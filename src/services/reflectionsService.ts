@@ -1,6 +1,6 @@
 import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
-import { BaseSystemDailyApiModel } from "models/reflectionsResponses";
+import { BaseSystemDailyApiModel, BaseSystemVideoRatingApiModel } from "models/reflectionsResponses";
 import { Availability } from "models/userDetails";
 import { ReflectionTypes, Systems } from "utils/enums";
 import { log } from "utils/log";
@@ -19,7 +19,7 @@ export class ReflectionsService {
 		}
 	}
 
-	async submitReflection(system: Systems, category: ReflectionTypes, id: number, model: BaseSystemDailyApiModel): Promise<boolean> {
+	async submitReflection(system: Systems, category: ReflectionTypes, id: number, model: BaseSystemDailyApiModel | BaseSystemVideoRatingApiModel): Promise<boolean> {
 		try {
 			return await this.api.post(`reflections?system=${system}&category=${category}&subjectId=${id}`, model) != null;
 		} catch (error) {

@@ -1,3 +1,7 @@
+export class BaseSystemVideoRatingApiModel {
+	rating: number
+}
+
 export class BaseSystemDailyApiModel {
 	courseFeelings?: CourseFeelings;
 	strategyRating?: StrategyRating;

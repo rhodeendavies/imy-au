@@ -6,6 +6,7 @@
 	<require from="Reflections/ReflectionPrompts/planning/planning-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/monitoring/monitoring-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/evaluation/evaluation-prompts"></require>
+	<require from="Reflections/ReflectionPrompts/videoRating/video-rating"></require>
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,17 +30,8 @@
 			<div slot="header">
 				Rate the video
 			</div>
-			<div slot="body">
-				<radio-button options.bind="videoRatingOptions" value.bind="appState.ratingSelected" type="blocks"
-					label="You've finished ${appState.watchedLesson}. Rate your understanding of the concepts in the video.">
-				</radio-button>
-	
-				<div class="btn-row">
-					<button class="btn btn-primary" click.delegate="submitRating()"
-						disabled.bind="appState.ratingSelected == null">
-						Finish
-					</button>
-				</div>
+			<div slot="body" class="prompt-modal-body">
+				<video-rating></video-rating>
 			</div>
 		</modal>
 

@@ -30,9 +30,8 @@ export class ApplicationState {
 	private sectionReflecting: Section;
 	private loginSub: Subscription;
 
-	ratingSelected: number = null;
 
-	watchedLesson: string;
+	watchedLesson: Lesson;
 	reflectionSection: string;
 
 	constructor(private ea: EventAggregator, private courseApi: CoursesService, private sectionApi: SectionsService, private authService: AuthenticationService) {
@@ -70,15 +69,11 @@ export class ApplicationState {
 	triggerRatingModal(lesson: Lesson, section: Section) {
 		this.lessonCompleted = lesson;
 		this.lessonCompleted.section = section;
-		this.watchedLesson = this.lessonCompleted.name;
-		this.ratingSelected = null;
+		this.watchedLesson = this.lessonCompleted;
 		this.ratingModal.toggle();
 	}
 
 	submitRating() {
-		this.lessonCompleted.rating = this.ratingSelected;
-
-		// TODO: make call to set rating as complete -> on success do following
 		if (this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
