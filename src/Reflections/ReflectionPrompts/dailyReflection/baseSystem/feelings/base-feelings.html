@@ -3,11 +3,11 @@
 
 	<div>
 		<p class="reflection-question">How do you feel about ${Course} right now?</p>
-		<slider value.bind="localParent.model.feeling"></slider>
+		<slider value.bind="localParent.model.courseFeelings.rating"></slider>
 	</div>
 
 	<div class="mt-30">
-		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="localParent.model.feeling == null">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="localParent.model.courseFeelings.rating == null">
 			Next
 		</button>
 	</div>

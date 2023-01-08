@@ -16,7 +16,7 @@ export class UserDetails {
 		this.studentNumber = "";
 		this.role = Roles.Student;
 		this.authenticated = false;
-		this.currentSystem = Systems.BaseSystem;
+		this.currentSystem = Systems.Base;
 		this.courseId = 0;
 	}
 }

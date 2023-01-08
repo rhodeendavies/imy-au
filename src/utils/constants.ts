@@ -1,10 +1,9 @@
-import { StrategyModifiers } from "./enums";
+import { StrategyCategories, StrategyCategoryIcons, StrategyModifiers } from "./enums";
 
 export class Events {
 	static readonly AccordionToggle: string = "AccordionToggle";
 	static readonly Login: string = "Login";
 	static readonly Logout: string = "Logout";
-	static readonly LessonRated: string = "LessonRated";
 	static readonly DailyTriggered: string = "DailyTriggered";
 	static readonly PlanningTriggered: string = "PlanningTriggered";
 	static readonly MonitoringTriggered: string = "MonitoringTriggered";
@@ -25,130 +24,146 @@ export class StrategyWrapper {
 }
 
 export class StrategyModifier {
-	type: StrategyModifiers;
+	type: StrategyModifiers | string;
 	value: number;
 }
 
-export class LearningStrategies {
-	static readonly One: StrategyWrapper = {
-		value: "Watch all the videos near the beginning of the week",
-		modifiers: [{
-			type: StrategyModifiers.TimeManagement,
-			value: 5
-		}]
-	};
-	static readonly Two: StrategyWrapper = {
-		value: "Watch one video a day",
-		modifiers: [{
-			type: StrategyModifiers.TimeManagement,
-			value: 2
-		}]
-	};
-	static readonly Three: StrategyWrapper = {
-		value: "Summarise what I have learnt after watching each",
-		modifiers: [{
-			type: StrategyModifiers.Research,
-			value: 5
-		}]
-	};
-	static readonly Four: StrategyWrapper = {
-		value: "Take notes while watching the videos",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 5
-		}]
-	};
+export class StrategyOption {
+	title: StrategyCategories;
+	icon: StrategyCategoryIcons;
+	One: StrategyWrapper;
+	Two: StrategyWrapper;
+	Three: StrategyWrapper;
+	Four: StrategyWrapper;
 }
 
-export class ReviewingStrategies {
-	static readonly One: StrategyWrapper = {
-		value: "Review the lecture slides after",
-		modifiers: [{
-			type: StrategyModifiers.Research,
-			value: 5
-		}]
-	}
-	static readonly Two: StrategyWrapper = {
-		value: "Practice the practical concepts in the video <strong>while</strong> watching it",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 2
-		}]
-	}
-	static readonly Three: StrategyWrapper = {
-		value: "Practice the practical concepts in the video <strong>after</strong> watching it",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 5
-		}]
-	}
-	static readonly Four: StrategyWrapper = {
-		value: "Review and tweak the provided extra resources (like code files) after watching the videos",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 3
-		}]
-	}
-}
-
-export class PracticingStrategies {
-	static readonly One: StrategyWrapper = {
-		value: "Review the lecture slides after",
-		modifiers: [{
-			type: StrategyModifiers.Research,
-			value: 2
-		}]
+export class StrategyOptions {
+	static readonly LearningStrategies: StrategyOption = {
+		title: StrategyCategories.Learning,
+		icon: StrategyCategoryIcons.Learning,
+		One: {
+			value: "Watch all the videos near the beginning of the week",
+			modifiers: [{
+				type: StrategyModifiers.TimeManagement,
+				value: 5
+			}]
+		},
+		Two: {
+			value: "Watch one video a day",
+			modifiers: [{
+				type: StrategyModifiers.TimeManagement,
+				value: 2
+			}]
+		},
+		Three: {
+			value: "Summarise what I have learnt after watching each",
+			modifiers: [{
+				type: StrategyModifiers.Research,
+				value: 5
+			}]
+		},
+		Four: {
+			value: "Take notes while watching the videos",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 5
+			}]
+		}
 	};
-	static readonly Two: StrategyWrapper = {
-		value: "Practice the practical concepts in the video <strong>while</strong> watching it",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 3
-		}]
+	static readonly ReviewingStrategies: StrategyOption = {
+		title: StrategyCategories.Reviewing,
+		icon: StrategyCategoryIcons.Reviewing,
+		One: {
+			value: "Review the lecture slides after",
+			modifiers: [{
+				type: StrategyModifiers.Research,
+				value: 5
+			}]
+		},
+		Two: {
+			value: "Practice the practical concepts in the video <strong>while</strong> watching it",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 2
+			}]
+		},
+		Three: {
+			value: "Practice the practical concepts in the video <strong>after</strong> watching it",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 5
+			}]
+		},
+		Four: {
+			value: "Review and tweak the provided extra resources (like code files) after watching the videos",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 3
+			}]
+		}
 	};
-	static readonly Three: StrategyWrapper = {
-		value: "Practice the practical concepts in the video <strong>after</strong> watching it",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 5
-		}]
+	static readonly PracticingStrategies: StrategyOption = {
+		title: StrategyCategories.Practicing,
+		icon: StrategyCategoryIcons.Practicing,
+		One: {
+			value: "Review the lecture slides after",
+			modifiers: [{
+				type: StrategyModifiers.Research,
+				value: 2
+			}]
+		},
+		Two: {
+			value: "Practice the practical concepts in the video <strong>while</strong> watching it",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 3
+			}]
+		},
+		Three: {
+			value: "Practice the practical concepts in the video <strong>after</strong> watching it",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 5
+			}]
+		},
+		Four: {
+			value: "Review and tweak the provided extra resources (like code files) after watching the videos",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 5
+			}]
+		}
 	};
-	static readonly Four: StrategyWrapper = {
-		value: "Review and tweak the provided extra resources (like code files) after watching the videos",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 5
-		}]
-	};
-}
-
-export class ExtendingStrategies {
-	static readonly One: StrategyWrapper = {
-		value: "Speak to my classmates about the concepts in the videos",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 5
-		}]
-	};
-	static readonly Two: StrategyWrapper = {
-		value: "Practice the concepts in the videos in a project of my own",
-		modifiers: [{
-			type: StrategyModifiers.Interaction,
-			value: 3
-		}]
-	};
-	static readonly Three: StrategyWrapper = {
-		value: "Search the web for examples of the concepts mentioned in the videos",
-		modifiers: [{
-			type: StrategyModifiers.Research,
-			value: 5
-		}]
-	};
-	static readonly Four: StrategyWrapper = {
-		value: "Search the web for extra resources relating to the concepts mentioned in the videos",
-		modifiers: [{
-			type: StrategyModifiers.Research,
-			value: 5
-		}]
+	static readonly ExtendingStrategies: StrategyOption = {
+		title: StrategyCategories.Extending,
+		icon: StrategyCategoryIcons.Extending,
+		One: {
+			value: "Speak to my classmates about the concepts in the videos",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 5
+			}]
+		},
+		Two: {
+			value: "Practice the concepts in the videos in a project of my own",
+			modifiers: [{
+				type: StrategyModifiers.Interaction,
+				value: 3
+			}]
+		},
+		Three: {
+			value: "Search the web for examples of the concepts mentioned in the videos",
+			modifiers: [{
+				type: StrategyModifiers.Research,
+				value: 5
+			}]
+		},
+		Four: {
+			value: "Search the web for extra resources relating to the concepts mentioned in the videos",
+			modifiers: [{
+				type: StrategyModifiers.Research,
+				value: 5
+			}]
+		}
 	};
 }

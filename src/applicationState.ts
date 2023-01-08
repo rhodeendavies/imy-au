@@ -1,19 +1,17 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
-import { DateTime } from "luxon";
 import { Lesson, Section } from "models/course";
-import { BaseSystemEvaluating, BaseSystemReflection, Strategy } from "models/reflections";
+import { BaseReflection } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
 import { AuthenticationService } from "services/authenticationService";
 import { CoursesService } from "services/coursesService";
+import { ReflectionsService } from "services/reflectionsService";
 import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
-import { StrategyCategories } from "utils/enums";
-import { LessonRatedEvent } from "utils/eventModels";
-import { log } from "utils/log";
+import { ReflectionTypes } from "utils/enums";
 
 @autoinject
 export class ApplicationState {
@@ -26,15 +24,19 @@ export class ApplicationState {
 	private sections: Section[];
 	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
-	private lessonCompleted: Lesson;
-	private sectionReflecting: Section;
 	private loginSub: Subscription;
 
 
 	watchedLesson: Lesson;
 	reflectionSection: string;
 
-	constructor(private ea: EventAggregator, private courseApi: CoursesService, private sectionApi: SectionsService, private authService: AuthenticationService) {
+	constructor(
+		private ea: EventAggregator,
+		private courseApi: CoursesService,
+		private sectionApi: SectionsService,
+		private authService: AuthenticationService,
+		private reflectionsApi: ReflectionsService
+	) {
 		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
 	}
 
@@ -66,10 +68,8 @@ export class ApplicationState {
 		this.toast.trigger(message, seconds);
 	}
 
-	triggerRatingModal(lesson: Lesson, section: Section) {
-		this.lessonCompleted = lesson;
-		this.lessonCompleted.section = section;
-		this.watchedLesson = this.lessonCompleted;
+	triggerRatingModal(lesson: Lesson) {
+		this.watchedLesson = lesson;
 		this.ratingModal.toggle();
 	}
 
@@ -77,12 +77,7 @@ export class ApplicationState {
 		if (this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
-		this.ea.publish(Events.LessonRated, {
-			sectionId: this.lessonCompleted.section.id,
-			lessonOrder: this.lessonCompleted.order
-		} as LessonRatedEvent);
-		this.lessonCompleted = null;
-
+		this.watchedLesson = null;
 		this.determineReflectionToShow();
 	}
 
@@ -91,104 +86,82 @@ export class ApplicationState {
 		this.ea.publish(Events.DailyTriggered);
 	}
 
-	submitDaily(daily: any) {
+	closeDaily() {
 		if (this.dailyModal.Open) {
 			this.dailyModal.toggle();
 		}
 	}
 
-	triggerPlanningModal(section: Section) {
-		this.sectionReflecting = section;
-		this.reflectionSection = this.sectionReflecting.name;
+	triggerPlanningModal(sectionName: string) {
+		this.reflectionSection = sectionName;
 		this.planningModal.toggle();
 		this.ea.publish(Events.PlanningTriggered);
 	}
 
-	submitPlanning(planning: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+	closePlanning() {
 		if (this.planningModal.Open) {
 			this.planningModal.toggle();
 		}
-		this.sectionReflecting.planningDone = true;
 		this.determineReflectionToShow();
 	}
 
-	triggerMonitoringModal(section: Section) {
-		this.sectionReflecting = section;
-		this.reflectionSection = this.sectionReflecting.name;
+	triggerMonitoringModal(sectionName: string) {
+		this.reflectionSection = sectionName;
 		this.monitoringModal.toggle();
 		this.ea.publish(Events.MonitoringTriggered);
 	}
 
-	submitMonitoring(monitoring: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+	closeMonitoring() {
 		if (this.monitoringModal.Open) {
 			this.monitoringModal.toggle();
 		}
-		this.sectionReflecting.monitoringDone = true;
 		this.determineReflectionToShow();
 	}
 
-	triggerEvaluationModal(section: Section) {
-		this.sectionReflecting = section;
-		this.reflectionSection = this.sectionReflecting.name;
+	triggerEvaluationModal(sectionName: string) {
+		this.reflectionSection = sectionName;
 		this.evaluationModal.toggle();
 		this.ea.publish(Events.EvaluationTriggered);
 	}
 
-	submitEvaluation(evaluation: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+	closeEvaluation() {
 		if (this.evaluationModal.Open) {
 			this.evaluationModal.toggle();
 		}
-		this.sectionReflecting.evaluationDone = true;
 		this.determineReflectionToShow();
 	}
 
 	async determineReflectionToShow() {
-		if (this.sections == null || this.sections.length == 0) {
-			await this.getSections();
-			if (this.sections == null || this.sections.length == 0 || this.currentSection == null) return;
-		}
-
-		const numOfSections = this.sections.length;
-		for (let sectionIndex = 0; sectionIndex < numOfSections; sectionIndex++) {
-			const section = this.sections[sectionIndex];
-
-			const numOfLessons = section.lessons?.length;
-			for (let lessonIndex = 0; lessonIndex < numOfLessons; lessonIndex++) {
-				const lesson = section.lessons[lessonIndex];
-
-				if (lesson.complete && lesson.rating == null) {
-					this.triggerRatingModal(lesson, section);
+		const section = await this.getCurrentSection();
+		// lessons
+		const lessons = section.lessons;
+		for (let index = 0; index < lessons.length; index++) {
+			const lesson = lessons[index];
+			if (lesson.complete) {
+				const lessonAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Lesson, lesson.id);
+				if (lessonAvailable.available) {
+					this.triggerRatingModal(lesson);
 					return;
 				}
-
-				if (section.id == this.currentSection.id) {
-					switch (lessonIndex) {
-						case 0:
-							if (!section.planningDone) {
-								this.triggerPlanningModal(section);
-								return;
-							}
-							break;
-						case Math.ceil(numOfLessons / 2) - 1:
-							if (!section.monitoringDone && lesson.complete) {
-								this.triggerMonitoringModal(section);
-								return;
-							}
-							break;
-						case (numOfLessons - 1):
-							if (!section.evaluationDone && lesson.complete) {
-								this.triggerEvaluationModal(section);
-								return;
-							}
-							break;
-						default:
-							break;
-					}
-				}
 			}
+		}
+		// planning
+		const planningAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Planning, section.id);
+		if (planningAvailable.available) {
+			this.triggerPlanningModal(section.name);
+			return;
+		}
+		// monitoring
+		const monitoringAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Monitoring, section.id);
+		if (monitoringAvailable.available) {
+			this.triggerMonitoringModal(section.name);
+			return;
+		}
+		// evaluating
+		const evaluatingAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Evaluating, section.id);
+		if (evaluatingAvailable.available) {
+			this.triggerEvaluationModal(section.name);
+			return;
 		}
 	}
 
@@ -203,25 +176,10 @@ export class ApplicationState {
 		if (this.sections == null || this.sections.length == 0) {
 			this.sectionsBusy.on();
 			this.sections = await this.courseApi.getCourseSections(this.authService.CourseId);
-			const now = DateTime.now();
-			this.currentSection = this.sections.find(x => DateTime.fromJSDate(x.startDate).valueOf() <= now.valueOf() && DateTime.fromJSDate(x.endDate).valueOf() > now.valueOf());
+			this.currentSection = this.sections.find(x => x.active);
 			for (let i = 0; i < this.sections.length; i++) {
 				const section = this.sections[i];
 				section.lessons = await this.sectionApi.getSectionLessons(section.id);
-				section.lessons.forEach(x => x.section = section);
-
-				// TODO: remove
-				section.baseReflection = this.createDemoReflectionData();
-				section.publicBaseReflections = [
-					this.createDemoBaseEvaluation(),
-					this.createDemoBaseEvaluation(false),
-					this.createDemoBaseEvaluation(false),
-					this.createDemoBaseEvaluation(),
-					this.createDemoBaseEvaluation(),
-					this.createDemoBaseEvaluation(false),
-					this.createDemoBaseEvaluation(),
-				];
-				section.planningDone = true;
 			}
 			this.sectionsBusy.off();
 		}
@@ -242,120 +200,15 @@ export class ApplicationState {
 		return this.currentSection.id;
 	}
 
-	async getCurrentReflection(): Promise<BaseSystemReflection> {
-		if (this.currentSection == null) {
-			await this.getSections();
-		}
-		return this.currentSection.baseReflection;
-	}
-
-
-	// DEMO DATA
-	lessonOrder: number = 1;
-	reflectionId: number = 1;
-
-	createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
+	async getSectionBaseReflection(section: Section): Promise<BaseReflection> {
+		const planningResponse = await this.reflectionsApi.getBasePlanningReflection(section.planningReflectionId);
+		const monitoringResponse = await this.reflectionsApi.getBaseMonitoringReflection(section.monitoringReflectionId);
+		const evaluatingResponse = await this.reflectionsApi.getBaseEvaluatingReflection(section.evaluatingReflectionId);
 		return {
-			id: this.lessonOrder,
-			engagementId: 0,
-			name: name,
-			order: this.lessonOrder++,
-			section: null,
-			videoUrl: "",
-			resourcesUrl: "",
-			topics: [""],
-			complete: watched,
-			available: true,
-			videoLength: 120,
-			rating: watched ? rating : null
-		}
+			id: section.id,
+			planningReflection: planningResponse,
+			monitoringReflection: monitoringResponse,
+			evaluatingReflection: evaluatingResponse
+		};
 	}
-
-	private createDemoReflectionData(planning: boolean = true, monitoring: boolean = true, evaluating: boolean = true): BaseSystemReflection {
-		const strategies: Strategy[] = [{
-			title: StrategyCategories.Learning,
-			strategy: "a test",
-			rating: 1
-		}, {
-			title: StrategyCategories.Reviewing,
-			strategy: "a test",
-			rating: 2
-		}, {
-			title: StrategyCategories.Practicing,
-			strategy: "a test",
-			rating: 3
-		}, {
-			title: StrategyCategories.Extending,
-			strategy: "a test",
-			rating: 0
-		}];
-		const reflection = new BaseSystemReflection();
-		reflection.id = this.reflectionId++;
-		if (planning) {
-			reflection.planningReflection.feeling = 3;
-			reflection.planningReflection.strengths = ComponentHelper.LoremIpsum();
-			reflection.planningReflection.strategies = strategies;
-			reflection.planningReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
-		} else {
-			reflection.planningReflection = null;
-		}
-
-		if (monitoring) {
-			reflection.monitoringReflection.feeling = 2;
-			reflection.monitoringReflection.currentQuestions = ComponentHelper.LoremIpsum();
-			reflection.monitoringReflection.strategies = strategies;
-			reflection.monitoringReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
-		} else {
-			reflection.monitoringReflection = null;
-		}
-
-		if (evaluating) {
-			reflection.evaluatingReflection = this.createDemoBaseEvaluation();
-		} else {
-			reflection.evaluatingReflection = null;
-		}
-
-		return reflection;
-	}
-
-	createDemoBaseEvaluation(loremIpsum: boolean = true): BaseSystemEvaluating {
-		const evaluatingReflection = new BaseSystemEvaluating();
-		evaluatingReflection.feelings = [{
-			feelingRating: 3,
-			feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 2,
-			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}];
-		evaluatingReflection.summary = loremIpsum ? ComponentHelper.LoremIpsum() : ComponentHelper.DonecInterdum();
-		evaluatingReflection.strategies = [{
-			title: StrategyCategories.Learning,
-			strategy: "a test",
-			rating: 1
-		}, {
-			title: StrategyCategories.Reviewing,
-			strategy: "a test",
-			rating: 2
-		}, {
-			title: StrategyCategories.Practicing,
-			strategy: "a test",
-			rating: 3
-		}, {
-			title: StrategyCategories.Extending,
-			strategy: "a test",
-			rating: 0
-		}];
-		evaluatingReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
-		return evaluatingReflection;
-	}
-	// END OF DEMO DATA
 }

@@ -5,7 +5,7 @@ export enum Roles {
 }
 
 export enum Systems {
-	BaseSystem = "base",
+	Base = "base",
 	Ludus = "ludus",
 	Paidia = "paidia"
 }

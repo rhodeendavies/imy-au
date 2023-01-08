@@ -1,4 +1,5 @@
-import { BaseSystemEvaluating, BaseSystemReflection } from "./reflections";
+import { Systems } from "utils/enums";
+import { BaseReflection } from "./reflections";
 
 export class Course {
 	id: number;
@@ -24,20 +25,21 @@ export class Section {
 	order: number;
 	startDate: Date;
 	endDate: Date;
-	lessons: Lesson[];
 	totalRunTime: number;
-	planningDone: boolean;
-	monitoringDone: boolean;
-	evaluationDone: boolean;
-	baseReflection: BaseSystemReflection;
-	publicBaseReflections: BaseSystemEvaluating[];
-
+	system: Systems;
+	active: boolean;
+	planningReflectionId: number;
+	monitoringReflectionId: number;
+	evaluatingReflectionId: number;
+	dailyReflectionIds: number[];
+	
 	// frontend only
+	lessons: Lesson[];
 	totalVideos?: number;
 	watchedVideos?: number;
 	dateString?: string;
 	open?: boolean;
-	available?: boolean;
+	baseReflection: BaseReflection;
 
 	constructor() {
 		this.id = 0;
@@ -45,51 +47,33 @@ export class Section {
 		this.order = 0;
 		this.startDate = null;
 		this.endDate = null;
-		this.lessons = [];
 		this.totalRunTime = 0;
-		this.planningDone = false;
-		this.monitoringDone = false;
-		this.evaluationDone = false;
-		this.baseReflection = null;
-		this.publicBaseReflections = null;
-
+		
+		this.lessons = [];
 		this.totalVideos = 0;
 		this.watchedVideos = 0;
 		this.dateString = "";
 		this.open = false;
-		this.available = false;
 	}
 }
 
 export class Lesson {
 	id: number;
-	engagementId: number;
 	name: string;
 	order: number;
 	resourcesUrl: string;
-	videoLength: number;
 	videoUrl: string;
-
-	section: Section;
-	topics: string[];
-	rating: number;
+	videoLength: number;
 	complete: boolean;
 	available: boolean;
-
-	// frontend only
-	ratingPercentage?: number;
-	topicsString?: string;
 
 	constructor() {
 		this.id = 0;
 		this.name = "";
 		this.order = 0;
-		this.section = null;
 		this.videoUrl = "";
 		this.resourcesUrl = "";
-		this.topics = [];
 		this.complete = false;
-		this.rating = null;
 		this.available = false;
 	}
 }

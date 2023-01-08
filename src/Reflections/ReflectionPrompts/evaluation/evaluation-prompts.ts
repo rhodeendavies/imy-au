@@ -1,11 +1,12 @@
 import { ApplicationState } from "applicationState";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
+import { BaseEvaluatingApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
+import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
-import { Systems } from "utils/enums";
-import { log } from "utils/log";
+import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class EvaluationPrompts extends SectionTrackerParent {
@@ -16,7 +17,8 @@ export class EvaluationPrompts extends SectionTrackerParent {
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private ea: EventAggregator) {
+		private ea: EventAggregator,
+		private reflectionsApi: ReflectionsService) {
 		super();
 	}
 
@@ -30,8 +32,15 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		this.triggerSub.dispose();
 	}
 
-	submitEvaluation() {
-		this.appState.submitEvaluation(false);
+	async submitEvaluation(model: BaseEvaluatingApiModel, completed: boolean) {
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Evaluating, await this.appState.getCurrentSectionId(), model);
+		if (!result) {
+			this.appState.triggerToast("Failed to save reflection...");
+			return;
+		}
+		if (completed) {
+			this.appState.closeEvaluation();
+		}
 	}
 
 	@computedFrom("activeSection")
@@ -61,7 +70,7 @@ export class EvaluationPrompts extends SectionTrackerParent {
 
 	@computedFrom("authService.System", "ShowOverview")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.BaseSystem;
+		return !this.ShowOverview && this.authService.System == Systems.Base;
 	}
 
 	@computedFrom("authService.System", "ShowOverview")

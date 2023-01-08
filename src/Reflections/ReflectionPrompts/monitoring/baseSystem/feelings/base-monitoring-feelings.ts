@@ -7,7 +7,7 @@ export class BaseMonitoringFeelings {
 	constructor(private localParent: BaseMonitoring) {}
 
 	nextStep() {
-		if (this.localParent.model.feeling == null) return;
+		if (this.localParent.model.courseFeelings.rating == null) return;
 
 		this.localParent.nextStep();
 	}

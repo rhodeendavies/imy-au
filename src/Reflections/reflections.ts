@@ -3,7 +3,6 @@ import { Router } from "aurelia-router";
 import { Section } from "models/course";
 import { DateTime, Interval } from "luxon";
 import { ApplicationState } from "applicationState";
-import { DateHelper } from "utils/dateHelper";
 
 @autoinject
 export class Reflections {
@@ -15,10 +14,13 @@ export class Reflections {
 	constructor(private router: Router, private appState: ApplicationState) { }
 
 	async attached() {
-		// TODO: replace with call to fetch data
 		this.sections = await this.appState.getSections();
-		this.sectionSelected = await this.appState.getCurrentSection();
-
+		for (let index = 0; index < this.sections.length; index++) {
+			const section = this.sections[index];
+			section.baseReflection = await this.appState.getSectionBaseReflection(section);
+		}
+		const currentSection = await this.appState.getCurrentSection();
+		this.sectionSelected = this.sections.find(x => x.id == currentSection.id);
 		this.initData();
 	}
 
@@ -45,7 +47,7 @@ export class Reflections {
 	}
 
 	selectSection(section: Section) {
-		if (!section.available) return;
+		if (!section.active) return;
 		if (this.sectionSelected != null) {
 			this.sectionSelected.open = false;
 		}

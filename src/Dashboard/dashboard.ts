@@ -1,25 +1,33 @@
 import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-framework";
 import { Router, RouterConfiguration } from "aurelia-router";
-import { BaseSystemReflection } from "models/reflections";
+import { BaseReflection } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { StudentRoutes } from "routes/studentRoutes";
+import { AuthenticationService } from "services/authenticationService";
 import { Routes } from "utils/constants";
+import { Systems } from "utils/enums";
 import { log } from "utils/log";
 
 @autoinject
 export class Dashboard {
 
-	currentReflection: BaseSystemReflection;
+	currentReflection: BaseReflection;
 	lessonOpen: boolean = false;
 	busy: Busy = new Busy();
 
-	constructor(private router: Router, private appState: ApplicationState) { }
+	constructor(private router: Router, private appState: ApplicationState, private authService: AuthenticationService) { }
 
 	async attached() {
 		try {
 			this.busy.on();
-			this.currentReflection = await this.appState.getCurrentReflection();
+			switch (this.authService.System) {
+				case Systems.Base:
+					this.currentReflection = await this.appState.getSectionBaseReflection(await this.appState.getCurrentSection());
+					break;
+				default:
+					break;
+			}
 		} catch (error) {
 			log.error(error)
 		} finally {

@@ -1,5 +1,4 @@
-import { autoinject, bindable, computedFrom } from "aurelia-framework";
-import { ReflectionSections } from "utils/enums";
+import { autoinject } from "aurelia-framework";
 import { ReflectionsDetails } from "../reflections-details";
 
 @autoinject

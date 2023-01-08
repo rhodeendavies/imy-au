@@ -23,7 +23,6 @@ export class AuthorizeStep {
 			}
 		}
 
-		log.debug("navigation successful");
 		return next();
 	}
 

@@ -1,38 +1,40 @@
 import { autoinject } from "aurelia-framework";
-import { BaseSystemDaily } from "models/reflections";
 import { DailyPrompts } from "../daily-prompts";
-import { BaseSystemDailyApiModel } from "models/reflectionsResponses";
-import { StrategyCategories } from "utils/enums";
+import { BaseDailyApiModel, StrategyPlanning } from "models/reflectionsApiModels";
+import { ApplicationState } from "applicationState";
+import { ReflectionsService } from "services/reflectionsService";
 
 @autoinject
 export class BaseDaily {
 
-	model: BaseSystemDaily;
+	model: BaseDailyApiModel;
+	questions: StrategyPlanning;
 
-	constructor(private localParent: DailyPrompts) {}
+	constructor(
+		private localParent: DailyPrompts,
+		private appState: ApplicationState,
+		private reflectionsApi: ReflectionsService
+	) { }
 
 	attached() {
-		this.model = new BaseSystemDaily();
+		this.getDaily();
 	}
 
-	nextStep(apiModel: BaseSystemDailyApiModel) {
-		this.localParent.submitDaily(apiModel, false);
+	nextStep() {
 		this.localParent.nextStep();
+		this.submitDaily(false);
 	}
 
-	submitDaily() {
-		const apiModel: BaseSystemDailyApiModel = {
-			courseFeelings: {
-				rating: this.model.feeling
-			},
-			strategyRating: {
-				learningRating: this.model.strategies.find(x => x.title == StrategyCategories.Learning).rating,
-				reviewingRating: this.model.strategies.find(x => x.title == StrategyCategories.Reviewing).rating,
-				practicingRating: this.model.strategies.find(x => x.title == StrategyCategories.Practicing).rating,
-				extendingRating: this.model.strategies.find(x => x.title == StrategyCategories.Extending).rating
-			},
-			completed: true
-		}
-		this.localParent.submitDaily(apiModel, true);
+	submitDaily(completed: boolean = true) {
+		this.model.completed = completed;
+		this.localParent.submitDaily(this.model, completed);
+	}
+
+	async getDaily() {
+		const currentSection = await this.appState.getCurrentSection();
+		const length = currentSection.dailyReflectionIds.length;
+		const reflection = await this.reflectionsApi.getBaseDailyReflection(currentSection.dailyReflectionIds[length - 1]);
+		this.model = reflection.answers;
+		this.questions = reflection.questions;
 	}
 }

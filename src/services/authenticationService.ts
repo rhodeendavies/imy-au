@@ -58,7 +58,7 @@ export class AuthenticationService {
 	async logout(): Promise<void> {
 		try {
 			this.busy.on();
-			this.usersApi.logout(this.user.id);
+			this.usersApi.logout();
 			this.user = null;
 			this.ea.publish(Events.Logout);
 			this.redirectToLogin();
@@ -72,6 +72,10 @@ export class AuthenticationService {
 	async Authenticated(): Promise<boolean> {
 		if (this.user == null || this.user == undefined) {
 			this.user = await this.usersApi.authenticate();
+			if (this.user == null || this.user == undefined) {
+				this.redirectToLogin();
+				return false;
+			}
 			await this.initUser();
 		}
 		return this.user !== null && this.user !== undefined && this.user.activated;

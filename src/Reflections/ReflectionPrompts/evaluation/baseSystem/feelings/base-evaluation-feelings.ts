@@ -10,12 +10,11 @@ export class BaseEvaluationFeelings {
 
 	nextStep() {
 		if (!this.AllowNext) return;
-
 		this.localParent.nextStep();
 	}
 
-	@computedFrom("valid", "localParent.model.feeling")
+	@computedFrom("valid", "localParent.model.courseFeelings.rating")
 	get AllowNext() {
-		return this.valid && this.localParent.model.feeling != null;
+		return this.valid && this.localParent.model.courseFeelings.rating != null;
 	}
 }

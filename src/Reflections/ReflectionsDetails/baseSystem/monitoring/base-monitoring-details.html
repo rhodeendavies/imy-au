@@ -7,10 +7,10 @@
 			<div class="reflection-header">
 				MONITORING: Halfway through the content
 			</div>
-			<div class="reflection-date" if.bind="localParent.FullReflection && MonitoringReflection.dateRecorded != null">
-				<span>${MonitoringReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
 				<div class="reflection-date-separator"></div>
-				<span>${MonitoringReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
 			</div>
 		</div>
 
@@ -22,15 +22,15 @@
 		<div class="reflection-body" if.bind="MonitoringReflection != null">
 			<div class="reflection-text" if.bind="localParent.FullReflection">
 				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
-				${MonitoringReflection.feeling}/5
+				${MonitoringReflection.courseFeelings.rating}/5
 			</div>
 			<div class="reflection-text">
 				<div class="sub-heading">Current questions or confusion</div>
-				${MonitoringReflection.currentQuestions}
+				${MonitoringReflection.contentConfusion.response}
 			</div>
 			<div class="strats-summary">
 				<div class="sub-heading mb-20">Rating your strategies so far</div>
-				<div class="summary-with-icon" repeat.for="category of MonitoringReflection.strategies">
+				<div class="summary-with-icon" repeat.for="category of Strategies">
 					<div class="summary-icon rating-icon saturate-${category.ratingPercentage}">
 						<span>${category.rating}/3</span>
 					</div>

@@ -1,13 +1,13 @@
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
-import { BaseSystemReflection } from "models/reflections";
 import { Reflections } from "Reflections/reflections";
+import { BaseReflection } from "models/reflections";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionSections, Systems } from "utils/enums";
 
 @autoinject
 export class ReflectionsDetails {
 
-	@bindable reflection: BaseSystemReflection;
+	@bindable reflection: BaseReflection;
 	@bindable dashboardVersion: boolean = false;
 	activeSection: number = ReflectionSections.Planning;
 
@@ -30,7 +30,7 @@ export class ReflectionsDetails {
 
 	@computedFrom("authService.System")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.BaseSystem;
+		return this.authService.System == Systems.Base;
 	}
 
 	@computedFrom("authService.System")

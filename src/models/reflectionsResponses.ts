@@ -1,20 +1,141 @@
-export class BaseSystemVideoRatingApiModel {
-	rating: number
+import { BaseDailyApiModel, BaseEvaluatingApiModel, BaseMonitoringApiModel, BasePlanningApiModel, LudusDailyApiModel, LudusEvaluatingApiModel, LudusMonitoringApiModel, LudusPlanningApiModel, LudusStrategyPlanning, PaidiaDailyApiModel, PaidiaEvaluatingApiModel, PaidiaMonitoringApiModel, PaidiaPlanningApiModel, PaidiaStrategyPlanning, StrategyPlanning } from "./reflectionsApiModels";
+
+export class CreateReflectionResponse {
+	id: number;
 }
 
-export class BaseSystemDailyApiModel {
-	courseFeelings?: CourseFeelings;
-	strategyRating?: StrategyRating;
-	completed?: boolean;
+export class ReflectionResponse {
+	completed: boolean;
+	completedAt: Date;
 }
 
-export class CourseFeelings {
+// ========================== BASE SYSTEM ================================
+export class BaseDailyResponse extends ReflectionResponse {
+	questions: StrategyPlanning;
+	answers: BaseDailyApiModel;
+}
+
+export class BasePlanningResponse extends ReflectionResponse {
+	answers: BasePlanningApiModel;
+}
+
+export class BaseMonitoringResponse extends ReflectionResponse {
+	questions: StrategyPlanning;
+	answers: BaseMonitoringApiModel;
+}
+
+export class BaseEvaluatingResponse extends ReflectionResponse {
+	questions: BaseEvaluatingQuestions;
+	answers: BaseEvaluatingApiModel;
+}
+
+export class BaseEvaluatingQuestions {
+	feelingsSummary: FeelingsSummary;
+	topicRatings: Topics;
+	lessonRatingSummary: RegularLessonRatings[];
+	strategyRating: StrategyPlanning;
+}
+// =======================================================================
+
+// ========================== LUDUS ======================================
+export class LudusDailyResponse extends ReflectionResponse {
+	questions: LudusStrategyPlanning;
+	answers: LudusDailyApiModel;
+}
+
+export class LudusPlanningResponse extends ReflectionResponse {
+	answers: LudusPlanningApiModel;
+}
+
+export class LudusMonitoringResponse extends ReflectionResponse {
+	questions: LudusStrategyPlanning;
+	answers: LudusMonitoringApiModel;
+}
+
+export class LudusEvaluatingResponse extends ReflectionResponse {
+	questions: LudusEvaluatingQuestions;
+	answers: LudusEvaluatingApiModel;
+}
+
+export class LudusEvaluatingQuestions {
+	feelingsSummary: FeelingsSummary;
+	topicRatings: Topics;
+	lessonRatingSummary: RegularLessonRatings[];
+	strategyRating: LudusStrategyPlanning;
+}
+// =======================================================================
+
+// ========================== PAIDIA ======================================
+export class PaidiaDailyResponse extends ReflectionResponse {
+	questions: PaidiaStrategyPlanning;
+	answers: PaidiaDailyApiModel;
+}
+
+export class PaidiaPlanningResponse extends ReflectionResponse {
+	answers: PaidiaPlanningApiModel;
+}
+
+export class PaidiaMonitoringResponse extends ReflectionResponse {
+	questions: PaidiaStrategyPlanning;
+	answers: PaidiaMonitoringApiModel;
+}
+
+export class PaidiaEvaluatingResponse extends ReflectionResponse {
+	questions: PaidiaEvaluatingQuestions;
+	answers: PaidiaEvaluatingApiModel;
+}
+
+export class PaidiaEvaluatingQuestions {
+	feelingsSummary: PaidiaFeelingsSummary;
+	topicRatings: Topics;
+	lessonRatingSummary: PaidiaLessonRatings[];
+	strategyRating: PaidiaStrategyPlanning;
+}
+// =======================================================================
+
+export class Topics {
+	topics: QuestionTopic[];
+}
+
+export class QuestionTopic {
+	id: number;
+	name: string;
+}
+
+export class FeelingsSummary {
+	courseFeelings: HistoricCourseFeelings[];
+}
+
+export class HistoricCourseFeelings {
 	rating: number;
+	createdAt: Date;
 }
 
-export class StrategyRating {
-	learningRating: number;
-	reviewingRating: number;
-	practicingRating: number;
-	extendingRating: number;
+export class PaidiaFeelingsSummary {
+	courseFeelings: PaidiaHistoricCourseFeelings[];
+}
+
+export class PaidiaHistoricCourseFeelings {
+	emoji: string;
+	word: string;
+	createdAt: Date;
+}
+
+export class LessonRatings {
+	ratingPercentage?: number;
+	topicsString?: string;
+}
+
+export class RegularLessonRatings extends LessonRatings {
+	name: string;
+	order: number;
+	rating: number;
+	topics: string[];
+}
+
+export class PaidiaLessonRatings extends LessonRatings {
+	name: string;
+	order: number;
+	emoji: string;
+	topics: string[];
 }

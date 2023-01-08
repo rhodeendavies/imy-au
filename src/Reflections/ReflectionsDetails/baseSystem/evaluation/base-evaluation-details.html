@@ -7,10 +7,10 @@
 			<div class="reflection-header">
 				EVALUATING: End of the content
 			</div>
-			<div class="reflection-date" if.bind="localParent.FullReflection && EvaluatingReflection.dateRecorded != null">
-				<span>${EvaluatingReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
 				<div class="reflection-date-separator"></div>
-				<span>${EvaluatingReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
 			</div>
 		</div>
 
@@ -24,17 +24,17 @@
 				<div if.bind="localParent.FullReflection">
 					<div class="sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
 					<div class="evaluation-feelings">
-						<rating-box repeat.for="feeling of EvaluatingReflection.feelings">
-							<div slot="header">${feeling.feelingRating}/5</div>
-							<div slot="body">${feeling.feelingDate | dateFormat}</div>
+						<rating-box repeat.for="feeling of EvaluatingQuestions.feelingsSummary.courseFeelings">
+							<div slot="header">${feeling.rating}/5</div>
+							<div slot="body">${feeling.createdAt | dateFormat}</div>
 						</rating-box>
 					</div>
 				</div>
-				${EvaluatingReflection.summary}
+				${EvaluatingReflection.learningExperience.experienceSummary}
 			</div>
 			<div class="strats-summary">
 				<div class="sub-heading mb-20">Rating your strategies this week</div>
-				<div class="summary-with-icon" repeat.for="category of EvaluatingReflection.strategies">
+				<div class="summary-with-icon" repeat.for="category of Strategies">
 					<div class="summary-icon rating-icon saturate-${category.ratingPercentage}">
 						<span>${category.rating}/3</span>
 					</div>

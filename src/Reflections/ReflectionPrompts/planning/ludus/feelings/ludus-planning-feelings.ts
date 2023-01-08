@@ -7,8 +7,7 @@ export class LudusPlanningFeelings {
 	constructor(private localParent: LudusPlanning) {}
 
 	nextStep() {
-		if (this.localParent.model.feeling == null) return;
-
+		if (this.localParent.model.courseFeelings.rating == null) return;
 		this.localParent.nextStep();
 	}
 }

@@ -1,3 +1,7 @@
+import { Strategy } from "models/reflections";
+import { StrategyModifier, StrategyOption } from "./constants";
+import { LudusModifier } from "models/reflectionsApiModels";
+
 export class ComponentHelper {
 	static CreateId(component: string): string {
 		return `${component}_${Math.random().toString(36).substring(2, 5)}`;
@@ -21,5 +25,78 @@ export class ComponentHelper {
 
 	static DonecInterdum(): string {
 		return "Donec interdum ligula a enim dictum, id vulputate ex cursus. Sed vel lacinia nunc. Integer varius elit et nulla tempor, molestie feugiat neque malesuada. Aenean semper commodo aliquam. Praesent vel arcu maximus, ornare risus nec, tempus nulla. Quisque turpis elit, convallis sed neque eget, tempus dapibus urna. Proin viverra finibus magna, at mattis augue pretium porta. Donec tincidunt libero non vestibulum vestibulum. Pellentesque quis fringilla ante. Donec vestibulum feugiat rhoncus. Etiam elementum enim risus. ";
+	}
+
+	static CreateModifiersString(modifiers: StrategyModifier[]): string {
+		return modifiers.map(x => `${x.type} +${x.value}`).join(", ");
+	}
+
+	static GetRatingPercentages(rating: number) {
+		return Math.ceil(rating / 3 * 100);
+	}
+
+	static CreateStrategyFromString(strategy: string, strategyOptions: StrategyOption, rating: number = null): Strategy {
+		return {
+			title: strategyOptions.title,
+			icon: strategyOptions.icon,
+			options: [{
+				name: strategyOptions.One.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.One.modifiers),
+				value: strategyOptions.One.value
+			}, {
+				name: strategyOptions.Two.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.Two.modifiers),
+				value: strategyOptions.Two.value
+			}, {
+				name: strategyOptions.Three.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.Three.modifiers),
+				value: strategyOptions.Three.value
+			}, {
+				name: strategyOptions.Four.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.Four.modifiers),
+				value: strategyOptions.Four.value
+			}],
+			strategy: strategy,
+			rating: rating,
+			ratingPercentage: this.GetRatingPercentages(rating)
+		};
+	}
+
+	static CreateStrategyFromLudus(modifier: LudusModifier, strategyOptions: StrategyOption): Strategy {
+		return {
+			title: strategyOptions.title,
+			icon: strategyOptions.icon,
+			options: [{
+				name: strategyOptions.One.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.One.modifiers),
+				value: strategyOptions.One.value
+			}, {
+				name: strategyOptions.Two.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.Two.modifiers),
+				value: strategyOptions.Two.value
+			}, {
+				name: strategyOptions.Three.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.Three.modifiers),
+				value: strategyOptions.Three.value
+			}, {
+				name: strategyOptions.Four.value,
+				subText: ComponentHelper.CreateModifiersString(strategyOptions.Four.modifiers),
+				value: strategyOptions.Four.value
+			}],
+			strategy: modifier.text,
+			modifiers: [{
+				type: modifier.modifier,
+				value: modifier.amount
+			}],
+			rating: null
+		};
+	}
+
+	static CreateLudusModifier(strategy: Strategy): LudusModifier {
+		return {
+			text: strategy.strategy,
+			modifier: strategy.modifiers[0].type,
+			amount: strategy.modifiers[0].value
+		}
 	}
 }

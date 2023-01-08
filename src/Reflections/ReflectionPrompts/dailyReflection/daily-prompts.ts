@@ -2,7 +2,7 @@ import { ApplicationState } from "applicationState";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { DateTime, Duration, Interval } from "luxon";
-import { BaseSystemDailyApiModel } from "models/reflectionsResponses";
+import { BaseDailyApiModel } from "models/reflectionsApiModels";
 import { Availability } from "models/userDetails";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
@@ -61,14 +61,14 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.nextStep();
 	}
 
-	async submitDaily(model: BaseSystemDailyApiModel, completed: boolean) {
+	async submitDaily(model: BaseDailyApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, await this.appState.getCurrentSectionId(), model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;
 		}
 		if (completed) {
-			this.appState.submitDaily(true);
+			this.appState.closeDaily();
 		}
 	}
 
@@ -89,7 +89,7 @@ export class DailyPrompts extends SectionTrackerParent {
 
 	@computedFrom("authService.System", "ShowOverview")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.BaseSystem;
+		return !this.ShowOverview && this.authService.System == Systems.Base;
 	}
 
 	@computedFrom("authService.System", "ShowOverview")

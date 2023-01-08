@@ -7,10 +7,10 @@
 			<div class="reflection-header">
 				PLANNING: Start of the week
 			</div>
-			<div class="reflection-date" if.bind="localParent.FullReflection && PlanningReflection.dateRecorded != null">
-				<span>${PlanningReflection.dateRecorded | dateFormat:'d LLLL'}</span>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
 				<div class="reflection-date-separator"></div>
-				<span>${PlanningReflection.dateRecorded | dateFormat:'HH:mm'}</span>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
 			</div>
 		</div>
 
@@ -22,18 +22,18 @@
 		<div class="reflection-body" if.bind="PlanningReflection != null">
 			<div class="reflection-text" if.bind="localParent.FullReflection">
 				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
-				${PlanningReflection.feeling}/5
+				${PlanningReflection.courseFeelings.rating}/5
 			</div>
 
 			<div if.bind="localParent.FullReflection">
 				Reflecting on how to use your strengths this week
 			</div>
 			<div class="reflection-text">
-				${PlanningReflection.strengths}
+				${PlanningReflection.strengthOptimization.response}
 			</div>
 			<div class="strats-summary">
 				<div class="sub-heading mb-20">Your learning strategies for this week</div>
-				<div class="summary-with-icon" repeat.for="category of PlanningReflection.strategies">
+				<div class="summary-with-icon" repeat.for="category of Strategies">
 					<div class="summary-icon">
 						<span class="icon">${category.icon}</span>
 					</div>

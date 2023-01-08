@@ -1,53 +1,52 @@
 import { autoinject } from "aurelia-framework";
+import { BaseDaily } from "../base-daily";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { EnumHelper } from "utils/enumHelper";
-import { StrategyCategories } from "utils/enums";
-import { BaseDaily } from "../base-daily";
+import { StrategyOptions } from "utils/constants";
 
 @autoinject
 export class BaseLearningStrategies {
 
+	learningStrategy: Strategy;
+	reviewingStrategy: Strategy;
+	practicingStrategy: Strategy;
+	extendingStrategy: Strategy;
+
 	constructor(private localParent: BaseDaily) {}
 
 	attached() {
-		if (ComponentHelper.ListNullOrEmpty(this.localParent.model.strategies)) {
-			// TODO: update with call to fetch chosen strategies
-			this.localParent.model.strategies = [{
-				title: StrategyCategories.Learning,
-				strategy: "a test",
-				rating: null
-			}, {
-				title: StrategyCategories.Reviewing,
-				strategy: "a test",
-				rating: null
-			}, {
-				title: StrategyCategories.Practicing,
-				strategy: "a test",
-				rating: null
-			}, {
-				title: StrategyCategories.Extending,
-				strategy: "a test",
-				rating: null
-			}];
-			this.initData();
-		}
+		this.initData();
 	}
 
 	initData() {
-		if (this.localParent.model.strategies == null) return;
-		this.localParent.model.strategies.forEach(x => {
-			x.icon = EnumHelper.GetCategoryIcon(x.title);
-		});
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.learningStrategy, StrategyOptions.LearningStrategies);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.reviewingStrategy, StrategyOptions.ReviewingStrategies);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.practicingStrategy, StrategyOptions.PracticingStrategies);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.extendingStrategy, StrategyOptions.ExtendingStrategies);
 	}
 
 	submit() {
 		if (!this.AllowSubmit) return;
+		this.localParent.model.strategyRating = {
+			learningRating: this.learningStrategy.rating,
+			reviewingRating: this.reviewingStrategy.rating,
+			practicingRating: this.practicingStrategy.rating,
+			extendingRating: this.extendingStrategy.rating
+		}
 		this.localParent.submitDaily();
 	}
 
 	get AllowSubmit(): boolean {
-		return this.localParent.model.strategies != null && this.localParent.model.strategies.every(x => x.rating != null && x.valid);
+		return this.Strategies != null && this.Strategies.every(x => x.rating != null && x.valid);
+	}
+
+	get Strategies(): Strategy[] {
+		return [
+			this.learningStrategy,
+			this.reviewingStrategy,
+			this.practicingStrategy,
+			this.extendingStrategy
+		];
 	}
 	
 }

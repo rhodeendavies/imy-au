@@ -14,8 +14,8 @@
 					<div>Not yet mastered</div>
 				</div>
 			</div>
-			<div class="evaluation-topic bordered" repeat.for="topic of localParent.model.topics">
-				<div>${topic.title}</div>
+			<div class="evaluation-topic bordered" repeat.for="topic of localParent.model.topicRatings.ratings">
+				<div>${topic.name}</div>
 				<radio-button type="inline" value.bind="topic.rating" options.bind="ratingOptions"></radio-button>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 			<p class="reflection-question">Video ratings this week</p>
 			<p>This is how you rated your understanding of the videos this week.</p>
 
-			<div class="summary-with-icon" repeat.for="lesson of lessons">
+			<div class="summary-with-icon" repeat.for="lesson of localParent.questions.lessonRatingSummary">
 				<div class="summary-icon rating-icon saturate-${lesson.ratingPercentage}">
 					<span>${lesson.rating}/3</span>
 				</div>

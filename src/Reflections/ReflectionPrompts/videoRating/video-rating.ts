@@ -1,7 +1,6 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { Lesson } from "models/course";
-import { BaseSystemVideoRatingApiModel } from "models/reflectionsResponses";
+import { BaseVideoRatingApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -17,7 +16,7 @@ export class VideoRating extends SectionTrackerParent {
 		super();
 	}
 
-	async submitRating(model: BaseSystemVideoRatingApiModel) {
+	async submitRating(model: BaseVideoRatingApiModel) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save rating...");
@@ -28,7 +27,7 @@ export class VideoRating extends SectionTrackerParent {
 
 	@computedFrom("authService.System")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.BaseSystem;
+		return this.authService.System == Systems.Base;
 	}
 
 	@computedFrom("authService.System")

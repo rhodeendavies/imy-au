@@ -8,13 +8,8 @@ export class BaseFeelings {
 	constructor(private localParent: BaseDaily, private authService: AuthenticationService) {}
 
 	nextStep() {
-		if (this.localParent.model.feeling == null) return;
-
-		this.localParent.nextStep({
-			courseFeelings: {
-				rating: this.localParent.model.feeling
-			}
-		});
+		if (this.localParent.model.courseFeelings.rating == null) return;
+		this.localParent.nextStep();
 	}
 
 	@computedFrom("authService.Course")

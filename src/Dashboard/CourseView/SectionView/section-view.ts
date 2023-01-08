@@ -2,29 +2,18 @@ import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { ApplicationState } from "applicationState";
 import { Lesson, Section } from "models/course";
 import { CourseView } from "../course-view";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
-import { Events } from "utils/constants";
-import { LessonRatedEvent } from "utils/eventModels";
 
 @autoinject
 export class SectionView {
 	@bindable section: Section;
 	currentId: number;
-	lessonRatedSub: Subscription;
 
 	constructor(
 		private localParent: CourseView,
-		private appState: ApplicationState,
-		private ea: EventAggregator
+		private appState: ApplicationState
 	) { }
 
 	attached() {
-		this.lessonRatedSub = this.ea.subscribe(Events.LessonRated, (data: LessonRatedEvent) => {
-			if (data.sectionId == this.section.id) {
-				this.lessonRated(data.lessonOrder);
-			}
-		})
-
 		if (this.section.id == this.localParent.currentSection.id) {
 			const numOfLessons = this.section.lessons.length;
 			for (let index = 0; index < numOfLessons; index++) {
@@ -36,10 +25,6 @@ export class SectionView {
 		}
 	}
 
-	detached() {
-		this.lessonRatedSub.dispose();
-	}
-
 	selectLesson(lesson: Lesson) {
 		if (lesson == null || !lesson.available) return;
 		this.localParent.selectLesson(lesson);
@@ -47,14 +32,7 @@ export class SectionView {
 
 	completeLesson(lesson: Lesson) {
 		if (!lesson.complete) return
-		this.appState.triggerRatingModal(lesson, this.section);
-	}
-
-	lessonRated(order: number) {
-		const nextLesson = this.section.lessons.find(x => x.order == (order + 1));
-		if (nextLesson == null) return;
-		nextLesson.available = true;
-		this.selectLesson(nextLesson);
+		this.appState.triggerRatingModal(lesson);
 	}
 
 	downloadLesson(lesson: Lesson, event: Event) {
