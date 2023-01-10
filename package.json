@@ -58,7 +58,8 @@
 	},
 	"scripts": {
 		"build": "au build --env prod",
-		"start": "au run"
+		"start": "au run",
+		"start-prod": "au run --env prod"
 	},
 	"engines": {
 		"node": ">=14.15.0"

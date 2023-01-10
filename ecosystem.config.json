@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "imy-au",
+      "script": "npm",
+      "args" : "run start-prod"
+    }
+  ]
+}
