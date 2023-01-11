@@ -39,9 +39,10 @@ export class ReflectionsService {
 		}
 	}
 
-	async submitReflection(system: Systems, category: ReflectionTypes, id: number, model: ReflectionApiModel): Promise<boolean> {
+	async submitReflection(system: Systems, category: ReflectionTypes, reflectionId: number, model: ReflectionApiModel): Promise<boolean> {
 		try {
-			return await this.api.patch(`reflections/${id}?system=${system}&category=${category}`, model) != null;
+			const response: Response = await this.api.patch(`reflections/${reflectionId}?system=${system}&category=${category}`, model, false);
+			return response.ok;
 		} catch (error) {
 			log.error(error);
 			return false;

@@ -17,10 +17,13 @@ export class BasePlanningDetails {
 	constructor(private localParent: BaseSystem) {}
 
 	attached() {
+		this.planningReflection = null;
 		this.initData();
 	}
 
 	initData() {
+		if (this.localParent.reflection.planningReflection == null) return;
+
 		this.planningReflection = this.localParent.reflection.planningReflection.answers;
 		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.planningReflection.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.planningReflection.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);

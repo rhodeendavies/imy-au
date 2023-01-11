@@ -32,7 +32,10 @@ export class ComponentHelper {
 	}
 
 	static GetRatingPercentages(rating: number) {
-		return Math.ceil(rating / 3 * 100);
+		const result = Math.ceil(rating / 3 * 100);
+		if (result > 100) return 100;
+		if (result < 0) return 0;
+		return result;
 	}
 
 	static CreateStrategyFromString(strategy: string, strategyOptions: StrategyOption, rating: number = null): Strategy {

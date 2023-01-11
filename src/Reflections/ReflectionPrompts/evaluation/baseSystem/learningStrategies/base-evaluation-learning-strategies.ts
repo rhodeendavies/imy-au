@@ -19,10 +19,10 @@ export class BaseEvaluationLearningStrategies {
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyRating.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyRating.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyRating.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyRating.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
 	}
 
 	nextStep() {

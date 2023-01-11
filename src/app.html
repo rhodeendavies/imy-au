@@ -20,7 +20,7 @@
 		<div class="app-nav">
 			<navbar></navbar>
 		</div>
-		<div class="app-body">
+		<div class="app-body" if.bind="!appState.refreshApp">
 			<router-view></router-view>
 		</div>
 		

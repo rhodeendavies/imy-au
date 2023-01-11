@@ -60,7 +60,7 @@ export class ApiWrapper {
 		}
 	}
 
-	async patch(url: string, body: any): Promise<any> {
+	async patch(url: string, body: any, parseResponse: boolean = true): Promise<any> {
 		try {
 			const response = await this.client.fetch(this.buildUrl(url), {
 				method: "PATCH",
@@ -71,7 +71,12 @@ export class ApiWrapper {
 			}
 			const text = await response.text();
 			// log.debug("json", text);
-			return JSON.parse(text, this.dateTimeReceiver);
+			if (parseResponse) {
+				const text = await response.text();
+				return JSON.parse(text, this.dateTimeReceiver);
+			} else {
+				return response;
+			}
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 			throw error;

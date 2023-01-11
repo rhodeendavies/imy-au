@@ -2,6 +2,7 @@ import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
 import { BaseReflection } from "models/reflections";
+import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
@@ -26,7 +27,7 @@ export class ApplicationState {
 	private currentSection: Section;
 	private loginSub: Subscription;
 
-
+	refreshApp: boolean = false;
 	watchedLesson: Lesson;
 	reflectionSection: string;
 
@@ -201,14 +202,32 @@ export class ApplicationState {
 	}
 
 	async getSectionBaseReflection(section: Section): Promise<BaseReflection> {
-		const planningResponse = await this.reflectionsApi.getBasePlanningReflection(section.planningReflectionId);
-		const monitoringResponse = await this.reflectionsApi.getBaseMonitoringReflection(section.monitoringReflectionId);
-		const evaluatingResponse = await this.reflectionsApi.getBaseEvaluatingReflection(section.evaluatingReflectionId);
+		let planningResponse: BasePlanningResponse;
+		if (section.planningReflectionId != null) {
+			planningResponse = await this.reflectionsApi.getBasePlanningReflection(section.planningReflectionId);
+		}
+		let monitoringResponse: BaseMonitoringResponse;
+		if (section.monitoringReflectionId != null) {
+			monitoringResponse = await this.reflectionsApi.getBaseMonitoringReflection(section.monitoringReflectionId);
+		}
+		let evaluatingResponse: BaseEvaluatingResponse;
+		if (section.evaluatingReflectionId != null) {
+			evaluatingResponse = await this.reflectionsApi.getBaseEvaluatingReflection(section.evaluatingReflectionId);
+		}
 		return {
 			id: section.id,
 			planningReflection: planningResponse,
 			monitoringReflection: monitoringResponse,
 			evaluatingReflection: evaluatingResponse
 		};
+	}
+
+	refreshSections() {
+		this.refreshApp  = true;
+		this.sections = null;
+		this.currentSection = null;
+		setTimeout(() => {
+			this.refreshApp = false;
+		}, 1);
 	}
 }

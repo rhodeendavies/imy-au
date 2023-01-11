@@ -12,7 +12,8 @@ import { ReflectionTypes, Systems } from "utils/enums";
 export class PlanningPrompts extends SectionTrackerParent {
 	
 	triggerSub: Subscription;
-	weekTopic: string = ""
+	weekTopic: string = "";
+	reflectionId: number;
 
 	constructor(
 		private appState: ApplicationState,
@@ -39,7 +40,7 @@ export class PlanningPrompts extends SectionTrackerParent {
 	}
 	
 	async submitPlanning(model: BasePlanningApiModel | LudusPlanningApiModel, completed: boolean) {
-		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Planning, await this.appState.getCurrentSectionId(), model);
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Planning, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;

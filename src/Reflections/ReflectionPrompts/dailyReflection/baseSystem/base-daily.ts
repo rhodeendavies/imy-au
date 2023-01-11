@@ -35,6 +35,6 @@ export class BaseDaily {
 		const length = currentSection.dailyReflectionIds.length;
 		const reflection = await this.reflectionsApi.getBaseDailyReflection(currentSection.dailyReflectionIds[length - 1]);
 		this.model = reflection.answers;
-		this.questions = reflection.questions;
+		this.questions = reflection.questions.strategyPlanning;
 	}
 }

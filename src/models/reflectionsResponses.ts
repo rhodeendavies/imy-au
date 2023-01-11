@@ -11,7 +11,7 @@ export class ReflectionResponse {
 
 // ========================== BASE SYSTEM ================================
 export class BaseDailyResponse extends ReflectionResponse {
-	questions: StrategyPlanning;
+	questions: BaseMonitoringQuestions;
 	answers: BaseDailyApiModel;
 }
 
@@ -20,8 +20,12 @@ export class BasePlanningResponse extends ReflectionResponse {
 }
 
 export class BaseMonitoringResponse extends ReflectionResponse {
-	questions: StrategyPlanning;
+	questions: BaseMonitoringQuestions;
 	answers: BaseMonitoringApiModel;
+}
+
+export class BaseMonitoringQuestions {
+	strategyPlanning: StrategyPlanning;
 }
 
 export class BaseEvaluatingResponse extends ReflectionResponse {
@@ -33,7 +37,7 @@ export class BaseEvaluatingQuestions {
 	feelingsSummary: FeelingsSummary;
 	topicRatings: Topics;
 	lessonRatingSummary: RegularLessonRatings[];
-	strategyRating: StrategyPlanning;
+	strategyPlanning: StrategyPlanning;
 }
 // =======================================================================
 

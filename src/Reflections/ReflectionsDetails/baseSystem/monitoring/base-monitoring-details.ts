@@ -18,12 +18,16 @@ export class BaseMonitoringDetails {
 	constructor(private localParent: BaseSystem) { }
 
 	attached() {
+		this.monitoringReflection = null;
+		this.monitoringQuestions = null;
 		this.initData();
 	}
 
 	initData() {
+		if (this.localParent.reflection.monitoringReflection == null) return;
+
 		this.monitoringReflection = this.localParent.reflection.monitoringReflection.answers;
-		this.monitoringQuestions = this.localParent.reflection.monitoringReflection.questions;
+		this.monitoringQuestions = this.localParent.reflection.monitoringReflection.questions.strategyPlanning;
 		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.learningStrategy, StrategyOptions.LearningStrategies, this.monitoringReflection.strategyRating.learningRating);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.monitoringReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.practicingStrategy, StrategyOptions.PracticingStrategies, this.monitoringReflection.strategyRating.practicingRating);

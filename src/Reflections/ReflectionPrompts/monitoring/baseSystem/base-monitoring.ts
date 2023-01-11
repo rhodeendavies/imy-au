@@ -41,7 +41,7 @@ export class BaseMonitoring {
 		}
 		const reflection = await this.reflectionsApi.getBaseMonitoringReflection(id);
 		this.model = reflection.answers;
-		this.questions = reflection.questions;
+		this.questions = reflection.questions.strategyPlanning;
 	}
 
 	@computedFrom("authService.Course")

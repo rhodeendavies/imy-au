@@ -39,6 +39,7 @@ export class BasePlanning {
 		if (id == null) {
 			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
 		}
+		this.localParent.reflectionId = id;
 		const reflection = await this.reflectionsApi.getBasePlanningReflection(id);
 		this.model = reflection.answers;
 	}

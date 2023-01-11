@@ -19,16 +19,20 @@ export class BaseEvaluationDetails {
 	constructor(private localParent: BaseSystem) {}
 
 	attached() {
+		this.evaluatingReflection = null;
+		this.evaluatingQuestions = null;
 		this.initData();
 	}
 
 	initData() {
+		if (this.localParent.reflection.evaluatingReflection == null) return;
+
 		this.evaluatingReflection = this.localParent.reflection.evaluatingReflection.answers;
 		this.evaluatingQuestions = this.localParent.reflection.evaluatingReflection.questions;
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyRating.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyRating.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyRating.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyRating.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
 	}
 
 	@computedFrom("localParent.reflection.id")
