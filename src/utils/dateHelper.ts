@@ -8,6 +8,10 @@ export class DateHelper {
 	static DateFromString(date: string, format: string = this.Format): Date {
 		return DateTime.fromFormat(date, format).toJSDate();
 	}
+
+	static DateFromISOString(date: string): Date {
+		return DateTime.fromISO(date).toJSDate();
+	}
 	
 	static DateTimeFromString(date: string, format: string = this.Format): DateTime {
 		return DateTime.fromFormat(date, format);

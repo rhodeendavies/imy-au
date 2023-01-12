@@ -90,9 +90,9 @@ export class ApiWrapper {
 	private dateTimeReceiver = function(key, value) {
 		let a;
 		if (typeof value === 'string') {
-			a = /\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/.exec(value);
+			a = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/.exec(value);
 			if (a) {
-				return DateHelper.DateFromString(a[0], "yyyy-LL-dd HH:mm:ss");
+				return DateHelper.DateFromISOString(a[0]);
 			}
 		}
 		return value;

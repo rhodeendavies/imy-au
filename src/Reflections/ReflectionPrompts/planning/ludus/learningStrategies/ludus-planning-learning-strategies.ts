@@ -37,7 +37,7 @@ export class LudusPlanningLearningStrategies {
 	}
 
 	get AllowSubmit(): boolean {
-		return this.Strategies != null && this.Strategies.every(x => !ComponentHelper.NullOrEmpty(x.strategy));
+		return this.Strategies != null && this.Strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
 	}
 
 	get Strategies(): Strategy[] {

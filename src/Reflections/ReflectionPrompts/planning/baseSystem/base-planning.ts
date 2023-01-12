@@ -29,7 +29,6 @@ export class BasePlanning {
 
 	submitPlanning(completed: boolean = true) {
 		this.model.completed = completed;
-
 		this.localParent.submitPlanning(this.model, completed);
 	}
 

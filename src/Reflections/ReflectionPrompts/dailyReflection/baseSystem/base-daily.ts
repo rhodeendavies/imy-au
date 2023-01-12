@@ -3,6 +3,9 @@ import { DailyPrompts } from "../daily-prompts";
 import { BaseDailyApiModel, StrategyPlanning } from "models/reflectionsApiModels";
 import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
+import { ReflectionTypes } from "utils/enums";
+import { AuthenticationService } from "services/authenticationService";
+import { BaseDailyResponse } from "models/reflectionsResponses";
 
 @autoinject
 export class BaseDaily {
@@ -12,6 +15,7 @@ export class BaseDaily {
 
 	constructor(
 		private localParent: DailyPrompts,
+		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
 	) { }
@@ -33,8 +37,23 @@ export class BaseDaily {
 	async getDaily() {
 		const currentSection = await this.appState.getCurrentSection();
 		const length = currentSection.dailyReflectionIds.length;
-		const reflection = await this.reflectionsApi.getBaseDailyReflection(currentSection.dailyReflectionIds[length - 1]);
+		let id = currentSection.dailyReflectionIds[length - 1];
+		let reflection: BaseDailyResponse = null;
+
+		if (id != null) {
+			reflection = await this.reflectionsApi.getBaseDailyReflection(id);
+		}
+		if (id == null || (reflection != null && reflection.completed)) {
+			id = await this.createDaily(currentSection.id);
+			reflection = await this.reflectionsApi.getBaseDailyReflection(id);
+		}
+
+		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
 		this.questions = reflection.questions.strategyPlanning;
+	}
+
+	async createDaily(sectionId: number): Promise<number> {
+		return await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, sectionId);
 	}
 }

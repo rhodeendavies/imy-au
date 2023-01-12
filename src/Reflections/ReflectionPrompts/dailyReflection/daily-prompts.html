@@ -16,10 +16,15 @@
 				Summaries of your reflections are shown once you've watched all the videos for the week.
 			</p>
 
-			<button class="btn btn-primary mt-30" click.delegate="startDaily()"
-				disabled.bind="!availability.available">
-				Let's go
-			</button>
+			<div class="btn-row">
+				<button class="btn btn-primary" click.delegate="startDaily()"
+					disabled.bind="!availability.available">
+					Let's go
+				</button>
+				<button class="btn btn-default" click.delegate="closeDaily()" if.bind="!availability.available">
+					Close
+				</button>
+			</div>
 			<div class="body-small mt-10" if.bind="!availability.available">
 				${timeTillNextReflection} until next reflection opportunity
 			</div>

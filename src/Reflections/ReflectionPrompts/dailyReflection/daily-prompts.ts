@@ -17,6 +17,7 @@ export class DailyPrompts extends SectionTrackerParent {
 	timeTillNextReflection: string;
 	timer: NodeJS.Timer;
 	triggerSub: Subscription;
+	reflectionId: number;
 
 	constructor(
 		private appState: ApplicationState,
@@ -61,8 +62,12 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.nextStep();
 	}
 
+	closeDaily() {
+		this.appState.closeDaily();
+	}
+
 	async submitDaily(model: BaseDailyApiModel, completed: boolean) {
-		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, await this.appState.getCurrentSectionId(), model);
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;

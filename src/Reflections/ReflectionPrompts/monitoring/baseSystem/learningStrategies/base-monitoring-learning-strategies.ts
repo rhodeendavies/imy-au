@@ -31,7 +31,7 @@ export class BaseMonitoringLearningStrategies {
 	}
 
 	get AllowSubmit(): boolean {
-		return this.Strategies != null && this.Strategies.every(x => x.rating != null && x.valid);
+		return this.Strategies != null && this.Strategies.every(x => x?.rating != null && x?.valid);
 	}
 
 	get Strategies(): Strategy[] {
