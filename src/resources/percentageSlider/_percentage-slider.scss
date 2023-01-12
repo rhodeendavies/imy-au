@@ -1,37 +1,131 @@
 @use "./src/styles/variables"as *;
 
+@mixin rangeThumb {
+	width: 18px;
+	height: 18px;
+	margin: -8px 0 0;
+	border-radius: 50%;
+	background: $SeaGreen;
+	cursor: pointer;
+	border: 0 !important;
+}
+
+@mixin rangeTrack {
+	width: calc(100% - (20px));
+	cursor: pointer;
+	margin: auto;
+	height: 75px;
+	display: flex;
+	align-items: center;
+}
+
 .percentage-slider-wrapper {
-	.percentage-slider {
-		-webkit-appearance: none;
-		width: 250px;
-		height: 15px;
-		border-radius: 5px;
-		background: #d3d3d3;
-		outline: none;
-		opacity: 0.7;
-		-webkit-transition: .2s;
-		transition: opacity .2s;
+	width: 550px;
 
-		&:hover {
-			opacity: 1;
-		}
+	.percentage-wrapper {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 30px;
 
-		&::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			appearance: none;
-			width: 25px;
-			height: 25px;
-			border-radius: 50%;
-			background: #04AA6D;
-			cursor: pointer;
-		}
+		> div {
+			border: 2px solid $SeaGreen;
+			height: 125px;
+			width: 125px;
+			border-radius: 125px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
-		&::-moz-range-thumb {
-			width: 25px;
-			height: 25px;
-			border-radius: 50%;
-			background: #04AA6D;
-			cursor: pointer;
+			> div {
+				height: 115px;
+				width: 115px;
+				border-radius: 115px;
+				background-color: $SeaGreen;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 40px;
+				font-weight: $bold;
+				font-family: $Poppins;
+				color: white;
+			}
 		}
 	}
+
+	.percentage-input-wrapper {
+		display: grid;
+		grid-template-columns: 100px 1fr 100px;
+		margin-top: 20px;
+		align-items: center;
+
+		.percentage-text {
+			font-size: 22px;
+			text-align: center;
+
+			.percentage-sub-text {
+				color: $DarkGrey;
+			}
+		}
+
+		.percentage-bar-wrapper {
+			position: relative;
+			width: 100%;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			
+			.percentage-slider {
+				width: 100%;
+				height: 0;
+				-webkit-appearance: none;
+				position: relative;
+				z-index: 1;
+		
+				// Thumb
+				&::-webkit-slider-thumb {
+					-webkit-appearance: none; // needed again for Chrome & Safari
+					@include rangeThumb;
+				}
+		
+				&::-moz-range-thumb {
+					@include rangeThumb;
+				}
+		
+				&::-ms-thumb {
+					@include rangeThumb;
+				}
+		
+				// Track
+				&::-webkit-slider-runnable-track {
+					@include rangeTrack;
+				}
+		
+				&::-moz-range-track {
+					@include rangeTrack;
+				}
+		
+				&::-ms-track {
+					@include rangeTrack;
+				}
+		
+				&:focus {
+					// override outline/background on focus
+					background: none;
+					outline: none;
+				}
+			}
+	
+			.slider-bar {
+				position: absolute;
+				display: flex;
+				justify-content: space-between;
+				width: calc(100% - (22px));
+				margin: 0 11px;
+				height: 2px;
+				background-color: $DarkGrey;
+			}
+		}
+	}
+
 }

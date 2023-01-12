@@ -38,6 +38,7 @@ export class LudusPlanning {
 			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
 		}
 		const reflection = await this.reflectionsApi.getLudusPlanningReflection(id);
+		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
 	}
 

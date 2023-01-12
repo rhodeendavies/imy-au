@@ -4,8 +4,8 @@
 	<require from="./paidia/paidia-video"></require>
 
 	<div class="prompt-wrapper">
-		<base-video class="prompt-body" show.bind="ShowBaseSystem"></base-video>
-		<ludus-video class="prompt-body" show.bind="ShowLudus"></ludus-video>
-		<paidia-video class="prompt-body" show.bind="ShowPaidia"></paidia-video>
+		<base-video class="prompt-body" if.bind="ShowBaseSystem"></base-video>
+		<ludus-video class="prompt-body" if.bind="ShowLudus"></ludus-video>
+		<paidia-video class="prompt-body" if.bind="ShowPaidia"></paidia-video>
 	</div>
 </template>

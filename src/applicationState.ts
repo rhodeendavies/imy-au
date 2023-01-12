@@ -1,6 +1,8 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
+import environment from "environment";
 import { Lesson, Section } from "models/course";
+import { BasicPrompts, PromptSection, Prompts } from "models/prompts";
 import { BaseReflection } from "models/reflections";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
@@ -13,6 +15,7 @@ import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
 import { ReflectionTypes } from "utils/enums";
+import { log } from "utils/log";
 
 @autoinject
 export class ApplicationState {
@@ -26,7 +29,8 @@ export class ApplicationState {
 	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
 	private loginSub: Subscription;
-
+	
+	ludusPrompts: Prompts;
 	refreshApp: boolean = false;
 	watchedLesson: Lesson;
 	reflectionSection: string;
@@ -74,7 +78,7 @@ export class ApplicationState {
 		this.ratingModal.toggle();
 	}
 
-	submitRating() {
+	closeRating() {
 		if (this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
@@ -95,7 +99,9 @@ export class ApplicationState {
 
 	triggerPlanningModal(sectionName: string) {
 		this.reflectionSection = sectionName;
-		this.planningModal.toggle();
+		if (!this.planningModal.Open) {
+			this.planningModal.toggle();
+		}
 		this.ea.publish(Events.PlanningTriggered);
 	}
 
@@ -229,5 +235,44 @@ export class ApplicationState {
 		setTimeout(() => {
 			this.refreshApp = false;
 		}, 1);
+	}
+
+	initPrompts() {
+		fetch("prompts/ludus-prompts.json")
+			.then(response => response.json())
+			.then((prompt: BasicPrompts) => {
+				log.debug("prompts", prompt);
+				this.ludusPrompts = {
+					planningPrompts: prompt.planningPrompts.map(x => this.generatePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => this.generatePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => this.generatePromptSections(x)),
+				}
+				log.debug("ludus prompts", this.ludusPrompts);
+			});
+	}
+
+	generatePromptSections(promptString: string): PromptSection[] {
+		const sections = promptString.split(environment.blankIndicator);
+		const sectionsLength: number = sections.length;
+		return sections.reduce((prev, curr, index) => {
+			if (!ComponentHelper.NullOrEmpty(curr)) {
+				prev.push({
+					prompt: curr,
+					input: false,
+					period: curr.indexOf(".") == 0,
+					inputValue: ""
+				});
+			}
+			
+			if (index < (sectionsLength - 1)) {
+				prev.push({
+					prompt: "",
+					input: true,
+					period: false,
+					inputValue: ""
+				});
+			}
+			return prev;
+		}, []);
 	}
 }

@@ -1,0 +1,49 @@
+{
+	"planningPrompts": [
+		"This week, my incredible abilities of %{blank} will allow me to achieve %{blank}.",
+		"This week, I am feeling particularly confident about %{blank} and that means %{blank}.",
+		"I am excellent at %{blank} and that will result in %{blank} this week.",
+		"I am super skilled at %{blank} and %{blank}, so this week will be %{blank}.",
+		"I am feeling %{blank} about this week because I am capable of %{blank}.",
+		"%{blank} and %{blank} are my specialities, and that means I can feel %{blank} about this week.",
+		"My talents of %{blank} and %{blank} will result in %{blank} this week.",
+		"My superb strengths this week include %{blank} and %{blank}. As a result, the week will be %{blank}.",
+		"I think this week is going to be %{blank}. This is all because of %{blank}.",
+		"I can’t wait to use my skills of %{blank} and %{blank} to %{blank} this week.",
+		"One does not simply use %{blank} and %{blank} to have a %{blank} week.",
+		"What if I told you that my skills of %{blank} are legendary? They will %{blank} this week.",
+		"I have a very particular set of skills, including %{blank}. They will stand me in good stead and lead to %{blank} this week.",
+		"I have maxed out my skill tree in %{blank}. This week is gonna be %{blank}.",
+		"Strong with me is the power of %{blank}. %{blank} this week, I will.",
+		"I am a level 100 in %{blank} and %{blank}. This week will be %{blank}."
+	],
+	"monitoringPrompts": [
+		"My brain literally can’t %{blank}, but I will %{blank} to fix this.",
+		"What the heck is %{blank}? I aim to %{blank} to address this gap in my knowledge.",
+		"I am feeling unsure about %{blank}, but I will %{blank} to learn more about it. ",
+		"I don’t know much about %{blank}. I need to %{blank} to get better at it.",
+		"I will %{blank} to make sure that I address my uncertainty about %{blank}.",
+		"I am deeply unsure about %{blank}, but I will %{blank} to improve this.",
+		"I wish I knew more about %{blank}, so I will %{blank}.",
+		"I have questions about %{blank}. I think I need to %{blank} about this.",
+		"I will need to %{blank} because I am not so good at %{blank}.",
+		"Am I the only one confused about %{blank}? I should %{blank}.",
+		"Not sure if %{blank}. I should %{blank}.",
+		"I am 100% unclear about %{blank}, but luckily, I can %{blank}.",
+		"Questions. So many questions about %{blank}. I should %{blank}.",
+		"What if I told you that I know nothing about %{blank}? Don’t worry, I’ll %{blank} to fix it.",
+		"I am pretty sure that I am not sure about %{blank}. I’m sure I can %{blank} about it."
+	],
+	"evaluatingPrompts": [
+		"This week was %{blank}, and that means that %{blank}.",
+		"I felt really %{blank} this week and so my learning was %{blank}.",
+		"My learning was so %{blank} this week because I was %{blank}.",
+		"I feel %{blank} about my learning this week because I was %{blank}.",
+		"I was incredibly %{blank} in %{module} this week and that meant that %{blank}.",
+		"I feel %{blank} about %{module} this week. As a result, my progress was %{blank}.",
+		"%{blank}! This week was %{blank} and I %{blank}.",
+		"%{module} was unbelievably %{blank} this week. I felt %{blank}.",
+		"I did so %{blank} this week because I was feeling %{blank}.",
+		"Learning this week was unthinkably %{blank} because I was %{blank}."
+	]
+}

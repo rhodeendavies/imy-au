@@ -3,10 +3,20 @@
 		<p class="reflection-question mb-30">
 			What strengths do you have this week? How can you use these to optimize your learning in ${localParent.Course} this week?
 		</p>
+
+		<div class="prompt-input">
+			<template repeat.for="section of promptSections">
+				<p if.bind="!section.input" class="${section.period ? 'prompt-period' : ''}">${section.prompt}</p>
+				<input-box if.bind="section.input" value.bind="section.inputValue"></input-box>
+			</template>
+			<div click.delegate="getNewPrompt()" class="prompt-refresh">
+				<span class="icon">refresh</span>
+			</div>
+		</div>
 	</div>
 
 	<div class="mt-30">
-		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!valid">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
 			Next
 		</button>
 	</div>

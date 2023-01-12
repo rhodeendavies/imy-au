@@ -57,6 +57,6 @@ export class BaseEvaluationDetails {
 
 	@computedFrom("localParent.reflection.id")
 	get DateRecorded(): Date {
-		return this.localParent.reflection.evaluatingReflection.completedAt;
+		return this.localParent.reflection.evaluatingReflection?.completedAt;
 	}
 }

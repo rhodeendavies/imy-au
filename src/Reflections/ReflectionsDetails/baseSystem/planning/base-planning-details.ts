@@ -48,6 +48,6 @@ export class BasePlanningDetails {
 
 	@computedFrom("localParent.reflection.id")
 	get DateRecorded(): Date {
-		return this.localParent.reflection.planningReflection.completedAt;
+		return this.localParent.reflection.planningReflection?.completedAt;
 	}
 }

@@ -7,5 +7,6 @@ export default {
 	loginModel: {
 		studentNumber: "",
 		password: ""
-	}
+	},
+	blankIndicator: "%{blank}"
 };

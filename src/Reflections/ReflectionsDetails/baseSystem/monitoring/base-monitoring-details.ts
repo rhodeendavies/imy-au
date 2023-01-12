@@ -57,6 +57,6 @@ export class BaseMonitoringDetails {
 
 	@computedFrom("localParent.reflection.id")
 	get DateRecorded(): Date {
-		return this.localParent.reflection.monitoringReflection.completedAt;
+		return this.localParent.reflection.monitoringReflection?.completedAt;
 	}
 }

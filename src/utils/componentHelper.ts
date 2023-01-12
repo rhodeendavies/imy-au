@@ -7,6 +7,10 @@ export class ComponentHelper {
 		return `${component}_${Math.random().toString(36).substring(2, 5)}`;
 	}
 
+	static RandomWholeNumber(min: number = 0, max: number = 100): number {
+		return Math.floor((Math.random() * max) + min);
+	}
+
 	static Sleep(ms: number): Promise<void> {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}

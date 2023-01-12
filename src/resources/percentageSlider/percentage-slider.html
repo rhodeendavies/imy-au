@@ -2,20 +2,25 @@
 	<div class="percentage-slider-wrapper">
 		<div class="percentage-wrapper">
 			<div>
-				${percentage}
+				<div>${percentage}%</div>
 			</div>
 		</div>
+
 		<div class="percentage-input-wrapper">
 			<div class="percentage-text">
 				<div>0%</div>
-				<div>Not great</div>
+				<div class="percentage-sub-text">Not great</div>
 			</div>
 
-			<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider" />
+			
+			<div class="percentage-bar-wrapper">
+				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider" />
+				<div class="slider-bar"></div>
+			</div>
 
 			<div class="percentage-text">
 				<div>100%</div>
-				<div>Excellent</div>
+				<div class="percentage-sub-text">Excellent</div>
 			</div>
 		</div>
 	</div>

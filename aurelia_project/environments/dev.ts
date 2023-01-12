@@ -5,7 +5,8 @@ export default {
 		baseUrl: "http://localhost:3000"
 	},
 	loginModel: {
-		studentNumber: "u00000001",
+		studentNumber: "u00000006",
 		password: "1234"
-	}
+	},
+	blankIndicator: "%{blank}"
 };

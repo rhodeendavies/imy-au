@@ -1,7 +1,7 @@
 import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
 import { ReflectionApiModel } from "models/reflectionsApiModels";
-import { BaseDailyResponse, BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, CreateReflectionResponse, LudusDailyResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
+import { BaseDailyResponse, BaseEvaluatingResponse, BaseLessonResponse, BaseMonitoringResponse, BasePlanningResponse, CreateReflectionResponse, LudusDailyResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Availability } from "models/userDetails";
 import { ReflectionTypes, Systems } from "utils/enums";
 import { log } from "utils/log";
@@ -50,6 +50,15 @@ export class ReflectionsService {
 	}
 
 	// ========================== BASE ======================================
+	async getBaseLessonReflection(id: number): Promise<BaseLessonResponse> {
+		try {
+			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Lesson}`);
+		} catch (error) {
+			log.error(error);
+			return null;
+		}
+	}
+
 	async getBaseDailyReflection(id: number): Promise<BaseDailyResponse> {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Daily}`);

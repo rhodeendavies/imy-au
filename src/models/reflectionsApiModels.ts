@@ -3,8 +3,8 @@ export class ReflectionApiModel {
 }
 
 // ========================== BASE SYSTEM ================================
-export class BaseVideoRatingApiModel extends ReflectionApiModel {
-	rating: number
+export class BaseLessonApiModel extends ReflectionApiModel {
+	lessonRating: CourseFeelings;
 }
 
 export class BaseDailyApiModel extends ReflectionApiModel {

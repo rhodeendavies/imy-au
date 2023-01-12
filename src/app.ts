@@ -34,6 +34,7 @@ export class App {
 		this.appState.setPlanningModal(this.planningModal);
 		this.appState.setMonitoringModal(this.monitoringModal);
 		this.appState.setEvaluationModal(this.evaluationModal);
+		this.appState.initPrompts();
 	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
