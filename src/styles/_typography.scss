@@ -138,6 +138,20 @@ strong {
 			font-weight: $light;
 			font-size: 16px;
 		}
+
+		.summary-modifiers {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			align-items: center;
+
+			.summary-modifier {
+				background-color: $Orange;
+				color: white;
+				padding: 5px 10px;
+				border-radius: $BorderRadius;
+			}
+		}
 	}
 }
 

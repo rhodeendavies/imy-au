@@ -1,6 +1,7 @@
 import { Strategy } from "models/reflections";
-import { Colour, StrategyModifier, StrategyOption } from "./constants";
-import { LudusStrategy } from "models/reflectionsApiModels";
+import { Colour, StrategyOption } from "./constants";
+import { LudusModifier, LudusStrategy } from "models/reflectionsApiModels";
+import { PromptSection } from "models/prompts";
 
 export class ComponentHelper {
 	static CreateId(component: string): string {
@@ -35,8 +36,8 @@ export class ComponentHelper {
 		return `rgba(${colour.red}, ${colour.green}, ${colour.blue}, ${opacity}`;
 	}
 
-	static CreateModifiersString(modifiers: StrategyModifier[]): string {
-		return modifiers.map(x => `${x.type} +${x.value}`).join(", ");
+	static CreateModifiersString(modifiers: LudusModifier[]): string {
+		return modifiers.map(x => `${x.name} +${x.amount}`).join(", ");
 	}
 
 	static GetRatingPercentages(rating: number) {
@@ -73,7 +74,7 @@ export class ComponentHelper {
 		};
 	}
 
-	static CreateStrategyFromLudus(strategy: LudusStrategy, strategyOptions: StrategyOption): Strategy {
+	static CreateStrategyFromLudus(strategy: LudusStrategy, strategyOptions: StrategyOption, rating: number = null): Strategy {
 		return {
 			title: strategyOptions.title,
 			icon: strategyOptions.icon,
@@ -95,25 +96,103 @@ export class ComponentHelper {
 				value: strategyOptions.Four.modifiers
 			}],
 			strategy: strategy?.text,
-			modifiers: strategy?.modifiers?.map(x => {
-				return {
-					type: x.name,
-					value: x.amount
-				}
-			}),
-			rating: null
+			modifiers: strategy?.modifiers,
+			rating: rating
 		};
 	}
 
 	static CreateLudusModifier(strategy: Strategy): LudusStrategy {
 		return {
 			text: strategy.strategy,
-			modifiers: strategy.modifiers.map(x => {
-				return {
-					name: x.type,
-					amount: x.value
-				}
-			})
+			modifiers: strategy.modifiers
 		}
+	}
+
+	static GetUniqueComponents(components: string[], modifiers: LudusModifier[]): string[] {
+		modifiers?.forEach(x => {
+			if (!components.includes(x.name)) {
+				components.push(x.name);
+			}
+		});
+		return components;
+	}
+
+	static GeneratePromptSections(promptString: string): PromptSection[] {
+		const sections: PromptSection[] = [];
+		const lengthOfString = promptString.length;
+		
+		let index = 0;
+		let inputIndex = 0;
+		let endOfInputIndex = 0;
+
+		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
+			inputIndex = promptString.indexOf("%", index);
+			endOfInputIndex = promptString.indexOf("}", index);
+			
+			let subString = "";
+			let inputString = "";
+
+			if (inputIndex == -1) {
+				subString = promptString.substring(index);
+			} else {
+				subString = promptString.substring(index, inputIndex);
+			}
+
+			sections.push({
+				prompt: subString,
+				input: false,
+				period: subString.indexOf(".") == 0,
+				inputValue: ""
+			});
+
+			if (inputIndex >= 0) {
+				inputString = promptString.substring(inputIndex + 2, endOfInputIndex);
+				
+				sections.push({
+					prompt: "",
+					input: true,
+					period: false,
+					inputValue: inputString
+				});
+			}
+
+			index = endOfInputIndex + 1;
+		}
+
+		return sections;
+	}
+
+	static CleanPrompt(promptString: string): string {
+		if (promptString == null) return;
+		const lengthOfString = promptString.length;
+		
+		let index = 0;
+		let inputIndex = 0;
+		let endOfInputIndex = 0;
+
+		let result = "";
+		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
+			inputIndex = promptString.indexOf("%", index);
+			endOfInputIndex = promptString.indexOf("}", index);
+			
+			let subString = "";
+			let inputString = "";
+
+			if (inputIndex == -1) {
+				subString = promptString.substring(index);
+			} else {
+				subString = promptString.substring(index, inputIndex);
+			}
+			result += subString;
+
+			if (inputIndex >= 0) {
+				inputString = promptString.substring(inputIndex + 2, endOfInputIndex);
+				result += inputString;
+			}
+
+			index = endOfInputIndex + 1;
+		}
+
+		return result;
 	}
 }

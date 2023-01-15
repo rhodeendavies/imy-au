@@ -1,13 +1,20 @@
 import { RadioOption } from "resources/radioButton/radio-button";
 import { StrategyCategories } from "utils/enums";
-import { StrategyModifier } from "utils/constants";
-import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LessonRatings } from "./reflectionsResponses";
+import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LessonRatings, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "./reflectionsResponses";
+import { LudusModifier } from "./reflectionsApiModels";
 
 export class BaseReflection {
 	id: number;
 	planningReflection: BasePlanningResponse;
 	monitoringReflection: BaseMonitoringResponse;
 	evaluatingReflection: BaseEvaluatingResponse;
+}
+
+export class LudusReflection {
+	id: number;
+	planningReflection: LudusPlanningResponse;
+	monitoringReflection: LudusMonitoringResponse;
+	evaluatingReflection: LudusEvaluatingResponse;
 }
 
 export class Strategy extends LessonRatings {
@@ -18,7 +25,7 @@ export class Strategy extends LessonRatings {
 	// frontend only
 	icon?: string;
 	options?: RadioOption[];
-	modifiers?: StrategyModifier[];
+	modifiers?: LudusModifier[];
 	valid?: boolean;
 
 	constructor() {

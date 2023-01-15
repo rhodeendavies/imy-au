@@ -1,5 +1,5 @@
 import { Systems } from "utils/enums";
-import { BaseReflection } from "./reflections";
+import { BaseReflection, LudusReflection } from "./reflections";
 
 export class Course {
 	id: number;
@@ -40,6 +40,7 @@ export class Section {
 	dateString?: string;
 	open?: boolean;
 	baseReflection: BaseReflection;
+	ludusReflection: LudusReflection;
 
 	constructor() {
 		this.id = 0;

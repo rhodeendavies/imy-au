@@ -2,6 +2,27 @@
 	<require from="./planning/ludus-planning-details"></require>
 	<require from="./monitoring/ludus-monitoring-details"></require>
 	<require from="./evaluation/ludus-evaluation-details"></require>
+	<require from="resources/gauge/gauge"></require>
+
+	<div class="reflections-details" if.bind="components.length > 0">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">signal cellular alt</span>
+			</div>
+			<div class="reflection-header">
+				Progress towards your strategies
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				
+			</div>
+		</div>
+
+		<div class="reflection-body">
+			<div class="ludus-gauges">
+				<gauge repeat.for="component of components" value.bind="component.value" label.bind="component.name"></gauge>
+			</div>
+		</div>
+	</div>
 
 	<ludus-planning-details if.bind="localParent.ShowPlanning"></ludus-planning-details>
 	<ludus-monitoring-details if.bind="localParent.ShowMonitoring"></ludus-monitoring-details>

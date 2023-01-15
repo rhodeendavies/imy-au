@@ -1,10 +1,9 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
-import environment from "environment";
 import { Lesson, Section } from "models/course";
-import { BasicPrompts, PromptSection, Prompts } from "models/prompts";
-import { BaseReflection } from "models/reflections";
-import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse } from "models/reflectionsResponses";
+import { BasicPrompts, Prompts } from "models/prompts";
+import { BaseReflection, LudusReflection } from "models/reflections";
+import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
@@ -228,6 +227,27 @@ export class ApplicationState {
 		};
 	}
 
+	async getSectionLudusReflection(section: Section): Promise<LudusReflection> {
+		let planningResponse: LudusPlanningResponse;
+		if (section.planningReflectionId != null) {
+			planningResponse = await this.reflectionsApi.getLudusPlanningReflection(section.planningReflectionId);
+		}
+		let monitoringResponse: LudusMonitoringResponse;
+		if (section.monitoringReflectionId != null) {
+			monitoringResponse = await this.reflectionsApi.getLudusMonitoringReflection(section.monitoringReflectionId);
+		}
+		let evaluatingResponse: LudusEvaluatingResponse;
+		if (section.evaluatingReflectionId != null) {
+			evaluatingResponse = await this.reflectionsApi.getLudusEvaluatingReflection(section.evaluatingReflectionId);
+		}
+		return {
+			id: section.id,
+			planningReflection: planningResponse,
+			monitoringReflection: monitoringResponse,
+			evaluatingReflection: evaluatingResponse
+		};
+	}
+
 	refreshSections() {
 		this.refreshApp  = true;
 		this.sections = null;
@@ -242,55 +262,10 @@ export class ApplicationState {
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
 				this.ludusPrompts = {
-					planningPrompts: prompt.planningPrompts.map(x => this.generatePromptSections(x)),
-					monitoringPrompts: prompt.monitoringPrompts.map(x => this.generatePromptSections(x)),
-					evaluatingPrompts: prompt.evaluatingPrompts.map(x => this.generatePromptSections(x)),
+					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
 				}
 			});
-	}
-
-	generatePromptSections(promptString: string): PromptSection[] {
-		const sections: PromptSection[] = [];
-		const lengthOfString = promptString.length;
-		
-		let index = 0;
-		let inputIndex = 0;
-		let endOfInputIndex = 0;
-
-		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf("%", index);
-			endOfInputIndex = promptString.indexOf("}", index);
-			
-			let subString = "";
-			let inputString = "";
-
-			if (inputIndex == -1) {
-				subString = promptString.substring(index);
-			} else {
-				subString = promptString.substring(index, inputIndex);
-			}
-
-			sections.push({
-				prompt: subString,
-				input: false,
-				period: subString.indexOf(".") == 0,
-				inputValue: ""
-			});
-
-			if (inputIndex >= 0) {
-				inputString = promptString.substring(inputIndex + 2, endOfInputIndex);
-				
-				sections.push({
-					prompt: "",
-					input: true,
-					period: false,
-					inputValue: inputString
-				});
-			}
-
-			index = endOfInputIndex + 1;
-		}
-
-		return sections;
 	}
 }

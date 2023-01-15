@@ -20,7 +20,7 @@ export class LudusPlanningStrengths {
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strengthOptimization.response)) {
 			this.getRandomPrompt();
 		} else {
-			this.promptSections = this.appState.generatePromptSections(this.localParent.model.strengthOptimization.response);
+			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.strengthOptimization.response);
 		}
 	}
 

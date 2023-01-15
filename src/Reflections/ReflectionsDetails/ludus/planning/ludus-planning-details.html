@@ -1,3 +1,57 @@
 <template>
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">edit</span>
+			</div>
+			<div class="reflection-header">
+				PLANNING: Start of the week
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="PlanningReflection == null">
+			<!-- should realistically never show -->
+			You haven't completed this reflection yet. The week needs to start first
+		</div>
 	
+		<div class="reflection-body" if.bind="PlanningReflection != null">
+			<div class="reflection-text" if.bind="localParent.FullReflection">
+				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
+				<div class="percentage-wrapper">
+					<div>
+						<div>${PlanningReflection.courseFeelings.rating}%</div>
+					</div>
+				</div>
+			</div>
+
+			<div if.bind="localParent.FullReflection">
+				Reflecting on how to use your strengths this week
+			</div>
+			<div class="reflection-text">
+				${Strength}
+			</div>
+			<div class="strats-summary">
+				<div class="sub-heading mb-20">Your chosen strategies for this week</div>
+				<div class="summary-with-icon" repeat.for="category of Strategies">
+					<div class="summary-icon">
+						<span class="icon">${category.icon}</span>
+					</div>
+					<div class="summary-text">
+						<div class="summary-heading">${category.title}</div>
+						<div class="summary-body">${category.strategy}</div>
+						<div class="summary-modifiers">
+							<div repeat.for="modifier of category.modifiers" class="summary-modifier">
+								${modifier.name} +${modifier.amount}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

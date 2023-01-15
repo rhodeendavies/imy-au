@@ -1,3 +1,49 @@
 <template>
-	
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">rate_review</span>
+			</div>
+			<div class="reflection-header">
+				EVALUATING: End of the content
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="EvaluatingReflection == null">
+			You haven't completed this reflection yet. You need to finish watching this
+			week's videos to do so.
+		</div>
+
+		<div class="reflection-body" if.bind="EvaluatingReflection != null">
+			<div class="reflection-text">
+				<div if.bind="localParent.FullReflection">
+					<div class="sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
+					
+				</div>
+				${Experience}
+			</div>
+			<div class="strats-summary">
+				<div class="sub-heading mb-20">Rating your strategies this week</div>
+				<div class="summary-with-icon" repeat.for="category of Strategies">
+					<div class="summary-icon rating-icon saturate-${category.ratingPercentage}">
+						<span>${category.rating}/3</span>
+					</div>
+					<div class="summary-text">
+						<div class="summary-heading">${category.title}</div>
+						<div class="summary-body">${category.strategy}</div>
+						<div class="summary-modifiers">
+							<div repeat.for="modifier of category.modifiers" class="summary-modifier">
+								${modifier.name} +${modifier.amount}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

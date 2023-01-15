@@ -56,8 +56,12 @@ export class LudusPlanningResponse extends ReflectionResponse {
 }
 
 export class LudusMonitoringResponse extends ReflectionResponse {
-	questions: LudusStrategyPlanning;
+	questions: LudusMonitoringQuestions;
 	answers: LudusMonitoringApiModel;
+}
+
+export class LudusMonitoringQuestions {
+	strategyRating: LudusStrategyPlanning;
 }
 
 export class LudusEvaluatingResponse extends ReflectionResponse {

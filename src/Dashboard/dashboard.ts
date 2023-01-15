@@ -1,7 +1,7 @@
 import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-framework";
 import { Router, RouterConfiguration } from "aurelia-router";
-import { BaseReflection } from "models/reflections";
+import { BaseReflection, LudusReflection } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { StudentRoutes } from "routes/studentRoutes";
 import { AuthenticationService } from "services/authenticationService";
@@ -12,7 +12,8 @@ import { log } from "utils/log";
 @autoinject
 export class Dashboard {
 
-	currentReflection: BaseReflection;
+	baseReflection: BaseReflection;
+	ludusReflection: LudusReflection;
 	lessonOpen: boolean = false;
 	busy: Busy = new Busy();
 
@@ -21,11 +22,13 @@ export class Dashboard {
 	async attached() {
 		try {
 			this.busy.on();
+			const currentSection = await this.appState.getCurrentSection()
 			switch (this.authService.System) {
 				case Systems.Base:
-					this.currentReflection = await this.appState.getSectionBaseReflection(await this.appState.getCurrentSection());
+					this.baseReflection = await this.appState.getSectionBaseReflection(currentSection);
 					break;
-				default:
+				case Systems.Ludus:
+					this.ludusReflection = await this.appState.getSectionLudusReflection(currentSection);
 					break;
 			}
 		} catch (error) {

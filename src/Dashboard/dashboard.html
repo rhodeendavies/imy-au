@@ -24,8 +24,11 @@
 				</div>
 			</div>
 			
-			<reflections-details reflection.bind="currentReflection" dashboard-version.bind="true"
-				if.bind="currentReflection != null">
+			<reflections-details 
+				base-reflection.bind="baseReflection"
+				ludus-reflection.bind="ludusReflection"
+				dashboard-version.bind="true"
+				if.bind="baseReflection != null || ludusReflection != null">
 			</reflections-details>
 		</div>
 	</div>

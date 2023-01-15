@@ -3,6 +3,8 @@ import { Router } from "aurelia-router";
 import { Section } from "models/course";
 import { DateTime, Interval } from "luxon";
 import { ApplicationState } from "applicationState";
+import { AuthenticationService } from "services/authenticationService";
+import { Systems } from "utils/enums";
 
 @autoinject
 export class Reflections {
@@ -11,13 +13,22 @@ export class Reflections {
 	sectionSelected: Section;
 	showPublicReflections: boolean = false;
 	
-	constructor(private router: Router, private appState: ApplicationState) { }
+	constructor(private router: Router, private appState: ApplicationState, private authService: AuthenticationService) { }
 
 	async attached() {
 		this.sections = await this.appState.getSections();
 		for (let index = 0; index < this.sections.length; index++) {
 			const section = this.sections[index];
-			section.baseReflection = await this.appState.getSectionBaseReflection(section);
+			switch (this.authService.System) {
+				case Systems.Base:
+					section.baseReflection = await this.appState.getSectionBaseReflection(section);
+					break;
+				case Systems.Ludus:
+					section.ludusReflection = await this.appState.getSectionLudusReflection(section);
+					break;
+				case Systems.Paidia:
+					break;
+			}
 		}
 		const currentSection = await this.appState.getCurrentSection();
 		this.sectionSelected = this.sections.find(x => x.id == currentSection.id);

@@ -1,6 +1,6 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
-import { Colours, StrategyModifier, StrategyOptions } from "utils/constants";
+import { Colours, StrategyOptions } from "utils/constants";
 import { LudusPlanning } from "../ludus-planning";
 import { Strategy } from "models/reflections";
 import { Busy } from "resources/busy/busy";
@@ -53,15 +53,6 @@ export class LudusPlanningLearningStrategies {
 		this.localParent.submitPlanning();
 	}
 
-	getUniqueComponents(components: string[], modifiers: StrategyModifier[]): string[] {
-		modifiers?.forEach(x => {
-			if (!components.includes(x.type)) {
-				components.push(x.type);
-			}
-		});
-		return components;
-	}
-
 	createData() {
 		const allModifiers = [];
 		if (this.learningStrategy.modifiers != null) {
@@ -77,7 +68,7 @@ export class LudusPlanningLearningStrategies {
 			allModifiers.push(...this.extendingStrategy.modifiers);
 		}
 		
-		this.components = this.getUniqueComponents([], allModifiers);
+		this.components = ComponentHelper.GetUniqueComponents([], allModifiers);
 		const data: number[] = this.components.map(x => {
 			return allModifiers.reduce((prev, curr) => {
 				if (curr.type == x) {

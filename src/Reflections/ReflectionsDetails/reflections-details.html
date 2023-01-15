@@ -5,8 +5,8 @@
 	<require from="./paidia/paidia"></require>
 
 	<div class="reflections-details-wrapper">
-		<base-system if.bind="ShowBaseSystem" reflection.bind="reflection"></base-system>
-		<ludus if.bind="ShowLudus"></ludus>
+		<base-system if.bind="ShowBaseSystem" reflection.bind="baseReflection"></base-system>
+		<ludus if.bind="ShowLudus" reflection.bind="ludusReflection"></ludus>
 		<paidia if.bind="ShowPaidia"></paidia>
 		
 		<section-tracker class="reflection-section-tracker" num-of-sections.bind="3" section.bind="activeSection"></section-tracker>

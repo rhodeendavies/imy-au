@@ -1,3 +1,4 @@
+import { LudusModifier } from "models/reflectionsApiModels";
 import { StrategyCategories, StrategyCategoryIcons, StrategyModifiers } from "./enums";
 
 export class Events {
@@ -34,12 +35,7 @@ export class Colour {
 
 export class StrategyWrapper {
 	value: string;
-	modifiers: StrategyModifier[];
-}
-
-export class StrategyModifier {
-	type: StrategyModifiers | string;
-	value: number;
+	modifiers: LudusModifier[];
 }
 
 export class StrategyOption {
@@ -58,35 +54,35 @@ export class StrategyOptions {
 		One: {
 			value: "Watch all the videos near the beginning of the week",
 			modifiers: [{
-				type: StrategyModifiers.TimeManagement,
-				value: 5
+				name: StrategyModifiers.TimeManagement,
+				amount: 5
 			}, {
-				type: StrategyModifiers.Research,
-				value: 1
+				name: StrategyModifiers.Research,
+				amount: 1
 			}]
 		},
 		Two: {
 			value: "Watch one video a day",
 			modifiers: [{
-				type: StrategyModifiers.TimeManagement,
-				value: 2
+				name: StrategyModifiers.TimeManagement,
+				amount: 2
 			}, {
-				type: StrategyModifiers.Research,
-				value: 3
+				name: StrategyModifiers.Research,
+				amount: 3
 			}]
 		},
 		Three: {
 			value: "Summarise what I have learnt after watching each",
 			modifiers: [{
-				type: StrategyModifiers.Research,
-				value: 5
+				name: StrategyModifiers.Research,
+				amount: 5
 			}]
 		},
 		Four: {
 			value: "Take notes while watching the videos",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 5
+				name: StrategyModifiers.Interaction,
+				amount: 5
 			}]
 		}
 	};
@@ -96,29 +92,29 @@ export class StrategyOptions {
 		One: {
 			value: "Review the lecture slides after",
 			modifiers: [{
-				type: StrategyModifiers.Research,
-				value: 5
+				name: StrategyModifiers.Research,
+				amount: 5
 			}]
 		},
 		Two: {
 			value: "Practice the practical concepts in the video <strong>while</strong> watching it",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 2
+				name: StrategyModifiers.Interaction,
+				amount: 2
 			}]
 		},
 		Three: {
 			value: "Practice the practical concepts in the video <strong>after</strong> watching it",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 5
+				name: StrategyModifiers.Interaction,
+				amount: 5
 			}]
 		},
 		Four: {
 			value: "Review and tweak the provided extra resources (like code files) after watching the videos",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 3
+				name: StrategyModifiers.Interaction,
+				amount: 3
 			}]
 		}
 	};
@@ -128,29 +124,29 @@ export class StrategyOptions {
 		One: {
 			value: "Review the lecture slides after",
 			modifiers: [{
-				type: StrategyModifiers.Research,
-				value: 2
+				name: StrategyModifiers.Research,
+				amount: 2
 			}]
 		},
 		Two: {
 			value: "Practice the practical concepts in the video <strong>while</strong> watching it",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 3
+				name: StrategyModifiers.Interaction,
+				amount: 3
 			}]
 		},
 		Three: {
 			value: "Practice the practical concepts in the video <strong>after</strong> watching it",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 5
+				name: StrategyModifiers.Interaction,
+				amount: 5
 			}]
 		},
 		Four: {
 			value: "Review and tweak the provided extra resources (like code files) after watching the videos",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 5
+				name: StrategyModifiers.Interaction,
+				amount: 5
 			}]
 		}
 	};
@@ -160,29 +156,29 @@ export class StrategyOptions {
 		One: {
 			value: "Speak to my classmates about the concepts in the videos",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 5
+				name: StrategyModifiers.Interaction,
+				amount: 5
 			}]
 		},
 		Two: {
 			value: "Practice the concepts in the videos in a project of my own",
 			modifiers: [{
-				type: StrategyModifiers.Interaction,
-				value: 3
+				name: StrategyModifiers.Interaction,
+				amount: 3
 			}]
 		},
 		Three: {
 			value: "Search the web for examples of the concepts mentioned in the videos",
 			modifiers: [{
-				type: StrategyModifiers.Research,
-				value: 5
+				name: StrategyModifiers.Research,
+				amount: 5
 			}]
 		},
 		Four: {
 			value: "Search the web for extra resources relating to the concepts mentioned in the videos",
 			modifiers: [{
-				type: StrategyModifiers.Research,
-				value: 5
+				name: StrategyModifiers.Research,
+				amount: 5
 			}]
 		}
 	};

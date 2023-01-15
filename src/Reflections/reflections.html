@@ -41,7 +41,9 @@
 				if.bind="showPublicReflections && sectionSelected.baseReflection != null">
 			</public-reflections>
 
-			<reflections-details reflection.bind="sectionSelected.baseReflection"
+			<reflections-details 
+				base-reflection.bind="sectionSelected.baseReflection"
+				ludus-reflection.bind="sectionSelected.ludusReflection"
 				if.bind="!showPublicReflections && sectionSelected.baseReflection != null">
 			</reflections-details>
 		</div>
