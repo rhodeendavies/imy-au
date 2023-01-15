@@ -8,7 +8,7 @@ import { ComponentHelper } from "utils/componentHelper";
 export class Ludus {
 
 	@bindable reflection: LudusReflection;
-	components: Component[];
+	components: LudusModifier[];
 
 	constructor(private localParent: ReflectionsDetails) {}
 
@@ -39,14 +39,7 @@ export class Ludus {
 			allModifiers.push(...strategies.extendingStrategy.modifiers);
 		}
 		
-		const componentNames = ComponentHelper.GetUniqueComponents([], allModifiers);
-
-		this.components = componentNames.map(x => {
-			return {
-				name: x,
-				value: 0
-			}
-		});
+		this.components = ComponentHelper.GetUniqueComponents([], allModifiers);
 	}
 
 	@computedFrom("localParent.dashboardVersion")
@@ -58,9 +51,4 @@ export class Ludus {
 	get Course(): string {
 		return this.localParent.Course;
 	}
-}
-
-class Component {
-	name: string;
-	value: number;
 }

@@ -108,10 +108,13 @@ export class ComponentHelper {
 		}
 	}
 
-	static GetUniqueComponents(components: string[], modifiers: LudusModifier[]): string[] {
+	static GetUniqueComponents(components: LudusModifier[], modifiers: LudusModifier[]): LudusModifier[] {
 		modifiers?.forEach(x => {
-			if (!components.includes(x.name)) {
-				components.push(x.name);
+			if (!components.some(y => y.name == x.name)) {
+				components.push({
+					name: x.name,
+					amount: modifiers.reduce((prev, curr) => { return prev + curr.amount }, 0)
+				});
 			}
 		});
 		return components;

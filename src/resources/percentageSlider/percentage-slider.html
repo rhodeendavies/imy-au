@@ -1,6 +1,6 @@
 <template>
 	<div class="percentage-slider-wrapper">
-		<div class="percentage-wrapper">
+		<div class="percentage-wrapper" if.bind="showCircle">
 			<div>
 				<div>${percentage}%</div>
 			</div>
@@ -9,7 +9,7 @@
 		<div class="percentage-input-wrapper">
 			<div class="percentage-text">
 				<div>0%</div>
-				<div class="percentage-sub-text">Not great</div>
+				<div class="percentage-sub-text">${lowText}</div>
 			</div>
 
 			
@@ -20,7 +20,7 @@
 
 			<div class="percentage-text">
 				<div>100%</div>
-				<div class="percentage-sub-text">Excellent</div>
+				<div class="percentage-sub-text">${highText}</div>
 			</div>
 		</div>
 	</div>

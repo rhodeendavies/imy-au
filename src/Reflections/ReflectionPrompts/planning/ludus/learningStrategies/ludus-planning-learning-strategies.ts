@@ -6,6 +6,7 @@ import { Strategy } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { log } from "utils/log";
 import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from 'chart.js'
+import { LudusModifier } from "models/reflectionsApiModels";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -17,7 +18,7 @@ export class LudusPlanningLearningStrategies {
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
 	busy: Busy = new Busy();
-	components: string[];
+	components: LudusModifier[];
 	chart: Chart;
 	chartUpdated: boolean = false;
 
@@ -54,7 +55,7 @@ export class LudusPlanningLearningStrategies {
 	}
 
 	createData() {
-		const allModifiers = [];
+		const allModifiers: LudusModifier[] = [];
 		if (this.learningStrategy.modifiers != null) {
 			allModifiers.push(...this.learningStrategy.modifiers);
 		}
@@ -69,16 +70,9 @@ export class LudusPlanningLearningStrategies {
 		}
 		
 		this.components = ComponentHelper.GetUniqueComponents([], allModifiers);
-		const data: number[] = this.components.map(x => {
-			return allModifiers.reduce((prev, curr) => {
-				if (curr.type == x) {
-					prev += curr.value;
-				}
-				return prev;
-			}, 0);
-		});
+		const data: number[] = this.components.map(x => x.amount);
 		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
-		const total = data.reduce((prev, curr) => {return prev + curr}, 0);
+		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
 		
 		return {
 			labels: this.components,

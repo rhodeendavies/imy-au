@@ -26,7 +26,7 @@ export class LudusMonitoringDetails {
 		if (this.localParent.reflection.monitoringReflection == null) return;
 
 		this.monitoringReflection = this.localParent.reflection.monitoringReflection.answers;
-		this.monitoringQuestions = this.localParent.reflection.monitoringReflection.questions.strategyRating;
+		this.monitoringQuestions = this.localParent.reflection.monitoringReflection.questions.strategyPlanning;
 		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.monitoringQuestions.learningStrategy, StrategyOptions.LearningStrategies, this.monitoringReflection.strategyRating.learningRating);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.monitoringQuestions.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.monitoringReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.monitoringQuestions.practicingStrategy, StrategyOptions.PracticingStrategies, this.monitoringReflection.strategyRating.practicingRating);

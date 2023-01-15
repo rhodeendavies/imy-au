@@ -61,7 +61,7 @@ export class LudusMonitoringResponse extends ReflectionResponse {
 }
 
 export class LudusMonitoringQuestions {
-	strategyRating: LudusStrategyPlanning;
+	strategyPlanning: LudusStrategyPlanning;
 }
 
 export class LudusEvaluatingResponse extends ReflectionResponse {
