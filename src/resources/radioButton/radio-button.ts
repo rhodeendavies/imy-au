@@ -51,8 +51,18 @@ export class RadioButton {
 	}
 
 	@computedFrom("type")
+	get Normal(): boolean {
+		return this.type == RadioButtonTypes.normal || this.type == RadioButtonTypes.inline || this.type == RadioButtonTypes.stars;
+	}
+
+	@computedFrom("type")
 	get Blocks(): boolean {
 		return this.type == RadioButtonTypes.blocks;
+	}
+
+	@computedFrom("type")
+	get Stars(): boolean {
+		return this.type == RadioButtonTypes.stars;
 	}
 
 	@computedFrom("type")
@@ -72,5 +82,6 @@ export class RadioOption {
 enum RadioButtonTypes {
 	normal = "normal",
 	blocks = "blocks",
-	inline= "inline"
+	inline= "inline",
+	stars = "stars"
 }

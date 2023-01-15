@@ -42,6 +42,12 @@ export enum BaseTopicRating {
 	NotYetMastered = "Not yet mastered"
 }
 
+export enum LudusTopicRating {
+	Mastered = 3,
+	SortOfMastered = 2,
+	NotYetMastered = 1
+}
+
 export enum ReflectionTypes {
 	Daily = "daily",
 	Planning = "planning",

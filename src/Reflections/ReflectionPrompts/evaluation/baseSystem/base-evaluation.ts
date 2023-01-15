@@ -35,6 +35,7 @@ export class BaseEvaluation {
 			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Evaluating, currentSection.id)
 		}
 		const reflection = await this.reflectionsApi.getBaseEvaluatingReflection(id);
+		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
 		this.questions = reflection.questions
 	}

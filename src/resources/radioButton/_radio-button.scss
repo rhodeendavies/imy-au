@@ -20,8 +20,6 @@
 	.radio-option {
 		margin-bottom: 10px;
 
-		
-
 		&.disabled-radio-option {
 			opacity: 0.6;
 			pointer-events: none;
@@ -64,10 +62,22 @@
 					position: absolute;
 				}
 			}
+
+			.radio-star {
+				font-size: 40px;
+				font-variation-settings: "FILL 0";
+				color: $Orange;
+			}
 		}
 
-		&.selected-radio-option .radio-circle-wrapper .radio-circle .radio-inner-circle {
-			opacity: 1;
+		&.selected-radio-option .radio-circle-wrapper {
+			.radio-star {
+				font-variation-settings: "FILL 1";
+			}
+
+			.radio-circle .radio-inner-circle { 
+				opacity: 1;
+			}
 		}
 
 		.radio-option-subtext {

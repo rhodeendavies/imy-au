@@ -13,6 +13,7 @@ export class MonitoringPrompts extends SectionTrackerParent {
 	
 	triggerSub: Subscription;
 	weekTopic: string = ""
+	reflectionId: number;
 
 	constructor(
 		private appState: ApplicationState,
@@ -33,7 +34,7 @@ export class MonitoringPrompts extends SectionTrackerParent {
 	}
 
 	async submitMonitoring(model: BaseMonitoringApiModel, completed: boolean) {
-		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Monitoring, await this.appState.getCurrentSectionId(), model);
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Monitoring, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;

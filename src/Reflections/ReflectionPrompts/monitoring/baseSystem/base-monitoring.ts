@@ -40,6 +40,7 @@ export class BaseMonitoring {
 			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Monitoring, currentSection.id)
 		}
 		const reflection = await this.reflectionsApi.getBaseMonitoringReflection(id);
+		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
 		this.questions = reflection.questions.strategyPlanning;
 	}
