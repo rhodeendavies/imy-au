@@ -148,10 +148,10 @@ export class StrategyPlanning {
 }
 
 export class LudusStrategyPlanning {
-	learningStrategy: LudusModifier;
-	reviewingStrategy: LudusModifier;
-	practicingStrategy: LudusModifier;
-	extendingStrategy: LudusModifier;
+	learningStrategy: LudusStrategy;
+	reviewingStrategy: LudusStrategy;
+	practicingStrategy: LudusStrategy;
+	extendingStrategy: LudusStrategy;
 }
 
 export class PaidiaStrategyPlanning {
@@ -186,18 +186,22 @@ export class BaseLearningExperience {
 }
 
 export class LudusLearningExperience {
-	boredom: LudusModifier;
-	confidence: LudusModifier;
-	anxiety: LudusModifier;
-	passion: LudusModifier;
-	uncertainty: LudusModifier;
-	enjoyment: LudusModifier;
+	boredom: LudusStrategy;
+	confidence: LudusStrategy;
+	anxiety: LudusStrategy;
+	passion: LudusStrategy;
+	uncertainty: LudusStrategy;
+	enjoyment: LudusStrategy;
 	postPublicly: boolean;
 }
 
-export class LudusModifier {
+export class LudusStrategy {
 	text: string;
-	modifier: string;
+	modifiers: LudusModifier[]
+}
+
+export class LudusModifier {
+	name: string;
 	amount: number;
 }
 

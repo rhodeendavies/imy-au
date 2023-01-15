@@ -1,6 +1,6 @@
 import { Strategy } from "models/reflections";
-import { StrategyModifier, StrategyOption } from "./constants";
-import { LudusModifier } from "models/reflectionsApiModels";
+import { Colour, StrategyModifier, StrategyOption } from "./constants";
+import { LudusStrategy } from "models/reflectionsApiModels";
 
 export class ComponentHelper {
 	static CreateId(component: string): string {
@@ -29,6 +29,10 @@ export class ComponentHelper {
 
 	static DonecInterdum(): string {
 		return "Donec interdum ligula a enim dictum, id vulputate ex cursus. Sed vel lacinia nunc. Integer varius elit et nulla tempor, molestie feugiat neque malesuada. Aenean semper commodo aliquam. Praesent vel arcu maximus, ornare risus nec, tempus nulla. Quisque turpis elit, convallis sed neque eget, tempus dapibus urna. Proin viverra finibus magna, at mattis augue pretium porta. Donec tincidunt libero non vestibulum vestibulum. Pellentesque quis fringilla ante. Donec vestibulum feugiat rhoncus. Etiam elementum enim risus. ";
+	}
+
+	static GetColourOpacity(colour: Colour, opacity: number = 1): string {
+		return `rgba(${colour.red}, ${colour.green}, ${colour.blue}, ${opacity}`;
 	}
 
 	static CreateModifiersString(modifiers: StrategyModifier[]): string {
@@ -69,41 +73,47 @@ export class ComponentHelper {
 		};
 	}
 
-	static CreateStrategyFromLudus(modifier: LudusModifier, strategyOptions: StrategyOption): Strategy {
+	static CreateStrategyFromLudus(strategy: LudusStrategy, strategyOptions: StrategyOption): Strategy {
 		return {
 			title: strategyOptions.title,
 			icon: strategyOptions.icon,
 			options: [{
 				name: strategyOptions.One.value,
 				subText: ComponentHelper.CreateModifiersString(strategyOptions.One.modifiers),
-				value: strategyOptions.One.value
+				value: strategyOptions.One.modifiers
 			}, {
 				name: strategyOptions.Two.value,
 				subText: ComponentHelper.CreateModifiersString(strategyOptions.Two.modifiers),
-				value: strategyOptions.Two.value
+				value: strategyOptions.Two.modifiers
 			}, {
 				name: strategyOptions.Three.value,
 				subText: ComponentHelper.CreateModifiersString(strategyOptions.Three.modifiers),
-				value: strategyOptions.Three.value
+				value: strategyOptions.Three.modifiers
 			}, {
 				name: strategyOptions.Four.value,
 				subText: ComponentHelper.CreateModifiersString(strategyOptions.Four.modifiers),
-				value: strategyOptions.Four.value
+				value: strategyOptions.Four.modifiers
 			}],
-			strategy: modifier.text,
-			modifiers: [{
-				type: modifier.modifier,
-				value: modifier.amount
-			}],
+			strategy: strategy?.text,
+			modifiers: strategy?.modifiers?.map(x => {
+				return {
+					type: x.name,
+					value: x.amount
+				}
+			}),
 			rating: null
 		};
 	}
 
-	static CreateLudusModifier(strategy: Strategy): LudusModifier {
+	static CreateLudusModifier(strategy: Strategy): LudusStrategy {
 		return {
 			text: strategy.strategy,
-			modifier: strategy.modifiers[0].type,
-			amount: strategy.modifiers[0].value
+			modifiers: strategy.modifiers.map(x => {
+				return {
+					name: x.type,
+					amount: x.value
+				}
+			})
 		}
 	}
 }

@@ -1,24 +1,23 @@
 <template>
-	<div>
-		<p class="reflection-question mb-30">
-			Consider your chosen learning strategies for this week. Rate yourself for how well you are applying your strategy.
-		</p>
+	<p class="reflection-question mb-30">
+		Consider your chosen learning strategies for this week. Rate yourself for how well you are applying your
+		strategy.
+	</p>
 
-		<div class="base-strategy-rating-wrapper">
-			<template repeat.for="strategy of Strategies">
-				<div class="circle-icon">
-					<span class="icon">${strategy.icon}</span>
-				</div>
-				<div>
-					<div class="base-strategy-heading">${strategy.title}</div>
-					<div>${strategy.strategy}</div>
-				</div>
-				<div class="base-strategy-rating">
-					<input-box value.bind="strategy.rating" type="large" valid.bind="strategy.valid"></input-box>
-					<span class="base-strategy-rating-total">/5</span>
-				</div>
-			</template>
-		</div>
+	<div class="base-strategy-rating-wrapper">
+		<template repeat.for="strategy of Strategies">
+			<div class="circle-icon">
+				<span class="icon">${strategy.icon}</span>
+			</div>
+			<div>
+				<div class="strategy-heading">${strategy.title}</div>
+				<div>${strategy.strategy}</div>
+			</div>
+			<div class="base-strategy-rating">
+				<input-box value.bind="strategy.rating" type="large" valid.bind="strategy.valid"></input-box>
+				<span class="base-strategy-rating-total">/5</span>
+			</div>
+		</template>
 	</div>
 
 	<div class="mt-30">

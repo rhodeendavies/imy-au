@@ -18,28 +18,9 @@
 	}
 
 	.radio-option {
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		gap: 20px;
-		font-size: 20px;
 		margin-bottom: 10px;
 
-		&:hover {
-			.radio-circle {
-				.radio-inner-circle {
-					opacity: 0.2;
-				}
-			}
-		}
-
-		&.selected-radio-option {
-			.radio-circle {
-				.radio-inner-circle {
-					opacity: 1;
-				}
-			}
-		}
+		
 
 		&.disabled-radio-option {
 			opacity: 0.6;
@@ -47,27 +28,52 @@
 			cursor: default !important;
 		}
 
-		.radio-circle {
+		.radio-circle-wrapper {
+			cursor: pointer;
 			display: flex;
-			align-items: center;
-			justify-content: center;
-			border: 3px solid $SeaGreen;
-			min-height: 30px;
-			max-height: 30px;
-			min-width: 30px;
-			max-width: 30px;
-			border-radius: 30px;
-			position: relative;
-			
-			.radio-inner-circle {
-				background-color: $SeaGreen;
-				opacity: 0;
-				transition: all 0.3s;
-				height: 20px;
-				width: 20px;
-				border-radius: 25px;
-				position: absolute;
+			gap: 20px;
+			font-size: 20px;
+
+			&:hover {
+				.radio-circle {
+					.radio-inner-circle {
+						opacity: 0.2;
+					}
+				}
 			}
+
+			.radio-circle {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: 3px solid $SeaGreen;
+				min-height: 30px;
+				max-height: 30px;
+				min-width: 30px;
+				max-width: 30px;
+				border-radius: 30px;
+				position: relative;
+				
+				.radio-inner-circle {
+					background-color: $SeaGreen;
+					opacity: 0;
+					transition: all 0.3s;
+					height: 20px;
+					width: 20px;
+					border-radius: 25px;
+					position: absolute;
+				}
+			}
+		}
+
+		&.selected-radio-option .radio-circle-wrapper .radio-circle .radio-inner-circle {
+			opacity: 1;
+		}
+
+		.radio-option-subtext {
+			color: $DarkGrey60;
+			font-size: 18px;
+			padding-left: 50px;
 		}
 	}
 }

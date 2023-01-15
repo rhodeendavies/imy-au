@@ -81,7 +81,12 @@
 						"name": "aurelia-testing",
 						"env": "dev"
 					},
-					"text"
+					"text",
+					{
+						"name": "chart.js",
+						"path": "../node_modules/chart.js/dist",
+						"main": "chart.js"
+					}
 				]
 			}
 		],

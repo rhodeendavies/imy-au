@@ -4,13 +4,15 @@
 	</div>
 
 	<div if.bind="options.length > 0 && !Blocks" class="radio-options-wrapper ${Inline ? 'radio-options-inline' : ''}">
-		<p repeat.for="option of options" click.delegate="optionSelected(option)"
-			class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''}">
-			<span class="radio-circle">
-				<span class="radio-inner-circle"></span>
-			</span>
-			<span innerhtml.bind="option.name"></span>
-		</p>
+		<div repeat.for="option of options" class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''}">
+			<p click.delegate="optionSelected(option)" class="radio-circle-wrapper">
+				<span class="radio-circle">
+					<span class="radio-inner-circle"></span>
+				</span>
+				<span innerhtml.bind="option.name"></span>
+			</p>
+			<div class="radio-option-subtext">${option.subText}</div>
+		</div>
 	</div>
 
 	<div if.bind="options.length > 0 && Blocks" class="radio-blocks-wrapper">

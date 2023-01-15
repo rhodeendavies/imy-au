@@ -1,24 +1,25 @@
 @use "./src/styles/variables"as *;
 
-.base-strategy-option-wrapper {
+.ludus-chart {
+	max-height: 200px;
+	margin: 20px 0;
+	// width: 100%;
+
+	#componentsChart {
+		// width: 800px;
+		// height: 300px;
+	}
+}
+
+.ludus-info {
+	font-size: 16px;
+	font-weight: $semi-bold;
+	color: $SeaGreen;
+	margin-bottom: 20px;
+}
+
+.ludus-gauges {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: 1fr 1fr 1fr;
 	gap: 20px;
-
-	>div:not(:last-child) {
-		border-right: 1px solid $DarkGrey40;
-		padding-right: 20px;
-	}
-
-	.base-strategy-option-heading {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		margin-bottom: 20px;
-
-		.base-strategy-sub-text {
-			color: $DarkGrey60;
-			font-size: 18px;
-		}
-	}
 }

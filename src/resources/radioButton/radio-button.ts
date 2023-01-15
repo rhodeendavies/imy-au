@@ -6,6 +6,7 @@ export class RadioButton {
 
 	@bindable options: RadioOption[] = [];
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) value: any;
+	@bindable({ defaultBindingMode: bindingMode.twoWay }) name: string;
 	@bindable onChange;
 	@bindable label: string = "";
 	@bindable id: string = "";
@@ -16,6 +17,7 @@ export class RadioButton {
 	}
 
 	attached() {
+		if (this.options == null) return;
 		const tempList = this.options.map(x => {
 			const newItem: RadioOption = {
 				name: x.name,
@@ -35,6 +37,7 @@ export class RadioButton {
 		this.options.forEach(x => x.selected = false);
 		option.selected = true;
 		this.value = option.value;
+		this.name = option.name;
 
 		if (this.onChange != null) {
 			setTimeout(() => {
@@ -44,7 +47,7 @@ export class RadioButton {
 	}
 
 	valueChanged() {
-		this.options.forEach(x => x.selected = x.value == this.value);
+		this.options?.forEach(x => x.selected = x.value == this.value);
 	}
 
 	@computedFrom("type")

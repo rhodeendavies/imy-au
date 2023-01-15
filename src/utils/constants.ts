@@ -18,6 +18,20 @@ export class Routes {
 	static readonly CourseContent: string = "content";
 }
 
+export class Colours {
+	static readonly Orange: Colour = {
+		red: 242,
+		green: 100,
+		blue: 48
+	}
+}
+
+export class Colour {
+	red: number;
+	green: number;
+	blue: number;
+}
+
 export class StrategyWrapper {
 	value: string;
 	modifiers: StrategyModifier[];
@@ -46,6 +60,9 @@ export class StrategyOptions {
 			modifiers: [{
 				type: StrategyModifiers.TimeManagement,
 				value: 5
+			}, {
+				type: StrategyModifiers.Research,
+				value: 1
 			}]
 		},
 		Two: {
@@ -53,6 +70,9 @@ export class StrategyOptions {
 			modifiers: [{
 				type: StrategyModifiers.TimeManagement,
 				value: 2
+			}, {
+				type: StrategyModifiers.Research,
+				value: 3
 			}]
 		},
 		Three: {

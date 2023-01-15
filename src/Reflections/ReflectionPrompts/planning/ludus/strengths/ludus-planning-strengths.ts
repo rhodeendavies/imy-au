@@ -17,7 +17,11 @@ export class LudusPlanningStrengths {
 	attached() {
 		this.indexesShown = [];
 		this.numOfPrompts = this.appState.ludusPrompts.planningPrompts.length;
-		this.getRandomPrompt();
+		if (ComponentHelper.NullOrEmpty(this.localParent.model.strengthOptimization.response)) {
+			this.getRandomPrompt();
+		} else {
+			this.promptSections = this.appState.generatePromptSections(this.localParent.model.strengthOptimization.response);
+		}
 	}
 
 	nextStep() {
@@ -42,7 +46,7 @@ export class LudusPlanningStrengths {
 	createResponseFromPrompt(prompt: PromptSection[]): string {
 		return prompt.reduce((prev, curr) => {
 			if (curr.input) {
-				prev += curr.inputValue;
+				prev += `%{${curr.inputValue}}`;
 			} else {
 				prev += curr.prompt;
 			}

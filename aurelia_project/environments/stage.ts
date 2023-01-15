@@ -8,5 +8,5 @@ export default {
 		studentNumber: "",
 		password: ""
 	},
-	blankIndicator: "%{blank}"
+	blankIndicator: "%{}"
 };

@@ -241,38 +241,56 @@ export class ApplicationState {
 		fetch("prompts/ludus-prompts.json")
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
-				log.debug("prompts", prompt);
 				this.ludusPrompts = {
 					planningPrompts: prompt.planningPrompts.map(x => this.generatePromptSections(x)),
 					monitoringPrompts: prompt.monitoringPrompts.map(x => this.generatePromptSections(x)),
 					evaluatingPrompts: prompt.evaluatingPrompts.map(x => this.generatePromptSections(x)),
 				}
-				log.debug("ludus prompts", this.ludusPrompts);
 			});
 	}
 
 	generatePromptSections(promptString: string): PromptSection[] {
-		const sections = promptString.split(environment.blankIndicator);
-		const sectionsLength: number = sections.length;
-		return sections.reduce((prev, curr, index) => {
-			if (!ComponentHelper.NullOrEmpty(curr)) {
-				prev.push({
-					prompt: curr,
-					input: false,
-					period: curr.indexOf(".") == 0,
-					inputValue: ""
-				});
-			}
+		const sections: PromptSection[] = [];
+		const lengthOfString = promptString.length;
+		
+		let index = 0;
+		let inputIndex = 0;
+		let endOfInputIndex = 0;
+
+		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
+			inputIndex = promptString.indexOf("%", index);
+			endOfInputIndex = promptString.indexOf("}", index);
 			
-			if (index < (sectionsLength - 1)) {
-				prev.push({
+			let subString = "";
+			let inputString = "";
+
+			if (inputIndex == -1) {
+				subString = promptString.substring(index);
+			} else {
+				subString = promptString.substring(index, inputIndex);
+			}
+
+			sections.push({
+				prompt: subString,
+				input: false,
+				period: subString.indexOf(".") == 0,
+				inputValue: ""
+			});
+
+			if (inputIndex >= 0) {
+				inputString = promptString.substring(inputIndex + 2, endOfInputIndex);
+				
+				sections.push({
 					prompt: "",
 					input: true,
 					period: false,
-					inputValue: ""
+					inputValue: inputString
 				});
 			}
-			return prev;
-		}, []);
+
+			index = endOfInputIndex + 1;
+		}
+
+		return sections;
 	}
 }

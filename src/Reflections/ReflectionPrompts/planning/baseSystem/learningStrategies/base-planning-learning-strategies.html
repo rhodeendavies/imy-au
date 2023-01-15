@@ -1,25 +1,23 @@
 <template>
-	<div>
-		<p class="reflection-question mb-30">
-			Plan your learning approach for the week by selecting one strategy from each category. Think about how the
-			strategy will fit into your schedule this week.
-		</p>
+	<p class="reflection-question mb-30">
+		Plan your learning approach for the week by selecting one strategy from each category. Think about how the
+		strategy will fit into your schedule this week.
+	</p>
 
-		<div class="base-strategy-option-wrapper">
-			<div repeat.for="strategy of Strategies">
-				<div class="base-strategy-option-heading">
-					<div class="circle-icon">
-						<span class="icon">${strategy.icon}</span>
-					</div>
-					<div>
-						<div class="base-strategy-heading">${strategy.title}</div>
-						<div class="base-strategy-sub-text">Choose 1</div>
-					</div>
+	<div class="base-strategy-option-wrapper">
+		<div repeat.for="strategy of Strategies">
+			<div class="base-strategy-option-heading">
+				<div class="circle-icon">
+					<span class="icon">${strategy.icon}</span>
 				</div>
-
-				<radio-button options.bind="strategy.options" value.bind="strategy.strategy">
-				</radio-button>
+				<div>
+					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-sub-text">Choose 1</div>
+				</div>
 			</div>
+
+			<radio-button options.bind="strategy.options" value.bind="strategy.strategy">
+			</radio-button>
 		</div>
 	</div>
 

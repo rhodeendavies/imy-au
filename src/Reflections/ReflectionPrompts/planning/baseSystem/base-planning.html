@@ -3,7 +3,7 @@
 	<require from="./strengths/base-planning-strengths"></require>
 	<require from="./learningStrategies/base-planning-learning-strategies"></require>
 
-	<base-planning-feelings if.bind="localParent.ShowFeelings"></base-planning-feelings>
-	<base-planning-strengths if.bind="localParent.ShowStrengths"></base-planning-strengths>
-	<base-planning-learning-strategies if.bind="localParent.ShowLearningStrategies"></base-planning-learning-strategies>
+	<base-planning-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></base-planning-feelings>
+	<base-planning-strengths class="prompt-section" if.bind="localParent.ShowStrengths"></base-planning-strengths>
+	<base-planning-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></base-planning-learning-strategies>
 </template>
