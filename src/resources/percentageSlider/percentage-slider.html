@@ -8,18 +8,17 @@
 
 		<div class="percentage-input-wrapper">
 			<div class="percentage-text">
-				<div>0%</div>
+				<div if.bind="showValues">0%</div>
 				<div class="percentage-sub-text">${lowText}</div>
 			</div>
 
-			
 			<div class="percentage-bar-wrapper">
 				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider" />
 				<div class="slider-bar"></div>
 			</div>
 
 			<div class="percentage-text">
-				<div>100%</div>
+				<div if.bind="showValues">100%</div>
 				<div class="percentage-sub-text">${highText}</div>
 			</div>
 		</div>

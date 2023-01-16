@@ -9,7 +9,7 @@ export class LessonsService {
 
 	async completeLesson(id: number): Promise<boolean> {
 		try {
-			const response: Response = await this.api.post(`lesson/${id}/activities/complete`, null, false);
+			const response: Response = await this.api.post(`lessons/${id}/activities/complete`, null, false);
 			return response.ok;
 		} catch (error) {
 			log.error(error);

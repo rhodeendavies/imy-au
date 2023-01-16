@@ -7,6 +7,7 @@ export class PercentageSlider {
 
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) percentage: number;
 	@bindable showCircle: boolean = true;
+	@bindable showValues: boolean = true;
 	@bindable lowText: string = "Not great";
 	@bindable highText: string = "Excellent";
 	clicking: boolean = false;

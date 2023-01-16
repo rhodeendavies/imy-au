@@ -14,15 +14,15 @@ export class SectionView {
 	) { }
 
 	attached() {
-		if (this.section.id == this.localParent.currentSection.id) {
-			const numOfLessons = this.section.lessons.length;
-			for (let index = 0; index < numOfLessons; index++) {
-				const lesson = this.section.lessons[index];
-				lesson.available = lesson.complete || index == 0 || this.section.lessons[index - 1].complete;
-			}
-		} else {
-			this.section.lessons.forEach(x => x.available = true);
-		}
+		// if (this.section.id == this.localParent.currentSection.id) {
+		// 	const numOfLessons = this.section.lessons.length;
+		// 	for (let index = 0; index < numOfLessons; index++) {
+		// 		const lesson = this.section.lessons[index];
+		// 		lesson.available = lesson.complete || index == 0 || this.section.lessons[index - 1].complete;
+		// 	}
+		// } else {
+		// 	this.section.lessons.forEach(x => x.available = true);
+		// }
 	}
 
 	selectLesson(lesson: Lesson) {

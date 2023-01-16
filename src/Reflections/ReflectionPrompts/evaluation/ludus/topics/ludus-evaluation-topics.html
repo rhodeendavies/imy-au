@@ -17,8 +17,8 @@
 			<p>This is how you rated your understanding of the videos this week.</p>
 
 			<div class="summary-with-icon" repeat.for="lesson of localParent.questions.lessonRatingSummary">
-				<div class="summary-icon rating-icon saturate-${lesson.ratingPercentage}">
-					<span>${lesson.rating}/3</span>
+				<div class="summary-icon rating-icon saturate-${lesson.rating}">
+					<span>${lesson.rating}%</span>
 				</div>
 				<div class="summary-text">
 					<div class="summary-heading">${lesson.name}</div>

@@ -1,8 +1,9 @@
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { ReflectionsDetails } from "../reflections-details";
-import { LudusReflection } from "models/reflections";
-import { LudusModifier, LudusStrategyPlanning, StrategyRating } from "models/reflectionsApiModels";
+import { LudusReflection, Strategy } from "models/reflections";
+import { LudusModifier, StrategyRating } from "models/reflectionsApiModels";
 import { ComponentHelper } from "utils/componentHelper";
+import { StrategyOptions } from "utils/constants";
 
 @autoinject
 export class Ludus {
@@ -15,31 +16,16 @@ export class Ludus {
 	attached() {
 		if (this.reflection == null || this.reflection.planningReflection == null) return;
 
-		const allModifiers: LudusModifier[] = [];
-		const strategies: LudusStrategyPlanning = this.reflection.planningReflection.answers?.strategyPlanning;
+		const strategyPlanning = this.reflection.planningReflection.answers?.strategyPlanning;
+		const strategies: Strategy[] = [
+			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies),
+			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies),
+			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies),
+			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies),
+		];
 
-		let ratings: StrategyRating = null;
+		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(strategies));
 
-		if (this.reflection.evaluatingReflection != null) {
-			ratings = this.reflection.evaluatingReflection.answers?.strategyRating;
-		} else if (this.reflection.monitoringReflection != null) {
-			ratings = this.reflection.monitoringReflection.answers?.strategyRating;
-		}
-
-		if (strategies?.learningStrategy?.modifiers != null) {
-			allModifiers.push(...strategies.learningStrategy.modifiers);
-		}
-		if (strategies?.reviewingStrategy?.modifiers != null) {
-			allModifiers.push(...strategies.reviewingStrategy.modifiers);
-		}
-		if (strategies?.practicingStrategy?.modifiers != null) {
-			allModifiers.push(...strategies.practicingStrategy.modifiers);
-		}
-		if (strategies?.extendingStrategy?.modifiers != null) {
-			allModifiers.push(...strategies.extendingStrategy.modifiers);
-		}
-		
-		this.components = ComponentHelper.GetUniqueComponents([], allModifiers);
 	}
 
 	@computedFrom("localParent.dashboardVersion")

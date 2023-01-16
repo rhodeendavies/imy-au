@@ -3,7 +3,8 @@
 		${label}
 	</div>
 
-	<div if.bind="options.length > 0 && Normal" class="radio-options-wrapper ${Inline || Stars ? 'radio-options-inline' : ''}">
+	<div if.bind="options.length > 0 && Normal"
+		class="radio-options-wrapper ${Inline || Stars ? 'radio-options-inline' : ''} ${Stars ? 'radio-options-stars' : ''} ${value == null ? 'empty-stars' : ''}">
 		<div repeat.for="option of options" class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''}">
 			<p click.delegate="optionSelected(option)" class="radio-circle-wrapper">
 				<!-- star -->
@@ -12,10 +13,10 @@
 				<span if.bind="!Stars" class="radio-circle">
 					<span class="radio-inner-circle"></span>
 				</span>
-				<span innerhtml.bind="option.name"></span>
+				<span if.bind="option.name != ''" innerhtml.bind="option.name"></span>
 			</p>
 
-			<div class="radio-option-subtext">${option.subText}</div>
+			<div class="radio-option-subtext" if.bind="option.subText != ''">${option.subText}</div>
 		</div>
 	</div>
 

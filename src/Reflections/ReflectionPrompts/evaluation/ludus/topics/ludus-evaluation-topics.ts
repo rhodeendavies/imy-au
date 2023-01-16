@@ -9,9 +9,9 @@ import { LudusEvaluation } from "../ludus-evaluation";
 export class BaseEvaluationTopics {
 
 	ratingOptions: RadioOption[] = [
-		{ name: "", value: LudusTopicRating.Mastered },
-		{ name: "", value: LudusTopicRating.SortOfMastered },
-		{ name: "", value: LudusTopicRating.NotYetMastered }
+		{ name: "", value: 1 },
+		{ name: "", value: 2 },
+		{ name: "", value: 3 }
 	];
 
 	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
@@ -22,7 +22,9 @@ export class BaseEvaluationTopics {
 
 	initData() {
 		this.localParent.questions.lessonRatingSummary.forEach(x => {
-			x.ratingPercentage = ComponentHelper.GetRatingPercentages(x.rating);
+			if (x.rating == null) {
+				x.rating = 0;
+			}
 			x.topicsString = x.topics.join(", ");
 		});
 	}

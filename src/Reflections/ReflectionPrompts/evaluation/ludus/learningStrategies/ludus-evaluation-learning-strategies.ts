@@ -53,21 +53,7 @@ export class BaseEvaluationLearningStrategies {
 	}
 
 	createData() {
-		const allModifiers: LudusModifier[] = [];
-		if (this.learningStrategy.modifiers != null) {
-			allModifiers.push(...this.learningStrategy.modifiers);
-		}
-		if (this.reviewingStrategy.modifiers != null) {
-			allModifiers.push(...this.reviewingStrategy.modifiers);
-		}
-		if (this.practicingStrategy.modifiers != null) {
-			allModifiers.push(...this.practicingStrategy.modifiers);
-		}
-		if (this.extendingStrategy.modifiers != null) {
-			allModifiers.push(...this.extendingStrategy.modifiers);
-		}
-		
-		this.components = ComponentHelper.GetUniqueComponents([], allModifiers);
+		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.Strategies));
 		const data: number[] = this.components.map(x => x.amount);
 		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);

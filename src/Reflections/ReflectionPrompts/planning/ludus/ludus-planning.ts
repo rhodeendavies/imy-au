@@ -5,6 +5,7 @@ import { LudusPlanningApiModel } from "models/reflectionsApiModels";
 import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
+import { log } from "utils/log";
 
 @autoinject
 export class LudusPlanning {
@@ -34,9 +35,11 @@ export class LudusPlanning {
 	async getPlanning() {
 		const currentSection = await this.appState.getCurrentSection();
 		let id = currentSection.planningReflectionId;
+		log.debug("currentSection", currentSection);
 		if (id == null) {
 			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
 		}
+		log.debug("id", id);
 		const reflection = await this.reflectionsApi.getLudusPlanningReflection(id);
 		this.localParent.reflectionId = id;
 		this.model = reflection.answers;

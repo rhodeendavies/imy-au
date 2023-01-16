@@ -74,7 +74,9 @@ export class ApplicationState {
 
 	triggerRatingModal(lesson: Lesson) {
 		this.watchedLesson = lesson;
-		this.ratingModal.toggle();
+		if (!this.ratingModal.Open) {
+			this.ratingModal.toggle();
+		}
 	}
 
 	closeRating() {
@@ -86,7 +88,9 @@ export class ApplicationState {
 	}
 
 	triggerDailyModal() {
-		this.dailyModal.toggle();
+		if (!this.dailyModal.Open) {
+			this.dailyModal.toggle();
+		}
 		this.ea.publish(Events.DailyTriggered);
 	}
 
@@ -113,7 +117,9 @@ export class ApplicationState {
 
 	triggerMonitoringModal(sectionName: string) {
 		this.reflectionSection = sectionName;
-		this.monitoringModal.toggle();
+		if (!this.monitoringModal.Open) {
+			this.monitoringModal.toggle();
+		}
 		this.ea.publish(Events.MonitoringTriggered);
 	}
 
@@ -126,7 +132,9 @@ export class ApplicationState {
 
 	triggerEvaluationModal(sectionName: string) {
 		this.reflectionSection = sectionName;
-		this.evaluationModal.toggle();
+		if (!this.evaluationModal.Open) {
+			this.evaluationModal.toggle();
+		}
 		this.ea.publish(Events.EvaluationTriggered);
 	}
 

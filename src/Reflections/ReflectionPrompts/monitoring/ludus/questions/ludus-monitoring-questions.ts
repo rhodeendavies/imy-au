@@ -5,7 +5,7 @@ import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
-export class BaseMonitoringQuestions {
+export class LudusMonitoringQuestions {
 
 	indexesShown: number[] = [];
 	currentIndex: number = 0;
@@ -21,11 +21,12 @@ export class BaseMonitoringQuestions {
 			this.getRandomPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.contentConfusion.response);
+			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
 		}
 	}
 
 	nextStep() {
-		this.localParent.model.contentConfusion.response = this.createResponseFromPrompt(this.promptSections);
+		this.localParent.model.contentConfusion.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
 		this.localParent.nextStep();
 	}
 
@@ -43,18 +44,7 @@ export class BaseMonitoringQuestions {
 		this.promptSections = this.appState.ludusPrompts.monitoringPrompts[this.currentIndex];
 	}
 
-	createResponseFromPrompt(prompt: PromptSection[]): string {
-		return prompt.reduce((prev, curr) => {
-			if (curr.input) {
-				prev += `%{${curr.inputValue}}`;
-			} else {
-				prev += curr.prompt;
-			}
-			return prev;
-		}, "");
-	}
-
 	get AllowNext() {
-		return this.promptSections != null && this.promptSections.every(x => !x?.input || x?.inputValue?.length > 3);
+		return this.promptSections != null && this.promptSections.every(x => !x?.input || (x?.inputValue?.length >= 3 && x?.valid));
 	}
 }

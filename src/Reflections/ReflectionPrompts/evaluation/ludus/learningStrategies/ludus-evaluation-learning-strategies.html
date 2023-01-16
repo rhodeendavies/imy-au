@@ -9,16 +9,16 @@
 
 	<div class="strategy-grid">
 		<div class="strategy-option-wrapper" if.bind="!busy.active">
-			<template repeat.for="strategy of Strategies">
-				<div>
+			<div repeat.for="strategy of Strategies" class="strategy-option">
+				<div class="strategy-heading-wrapper">
 					<div class="strategy-heading">${strategy.title}</div>
-					<div>${strategy.strategy}</div>
+					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
 				</div>
 
 				<percentage-slider percentage.bind="strategy.rating"
 					show-circle.bind="false" low-text="Not going so well" high-text="I'm acing it">
 				</percentage-slider>
-			</template>
+			</div>
 		</div>
 
 		<div class="strategy-visual">

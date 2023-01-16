@@ -18,12 +18,13 @@
 		}
 	}
 
-	&.large-input {
-		&.large-input-invalid {
-			.input-box {
-				outline: 2px solid $Error !important;
-			}
+	&.input-invalid {
+		.input-box {
+			outline: 2px solid $Error !important;
 		}
+	}
+	
+	&.large-input {
 
 		.input-box {
 			input {

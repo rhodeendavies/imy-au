@@ -1,3 +1,7 @@
 <template>
+	<require from="./feelings/ludus-feelings"></require>
+	<require from="./learningStrategies/ludus-learning-strategies"></require>
 
+	<ludus-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></ludus-feelings>
+	<ludus-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></ludus-learning-strategies>
 </template>

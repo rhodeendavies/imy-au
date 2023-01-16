@@ -2,11 +2,11 @@ import { autoinject } from "aurelia-framework";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { StrategyOptions } from "utils/constants";
-import { LudusMonitoring } from "../ludus-monitoring";
+import { LudusDaily } from "../ludus-daily";
 import { LudusModifier } from "models/reflectionsApiModels";
 
 @autoinject
-export class LudusMonitoringLearningStrategies {
+export class BaseLearningStrategies {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -14,7 +14,7 @@ export class LudusMonitoringLearningStrategies {
 	extendingStrategy: Strategy;
 	components: LudusModifier[];
 
-	constructor(private localParent: LudusMonitoring) { }
+	constructor(private localParent: LudusDaily) {}
 
 	attached() {
 		this.initData();
@@ -37,7 +37,7 @@ export class LudusMonitoringLearningStrategies {
 			practicingRating: this.practicingStrategy.rating,
 			extendingRating: this.extendingStrategy.rating
 		}
-		this.localParent.submitMonitoring();
+		this.localParent.submitDaily();
 	}
 
 	get AllowSubmit(): boolean {

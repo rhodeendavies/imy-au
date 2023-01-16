@@ -67,7 +67,7 @@ export class CourseView {
 				section.dateString = interval.toFormat("d LLL");
 			}
 			section.watchedVideos = section.lessons.filter(x => x.complete).length;
-			section.active = section.order <= this.currentSection.order;
+			section.available = section.order <= this.currentSection.order;
 			section.open = false;
 		});
 	}

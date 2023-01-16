@@ -24,6 +24,10 @@ export class ComponentHelper {
 		return value == null || value.length == 0;
 	}
 
+	static InputValid(value: string): boolean {
+		return !(/[%{}]/.test(value));
+	}
+
 	static LoremIpsum(): string {
 		return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fringilla sem dolor, et varius lorem egestas quis. Aenean auctor quam quam, ac porta leo suscipit ac. Donec malesuada dignissim feugiat. Aenean lobortis ex eu ante mollis dictum. Fusce dictum dignissim tristique. Vestibulum blandit rutrum elit vel bibendum. Aliquam vestibulum diam sit amet laoreet molestie. Maecenas et commodo dui, nec tempor libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In varius turpis at tortor ultrices, et porta erat blandit. Vestibulum aliquet nibh nisi, nec accumsan sapien efficitur ut. Mauris tristique nec eros at semper. Ut eget dui diam. ";
 	}
@@ -120,6 +124,18 @@ export class ComponentHelper {
 		return components;
 	}
 
+	static GetAllModifiers(strategies: Strategy[]): LudusModifier[] {
+		if (strategies == null) return [];
+
+		const allModifiers: LudusModifier[] = [];
+		strategies.forEach(x => {
+			if (x != null && x.modifiers != null) {
+				allModifiers.push(...x.modifiers);
+			}
+		});
+		return allModifiers;
+	}
+
 	static GeneratePromptSections(promptString: string): PromptSection[] {
 		const sections: PromptSection[] = [];
 		const lengthOfString = promptString.length;
@@ -129,7 +145,7 @@ export class ComponentHelper {
 		let endOfInputIndex = 0;
 
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf("%", index);
+			inputIndex = promptString.indexOf("%{", index);
 			endOfInputIndex = promptString.indexOf("}", index);
 			
 			let subString = "";
@@ -144,7 +160,7 @@ export class ComponentHelper {
 			sections.push({
 				prompt: subString,
 				input: false,
-				period: subString.indexOf(".") == 0,
+				period: subString.indexOf(".") == 0 || subString.indexOf("?") == 0 || subString.indexOf("!") == 0 || subString.indexOf(",") == 0,
 				inputValue: ""
 			});
 
@@ -165,6 +181,17 @@ export class ComponentHelper {
 		return sections;
 	}
 
+	static CreateResponseFromPrompt(prompt: PromptSection[]): string {
+		return prompt.reduce((prev, curr) => {
+			if (curr.input) {
+				prev += `%{${curr.inputValue}}`;
+			} else {
+				prev += curr.prompt;
+			}
+			return prev;
+		}, "");
+	}
+
 	static CleanPrompt(promptString: string): string {
 		if (promptString == null) return;
 		const lengthOfString = promptString.length;
@@ -175,7 +202,7 @@ export class ComponentHelper {
 
 		let result = "";
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf("%", index);
+			inputIndex = promptString.indexOf("%{", index);
 			endOfInputIndex = promptString.indexOf("}", index);
 			
 			let subString = "";

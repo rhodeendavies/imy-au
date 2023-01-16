@@ -27,6 +27,12 @@ export class BaseMonitoringLearningStrategies {
 
 	submit() {
 		if (!this.AllowSubmit) return;
+		this.localParent.model.strategyRating = {
+			learningRating: this.learningStrategy.rating,
+			reviewingRating: this.reviewingStrategy.rating,
+			practicingRating: this.practicingStrategy.rating,
+			extendingRating: this.extendingStrategy.rating
+		}
 		this.localParent.submitMonitoring();
 	}
 

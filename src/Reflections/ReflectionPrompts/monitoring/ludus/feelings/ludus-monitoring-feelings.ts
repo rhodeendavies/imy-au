@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { LudusMonitoring } from "../ludus-monitoring";
 
 @autoinject
-export class BaseMonitoringFeelings {
+export class LudusMonitoringFeelings {
 	
 	constructor(private localParent: LudusMonitoring) {}
 

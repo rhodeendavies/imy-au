@@ -34,8 +34,8 @@ export class BaseEvaluatingApiModel extends ReflectionApiModel {
 // =======================================================================
 
 // ========================== LUDUS ======================================
-export class LudusVideoRatingApiModel extends ReflectionApiModel {
-	rating: number
+export class LudusLessonApiModel extends ReflectionApiModel {
+	lessonRating: CourseFeelings;
 }
 
 export class LudusDailyApiModel extends ReflectionApiModel {

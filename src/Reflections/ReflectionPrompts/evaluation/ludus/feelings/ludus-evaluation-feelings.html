@@ -16,7 +16,7 @@
 				<div class="prompt-input">
 					<template repeat.for="section of promptSections">
 						<p if.bind="!section.input" class="${section.period ? 'prompt-period' : ''}">${section.prompt}</p>
-						<input-box if.bind="section.input" value.bind="section.inputValue"></input-box>
+						<input-box if.bind="section.input" value.bind="section.inputValue" valid.bind="section.valid"></input-box>
 					</template>
 					<div click.delegate="getNewPrompt()" class="prompt-refresh">
 						<span class="icon">refresh</span>

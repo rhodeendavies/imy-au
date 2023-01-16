@@ -38,13 +38,13 @@
 				</div>
 			</div>
 			<public-reflections class="public-reflections"
-				if.bind="showPublicReflections && sectionSelected.baseReflection != null">
+				if.bind="showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null)">
 			</public-reflections>
 
 			<reflections-details 
 				base-reflection.bind="sectionSelected.baseReflection"
 				ludus-reflection.bind="sectionSelected.ludusReflection"
-				if.bind="!showPublicReflections && sectionSelected.baseReflection != null">
+				if.bind="!showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null)">
 			</reflections-details>
 		</div>
 	</div>

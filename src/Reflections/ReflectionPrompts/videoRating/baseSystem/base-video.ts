@@ -26,17 +26,12 @@ export class BaseVideo {
 	) { }
 
 	attached() {
-		this.getLessonReflection();
+		this.model = new BaseLessonApiModel();
 	}
 
-	submitRating() {
-		this.localParent.submitRating(this.model);
-	}
-
-	async getLessonReflection() {
-		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, this.appState.watchedLesson.id)
+	async submitRating() {
+		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
 		this.localParent.reflectionId = id;
-		const reflection = await this.reflectionsApi.getBaseLessonReflection(id);
-		this.model = reflection.answers;
+		this.localParent.submitRating(this.model);
 	}
 }

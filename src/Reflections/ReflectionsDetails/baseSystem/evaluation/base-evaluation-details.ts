@@ -29,6 +29,20 @@ export class BaseEvaluationDetails {
 
 		this.evaluatingReflection = this.localParent.reflection.evaluatingReflection.answers;
 		this.evaluatingQuestions = this.localParent.reflection.evaluatingReflection.questions;
+
+		if (this.evaluatingReflection.strategyRating.learningRating == null) {
+			this.evaluatingReflection.strategyRating.learningRating = 0;
+		}
+		if (this.evaluatingReflection.strategyRating.reviewingRating == null) {
+			this.evaluatingReflection.strategyRating.reviewingRating = 0;
+		}
+		if (this.evaluatingReflection.strategyRating.practicingRating == null) {
+			this.evaluatingReflection.strategyRating.practicingRating = 0;
+		}
+		if (this.evaluatingReflection.strategyRating.extendingRating == null) {
+			this.evaluatingReflection.strategyRating.extendingRating = 0;
+		}
+
 		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);

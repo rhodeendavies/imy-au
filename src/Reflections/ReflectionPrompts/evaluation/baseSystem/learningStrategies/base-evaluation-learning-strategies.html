@@ -11,7 +11,7 @@
 			</div>
 			<div>
 				<div class="strategy-heading">${strategy.title}</div>
-				<div>${strategy.strategy}</div>
+				<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
 			</div>
 			<div class="base-strategy-rating">
 				<input-box value.bind="strategy.rating" type="large" valid.bind="strategy.valid"></input-box>

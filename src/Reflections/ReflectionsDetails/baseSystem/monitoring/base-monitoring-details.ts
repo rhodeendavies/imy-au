@@ -28,6 +28,20 @@ export class BaseMonitoringDetails {
 
 		this.monitoringReflection = this.localParent.reflection.monitoringReflection.answers;
 		this.monitoringQuestions = this.localParent.reflection.monitoringReflection.questions.strategyPlanning;
+
+		if (this.monitoringReflection.strategyRating.learningRating == null) {
+			this.monitoringReflection.strategyRating.learningRating = 0;
+		}
+		if (this.monitoringReflection.strategyRating.reviewingRating == null) {
+			this.monitoringReflection.strategyRating.reviewingRating = 0;
+		}
+		if (this.monitoringReflection.strategyRating.practicingRating == null) {
+			this.monitoringReflection.strategyRating.practicingRating = 0;
+		}
+		if (this.monitoringReflection.strategyRating.extendingRating == null) {
+			this.monitoringReflection.strategyRating.extendingRating = 0;
+		}
+		
 		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.learningStrategy, StrategyOptions.LearningStrategies, this.monitoringReflection.strategyRating.learningRating);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.monitoringReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.practicingStrategy, StrategyOptions.PracticingStrategies, this.monitoringReflection.strategyRating.practicingRating);

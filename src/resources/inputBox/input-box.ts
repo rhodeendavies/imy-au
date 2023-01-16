@@ -69,9 +69,13 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
-		if (this.type == InputTypes.large) {
+		if (this.ShowLarge) {
 			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+		} else {
+			this.valid = true;
 		}
+
+		this.valid = this.valid && ComponentHelper.InputValid(this.value);
 		
 		if (this.onChange != null) {
 			setTimeout(() => {
@@ -108,7 +112,13 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle || this.type == InputTypes.large;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge;
+	}
+
+	@computedFrom("type")
+	get ShowLarge(): boolean {
+		this.setInputElement();
+		return this.type == InputTypes.large;
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -123,7 +133,9 @@ export class InputBox {
 
 	@computedFrom("value.length")
 	get Valid(): boolean {
-		this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+		if (this.ShowTextarea) {
+			this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+		}
 		return this.valid;
 	}
 
@@ -136,10 +148,10 @@ export class InputBox {
 	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
 	get InputClasses(): string {
 		let classes = "";
+		if (this.ShowText && this.valid != null && !this.valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
-		if (this.type == InputTypes.large) classes += " large-input";
-		if (this.type == InputTypes.large && !this.valid) classes += " large-input-invalid";
+		if (this.ShowLarge) classes += " large-input";
 		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
 	}

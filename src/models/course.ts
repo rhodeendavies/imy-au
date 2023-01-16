@@ -39,6 +39,7 @@ export class Section {
 	watchedVideos?: number;
 	dateString?: string;
 	open?: boolean;
+	available: boolean;
 	baseReflection: BaseReflection;
 	ludusReflection: LudusReflection;
 

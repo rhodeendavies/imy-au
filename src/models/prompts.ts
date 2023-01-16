@@ -15,4 +15,5 @@ export class PromptSection {
 	input: boolean;
 	period: boolean;
 	inputValue: string;
+	valid?: boolean;
 }

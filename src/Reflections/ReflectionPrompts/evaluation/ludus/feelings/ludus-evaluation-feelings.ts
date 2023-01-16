@@ -21,11 +21,12 @@ export class BaseEvaluationFeelings {
 			this.getRandomPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
+			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
 		}
 	}
 
 	nextStep() {
-		this.localParent.model.feelingsLearningEffect.response = this.createResponseFromPrompt(this.promptSections);
+		this.localParent.model.feelingsLearningEffect.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
 		this.localParent.nextStep();
 	}
 
@@ -43,18 +44,7 @@ export class BaseEvaluationFeelings {
 		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[this.currentIndex];
 	}
 
-	createResponseFromPrompt(prompt: PromptSection[]): string {
-		return prompt.reduce((prev, curr) => {
-			if (curr.input) {
-				prev += `%{${curr.inputValue}}`;
-			} else {
-				prev += curr.prompt;
-			}
-			return prev;
-		}, "");
-	}
-
 	get AllowNext() {
-		return this.promptSections != null && this.promptSections.every(x => !x?.input || x?.inputValue?.length > 3);
+		return this.promptSections != null && this.promptSections.every(x => !x?.input || (x?.inputValue?.length >= 3 && x?.valid));
 	}
 }
