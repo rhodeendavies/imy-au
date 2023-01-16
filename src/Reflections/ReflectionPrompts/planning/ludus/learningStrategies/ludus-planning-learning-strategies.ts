@@ -75,7 +75,7 @@ export class LudusPlanningLearningStrategies {
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
 		
 		return {
-			labels: this.components,
+			labels: this.components.map(x => x.name),
 			datasets: [{
 				label: "",
 				data: data.map(x => {

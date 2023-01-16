@@ -144,12 +144,14 @@ strong {
 			flex-wrap: wrap;
 			gap: 10px;
 			align-items: center;
+			margin-top: 5px;
 
 			.summary-modifier {
 				background-color: $Orange;
 				color: white;
-				padding: 5px 10px;
-				border-radius: $BorderRadius;
+				padding: 5px 15px;
+				border-radius: 20px;
+				font-size: 12px;
 			}
 		}
 	}

@@ -113,7 +113,7 @@ export class ComponentHelper {
 			if (!components.some(y => y.name == x.name)) {
 				components.push({
 					name: x.name,
-					amount: modifiers.reduce((prev, curr) => { return prev + curr.amount }, 0)
+					amount: modifiers.filter(y => y.name == x.name).reduce((prev, curr) => { return prev + curr.amount }, 0)
 				});
 			}
 		});

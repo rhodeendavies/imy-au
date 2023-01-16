@@ -72,3 +72,18 @@
 		}
 	}
 }
+
+.ludus-reflection-details-container {
+	display: grid;
+	grid-template-rows: auto minmax(0 ,1fr);
+	gap: 20px;
+	height: 100%;
+
+	.reflections-details-wrapper {
+		height: initial;
+	}
+
+	.gauges-details-wrapper {
+		overflow: visible;
+	}
+}

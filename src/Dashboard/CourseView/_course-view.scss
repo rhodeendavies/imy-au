@@ -4,7 +4,7 @@
 	display: grid;
 	grid-template-columns: minmax(300px, 1fr);
 	grid-template-rows: auto minmax(0, 1fr);
-	gap: 50px;
+	gap: 20px;
 	height: 100%;
 	
 	&.lesson-open {
