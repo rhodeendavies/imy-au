@@ -1,7 +1,6 @@
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { ReflectionsDetails } from "../reflections-details";
-import { LudusReflection, Strategy } from "models/reflections";
-import { LudusModifier, StrategyRating } from "models/reflectionsApiModels";
+import { LudusComponent, LudusReflection, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { StrategyOptions } from "utils/constants";
 
@@ -9,7 +8,7 @@ import { StrategyOptions } from "utils/constants";
 export class Ludus {
 
 	@bindable reflection: LudusReflection;
-	components: LudusModifier[];
+	components: LudusComponent[];
 
 	constructor(private localParent: ReflectionsDetails) {}
 

@@ -15,9 +15,9 @@
 			</button>
 		</div>
 
-		<base-evaluation class="prompt-body" if.bind="ShowBaseSystem"></base-evaluation>
-		<ludus-evaluation class="prompt-body" if.bind="ShowLudus"></ludus-evaluation>
-		<paidia-evaluation class="prompt-body" if.bind="ShowPaidia"></paidia-evaluation>
+		<base-evaluation class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-evaluation>
+		<ludus-evaluation class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-evaluation>
+		<paidia-evaluation class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-evaluation>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="5" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

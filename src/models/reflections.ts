@@ -48,3 +48,9 @@ export class Topic {
 		this.rating = null;
 	}
 }
+
+export class LudusComponent {
+	name: string;
+	total: number;
+	score: number;
+}

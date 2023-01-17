@@ -14,7 +14,8 @@ export class LudusPlanningStrengths {
 
 	constructor(private localParent: LudusPlanning, private appState: ApplicationState) {}
 
-	attached() {
+	async attached() {
+		await this.appState.initPrompts();
 		this.indexesShown = [];
 		this.numOfPrompts = this.appState.ludusPrompts.planningPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strengthOptimization.response)) {

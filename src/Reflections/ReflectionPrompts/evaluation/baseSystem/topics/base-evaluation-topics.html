@@ -3,7 +3,7 @@
 		<div class="evaluation-topics-question">
 			<p class="reflection-question">
 				Below are the topics covered by the videos this week. Rate them according
-				to how well you feel you mastered thm.
+				to how well you feel you mastered them.
 			</p>
 
 			<div class="evaluation-topic">
@@ -14,9 +14,12 @@
 					<div>Not yet mastered</div>
 				</div>
 			</div>
-			<div class="evaluation-topic bordered" repeat.for="topic of localParent.model.topicRatings.ratings">
-				<div>${topic.name}</div>
-				<radio-button type="inline" value.bind="topic.rating" options.bind="ratingOptions"></radio-button>
+
+			<div class="evaluation-topics">
+				<div class="evaluation-topic bordered" repeat.for="topic of localParent.model.topicRatings.ratings">
+					<div>${topic.name}</div>
+					<radio-button type="inline" value.bind="topic.rating" options.bind="ratingOptions"></radio-button>
+				</div>
 			</div>
 		</div>
 

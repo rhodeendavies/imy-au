@@ -1,9 +1,16 @@
-import { Strategy } from "models/reflections";
+import { LudusComponent, Strategy } from "models/reflections";
 import { Colour, StrategyOption } from "./constants";
 import { LudusModifier, LudusStrategy } from "models/reflectionsApiModels";
 import { PromptSection } from "models/prompts";
+import { log } from "./log";
 
 export class ComponentHelper {
+	static ModuleName: string = "";
+
+	static SetModule(moduleName: string) {
+		this.ModuleName = moduleName;
+	}
+
 	static CreateId(component: string): string {
 		return `${component}_${Math.random().toString(36).substring(2, 5)}`;
 	}
@@ -112,7 +119,7 @@ export class ComponentHelper {
 		}
 	}
 
-	static GetUniqueComponents(components: LudusModifier[], modifiers: LudusModifier[]): LudusModifier[] {
+	static GetUniqueComponents(components: LudusModifier[], modifiers: LudusModifier[]): LudusComponent[] {
 		modifiers?.forEach(x => {
 			if (!components.some(y => y.name == x.name)) {
 				components.push({
@@ -121,7 +128,13 @@ export class ComponentHelper {
 				});
 			}
 		});
-		return components;
+		return components.map(x => {
+			return {
+				name: x.name,
+				total: x.amount,
+				score: 0
+			}
+		});
 	}
 
 	static GetAllModifiers(strategies: Strategy[]): LudusModifier[] {
@@ -143,6 +156,8 @@ export class ComponentHelper {
 		let index = 0;
 		let inputIndex = 0;
 		let endOfInputIndex = 0;
+
+		promptString = promptString.replace(/{%}/g, this.ModuleName);
 
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
 			inputIndex = promptString.indexOf("%{", index);
@@ -194,35 +209,28 @@ export class ComponentHelper {
 
 	static CleanPrompt(promptString: string): string {
 		if (promptString == null) return;
-		const lengthOfString = promptString.length;
-		
-		let index = 0;
-		let inputIndex = 0;
-		let endOfInputIndex = 0;
+		return promptString.replace(/[%{}]/g, "");
+	}
 
-		let result = "";
-		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf("%{", index);
-			endOfInputIndex = promptString.indexOf("}", index);
-			
-			let subString = "";
-			let inputString = "";
+	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[]): LudusComponent[] {
+		if (components == null || strategyRatings == null) return [];
+		components.forEach(component => {
+			let rawValue = 0;
+			strategyRatings.forEach(strategy => {
+				const componentInStrategy = strategy.modifiers.find(x => x.name == component.name);
+				if (componentInStrategy != null) {
+					rawValue += componentInStrategy.amount * strategy.rating / 100;
+				}
+			});
+			component.score = rawValue / component.total * 100;
+		});
+		return components;
+	}
 
-			if (inputIndex == -1) {
-				subString = promptString.substring(index);
-			} else {
-				subString = promptString.substring(index, inputIndex);
-			}
-			result += subString;
-
-			if (inputIndex >= 0) {
-				inputString = promptString.substring(inputIndex + 2, endOfInputIndex);
-				result += inputString;
-			}
-
-			index = endOfInputIndex + 1;
-		}
-
-		return result;
+	static GetFinalScore(components: LudusComponent[]): number {
+		if (components == null) return 0;
+		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.score * curr.total)}, 0);
+		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
+		return Math.ceil(sumOfScores / totalWeights);
 	}
 }

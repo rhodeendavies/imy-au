@@ -1,12 +1,10 @@
 import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-framework";
 import { RadioOption } from "resources/radioButton/radio-button";
-import { LudusTopicRating } from "utils/enums";
-import { ComponentHelper } from "utils/componentHelper";
 import { LudusEvaluation } from "../ludus-evaluation";
 
 @autoinject
-export class BaseEvaluationTopics {
+export class LudusEvaluationTopics {
 
 	ratingOptions: RadioOption[] = [
 		{ name: "", value: 1 },
@@ -21,20 +19,32 @@ export class BaseEvaluationTopics {
 	}
 
 	initData() {
-		this.localParent.questions.lessonRatingSummary.forEach(x => {
+		this.localParent.questions.lessonRatings.forEach(x => {
 			if (x.rating == null) {
 				x.rating = 0;
 			}
 			x.topicsString = x.topics.join(", ");
 		});
+		this.localParent.questions.topicRatings.topics.forEach(x => {
+			const topic = this.localParent.model.topicRatings.ratings.find(y => y.id == x.id);
+			if (topic != null) {
+				x.rating = topic.rating;
+			}
+		});
 	}
 
 	nextStep() {
 		if (!this.AllowNext) return;
+		this.localParent.model.topicRatings.ratings = this.localParent.questions.topicRatings.topics.map(x => {
+			return {
+				id: x.id,
+				rating: x.rating
+			};
+		})
 		this.localParent.nextStep();
 	}
 
 	get AllowNext(): boolean {
-		return this.localParent.model.topicRatings.ratings.every(x => x.rating != null);
+		return this.localParent.questions.topicRatings?.topics?.every(x => x?.rating != null);
 	}
 }

@@ -1,32 +1,28 @@
 <template>
 	<require from="resources/percentageSlider/percentage-slider"></require>
 
-	<div class="base-evaluation-feelings-wrapper">
-		<div class="base-evaluation-feelings">
-			<div>
-				<p class="reflection-question">How do you feel about ${localParent.Course} right now?</p>
-				<percentage-slider percentage.bind="localParent.model.courseFeelings.rating"></percentage-slider>
-			</div>
-
-			<div>
-				<p class="reflection-question mb-30">
-					How did your feelings towards ${localParent.Course} affect your learning this week?
-				</p>
-
-				<div class="prompt-input">
-					<template repeat.for="section of promptSections">
-						<p if.bind="!section.input" class="${section.period ? 'prompt-period' : ''}">${section.prompt}</p>
-						<input-box if.bind="section.input" value.bind="section.inputValue" valid.bind="section.valid"></input-box>
-					</template>
-					<div click.delegate="getNewPrompt()" class="prompt-refresh">
-						<span class="icon">refresh</span>
-					</div>
-				</div>
-			</div>
+	<div class="base-evaluation-feelings-wrapper mb-30">
+		<div>
+			<p class="reflection-question">How do you feel about ${localParent.Course} right now?</p>
+			<percentage-slider percentage.bind="localParent.model.courseFeelings.rating"></percentage-slider>
 		</div>
 
 		<div>
 			<p class="reflection-question">Here's a summary of your feelings about ${localParent.Course} this week</p>
+		</div>
+	</div>
+
+	<p class="reflection-question my-30">
+		How did your feelings towards ${localParent.Course} affect your learning this week?
+	</p>
+
+	<div class="prompt-input">
+		<template repeat.for="section of promptSections">
+			<p if.bind="!section.input" class="${section.period ? 'prompt-period' : ''}">${section.prompt}</p>
+			<input-box if.bind="section.input" value.bind="section.inputValue" valid.bind="section.valid"></input-box>
+		</template>
+		<div click.delegate="getNewPrompt()" class="prompt-refresh">
+			<span class="icon">refresh</span>
 		</div>
 	</div>
 

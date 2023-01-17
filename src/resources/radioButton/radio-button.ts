@@ -12,6 +12,8 @@ export class RadioButton {
 	@bindable id: string = "";
 	@bindable type: RadioButtonTypes = RadioButtonTypes.normal;
 
+	hovering: boolean;
+
 	constructor() {
 		this.id = ComponentHelper.CreateId("radioButton");
 	}
@@ -46,6 +48,16 @@ export class RadioButton {
 		}
 	}
 
+	enableHover(option: RadioOption) {
+		option.hovered = true;
+		this.hovering = true;
+	}
+
+	disableHover(option: RadioOption) {
+		option.hovered = false;
+		this.hovering = false;
+	}
+
 	valueChanged() {
 		this.options?.forEach(x => x.selected = x.value == this.value);
 	}
@@ -69,6 +81,16 @@ export class RadioButton {
 	get Inline(): boolean {
 		return this.type == RadioButtonTypes.inline;
 	}
+
+	@computedFrom("hovering", "type", "value")
+	get Styles(): string {
+		let classes = "";
+		if (this.hovering) classes += " radio-options-hovering";
+		if (this.Inline || this.Stars) classes += " radio-options-inline";
+		if (this.Stars) classes += " radio-options-stars";
+		if (this.value == null) classes += " empty-stars";
+		return classes;
+	}
 }
 
 export class RadioOption {
@@ -77,6 +99,7 @@ export class RadioOption {
 	value: any;
 	disabled?: boolean;
 	selected?: boolean;
+	hovered?: boolean;
 }
 
 enum RadioButtonTypes {

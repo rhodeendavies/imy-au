@@ -39,10 +39,10 @@
 		"I felt really %{} this week and so my learning was %{}.",
 		"My learning was so %{} this week because I was %{}.",
 		"I feel %{} about my learning this week because I was %{}.",
-		"I was incredibly %{} in %{module} this week and that meant that %{}.",
-		"I feel %{} about %{module} this week. As a result, my progress was %{}.",
+		"I was incredibly %{} in {%} this week and that meant that %{}.",
+		"I feel %{} about {%} this week. As a result, my progress was %{}.",
 		"%{}! This week was %{} and I %{}.",
-		"%{module} was unbelievably %{} this week. I felt %{}.",
+		"{%} was unbelievably %{} this week. I felt %{}.",
 		"I did so %{} this week because I was feeling %{}.",
 		"Learning this week was unthinkably %{} because I was %{}."
 	]

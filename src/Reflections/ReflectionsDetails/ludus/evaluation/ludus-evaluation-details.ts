@@ -42,10 +42,10 @@ export class LudusEvaluationDetails {
 			this.evaluatingReflection.strategyRating.extendingRating = 0;
 		}
 		
-		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyRating.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyRating.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyRating.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyRating.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
 	}
 
 	@computedFrom("localParent.reflection.id")

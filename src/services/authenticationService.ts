@@ -10,6 +10,7 @@ import { Roles, Systems } from "utils/enums";
 import { log } from "utils/log";
 import { CoursesService } from "./coursesService";
 import { UsersService } from "./usersService";
+import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
 export class AuthenticationService {
@@ -47,6 +48,7 @@ export class AuthenticationService {
 			case Roles.Student:
 				course = await this.courseApi.getCourse(this.user.courseId);
 				this.user.course = course.name;
+				ComponentHelper.SetModule(course.name);
 				this.router.navigate(Routes.Dashboard);
 				break
 			default:
@@ -60,6 +62,7 @@ export class AuthenticationService {
 			this.busy.on();
 			this.usersApi.logout();
 			this.user = null;
+			ComponentHelper.SetModule("");
 			this.ea.publish(Events.Logout);
 			this.redirectToLogin();
 		} catch (error) {

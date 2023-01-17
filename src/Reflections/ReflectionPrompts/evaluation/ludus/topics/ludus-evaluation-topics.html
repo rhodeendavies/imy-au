@@ -1,14 +1,16 @@
 <template>
 	<div class="evaluation-topics-wrapper">
 		<div class="evaluation-topics-question">
-			<p class="reflection-question">
+			<p class="reflection-question mb-30">
 				Below are the topics covered by the videos this week. Rate them according
-				to how well you feel you mastered thm.
+				to how well you feel you mastered them.
 			</p>
 
-			<div class="evaluation-topic" repeat.for="topic of localParent.model.topicRatings.ratings">
-				<div>${topic.name}</div>
-				<radio-button type="stars" value.bind="topic.rating" options.bind="ratingOptions"></radio-button>
+			<div class="evaluation-topics">
+				<div class="evaluation-topic" repeat.for="topic of localParent.questions.topicRatings.topics">
+					<div>${topic.name}</div>
+					<radio-button type="stars" value.bind="topic.rating" options.bind="ratingOptions"></radio-button>
+				</div>
 			</div>
 		</div>
 
@@ -16,9 +18,9 @@
 			<p class="reflection-question">Video ratings this week</p>
 			<p>This is how you rated your understanding of the videos this week.</p>
 
-			<div class="summary-with-icon" repeat.for="lesson of localParent.questions.lessonRatingSummary">
-				<div class="summary-icon rating-icon saturate-${lesson.rating}">
-					<span>${lesson.rating}%</span>
+			<div class="summary-with-icon ludus-summary-icon" repeat.for="lesson of localParent.questions.lessonRatings">
+				<div class="ludus-lesson-rating">
+					<span class="icon ${(i + 1) == lesson.rating ? '' : 'ludus-active-rating'}" repeat.for="i of 3">star</span>
 				</div>
 				<div class="summary-text">
 					<div class="summary-heading">${lesson.name}</div>

@@ -76,8 +76,8 @@ export class LudusEvaluatingResponse extends ReflectionResponse {
 export class LudusEvaluatingQuestions {
 	feelingsSummary: FeelingsSummary;
 	topicRatings: Topics;
-	lessonRatingSummary: RegularLessonRatings[];
-	strategyRating: LudusStrategyPlanning;
+	lessonRatings: RegularLessonRatings[];
+	strategyPlanning: LudusStrategyPlanning;
 }
 // =======================================================================
 
@@ -116,6 +116,7 @@ export class Topics {
 export class QuestionTopic {
 	id: number;
 	name: string;
+	rating?: number;
 }
 
 export class FeelingsSummary {

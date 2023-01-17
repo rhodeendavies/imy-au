@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { LudusEvaluation } from "../ludus-evaluation";
 
 @autoinject
-export class BaseEvaluationSummary {
+export class LudusEvaluationSummary {
 
 	valid: boolean;
 

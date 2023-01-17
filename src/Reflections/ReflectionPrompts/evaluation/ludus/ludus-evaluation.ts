@@ -16,7 +16,11 @@ export class LudusEvaluation {
 		private localParent: EvaluationPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService) {}
+		private reflectionsApi: ReflectionsService) { }
+
+	attached() {
+		this.getEvaluating();
+	}
 
 	nextStep() {
 		this.localParent.nextStep();

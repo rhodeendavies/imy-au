@@ -2,11 +2,10 @@ import { autoinject, computedFrom } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
 import { Colours, StrategyOptions } from "utils/constants";
 import { LudusPlanning } from "../ludus-planning";
-import { Strategy } from "models/reflections";
+import { LudusComponent, Strategy } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { log } from "utils/log";
 import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from 'chart.js'
-import { LudusModifier } from "models/reflectionsApiModels";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -18,7 +17,7 @@ export class LudusPlanningLearningStrategies {
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
 	busy: Busy = new Busy();
-	components: LudusModifier[];
+	components: LudusComponent[];
 	chart: Chart;
 	chartUpdated: boolean = false;
 
@@ -56,7 +55,7 @@ export class LudusPlanningLearningStrategies {
 
 	createData() {
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.Strategies));
-		const data: number[] = this.components.map(x => x.amount);
+		const data: number[] = this.components.map(x => x.total);
 		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
 		

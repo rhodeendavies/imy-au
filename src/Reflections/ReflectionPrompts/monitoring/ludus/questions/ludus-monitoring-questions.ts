@@ -14,7 +14,8 @@ export class LudusMonitoringQuestions {
 
 	constructor(private localParent: LudusMonitoring, private appState: ApplicationState) {}
 
-	attached() {
+	async attached() {
+		await this.appState.initPrompts();
 		this.indexesShown = [];
 		this.numOfPrompts = this.appState.ludusPrompts.monitoringPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.contentConfusion.response)) {

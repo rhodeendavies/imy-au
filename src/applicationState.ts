@@ -265,8 +265,8 @@ export class ApplicationState {
 		}, 1);
 	}
 
-	initPrompts() {
-		fetch("prompts/ludus-prompts.json")
+	async initPrompts(): Promise<void | Response> {
+		return fetch("prompts/ludus-prompts.json")
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
 				this.ludusPrompts = {

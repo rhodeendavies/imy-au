@@ -5,7 +5,7 @@ import { PromptSection } from "models/prompts";
 import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
-export class BaseEvaluationFeelings {
+export class LudusEvaluationFeelings {
 
 	indexesShown: number[] = [];
 	currentIndex: number = 0;
@@ -14,7 +14,8 @@ export class BaseEvaluationFeelings {
 	
 	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {}
 
-	attached() {
+	async attached() {
+		await this.appState.initPrompts();
 		this.indexesShown = [];
 		this.numOfPrompts = this.appState.ludusPrompts.evaluatingPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.feelingsLearningEffect.response)) {
