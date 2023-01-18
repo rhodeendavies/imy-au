@@ -85,6 +85,7 @@ export class ApplicationState {
 		}
 		this.watchedLesson = null;
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
 	triggerDailyModal() {
@@ -98,6 +99,7 @@ export class ApplicationState {
 		if (this.dailyModal.Open) {
 			this.dailyModal.toggle();
 		}
+		this.refreshSections();
 	}
 
 	triggerPlanningModal(sectionName: string) {
@@ -105,7 +107,6 @@ export class ApplicationState {
 		if (!this.planningModal.Open) {
 			this.planningModal.toggle();
 		}
-		this.ea.publish(Events.PlanningTriggered);
 	}
 
 	closePlanning() {
@@ -113,6 +114,7 @@ export class ApplicationState {
 			this.planningModal.toggle();
 		}
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
 	triggerMonitoringModal(sectionName: string) {
@@ -120,7 +122,6 @@ export class ApplicationState {
 		if (!this.monitoringModal.Open) {
 			this.monitoringModal.toggle();
 		}
-		this.ea.publish(Events.MonitoringTriggered);
 	}
 
 	closeMonitoring() {
@@ -128,6 +129,7 @@ export class ApplicationState {
 			this.monitoringModal.toggle();
 		}
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
 	triggerEvaluationModal(sectionName: string) {
@@ -135,7 +137,6 @@ export class ApplicationState {
 		if (!this.evaluationModal.Open) {
 			this.evaluationModal.toggle();
 		}
-		this.ea.publish(Events.EvaluationTriggered);
 	}
 
 	closeEvaluation() {
@@ -143,6 +144,7 @@ export class ApplicationState {
 			this.evaluationModal.toggle();
 		}
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
 	async determineReflectionToShow() {

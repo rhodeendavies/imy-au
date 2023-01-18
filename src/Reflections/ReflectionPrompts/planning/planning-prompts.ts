@@ -1,37 +1,27 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BasePlanningApiModel, LudusPlanningApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
-import { Events } from "utils/constants";
 import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class PlanningPrompts extends SectionTrackerParent {
 	
-	triggerSub: Subscription;
 	weekTopic: string = "";
 	reflectionId: number;
 
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private ea: EventAggregator,
 		private reflectionsApi: ReflectionsService) {
 		super();
 	}
 
 	attached() {
-		this.triggerSub = this.ea.subscribe(Events.PlanningTriggered, () => {
-			this.activeSection = PlanningSections.Overview;
-		});
+		this.activeSection = PlanningSections.Overview;
 		this.getWeekTopic();
-	}
-
-	detached() {
-		this.triggerSub.dispose();
 	}
 
 	getWeekTopic() {

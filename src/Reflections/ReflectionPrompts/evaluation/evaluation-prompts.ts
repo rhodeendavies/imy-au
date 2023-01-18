@@ -1,36 +1,27 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseEvaluatingApiModel, LudusEvaluatingApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
-import { Events } from "utils/constants";
 import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class EvaluationPrompts extends SectionTrackerParent {
 	
-	triggerSub: Subscription;
 	weekTopic: string = ""
 	reflectionId: number;
+	reflectionTriggered: boolean = false;
 
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private ea: EventAggregator,
 		private reflectionsApi: ReflectionsService) {
 		super();
 	}
 
 	attached() {
-		this.triggerSub = this.ea.subscribe(Events.EvaluationTriggered, () => {
-			this.activeSection = EvaluationSections.Overview;
-		});
-	}
-
-	detached() {
-		this.triggerSub.dispose();
+		this.activeSection = EvaluationSections.Overview;
 	}
 
 	async submitEvaluation(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel, completed: boolean) {
@@ -69,19 +60,19 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		return this.activeSection == EvaluationSections.Summary;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "ShowOverview")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base;
+		return !this.ShowOverview && this.authService.System == Systems.Base;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "ShowOverview")
 	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus;
+		return !this.ShowOverview && this.authService.System == Systems.Ludus;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "ShowOverview")
 	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia;
+		return !this.ShowOverview && this.authService.System == Systems.Paidia;
 	}
 }
 

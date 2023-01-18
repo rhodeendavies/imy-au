@@ -20,6 +20,7 @@ export class LudusPlanningLearningStrategies {
 	components: LudusComponent[];
 	chart: Chart;
 	chartUpdated: boolean = false;
+	strategies: Strategy[];
 
 	constructor(private localParent: LudusPlanning) { }
 
@@ -28,6 +29,7 @@ export class LudusPlanningLearningStrategies {
 			this.busy.on();
 			this.chartUpdated = false;
 			this.initData();
+			this.updateChart();
 		} catch (error) {
 			log.error(error);
 		} finally {
@@ -40,6 +42,7 @@ export class LudusPlanningLearningStrategies {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	submit() {
@@ -53,8 +56,21 @@ export class LudusPlanningLearningStrategies {
 		this.localParent.submitPlanning();
 	}
 
-	createData() {
-		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.Strategies));
+	createData(emptyChart: boolean) {
+		if (emptyChart) {
+			return {
+				labels: [""],
+				datasets: [{
+					label: "",
+					data: [1],
+					backgroundColor: "#fff",
+					borderColor: [Colours.OrangeHex]
+				}]
+			}
+		}
+		
+		
+		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
 		const data: number[] = this.components.map(x => x.total);
 		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
@@ -73,13 +89,23 @@ export class LudusPlanningLearningStrategies {
 	}
 
 	updateChart() {
-		if (this.learningStrategy == null || this.reviewingStrategy == null || this.practicingStrategy == null || this.extendingStrategy == null) return;
+		setTimeout(() => {
+			const emptyChart = this.strategies.every(x => ComponentHelper.NullOrEmpty(x.strategy));
+			this.createChart(emptyChart);
+		}, 0);
+	}
+
+	createChart(emptyChart: boolean) {
+		const context = document.getElementById("componentsChart") as HTMLCanvasElement;
+		if (context == null) return;
+
 		if (this.chart == null) {
-			this.chart = new Chart(document.getElementById("componentsChart") as HTMLCanvasElement,
+			this.chart = new Chart(context,
 			{
 				type: "doughnut",
-				data: this.createData(),
+				data: this.createData(emptyChart),
 				options: {
+					animation: false,
 					aspectRatio: 2,
 					layout: {
 						padding: {
@@ -98,36 +124,27 @@ export class LudusPlanningLearningStrategies {
 							}
 						},
 						legend: {
-							display: true,
+							display: !emptyChart,
 							position: "right"
 						}
 					}
 				}
 			});
 		} else {
-			this.chart.data = this.createData();
+			this.chart.data = this.createData(emptyChart);
+			this.chart.options.plugins.legend.display = !emptyChart;
 			if (this.chartUpdated) {
 				this.chart.update("none");
 			} else {
 				this.chart.update();
 			}
 
-			this.chartUpdated = this.learningStrategy.modifiers != null || this.reviewingStrategy.modifiers != null || this.practicingStrategy.modifiers != null || this.extendingStrategy.modifiers != null
+			this.chartUpdated = !emptyChart;
 		}
 	}
 
 	@computedFrom("learningStrategy.strategy", "reviewingStrategy.strategy", "practicingStrategy.strategy", "extendingStrategy.strategy")
 	get AllowSubmit(): boolean {
-		this.updateChart();
-		return this.Strategies != null && this.Strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
+		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
 	}
 }

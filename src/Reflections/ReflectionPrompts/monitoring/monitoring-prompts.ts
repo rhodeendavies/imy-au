@@ -1,36 +1,27 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseMonitoringApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
-import { Events } from "utils/constants";
 import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class MonitoringPrompts extends SectionTrackerParent {
 	
-	triggerSub: Subscription;
 	weekTopic: string = ""
 	reflectionId: number;
+	reflectionTriggered: boolean = false;
 
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private ea: EventAggregator,
 		private reflectionsApi: ReflectionsService) {
 		super();
 	}
 
 	attached() {
-		this.triggerSub = this.ea.subscribe(Events.MonitoringTriggered, () => {
-			this.activeSection = MonitoringSections.Overview;
-		});
-	}
-
-	detached() {
-		this.triggerSub.dispose();
+		this.activeSection = MonitoringSections.Overview;
 	}
 
 	async submitMonitoring(model: BaseMonitoringApiModel, completed: boolean) {

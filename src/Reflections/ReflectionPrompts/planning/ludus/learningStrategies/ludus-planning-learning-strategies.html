@@ -8,13 +8,14 @@
 
 	<div class="strategy-grid">
 		<div class="strategy-option-wrapper" if.bind="!busy.active">
-			<div repeat.for="strategy of Strategies" class="strategy-option">
+			<div repeat.for="strategy of strategies" class="strategy-option">
 				<div class="strategy-heading-wrapper">
 					<div class="strategy-heading">${strategy.title}</div>
 					<div class="strategy-sub-text">Choose 1</div>
 				</div>
 	
-				<radio-button options.bind="strategy.options" name.bind="strategy.strategy" value.bind="strategy.modifiers">
+				<radio-button options.bind="strategy.options" name.bind="strategy.strategy" value.bind="strategy.modifiers"
+					click.delegate="updateChart()">
 				</radio-button>
 			</div>
 		</div>
