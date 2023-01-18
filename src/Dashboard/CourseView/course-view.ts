@@ -7,6 +7,8 @@ import { ApplicationState } from "applicationState";
 import { log } from "utils/log";
 import { Busy } from "resources/busy/busy";
 import { AuthenticationService } from "services/authenticationService";
+import { LessonsService } from "services/lessonsService";
+import { DateHelper } from "utils/dateHelper";
 
 @autoinject
 export class CourseView {
@@ -18,8 +20,33 @@ export class CourseView {
 	currentSection: Section;
 	busy: Busy = new Busy();
 	initDone: boolean = false;
+	speedSettings: SpeedSetting[] = [{
+		name: "x0.25",
+		speed: 0.25
+	}, {
+		name: "x0.5",
+		speed: 0.5
+	}, {
+		name: "Normal",
+		speed: 1,
+		active: true
+	}, {
+		name: "x1.5",
+		speed: 1.5
+	}, {
+		name: "x2",
+		speed: 2
+	}];
+	lessonWatchStartTime: number;
+	videoCurrentTimeStamp: number;
+	playbackSpeed: number = 1;
 
-	constructor(private localParent: Dashboard, private appState: ApplicationState, private authService: AuthenticationService) { }
+	constructor(
+		private localParent: Dashboard,
+		private appState: ApplicationState,
+		private authService: AuthenticationService,
+		private lessonApi: LessonsService
+	) { }
 
 	activate(params) {
 		this.contentId = params.contentId;
@@ -73,18 +100,44 @@ export class CourseView {
 	}
 
 	selectLesson(lesson: Lesson) {
+		if (lesson != null && this.lessonSelected != null && lesson.id != this.lessonSelected.id) {
+			this.endTimer(this.lessonSelected);
+		}
 		this.lessonSelected = lesson;
 		this.localParent.lessonOpen = true;
 		this.localParent.navigate(`${Routes.CourseContent}/${lesson.id}`);
 	}
 
 	downloadLesson(lesson: Lesson) {
+		this.lessonApi.logResourceDownload(lesson.id);
 		this.appState.triggerToast("Downloading...")
 		window.open(lesson.resourcesUrl, '_blank').focus();
+	}
+
+	adjustSpeed(speedSetting: SpeedSetting) {
+		this.speedSettings.forEach(x => x.active = false);
+		speedSetting.active = true;
+		this.playbackSpeed = speedSetting.speed;
+	}
+
+	startTimer() {
+		this.lessonWatchStartTime = DateHelper.NowDateTime().toSeconds();
+	}
+
+	endTimer(lesson: Lesson) {
+		const endTime = DateHelper.NowDateTime().toSeconds();
+		const elapsedTime = endTime - this.lessonWatchStartTime;
+		this.lessonApi.logLessonWatchTime(lesson.id, this.videoCurrentTimeStamp, elapsedTime);
 	}
 
 	@computedFrom("localParent.lessonOpen")
 	get IsLessonSelected(): boolean {
 		return this.localParent.lessonOpen;
 	}
+}
+
+class SpeedSetting {
+	speed: number;
+	name: string;
+	active?: boolean;
 }

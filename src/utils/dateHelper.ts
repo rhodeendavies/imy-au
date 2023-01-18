@@ -5,6 +5,14 @@ export class DateHelper {
 
 	static Format: string = "yyyy-LL-dd";
 
+	static Now(): Date {
+		return DateTime.now().toJSDate();
+	}
+
+	static NowDateTime(): DateTime {
+		return DateTime.now();
+	}
+
 	static DateFromString(date: string, format: string = this.Format): Date {
 		return DateTime.fromFormat(date, format).toJSDate();
 	}

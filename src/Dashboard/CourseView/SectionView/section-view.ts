@@ -2,6 +2,7 @@ import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { ApplicationState } from "applicationState";
 import { Lesson, Section } from "models/course";
 import { CourseView } from "../course-view";
+import { LessonsService } from "services/lessonsService";
 
 @autoinject
 export class SectionView {
@@ -10,20 +11,10 @@ export class SectionView {
 
 	constructor(
 		private localParent: CourseView,
-		private appState: ApplicationState
+		private appState: ApplicationState,
+		private lessonApi: LessonsService
 	) { }
 
-	attached() {
-		// if (this.section.id == this.localParent.currentSection.id) {
-		// 	const numOfLessons = this.section.lessons.length;
-		// 	for (let index = 0; index < numOfLessons; index++) {
-		// 		const lesson = this.section.lessons[index];
-		// 		lesson.available = lesson.complete || index == 0 || this.section.lessons[index - 1].complete;
-		// 	}
-		// } else {
-		// 	this.section.lessons.forEach(x => x.available = true);
-		// }
-	}
 
 	selectLesson(lesson: Lesson) {
 		if (lesson == null || !lesson.available) return;
@@ -37,7 +28,8 @@ export class SectionView {
 
 	downloadLesson(lesson: Lesson, event: Event) {
 		event.stopPropagation();
-		this.appState.triggerToast("Downloading...")
+		this.lessonApi.logResourceDownload(lesson.id);
+		this.appState.triggerToast("Downloading...");
 		window.open(lesson.resourcesUrl, '_blank').focus();
 	}
 

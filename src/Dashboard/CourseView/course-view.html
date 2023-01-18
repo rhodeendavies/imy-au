@@ -34,12 +34,19 @@
 			<div class="lesson-heading">${lessonSelected.order}. ${lessonSelected.name}</div>
 			<div class="lesson-video-wrapper">
 				<div class="lesson-video">
-					<video class="lesson-video-component" controls>
+					<video class="lesson-video-component" controls id="lessonVideo" play.trigger="startTimer()"
+						current-time.from-view="videoCurrentTimeStamp" playback-rate.bind="playbackSpeed">
 						<source src.bind="lessonSelected.videoUrl">
 					</video>
 				</div>
 			</div>
 			<div class="lesson-action">
+				<div class="lesson-speed-settings">
+					<div repeat.for="speedSetting of speedSettings" class="lesson-speed ${speedSetting.active ? 'current-speed' : ''}"
+						click.delegate="adjustSpeed(speedSetting)">
+						${speedSetting.name}
+					</div>
+				</div>
 				<button class="btn btn-default" click.delegate="downloadLesson(lessonSelected)">
 					<span class="far fa-folder"></span>
 					Resources

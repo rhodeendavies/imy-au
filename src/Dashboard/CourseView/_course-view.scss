@@ -50,7 +50,7 @@
 		}
 
 		.lesson-video-wrapper {
-			padding: 40px 0;
+			padding-top: 40px;
 			
 			.lesson-video {
 				min-width: 300px;
@@ -59,8 +59,8 @@
 				background-color: $LightGrey;
 
 				.lesson-video-component {
-					max-height: 100%;
-					max-width: 100%;
+					height: 100%;
+					width: 100%;
 					display: flex;
 					margin: auto;
 				}
@@ -69,7 +69,36 @@
 
 		.lesson-action {
 			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
 			justify-content: flex-end;
+
+			.lesson-speed-settings {
+				padding: 10px 0;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+
+				.lesson-speed {
+					padding: 5px 10px;
+					font-size: 13px;
+					border: 1px solid $SeaGreen;
+					border-radius: $BorderRadius;
+					transition: all 0.3s;
+					cursor: pointer;
+
+					&:hover {
+						background-color: $PaleBlue;
+						border-color: $PaleBlue;
+					}
+
+					&.current-speed {
+						background-color: $SeaGreen;
+						border-color: $SeaGreen;
+						color: white;
+					}
+				}
+			}
 		}
 	}
 }

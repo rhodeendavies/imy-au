@@ -88,11 +88,13 @@ export class ApiWrapper {
 	}
 
 	private dateTimeReceiver = function(key, value) {
-		let a;
 		if (typeof value === 'string') {
-			a = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/.exec(value);
+			const a = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/.exec(value);
+			const b = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC/.exec(value);
 			if (a) {
 				return DateHelper.DateFromISOString(a[0]);
+			} else if (b) {
+				return DateHelper.DateFromString(b[0], "yyyy-LL-dd' 'HH:mm:ss' UTC'");
 			}
 		}
 		return value;
