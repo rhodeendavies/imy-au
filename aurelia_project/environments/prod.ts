@@ -2,7 +2,7 @@ export default {
 	debug: false,
 	testing: false,
 	api: {
-		baseUrl: "http://localhost:3000"
+		baseUrl: "http://api.bevanholborn.co.za/api"
 	},
 	loginModel: {
 		studentNumber: "",
