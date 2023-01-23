@@ -30,7 +30,6 @@ export class ApplicationState {
 	private loginSub: Subscription;
 	
 	ludusPrompts: Prompts;
-	refreshApp: boolean = false;
 	watchedLesson: Lesson;
 	reflectionSection: string;
 
@@ -259,12 +258,9 @@ export class ApplicationState {
 	}
 
 	refreshSections() {
-		this.refreshApp  = true;
 		this.sections = null;
 		this.currentSection = null;
-		setTimeout(() => {
-			this.refreshApp = false;
-		}, 1);
+		this.ea.publish(Events.RefreshApp);
 	}
 
 	async initPrompts(): Promise<void | Response> {

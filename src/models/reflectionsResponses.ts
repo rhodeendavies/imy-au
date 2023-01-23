@@ -1,4 +1,4 @@
-import { BaseDailyApiModel, BaseEvaluatingApiModel, BaseMonitoringApiModel, BasePlanningApiModel, BaseLessonApiModel, LudusDailyApiModel, LudusEvaluatingApiModel, LudusMonitoringApiModel, LudusPlanningApiModel, LudusStrategyPlanning, PaidiaDailyApiModel, PaidiaEvaluatingApiModel, PaidiaMonitoringApiModel, PaidiaPlanningApiModel, PaidiaStrategyPlanning, StrategyPlanning, LudusLessonApiModel } from "./reflectionsApiModels";
+import { BaseDailyApiModel, BaseEvaluatingApiModel, BaseMonitoringApiModel, BasePlanningApiModel, BaseLessonApiModel, LudusDailyApiModel, LudusEvaluatingApiModel, LudusMonitoringApiModel, LudusPlanningApiModel, LudusStrategyPlanning, PaidiaDailyApiModel, PaidiaEvaluatingApiModel, PaidiaMonitoringApiModel, PaidiaPlanningApiModel, PaidiaStrategyPlanning, StrategyPlanning, LudusLessonApiModel, LudusCalculated, LudusPreviousComponents } from "./reflectionsApiModels";
 
 export class CreateReflectionResponse {
 	id: number;
@@ -66,6 +66,7 @@ export class LudusMonitoringResponse extends ReflectionResponse {
 
 export class LudusMonitoringQuestions {
 	strategyPlanning: LudusStrategyPlanning;
+	previousComponents?: LudusPreviousComponents;
 }
 
 export class LudusEvaluatingResponse extends ReflectionResponse {
@@ -78,6 +79,7 @@ export class LudusEvaluatingQuestions {
 	topicRatings: Topics;
 	lessonRatings: RegularLessonRatings[];
 	strategyPlanning: LudusStrategyPlanning;
+	previousComponents?: LudusPreviousComponents;
 }
 // =======================================================================
 

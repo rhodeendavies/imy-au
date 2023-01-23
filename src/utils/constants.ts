@@ -6,6 +6,7 @@ export class Events {
 	static readonly Login: string = "Login";
 	static readonly Logout: string = "Logout";
 	static readonly DailyTriggered: string = "DailyTriggered";
+	static readonly RefreshApp: string = "RefreshApp";
 }
 
 export class Routes {

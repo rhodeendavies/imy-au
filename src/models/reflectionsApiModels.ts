@@ -41,18 +41,21 @@ export class LudusLessonApiModel extends ReflectionApiModel {
 export class LudusDailyApiModel extends ReflectionApiModel {
 	courseFeelings?: CourseFeelings;
 	strategyRating?: StrategyRating;
+	components?: LudusCalculated;
 }
 
 export class LudusPlanningApiModel extends ReflectionApiModel {
 	courseFeelings?: CourseFeelings;
 	strengthOptimization?: LudusSingleTextResponse;
 	strategyPlanning?: LudusStrategyPlanning;
+	components?: LudusCalculated;
 }
 
 export class LudusMonitoringApiModel extends ReflectionApiModel {
 	courseFeelings?: CourseFeelings;
 	contentConfusion?: LudusSingleTextResponse;
 	strategyRating?: StrategyRating;
+	components?: LudusCalculated;
 }
 
 export class LudusEvaluatingApiModel extends ReflectionApiModel {
@@ -61,6 +64,7 @@ export class LudusEvaluatingApiModel extends ReflectionApiModel {
 	topicRatings?: TopicRatings;
 	strategyRating?: StrategyRating;
 	learningExperience?: LudusLearningExperience;
+	components?: LudusCalculated;
 }
 // =======================================================================
 
@@ -152,6 +156,21 @@ export class LudusStrategyPlanning {
 	reviewingStrategy: LudusStrategy;
 	practicingStrategy: LudusStrategy;
 	extendingStrategy: LudusStrategy;
+}
+
+export class LudusPreviousComponents {
+	planning: LudusCalculated;
+	monitoring: LudusCalculated;
+	daily: LudusCalculated;
+}
+
+export class LudusCalculated {
+	calculated: LudusCalculatedComponents[];
+}
+
+export class LudusCalculatedComponents {
+	name: string;
+	score: number;
 }
 
 export class PaidiaStrategyPlanning {

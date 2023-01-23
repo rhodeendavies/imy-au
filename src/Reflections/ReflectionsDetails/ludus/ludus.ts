@@ -25,6 +25,13 @@ export class Ludus {
 
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(strategies));
 
+		if (this.reflection.evaluatingReflection != null) {
+			this.components = ComponentHelper.AssignComponentScores(this.components, this.reflection.evaluatingReflection.answers.components.calculated);
+		} else if (this.reflection.monitoringReflection != null) {
+			this.components = ComponentHelper.AssignComponentScores(this.components, this.reflection.monitoringReflection.answers.components.calculated);
+		}
+
+		// TODO: check on any daily that could have been after monitoring
 	}
 
 	@computedFrom("localParent.dashboardVersion")

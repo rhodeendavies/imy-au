@@ -1,6 +1,6 @@
 import { LudusComponent, Strategy } from "models/reflections";
 import { Colour, StrategyOption } from "./constants";
-import { LudusModifier, LudusStrategy } from "models/reflectionsApiModels";
+import { LudusCalculatedComponents, LudusModifier, LudusPreviousComponents, LudusStrategy } from "models/reflectionsApiModels";
 import { PromptSection } from "models/prompts";
 import { log } from "./log";
 
@@ -222,7 +222,10 @@ export class ComponentHelper {
 					rawValue += componentInStrategy.amount * strategy.rating / 100;
 				}
 			});
-			component.score = rawValue / component.total * 100 * modifier;
+			if (component.originalScore == null || isNaN(component.originalScore)) {
+				component.originalScore = 0;
+			}
+			component.score = component.originalScore + (rawValue / component.total * 100 * modifier);
 		});
 		return components;
 	}
@@ -232,5 +235,50 @@ export class ComponentHelper {
 		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.score * curr.total)}, 0);
 		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
 		return Math.ceil(sumOfScores / totalWeights);
+	}
+
+	static FindLatestScore(components: LudusComponent[], previousComponentsScores: LudusPreviousComponents): LudusComponent[] {
+		const planningComponents = previousComponentsScores.planning.calculated;
+		const monitoringComponents = previousComponentsScores.monitoring.calculated;
+		const dailyComponents = previousComponentsScores.daily.calculated;
+		let previousComponents: LudusCalculatedComponents[] = [];
+		if (dailyComponents != null && monitoringComponents != null) {
+			const dailyEarlier = dailyComponents.length > 0 && dailyComponents.every(x => {
+				const comp = monitoringComponents.find(y => y.name == x.name);
+				return comp == null || comp.score <= x.score;
+			});
+			if (dailyEarlier) {
+				previousComponents = dailyComponents;
+			} else {
+				previousComponents = monitoringComponents;
+			}
+		} else if (dailyComponents != null) {
+			previousComponents = dailyComponents;
+		} else if (monitoringComponents != null) {
+			previousComponents = monitoringComponents;
+		} else {
+			previousComponents = planningComponents;
+		}
+
+		return this.AssignComponentScores(components, previousComponents);
+	}
+
+	static AssignComponentScores(components: LudusComponent[], previousComponents: LudusCalculatedComponents[]): LudusComponent[] {
+		return components.map(x => {
+			const comp = previousComponents.find(y => y.name == x.name);
+			
+			if (comp != null) {
+				x.score = comp.score;
+			} else {
+				x.score = 0;
+			}
+
+			return {
+				name: x.name,
+				originalScore: x.score,
+				total: x.total,
+				score: 0
+			}
+		});
 	}
 }

@@ -53,6 +53,7 @@ export class LudusPlanningLearningStrategies {
 			practicingStrategy: ComponentHelper.CreateLudusModifier(this.practicingStrategy),
 			extendingStrategy: ComponentHelper.CreateLudusModifier(this.extendingStrategy),
 		}
+		this.localParent.model.components.calculated = this.components;
 		this.localParent.submitPlanning();
 	}
 
@@ -107,14 +108,6 @@ export class LudusPlanningLearningStrategies {
 				options: {
 					animation: false,
 					aspectRatio: 2,
-					layout: {
-						padding: {
-							top: 0,
-							bottom: 0,
-							right: 0,
-							left: 0
-						}
-					},
 					plugins: {
 						tooltip: {
 							callbacks: {

@@ -1,4 +1,7 @@
 <template>
+	<require from="resources/percentageSlider/percentage-slider"></require>
+	<require from="resources/gauge/gauge"></require>
+	
 	<p class="reflection-question mb-30">
 		Review your chosen learning strategies from this week. Rate yourself for how well
 		you are applying them.
@@ -6,7 +9,7 @@
 
 	<div class="strategy-grid">
 		<div class="strategy-option-wrapper" if.bind="!busy.active">
-			<div repeat.for="strategy of Strategies" class="strategy-option">
+			<div repeat.for="strategy of strategies" class="strategy-option">
 				<div class="strategy-heading-wrapper">
 					<div class="strategy-heading">${strategy.title}</div>
 					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
@@ -24,7 +27,9 @@
 				can rate yourself throughout the week to gain a more accurate assessment.
 			</div>
 			<div class="ludus-gauges">
-				<gauge repeat.for="component of components" value.bind="0" label.bind="component"></gauge>
+				<gauge repeat.for="component of components" value.bind="component.score"
+					label.bind="component.name">
+				</gauge>
 			</div>
 		</div>
 	</div>

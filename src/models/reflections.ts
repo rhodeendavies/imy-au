@@ -51,6 +51,7 @@ export class Topic {
 
 export class LudusComponent {
 	name: string;
-	total: number;
+	total?: number;
 	score: number;
+	originalScore?: number;
 }

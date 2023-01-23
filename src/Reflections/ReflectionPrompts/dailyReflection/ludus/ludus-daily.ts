@@ -1,7 +1,7 @@
 import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-framework";
-import { LudusDailyApiModel, LudusStrategyPlanning } from "models/reflectionsApiModels";
-import { LudusDailyResponse } from "models/reflectionsResponses";
+import { LudusDailyApiModel } from "models/reflectionsApiModels";
+import { LudusDailyResponse, LudusMonitoringQuestions } from "models/reflectionsResponses";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
@@ -10,7 +10,7 @@ import { DailyPrompts } from "../daily-prompts";
 @autoinject
 export class LudusDaily {
 	model: LudusDailyApiModel;
-	questions: LudusStrategyPlanning;
+	questions: LudusMonitoringQuestions;
 
 	constructor(
 		private localParent: DailyPrompts,
@@ -44,15 +44,17 @@ export class LudusDaily {
 		}
 		if (id == null || (reflection != null && reflection.completed)) {
 			id = await this.createDaily(currentSection.id);
-			reflection = await this.reflectionsApi.getLudusDailyReflection(id);
+			if (id != null) {
+				reflection = await this.reflectionsApi.getLudusDailyReflection(id);
+			}
 		}
 
 		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
-		this.questions = reflection.questions.strategyPlanning;
+		this.questions = reflection.questions;
 	}
 
 	async createDaily(sectionId: number): Promise<number> {
-		return await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, sectionId);
+		return await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, sectionId);
 	}
 }
