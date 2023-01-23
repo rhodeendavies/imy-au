@@ -11,6 +11,7 @@ export class BaseMonitoringLearningStrategies {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 
 	constructor(private localParent: BaseMonitoring) { }
 
@@ -23,6 +24,7 @@ export class BaseMonitoringLearningStrategies {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.reviewingStrategy, StrategyOptions.ReviewingStrategies);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.practicingStrategy, StrategyOptions.PracticingStrategies);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	submit() {
@@ -37,15 +39,6 @@ export class BaseMonitoringLearningStrategies {
 	}
 
 	get AllowSubmit(): boolean {
-		return this.Strategies != null && this.Strategies.every(x => x?.rating != null && x?.valid);
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
+		return this.strategies != null && this.strategies.every(x => x?.rating != null && x?.valid);
 	}
 }

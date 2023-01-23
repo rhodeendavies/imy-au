@@ -12,6 +12,7 @@ export class LudusEvaluationDetails {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	evaluatingReflection: LudusEvaluatingApiModel;
 	evaluatingQuestions: LudusEvaluatingQuestions;
 	
@@ -46,6 +47,7 @@ export class LudusEvaluationDetails {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	@computedFrom("localParent.reflection.id")
@@ -57,15 +59,6 @@ export class LudusEvaluationDetails {
 	@computedFrom("localParent.reflection.id")
 	get EvaluatingQuestions(): LudusEvaluatingQuestions {
 		return this.evaluatingQuestions;
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
 	}
 
 	@computedFrom("evaluatingReflection.feelingsLearningEffect.response")

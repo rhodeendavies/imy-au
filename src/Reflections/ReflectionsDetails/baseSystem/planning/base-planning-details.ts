@@ -12,6 +12,7 @@ export class BasePlanningDetails {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	planningReflection: BasePlanningApiModel;
 	
 	constructor(private localParent: BaseSystem) {}
@@ -29,21 +30,13 @@ export class BasePlanningDetails {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.planningReflection.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.planningReflection.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.planningReflection.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	@computedFrom("localParent.reflection.id")
 	get PlanningReflection(): BasePlanningApiModel {
 		this.initData();
 		return this.planningReflection;
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
 	}
 
 	@computedFrom("localParent.reflection.id")

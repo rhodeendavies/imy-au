@@ -13,6 +13,7 @@ export class BaseEvaluationDetails {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	evaluatingReflection: BaseEvaluatingApiModel;
 	evaluatingQuestions: BaseEvaluatingQuestions;
 	
@@ -47,6 +48,7 @@ export class BaseEvaluationDetails {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	@computedFrom("localParent.reflection.id")
@@ -58,15 +60,6 @@ export class BaseEvaluationDetails {
 	@computedFrom("localParent.reflection.id")
 	get EvaluatingQuestions(): BaseEvaluatingQuestions {
 		return this.evaluatingQuestions;
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
 	}
 
 	@computedFrom("localParent.reflection.id")

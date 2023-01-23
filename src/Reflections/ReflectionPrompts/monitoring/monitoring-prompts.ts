@@ -55,19 +55,19 @@ export class MonitoringPrompts extends SectionTrackerParent {
 		return this.activeSection == MonitoringSections.LearningStrategies;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Base;
+		return this.authService.System == Systems.Base;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System")
 	get ShowLudus(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Ludus;
+		return this.authService.System == Systems.Ludus;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System")
 	get ShowPaidia(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Paidia;
+		return this.authService.System == Systems.Paidia;
 	}
 }
 

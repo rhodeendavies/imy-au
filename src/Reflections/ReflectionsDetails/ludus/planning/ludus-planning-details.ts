@@ -12,6 +12,7 @@ export class LudusPlanningDetails {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	planningReflection: LudusPlanningApiModel;
 	
 	constructor(private localParent: Ludus) {}
@@ -29,21 +30,13 @@ export class LudusPlanningDetails {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	@computedFrom("localParent.reflection.id")
 	get PlanningReflection(): LudusPlanningApiModel {
 		this.initData();
 		return this.planningReflection;
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
 	}
 
 	@computedFrom("planningReflection.strengthOptimization.response")

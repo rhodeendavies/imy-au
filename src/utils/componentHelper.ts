@@ -212,7 +212,7 @@ export class ComponentHelper {
 		return promptString.replace(/[%{}]/g, "");
 	}
 
-	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[]): LudusComponent[] {
+	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[], modifier: number = 1): LudusComponent[] {
 		if (components == null || strategyRatings == null) return [];
 		components.forEach(component => {
 			let rawValue = 0;
@@ -222,7 +222,7 @@ export class ComponentHelper {
 					rawValue += componentInStrategy.amount * strategy.rating / 100;
 				}
 			});
-			component.score = rawValue / component.total * 100;
+			component.score = rawValue / component.total * 100 * modifier;
 		});
 		return components;
 	}

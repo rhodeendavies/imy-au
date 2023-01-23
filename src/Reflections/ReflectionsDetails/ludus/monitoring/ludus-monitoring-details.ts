@@ -11,6 +11,7 @@ export class LudusMonitoringDetails {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	monitoringReflection: LudusMonitoringApiModel;
 	monitoringQuestions: LudusStrategyPlanning;
 
@@ -45,6 +46,7 @@ export class LudusMonitoringDetails {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.monitoringQuestions.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.monitoringReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.monitoringQuestions.practicingStrategy, StrategyOptions.PracticingStrategies, this.monitoringReflection.strategyRating.practicingRating);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.monitoringQuestions.extendingStrategy, StrategyOptions.ExtendingStrategies, this.monitoringReflection.strategyRating.extendingRating);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	@computedFrom("localParent.reflection.id")
@@ -57,15 +59,6 @@ export class LudusMonitoringDetails {
 	get MonitoringQuestions(): LudusStrategyPlanning {
 		this.initData();
 		return this.monitoringQuestions;
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
 	}
 
 	@computedFrom("monitoringReflection.contentConfusion.response")

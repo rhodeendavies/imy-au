@@ -19,9 +19,9 @@
 			</button>
 		</div>
 
-		<base-planning class="prompt-body" if.bind="ShowBaseSystem"></base-planning>
-		<ludus-planning class="prompt-body" if.bind="ShowLudus"></ludus-planning>
-		<paidia-planning class="prompt-body" if.bind="ShowPaidia"></paidia-planning>
+		<base-planning class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-planning>
+		<ludus-planning class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-planning>
+		<paidia-planning class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-planning>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="4" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

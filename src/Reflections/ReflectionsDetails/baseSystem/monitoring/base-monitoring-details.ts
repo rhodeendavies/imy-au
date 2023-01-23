@@ -12,6 +12,7 @@ export class BaseMonitoringDetails {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	monitoringReflection: BaseMonitoringApiModel;
 	monitoringQuestions: StrategyPlanning;
 
@@ -46,6 +47,7 @@ export class BaseMonitoringDetails {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.monitoringReflection.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.practicingStrategy, StrategyOptions.PracticingStrategies, this.monitoringReflection.strategyRating.practicingRating);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.extendingStrategy, StrategyOptions.ExtendingStrategies, this.monitoringReflection.strategyRating.extendingRating);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	@computedFrom("localParent.reflection.id")
@@ -58,15 +60,6 @@ export class BaseMonitoringDetails {
 	get MonitoringQuestions(): StrategyPlanning {
 		this.initData();
 		return this.monitoringQuestions;
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
 	}
 
 	@computedFrom("localParent.reflection.id")
