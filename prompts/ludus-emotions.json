@@ -1,0 +1,446 @@
+{
+	"enjoyment": [
+		{
+			"text": "This week was so much fun!",
+			"modifier": 3
+		},
+		{
+			"text": "I loved learning in {%} this week.",
+			"modifier": 2
+		},
+		{
+			"text": "I really enjoyed the content this week.",
+			"modifier": 2
+		},
+		{
+			"text": "I had fun this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm really enjoying the module content.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm like a kid in a candy store, but the candy is knowledge.",
+			"modifier": 2
+		},
+		{
+			"text": "Learning in {%} is my new favorite hobby, second only to procrastinating.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm on a knowledge binge and I can't stop.",
+			"modifier": 2
+		},
+		{
+			"text": "Learning in {%} is my new cardio, it gets my heart pumping and my mind racing.",
+			"modifier": 3
+		},
+		{
+			"text": "I'm like a detective, solving the mysteries of the universe one fact at a time.",
+			"modifier": 3
+		},
+		{
+			"text": "I'm so excited to learn, I can hardly contain myself.",
+			"modifier": 3
+		},
+		{
+			"text": "{%} is like a treasure hunt, and I'm the Indiana Jones of knowledge.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm having so much fun learning, I almost forgot it's supposed to be boring.",
+			"modifier": 3
+		},
+		{
+			"text": "I'm on a knowledge high and I can't come down.",
+			"modifier": 3
+		},
+		{
+			"text": "I'm having a blast, I can't believe this is actually called 'studying'",
+			"modifier": 3
+		},
+		{
+			"text": "I'm having so much fun in {%}, I think I might just become a professional student. ",
+			"modifier": 2
+		},
+		{
+			"text": "This week was good.",
+			"modifier": 1
+		},
+		{
+			"text": "I am enjoying {%} right now. ",
+			"modifier": 1
+		}
+	],
+	"hope": [
+		{
+			"text": "I'm optimistic that with enough studying, I'll become a genius... or at least pass the exam.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm hopeful that one day, all this information will click and make sense.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm confident that with enough learning, I'll be able to understand my lecturer when they talk.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm hopeful that one day, I'll be able to have a conversation about {%} without saying 'I have no idea what you're talking about'",
+			"modifier": 1
+		},
+		{
+			"text": "I am feeling optimistic about {%} this week.",
+			"modifier": 2
+		},
+		{
+			"text": "I think that this week went well.",
+			"modifier": 1
+		},
+		{
+			"text": "Things are looking up for me in {%}.",
+			"modifier": 2
+		},
+		{
+			"text": "I think I am going to do well in {%}.",
+			"modifier": 2
+		}
+	],
+	"pride": [
+		{
+			"text": "My brain is like a sponge, but instead of water, it's soaking up information.",
+			"modifier": 2
+		},
+		{
+			"text": "Learning is my superpower and I'm ready to flex my brain muscle.",
+			"modifier": 3
+		},
+		{
+			"text": "I'm a nerd and I'm not afraid to embrace it.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm a brainiac and I'm loving every minute of it.",
+			"modifier": 3
+		},
+		{
+			"text": "Learning is like a game, and I'm all in to win.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so proud, I'm thinking about getting a tattoo of a brain to commemorate my newfound knowledge.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so proud, I'm considering changing my name to 'Professor' for the rest of my life",
+			"modifier": 3
+		},
+		{
+			"text": "I'm so proud, I'm thinking about starting a blog to share my newfound knowledge with the world.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so proud, I'm considering becoming a walking encyclopedia, ready to spout out facts at any moment.",
+			"modifier": 3
+		},
+		{
+			"text": "I am proud of what I achieved this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I did well this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I am proud of myself for achieving my goals in {%} this week. ",
+			"modifier": 1
+		},
+		{
+			"text": "I am proud of sticking it out this week.",
+			"modifier": 2
+		},
+		{
+			"text": "I am proud of how well I did this week.",
+			"modifier": 2
+		}
+	],
+	"anger": [
+		{
+			"text": "I am frustrated with the pace of learning. ",
+			"modifier": 1
+		},
+		{
+			"text": "I am angry about the complexity of the material in {%}.",
+			"modifier": 1
+		},
+		{
+			"text": "I am irritated by {%} this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I am annoyed at myself for not doing more this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I am frustrated with the content this week. ",
+			"modifier": 1
+		},
+		{
+			"text": "I'm so angry, I could throw a textbook across the room.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm so mad, I could make a meme about it.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm feeling a bit annoyed at {%} at the moment. ",
+			"modifier": 1
+		},
+		{
+			"text": "I am frustrated with myself this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I could have done better in {%} this week.",
+			"modifier": 1
+		}
+	],
+	"anxiety": [
+		{
+			"text": "I felt a bit anxious this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I was a bit stressed this week. ",
+			"modifier": 1
+		},
+		{
+			"text": "I was a bit nervous about {%}.",
+			"modifier": 1
+		},
+		{
+			"text": "I was anxious, but I handled it well.",
+			"modifier": 1
+		},
+		{
+			"text": "I was stressed, but I handled it well.",
+			"modifier": 1
+		},
+		{
+			"text": "{%} was stressful this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I could have done more to deal with my stress.",
+			"modifier": 1
+		},
+		{
+			"text": "Stress. Stress everywhere.",
+			"modifier": 1
+		},
+		{
+			"text": "Can open, worms everywhere.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm 'fine'.",
+			"modifier": 1
+		},
+		{
+			"text": "I need chocolate!",
+			"modifier": 1
+		},
+		{
+			"text": "I need a hug!",
+			"modifier": 1
+		},
+		{
+			"text": "I'm not anxious. You're anxious.",
+			"modifier": 1
+		},
+		{
+			"text": "What if I told you that I'm a bit nervous?",
+			"modifier": 1
+		},
+		{
+			"text": "It was a rough week.",
+			"modifier": 1
+		},
+		{
+			"text": "The anxiety was real, yoh!",
+			"modifier": 1
+		},
+		{
+			"text": "I didn't handle my stress well. ",
+			"modifier": 1
+		},
+		{
+			"text": "I was super anxious about {%}.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm about an 11 out of 10 on the anxiety scale right now.",
+			"modifier": 1
+		},
+		{
+			"text": "Wow, things got real this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I was anxious, but only a bit.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm just a brain on the brink of a breakdown!",
+			"modifier": 1
+		},
+		{
+			"text": "Learning in {%} is like trying to solve a Rubik's Cube blindfolded.",
+			"modifier": 1
+		},
+		{
+			"text": "I am concerned about falling behind in {%}.",
+			"modifier": 1
+		}
+	],
+	"shame": [
+		{
+			"text": "There are many topics I am unsure of.",
+			"modifier": 2
+		},
+		{
+			"text": "I have a few questions.",
+			"modifier": 2
+		},
+		{
+			"text": "There are some things I don't understand well enough.",
+			"modifier": 2
+		},
+		{
+			"text": "I am worried about not being good enough in {%}.",
+			"modifier": 2
+		},
+		{
+			"text": "I feel like an imposter in {%}.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so ashamed, I could hide under a rock... or just admit I didn't study.",
+			"modifier": 2
+		}
+	],
+	"hopelessness": [
+		{
+			"text": "I feel like I'm trying to drink from a fire hose of information.",
+			"modifier": 2
+		},
+		{
+			"text": "I think my brain is going to implode from all this new knowledge.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm pretty sure my brain just short-circuited from all this studying.",
+			"modifier": 2
+		},
+		{
+			"text": "My brain is about to overload from all this new information.",
+			"modifier": 2
+		},
+		{
+			"text": "Things could be worse. They could also be better.",
+			"modifier": 2
+		},
+		{
+			"text": "I am feeling overwhelmed and unsure this week.",
+			"modifier": 2
+		},
+		{
+			"text": "I am not sure that I'll be able to pass {%}.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so hopeless, I'm considering becoming a beach bum instead of finishing {%}.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm convinced that I'll never understand this material, I'm ready to give up and join a cult.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so hopeless, I'm considering becoming a hermit and just living off berries and roots.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm ready to throw in the towel and just become a professional napper instead of studying.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so hopeless, I'm thinking about becoming a street performer and just guessing the answers.",
+			"modifier": 2
+		},
+		{
+			"text": "I'm so hopeless, I'm considering becoming a meme and just existing on the internet forever.",
+			"modifier": 2
+		},
+		{
+			"text": "I wish that banging my head against the table actually worked.",
+			"modifier": 2
+		},
+		{
+			"text": "I just need to make it through this week.",
+			"modifier": 2
+		},
+		{
+			"text": "I could use a motivational poster around about now.",
+			"modifier": 2
+		}
+	],
+	"boredom": [
+		{
+			"text": "Meh!",
+			"modifier": 1
+		},
+		{
+			"text": "I was bored with the content this week.",
+			"modifier": 1
+		},
+		{
+			"text": "I wish the content was more interesting.",
+			"modifier": 1
+		},
+		{
+			"text": "I lost interest a bit.",
+			"modifier": 1
+		},
+		{
+			"text": "This week was super boring!",
+			"modifier": 1
+		},
+		{
+			"text": "Learning in {%} this week was like watching paint dry, but less exciting.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm pretty sure my brain is in hibernation mode from all this boredom.",
+			"modifier": 1
+		},
+		{
+			"text": "I'd rather watch grass grow than sit through another video.",
+			"modifier": 1
+		},
+		{
+			"text": "My brain is so bored, it's starting to play solitaire with itself.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm convinced that learning in {%} is just a fancy way of saying 'sitting around being bored'.",
+			"modifier": 1
+		},
+		{
+			"text": "I'm so bored, I think I just became an expert in the art of doodling.",
+			"modifier": 1
+		}
+	]
+}
