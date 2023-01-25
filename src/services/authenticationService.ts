@@ -60,11 +60,13 @@ export class AuthenticationService {
 	async logout(): Promise<void> {
 		try {
 			this.busy.on();
-			this.usersApi.logout();
-			this.user = null;
-			ComponentHelper.SetModule("");
-			this.ea.publish(Events.Logout);
 			this.redirectToLogin();
+			this.usersApi.logout();
+			setTimeout(() => {
+				this.user = null;
+				ComponentHelper.SetModule("");
+				this.ea.publish(Events.Logout);
+			}, 500);
 		} catch (error) {
 			log.debug(error);
 		} finally {
@@ -75,8 +77,7 @@ export class AuthenticationService {
 	async Authenticated(): Promise<boolean> {
 		if (this.user == null || this.user == undefined) {
 			this.user = await this.usersApi.authenticate();
-			if (this.user == null || this.user == undefined) {
-				this.redirectToLogin();
+			if (this.user == null || this.user == undefined || !this.user.activated) {
 				return false;
 			}
 			await this.initUser();
@@ -102,7 +103,9 @@ export class AuthenticationService {
 	}
 
 	redirectToLogin() {
-		this.router.navigateToRoute(Routes.Login);
+		if (this.router.currentInstruction.config.name != Routes.Login) {
+			this.router.navigateToRoute(Routes.Login);
+		}
 	}
 
 	get Role(): Roles {

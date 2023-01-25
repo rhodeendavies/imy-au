@@ -9,16 +9,7 @@ export class UserDetails {
 	courseId: number;
 	
 	course: string;
-	authenticated: boolean;
 	currentSystem: Systems;
-
-	constructor() {
-		this.studentNumber = "";
-		this.role = Roles.Student;
-		this.authenticated = false;
-		this.currentSystem = Systems.Base;
-		this.courseId = 0;
-	}
 }
 
 export class UserLogin {

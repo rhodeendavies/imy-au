@@ -3,6 +3,11 @@ import { LudusEvaluation } from "../ludus-evaluation";
 import { ApplicationState } from "applicationState";
 import { PromptSection } from "models/prompts";
 import { ComponentHelper } from "utils/componentHelper";
+import { CategoryScale, Chart, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
+import { Colours } from "utils/constants";
+import { DateHelper } from "utils/dateHelper";
+
+Chart.register(LineController, Tooltip, CategoryScale, LinearScale, PointElement, LineElement);
 
 @autoinject
 export class LudusEvaluationFeelings {
@@ -11,8 +16,9 @@ export class LudusEvaluationFeelings {
 	currentIndex: number = 0;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
-	
-	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {}
+	chart: Chart;
+
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
 
 	async attached() {
 		await this.appState.initPrompts();
@@ -24,6 +30,7 @@ export class LudusEvaluationFeelings {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
 			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
 		}
+		this.createChart();
 	}
 
 	nextStep() {
@@ -43,6 +50,53 @@ export class LudusEvaluationFeelings {
 		}
 		this.indexesShown.push(this.currentIndex);
 		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[this.currentIndex];
+	}
+
+	createData() {
+		return {
+			labels: this.localParent.questions.courseFeelings.createdAt.map(x =>
+				DateHelper.FormatDate(x, "d LLL")
+			),
+			datasets: [{
+				label: "",
+				data: this.localParent.questions.courseFeelings.rating,
+				backgroundColor: Colours.OrangeHex,
+				borderColor: Colours.OrangeHex
+			}]
+		}
+	}
+
+	createChart() {
+		this.chart = new Chart(document.getElementById("feelingsChart") as HTMLCanvasElement,
+			{
+				type: "line",
+				data: this.createData(),
+				options: {
+					aspectRatio: 3,
+					plugins: {
+						tooltip: {
+							callbacks: {
+								label: (context) => {
+									return `${context.parsed.y} %`
+								}
+							}
+						},
+						legend: {
+							display: false
+						}
+					},
+					scales: {
+						y: {
+							beginAtZero: true,
+							max: 100,
+							ticks: {
+								stepSize: 20,
+								padding: 20
+							}
+						}
+					}
+				}
+			});
 	}
 
 	get AllowNext() {

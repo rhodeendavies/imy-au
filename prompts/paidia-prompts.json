@@ -1,0 +1,11 @@
+{
+	"planningPrompts": [
+		"This week, I %{A} %{B} that I can use my %{C} %{D} skills of %{Z} and %{Z} to achieve %{Y} %{E} result."
+	],
+	"monitoringPrompts": [
+		"At the moment, I am %{C} %{G} about %{Z} which is %{H}. So, I will %{I} %{J} by %{Z} to address this."
+	],
+	"evaluatingPrompts": [
+		"My %{D} feelings towards %{X} were %{M} at %{Z} which resulted in %{C} %{M} %{Z}."
+	]
+}

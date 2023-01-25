@@ -21,7 +21,7 @@
 					disabled.bind="!availability.available">
 					Let's go
 				</button>
-				<button class="btn btn-default" click.delegate="closeDaily()" if.bind="!availability.available">
+				<button class="btn btn-default" click.delegate="closeDaily()">
 					Close
 				</button>
 			</div>
@@ -30,9 +30,9 @@
 			</div>
 		</div>
 
-		<base-daily class="prompt-body" if.bind="ShowBaseSystem"></base-daily>
-		<ludus-daily class="prompt-body" if.bind="ShowLudus"></ludus-daily>
-		<paidia-daily class="prompt-body" if.bind="ShowPaidia"></paidia-daily>
+		<base-daily class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-daily>
+		<ludus-daily class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-daily>
+		<paidia-daily class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-daily>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="3" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

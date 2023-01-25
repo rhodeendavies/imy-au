@@ -1,3 +1,4 @@
+import { RadioOption } from "resources/radioButton/radio-button";
 import { BaseDailyApiModel, BaseEvaluatingApiModel, BaseMonitoringApiModel, BasePlanningApiModel, BaseLessonApiModel, LudusDailyApiModel, LudusEvaluatingApiModel, LudusMonitoringApiModel, LudusPlanningApiModel, LudusStrategyPlanning, PaidiaDailyApiModel, PaidiaEvaluatingApiModel, PaidiaMonitoringApiModel, PaidiaPlanningApiModel, PaidiaStrategyPlanning, StrategyPlanning, LudusLessonApiModel, LudusCalculated, LudusPreviousComponents } from "./reflectionsApiModels";
 
 export class CreateReflectionResponse {
@@ -38,7 +39,7 @@ export class BaseEvaluatingResponse extends ReflectionResponse {
 }
 
 export class BaseEvaluatingQuestions {
-	feelingsSummary: FeelingsSummary;
+	courseFeelings: HistoricCourseFeelings;
 	topicRatings: Topics;
 	lessonRatingSummary: RegularLessonRatings[];
 	strategyPlanning: StrategyPlanning;
@@ -75,7 +76,7 @@ export class LudusEvaluatingResponse extends ReflectionResponse {
 }
 
 export class LudusEvaluatingQuestions {
-	feelingsSummary: FeelingsSummary;
+	courseFeelings: HistoricCourseFeelings;
 	topicRatings: Topics;
 	lessonRatings: RegularLessonRatings[];
 	strategyPlanning: LudusStrategyPlanning;
@@ -119,15 +120,12 @@ export class QuestionTopic {
 	id: number;
 	name: string;
 	rating?: number;
-}
-
-export class FeelingsSummary {
-	courseFeelings: HistoricCourseFeelings[];
+	options?: RadioOption[];
 }
 
 export class HistoricCourseFeelings {
-	rating: number;
-	createdAt: Date;
+	rating: number[];
+	createdAt: Date[];
 }
 
 export class PaidiaFeelingsSummary {

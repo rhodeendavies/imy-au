@@ -1,7 +1,7 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Dashboard } from "Dashboard/dashboard";
 import { Lesson, Section } from "models/course";
-import { Routes } from "utils/constants";
+import { Events, Routes } from "utils/constants";
 import { DateTime, Interval } from "luxon";
 import { ApplicationState } from "applicationState";
 import { log } from "utils/log";
@@ -9,6 +9,7 @@ import { Busy } from "resources/busy/busy";
 import { AuthenticationService } from "services/authenticationService";
 import { LessonsService } from "services/lessonsService";
 import { DateHelper } from "utils/dateHelper";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 
 @autoinject
 export class CourseView {
@@ -40,12 +41,14 @@ export class CourseView {
 	lessonWatchStartTime: number;
 	videoCurrentTimeStamp: number;
 	playbackSpeed: number = 1;
+	refreshSub: Subscription;
 
 	constructor(
 		private localParent: Dashboard,
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private lessonApi: LessonsService
+		private lessonApi: LessonsService,
+		private ea: EventAggregator
 	) { }
 
 	activate(params) {
@@ -55,6 +58,7 @@ export class CourseView {
 	async attached() {
 		try {
 			this.busy.on();
+			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => { this.attached() });
 			this.initDone = false;
 			this.sections = await this.appState.getSections();
 			this.currentSection = await this.appState.getCurrentSection();
@@ -79,6 +83,10 @@ export class CourseView {
 			this.initDone = true;
 			this.busy.off();
 		}
+	}
+
+	detached() {
+		this.refreshSub.dispose();
 	}
 
 	initData() {

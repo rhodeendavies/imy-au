@@ -31,7 +31,9 @@ export class UsersService {
 			return await this.api.get("users/current");
 		} catch (error) {
 			log.error(error);
-			return null;
+			const unAuth = new UserDetails();
+			unAuth.activated = false;
+			return unAuth;
 		}
 	}
 }

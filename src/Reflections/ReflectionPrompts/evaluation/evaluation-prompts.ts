@@ -60,19 +60,19 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		return this.activeSection == EvaluationSections.Summary;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.EvaluationOpen")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Base;
+		return this.authService.System == Systems.Base && this.appState.EvaluationOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.EvaluationOpen")
 	get ShowLudus(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Ludus;
+		return this.authService.System == Systems.Ludus && this.appState.EvaluationOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.EvaluationOpen")
 	get ShowPaidia(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Paidia;
+		return this.authService.System == Systems.Paidia && this.appState.EvaluationOpen;
 	}
 }
 

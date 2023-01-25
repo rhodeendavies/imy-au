@@ -2,7 +2,7 @@ import { LudusComponent, Strategy } from "models/reflections";
 import { Colour, StrategyOption } from "./constants";
 import { LudusCalculatedComponents, LudusModifier, LudusPreviousComponents, LudusStrategy } from "models/reflectionsApiModels";
 import { PromptSection } from "models/prompts";
-import { log } from "./log";
+import environment from "environment";
 
 export class ComponentHelper {
 	static ModuleName: string = "";
@@ -32,7 +32,7 @@ export class ComponentHelper {
 	}
 
 	static InputValid(value: string): boolean {
-		return !(/[%{}]/.test(value));
+		return !(/[{}]/.test(value));
 	}
 
 	static LoremIpsum(): string {
@@ -157,10 +157,10 @@ export class ComponentHelper {
 		let inputIndex = 0;
 		let endOfInputIndex = 0;
 
-		promptString = promptString.replace(/{%}/g, this.ModuleName);
+		promptString = promptString.replace(`/{${environment.moduleIndicator}}/g`, this.ModuleName);
 
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf("%{", index);
+			inputIndex = promptString.indexOf(`{${environment.inputIndicator}`, index);
 			endOfInputIndex = promptString.indexOf("}", index);
 			
 			let subString = "";
@@ -199,7 +199,7 @@ export class ComponentHelper {
 	static CreateResponseFromPrompt(prompt: PromptSection[]): string {
 		return prompt.reduce((prev, curr) => {
 			if (curr.input) {
-				prev += `%{${curr.inputValue}}`;
+				prev += `{${environment.inputIndicator}${curr.inputValue}}`;
 			} else {
 				prev += curr.prompt;
 			}
@@ -209,7 +209,9 @@ export class ComponentHelper {
 
 	static CleanPrompt(promptString: string): string {
 		if (promptString == null) return;
-		return promptString.replace(/[%{}]/g, "");
+		promptString = promptString.replace(`/}+${environment.moduleIndicator}/g`, this.ModuleName)
+		const wordsRegex = environment.wordIndicators.reduce(((prev, curr) => { return prev + `({${curr})+|`}));
+		return promptString.replace(`/}+${wordsRegex}/g`, "");
 	}
 
 	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[], modifier: number = 1): LudusComponent[] {
@@ -264,6 +266,7 @@ export class ComponentHelper {
 	}
 
 	static AssignComponentScores(components: LudusComponent[], previousComponents: LudusCalculatedComponents[]): LudusComponent[] {
+		if (previousComponents == null) return components;
 		return components.map(x => {
 			const comp = previousComponents.find(y => y.name == x.name);
 			

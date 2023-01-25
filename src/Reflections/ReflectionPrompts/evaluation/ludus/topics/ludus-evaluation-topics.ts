@@ -26,10 +26,17 @@ export class LudusEvaluationTopics {
 			x.topicsString = x.topics.join(", ");
 		});
 		this.localParent.questions.topicRatings.topics.forEach(x => {
-			const topic = this.localParent.model.topicRatings.ratings.find(y => y.id == x.id);
+			const topic = this.localParent.model.topicRatings.ratings?.find(y => y.id == x.id);
 			if (topic != null) {
 				x.rating = topic.rating;
 			}
+			x.options = this.ratingOptions.map(y => {
+				return {
+					name: "",
+					value: y.value,
+					selected: y.value == x.rating
+				}
+			})
 		});
 	}
 

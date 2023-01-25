@@ -1,0 +1,38 @@
+{
+	"learning": [
+		{
+			"name": "Watch all the videos on the first day of the week.",
+			"modifiers": [
+				{
+					"name": "Planning",
+					"amount": 5
+				},
+				{
+					"name": "Persistent",
+					"amount": 4
+				},
+				{
+					"name": "Flexible",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"name": "Watch all the videos in the first two days of the week.",
+			"modifiers": [
+				{
+					"name": "Planning",
+					"amount": 4
+				},
+				{
+					"name": "Persistent",
+					"amount": 2
+				},
+				{
+					"name": "Flexible",
+					"amount": 3
+				}
+			]
+		}
+	]
+}

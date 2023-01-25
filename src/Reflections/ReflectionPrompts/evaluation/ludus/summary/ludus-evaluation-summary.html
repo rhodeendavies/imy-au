@@ -1,6 +1,10 @@
 <template>
-	<p class="reflection-question mb-30">
+	<p class="reflection-question">
 		Summarise your experience of your learning in ${localParent.Course} this week.
+	</p>
+	<p class="reflection-sub-question mb-30">
+		Select a description from the wheel and then choose a phrase that describes your feelings. 
+		You can log one phrase per category (max of 5).
 	</p>
 
 	<input-box type="textarea" value.bind="localParent.model.learningExperience.experienceSummary"

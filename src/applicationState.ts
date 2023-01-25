@@ -1,7 +1,7 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
-import { BasicPrompts, Prompts } from "models/prompts";
+import { BasicPrompts, Emotions, Prompts } from "models/prompts";
 import { BaseReflection, LudusReflection } from "models/reflections";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
@@ -30,6 +30,7 @@ export class ApplicationState {
 	private loginSub: Subscription;
 	
 	ludusPrompts: Prompts;
+	emotions: Emotions;
 	watchedLesson: Lesson;
 	reflectionSection: string;
 
@@ -87,6 +88,11 @@ export class ApplicationState {
 		this.refreshSections();
 	}
 
+	@computedFrom("ratingModal.Open")
+	get RatingOpen(): boolean {
+		return this.ratingModal?.Open;
+	}
+
 	triggerDailyModal() {
 		if (!this.dailyModal.Open) {
 			this.dailyModal.toggle();
@@ -99,6 +105,11 @@ export class ApplicationState {
 			this.dailyModal.toggle();
 		}
 		this.refreshSections();
+	}
+
+	@computedFrom("dailyModal.Open")
+	get DailyOpen(): boolean {
+		return this.dailyModal?.Open;
 	}
 
 	triggerPlanningModal(sectionName: string) {
@@ -116,6 +127,11 @@ export class ApplicationState {
 		this.refreshSections();
 	}
 
+	@computedFrom("planningModal.Open")
+	get PlanningOpen(): boolean {
+		return this.planningModal?.Open;
+	}
+
 	triggerMonitoringModal(sectionName: string) {
 		this.reflectionSection = sectionName;
 		if (!this.monitoringModal.Open) {
@@ -131,6 +147,11 @@ export class ApplicationState {
 		this.refreshSections();
 	}
 
+	@computedFrom("monitoringModal.Open")
+	get MonitoringOpen(): boolean {
+		return this.monitoringModal?.Open;
+	}
+
 	triggerEvaluationModal(sectionName: string) {
 		this.reflectionSection = sectionName;
 		if (!this.evaluationModal.Open) {
@@ -144,6 +165,11 @@ export class ApplicationState {
 		}
 		this.determineReflectionToShow();
 		this.refreshSections();
+	}
+
+	@computedFrom("evaluationModal.Open")
+	get EvaluationOpen(): boolean {
+		return this.evaluationModal?.Open;
 	}
 
 	async determineReflectionToShow() {
@@ -191,10 +217,12 @@ export class ApplicationState {
 		if (this.sections == null || this.sections.length == 0) {
 			this.sectionsBusy.on();
 			this.sections = await this.courseApi.getCourseSections(this.authService.CourseId);
+			this.sections.sort((a, b) => a.order < b.order ? -1 : 1);
 			this.currentSection = this.sections.find(x => x.active);
 			for (let i = 0; i < this.sections.length; i++) {
 				const section = this.sections[i];
 				section.lessons = await this.sectionApi.getSectionLessons(section.id);
+				section.lessons.sort((a, b) => a.order < b.order ? -1 : 1);
 			}
 			this.sectionsBusy.off();
 		}
@@ -272,6 +300,22 @@ export class ApplicationState {
 					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
 					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
 				}
+			});
+	}
+
+	async initEmotions(): Promise<void | Response> {
+		return fetch("prompts/ludus-emotions.json")
+			.then(response => response.json())
+			.then((emotionsStrings: Emotions) => {
+				this.emotions = emotionsStrings;
+				this.emotions.enjoyment.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.hope.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.pride.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.anger.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.anxiety.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.shame.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.hopelessness.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions.boredom.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
 			});
 	}
 }

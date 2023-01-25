@@ -30,7 +30,7 @@ export class Dashboard {
 		try {
 			this.busy.on();
 			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => {this.attached()});
-			const currentSection = await this.appState.getCurrentSection()
+			const currentSection = await this.appState.getCurrentSection();
 			switch (this.authService.System) {
 				case Systems.Base:
 					this.baseReflection = await this.appState.getSectionBaseReflection(currentSection);
