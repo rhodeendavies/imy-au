@@ -17,6 +17,17 @@ export class CommonRoutes {
 				navbar: false,
 				authenticated: false
 			} as RouterSettings
+		}, {
+			route: ['passwordReset'],
+			name: Routes.Login,
+			moduleId: 'PasswordReset/password-reset',
+			nav: true,
+			title: 'Reset Password',
+			settings: {
+				roles: [""],
+				navbar: false,
+				authenticated: false
+			} as RouterSettings
 		}]
 	}
 }

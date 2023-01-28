@@ -33,3 +33,9 @@ export class Availability {
 		this.lastCompletedAt = null;
 	}
 }
+
+export class PasswordResetModel {
+	resetToken: string;
+	newPassword: string;
+	newPasswordConfirmation: string;
+}

@@ -1,6 +1,7 @@
 import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
-import { UserDetails, UserLogin } from "models/userDetails";
+import { ApiResponse } from "models/apiResponse";
+import { PasswordResetModel, UserDetails, UserLogin } from "models/userDetails";
 import { log } from "utils/log";
 
 @autoinject
@@ -34,6 +35,15 @@ export class UsersService {
 			const unAuth = new UserDetails();
 			unAuth.activated = false;
 			return unAuth;
+		}
+	}
+
+	async resetPassword(model: PasswordResetModel): Promise<ApiResponse> {
+		try {
+			return await this.api.post("users/reset_password", model);
+		} catch (error) {
+			log.error(error);
+			return new ApiResponse(false, "An error occurred");
 		}
 	}
 }

@@ -85,7 +85,7 @@ export class ApiWrapper {
 	}
 
 	private buildUrl(apiMethod: string): string {
-		return `/${apiMethod}`;
+		return `/api/${apiMethod}`;
 	}
 
 	private dateTimeReceiver = function(key, value) {

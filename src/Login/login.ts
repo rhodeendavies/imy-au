@@ -11,7 +11,7 @@ export class Login {
 	loginModel: UserLogin = new UserLogin();
 	response: ApiResponse;
 
-	constructor(private authService: AuthenticationService, private aureliaConfig: AureliaConfiguration) { }
+	constructor(private authService: AuthenticationService) { }
 
 	async attached() {
 		await this.authService.Authenticated();
