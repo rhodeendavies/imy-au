@@ -1,7 +1,7 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
-import { BasicPrompts, Emotions, Prompts } from "models/prompts";
+import { BasicPrompts, Emotion, Emotions, Prompts } from "models/prompts";
 import { BaseReflection, LudusReflection } from "models/reflections";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
@@ -30,7 +30,7 @@ export class ApplicationState {
 	private loginSub: Subscription;
 	
 	ludusPrompts: Prompts;
-	emotions: Emotions;
+	emotions: Emotion[];
 	watchedLesson: Lesson;
 	reflectionSection: string;
 
@@ -296,9 +296,9 @@ export class ApplicationState {
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
 				this.ludusPrompts = {
-					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
-					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
-					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					planningPrompts: ComponentHelper.ShuffleArray(prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
+					monitoringPrompts: ComponentHelper.ShuffleArray(prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
+					evaluatingPrompts: ComponentHelper.ShuffleArray(prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)))
 				}
 			});
 	}
@@ -307,15 +307,24 @@ export class ApplicationState {
 		return fetch("prompts/ludus-emotions.json")
 			.then(response => response.json())
 			.then((emotionsStrings: Emotions) => {
-				this.emotions = emotionsStrings;
-				this.emotions.enjoyment.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.hope.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.pride.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.anger.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.anxiety.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.shame.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.hopelessness.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
-				this.emotions.boredom.forEach(x => x.text = ComponentHelper.CleanPrompt(x.text));
+				this.emotions = [
+					emotionsStrings.enjoyment,
+					emotionsStrings.hope,
+					emotionsStrings.pride,
+					emotionsStrings.anger,
+					emotionsStrings.anxiety,
+					emotionsStrings.shame,
+					emotionsStrings.hopelessness,
+					emotionsStrings.boredom,
+				];
+				this.emotions.forEach(emotion => {
+					emotion.modifiers.forEach(x => {
+						x.emotion = emotion.text;
+						x.active = false;
+						x.modifier = ComponentHelper.CleanPrompt(x.modifier)
+					});
+					emotion.modifiers = ComponentHelper.ShuffleArray(emotion.modifiers);
+				});
 			});
 	}
 }

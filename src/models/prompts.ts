@@ -19,17 +19,25 @@ export class PromptSection {
 }
 
 export class Emotions {
-	enjoyment: EmotionModifier[];
-	hope: EmotionModifier[];
-	pride: EmotionModifier[];
-	anger: EmotionModifier[];
-	anxiety: EmotionModifier[];
-	shame: EmotionModifier[];
-	hopelessness: EmotionModifier[];
-	boredom: EmotionModifier[];
+	enjoyment: Emotion;
+	hope: Emotion;
+	pride: Emotion;
+	anger: Emotion;
+	anxiety: Emotion;
+	shame: Emotion;
+	hopelessness: Emotion;
+	boredom: Emotion;
+}
+
+export class Emotion {
+	colour: string;
+	text: string;
+	modifiers: EmotionModifier[];
 }
 
 export class EmotionModifier {
-	text: string;
-	modifier: number;
+	modifier: string;
+	amount: number;
+	emotion: string;
+	active: boolean;
 }

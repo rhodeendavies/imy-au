@@ -157,7 +157,7 @@ export class ComponentHelper {
 		let inputIndex = 0;
 		let endOfInputIndex = 0;
 
-		promptString = promptString.replace(`/{${environment.moduleIndicator}}/g`, this.ModuleName);
+		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName)
 
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
 			inputIndex = promptString.indexOf(`{${environment.inputIndicator}`, index);
@@ -209,9 +209,9 @@ export class ComponentHelper {
 
 	static CleanPrompt(promptString: string): string {
 		if (promptString == null) return;
-		promptString = promptString.replace(`/}+${environment.moduleIndicator}/g`, this.ModuleName)
-		const wordsRegex = environment.wordIndicators.reduce(((prev, curr) => { return prev + `({${curr})+|`}));
-		return promptString.replace(`/}+${wordsRegex}/g`, "");
+		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName);
+		const wordsRegex = environment.wordIndicators.reduce(((prev, curr) => { return prev += `({${curr})+|`}), "");
+		return promptString.replace(new RegExp(`}+${wordsRegex}`, "g"), "");
 	}
 
 	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[], modifier: number = 1): LudusComponent[] {
@@ -240,9 +240,9 @@ export class ComponentHelper {
 	}
 
 	static FindLatestScore(components: LudusComponent[], previousComponentsScores: LudusPreviousComponents): LudusComponent[] {
-		const planningComponents = previousComponentsScores.planning.calculated;
-		const monitoringComponents = previousComponentsScores.monitoring.calculated;
-		const dailyComponents = previousComponentsScores.daily.calculated;
+		const planningComponents = previousComponentsScores.planning?.calculated;
+		const monitoringComponents = previousComponentsScores.monitoring?.calculated;
+		const dailyComponents = previousComponentsScores.daily?.calculated;
 		let previousComponents: LudusCalculatedComponents[] = [];
 		if (dailyComponents != null && monitoringComponents != null) {
 			const dailyEarlier = dailyComponents.length > 0 && dailyComponents.every(x => {
@@ -283,5 +283,19 @@ export class ComponentHelper {
 				score: 0
 			}
 		});
+	}
+
+	static ShuffleArray(array: any[]): any[] {
+		let currentIndex = array.length;
+		let randomIndex = 0;
+
+		while (currentIndex != 0) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
+
+			[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+		}
+
+		return array;
 	}
 }

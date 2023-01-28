@@ -1,24 +1,78 @@
 <template>
-	<p class="reflection-question">
-		Summarise your experience of your learning in ${localParent.Course} this week.
-	</p>
-	<p class="reflection-sub-question mb-30">
-		Select a description from the wheel and then choose a phrase that describes your feelings. 
-		You can log one phrase per category (max of 5).
-	</p>
-
-	<input-box type="textarea" value.bind="localParent.model.learningExperience.experienceSummary"
-		valid.bind="valid"></input-box>
-
-	<div class="check-mark-wrapper mt-20">
-		<check-mark checked.bind="localParent.model.learningExperience.postPublicly">
-			<p class="body-small">Allow this summary to be posted <strong>anonymously</strong> on the public forum</p>
-		</check-mark>
+	<div>
+		<p class="reflection-question">
+			Summarise your experience of your learning in ${localParent.Course} this week.
+		</p>
+		<p class="reflection-sub-question mb-30">
+			Select a description from the wheel and then choose a phrase that describes your feelings.
+			You can log one phrase per category (max of 4).
+		</p>
 	</div>
 
-	<div class="mt-30">
-		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!valid">
+	<div class="ludus-evaluation-summary-wrapper">
+		<div class="evaluation-summary-moods">
+			<div>
+				<svg width="400" height="400" viewBox="0 0 200 200" class="evaluation-summary-circle-wrapper"
+					css.bind="rotation">
+					<g repeat.for="segment of segments" transform="translate(100,100)" fill.bind="segment.emotion.colour"
+						class="circle-segment-wrapper ${segment.active ? 'circle-segment-wrapper-active' : ''}"
+						click.delegate="selectSegment(segment)">
+						<path class="circle-segment" d.bind="segment.pathString" />
+
+						<path id.bind="segment.emotion.text" id.bind="segment.emotion.text" d.bind="segment.textPath"
+							fill="transparent" />
+						<text class="circle-text">
+							<textPath xlink:href="#${segment.emotion.text}" text-anchor="middle" startOffset="50%"
+								side="right">
+								${segment.emotion.text}
+							</textPath>
+						</text>
+					</g>
+					<circle r="20" fill="#fff" transform="translate(100,100)"></circle>
+				</svg>
+			</div>
+			<div class="ludus-emotions-wrapper" if.bind="currentSegment != null">
+				<div class="strategy-heading">${currentSegment.emotion.text}</div>
+				<div class="ludus-emotions">
+					<div class="ludus-emotion ${modifier.active ? 'ludus-emotion-modifier-active' : ''}"
+						repeat.for="modifier of currentSegment.modifiers"
+						click.delegate="addModifier(modifier)">
+						<div>${modifier.modifier}</div>
+						<div class="ludus-emotion-modifier">
+							${modifier.emotion} +${modifier.amount}
+						</div>
+					</div>
+				</div>
+				<div class="ludus-emotion-refresh" click.delegate="getNextPrompts()">
+					<span class="icon">refresh</span>
+					Not finding the right idea? Try refreshing the prompts
+				</div>
+			</div>
+		</div>
+		<div class="ludus-evaluation-summary">
+			<div class="strategy-heading">Your summary</div>
+			<div class="ludus-summary-wrapper">
+				<div class="ludus-summary" repeat.for="modifier of selectedModifiers">
+					<div>
+						<div>${modifier.modifier}</div>
+						<div class="ludus-summary-modifier">
+							${modifier.emotion} +${modifier.amount}
+						</div>
+					</div>
+					<div class="ludus-summary-delete" click.delegate="removeModifier($index)">
+						<span class="icon">delete</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-row mt-0">
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowSubmit">
 			Finish
 		</button>
+		<div if.bind="selectedModifiers.length > 4" class="body-small ml-20">
+			You can only select a max of 4 phrases
+		</div>
 	</div>
 </template>

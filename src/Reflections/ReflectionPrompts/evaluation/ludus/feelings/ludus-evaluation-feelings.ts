@@ -12,8 +12,7 @@ Chart.register(LineController, Tooltip, CategoryScale, LinearScale, PointElement
 @autoinject
 export class LudusEvaluationFeelings {
 
-	indexesShown: number[] = [];
-	currentIndex: number = 0;
+	currentIndex: number;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 	chart: Chart;
@@ -21,11 +20,12 @@ export class LudusEvaluationFeelings {
 	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
 
 	async attached() {
+		this.currentIndex = -1;
 		await this.appState.initPrompts();
-		this.indexesShown = [];
+		await this.appState.initEmotions();
 		this.numOfPrompts = this.appState.ludusPrompts.evaluatingPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.feelingsLearningEffect.response)) {
-			this.getRandomPrompt();
+			this.getNextPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
 			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
@@ -40,16 +40,17 @@ export class LudusEvaluationFeelings {
 
 	getNewPrompt() {
 		++this.localParent.model.feelingsLearningEffect.interactions;
-		this.getRandomPrompt();
+		this.getNextPrompt();
 	}
 
-	getRandomPrompt(tries: number = 0) {
-		this.currentIndex = ComponentHelper.RandomWholeNumber(0, this.numOfPrompts - 1);
-		if (this.indexesShown.includes(this.currentIndex) && tries < 10) {
-			this.getRandomPrompt(++tries);
+	getNextPrompt() {
+		let index = this.currentIndex;
+		++index;
+		if (index > (this.numOfPrompts - 1)) {
+			index = 0;
 		}
-		this.indexesShown.push(this.currentIndex);
-		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[this.currentIndex];
+		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[index];
+		this.currentIndex = index;
 	}
 
 	createData() {
