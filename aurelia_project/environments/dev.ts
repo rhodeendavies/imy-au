@@ -2,7 +2,7 @@ export default {
 	debug: true,
 	testing: true,
 	api: {
-		baseUrl: "http://localhost:3000"
+		baseUrl: "http://api.dev.localhost:3000"
 	},
 	loginModel: {
 		studentNumber: "u00000008",
