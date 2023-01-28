@@ -1,6 +1,6 @@
 import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
-import { LudusLessonApiModel, ReflectionApiModel } from "models/reflectionsApiModels";
+import { LudusLearningExperience, LudusLessonApiModel, ReflectionApiModel } from "models/reflectionsApiModels";
 import { BaseDailyResponse, BaseEvaluatingResponse, BaseLessonResponse, BaseMonitoringResponse, BasePlanningResponse, CreateReflectionResponse, LudusDailyResponse, LudusEvaluatingResponse, LudusLessonResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Availability } from "models/userDetails";
 import { ReflectionTypes, Systems } from "utils/enums";
@@ -14,15 +14,6 @@ export class ReflectionsService {
 	async reflectionAvailable(system: Systems, category: ReflectionTypes, id: number): Promise<Availability> {
 		try {
 			return await this.api.get(`reflections/availability?system=${system}&category=${category}&subjectId=${id}`);
-		} catch (error) {
-			log.error(error);
-			return null;
-		}
-	}
-
-	async getBasePublicReflections(id: number): Promise<BaseEvaluatingResponse[]> {
-		try {
-			return await this.api.get(`reflections/public?system=${Systems.Base}&subjectId=${id}`);
 		} catch (error) {
 			log.error(error);
 			return null;
@@ -94,6 +85,15 @@ export class ReflectionsService {
 			return null;
 		}
 	}
+
+	async getBasePublicReflections(id: number): Promise<string[]> {
+		try {
+			return await this.api.get(`reflections/public?system=${Systems.Base}&subjectId=${id}`);
+		} catch (error) {
+			log.error(error);
+			return null;
+		}
+	}
 	// =======================================================================
 
 	// ========================== LUDUS ======================================
@@ -136,6 +136,15 @@ export class ReflectionsService {
 	async getLudusEvaluatingReflection(id: number): Promise<LudusEvaluatingResponse> {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Ludus}&category=${ReflectionTypes.Evaluating}`);
+		} catch (error) {
+			log.error(error);
+			return null;
+		}
+	}
+
+	async getLudusPublicReflections(id: number): Promise<LudusLearningExperience[]> {
+		try {
+			return await this.api.get(`reflections/public?system=${Systems.Ludus}&subjectId=${id}`);
 		} catch (error) {
 			log.error(error);
 			return null;

@@ -37,7 +37,7 @@
 					<div class="ludus-emotion ${modifier.active ? 'ludus-emotion-modifier-active' : ''}"
 						repeat.for="modifier of currentSegment.modifiers"
 						click.delegate="addModifier(modifier)">
-						<div>${modifier.modifier}</div>
+						<div>${modifier.text}</div>
 						<div class="ludus-emotion-modifier">
 							${modifier.emotion} +${modifier.amount}
 						</div>
@@ -54,7 +54,7 @@
 			<div class="ludus-summary-wrapper">
 				<div class="ludus-summary" repeat.for="modifier of selectedModifiers">
 					<div>
-						<div>${modifier.modifier}</div>
+						<div>${modifier.text}</div>
 						<div class="ludus-summary-modifier">
 							${modifier.emotion} +${modifier.amount}
 						</div>

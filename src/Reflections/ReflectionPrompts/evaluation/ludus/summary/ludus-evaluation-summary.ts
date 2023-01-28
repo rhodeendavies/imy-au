@@ -81,7 +81,7 @@ export class LudusEvaluationSummary {
 		return {
 			text: modifier.text,
 			modifiers: [{
-				name: modifier.text,
+				name: emotion.text,
 				amount: modifier.amount
 			}]
 		};

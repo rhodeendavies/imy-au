@@ -106,43 +106,43 @@
 		display: grid;
 		grid-template-rows: auto minmax(0, 1fr) auto;
 		gap: 20px;
+	}
+}
 
-		.ludus-summary-wrapper {
-			display: flex;
-			flex-direction: column;
-			gap: 20px;
-			overflow: auto;
-			padding: 5px 10px;
-	
-			.ludus-summary {
-				border-radius: $BorderRadius;
-				padding: 10px 15px;
-				box-shadow: $BoxShadow;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 10px;
-	
-				&:hover {
-					.ludus-summary-delete {
-						opacity: 1;
-					}
-				}
-	
-				.ludus-summary-modifier {
-					font-size: 13px;
-					color: $DarkGrey;
-					text-transform: uppercase;
-					margin-top: 10px;
-				}
-	
-				.ludus-summary-delete {
-					opacity: 0;
-					color: $DarkGrey;
-					transition: all 0.3;
-					cursor: pointer;
-				}
+.ludus-summary-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	overflow: auto;
+	padding: 5px 10px;
+
+	.ludus-summary {
+		border-radius: $BorderRadius;
+		padding: 10px 15px;
+		box-shadow: $BoxShadow;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+
+		&:hover {
+			.ludus-summary-delete {
+				opacity: 1;
 			}
+		}
+
+		.ludus-summary-modifier {
+			font-size: 13px;
+			color: $DarkGrey;
+			text-transform: uppercase;
+			margin-top: 10px;
+		}
+
+		.ludus-summary-delete {
+			opacity: 0;
+			color: $DarkGrey;
+			transition: all 0.3;
+			cursor: pointer;
 		}
 	}
 }

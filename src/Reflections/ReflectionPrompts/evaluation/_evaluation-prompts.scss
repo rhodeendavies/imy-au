@@ -38,6 +38,7 @@
 				justify-items: center;
 				gap: 40px;
 				text-align: center;
+				margin-top: 30px;
 			}
 		}
 	}
@@ -45,18 +46,18 @@
 
 .ludus-summary-icon {
 	align-items: flex-start;
+}
 
-	.ludus-lesson-rating {
-		display: flex;
-		align-items: center;
-	
-		.icon {
-			font-size: 15px;
-			color: $Orange;
-	
-			&.ludus-active-rating ~ .icon {
-				font-variation-settings: 'FILL' 0;
-			}
+.ludus-lesson-rating {
+	display: flex;
+	align-items: center;
+
+	.icon {
+		font-size: 15px;
+		color: $Orange;
+
+		&.ludus-active-rating ~ .icon {
+			font-variation-settings: 'FILL' 0;
 		}
 	}
 }

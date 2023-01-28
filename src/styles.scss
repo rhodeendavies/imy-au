@@ -31,6 +31,8 @@
 @use "Login/login";
 @use "navbar/navbar";
 @use "PasswordReset/password-reset";
+@use "Reflections/PublicReflections/ludus/ludus-public";
+@use "Reflections/PublicReflections/public-reflections";
 @use "Reflections/ReflectionPrompts/evaluation/baseSystem/feelings/base-evaluation-feelings";
 @use "Reflections/ReflectionPrompts/evaluation/evaluation-prompts";
 @use "Reflections/ReflectionPrompts/evaluation/ludus/learningStrategies/ludus-evaluation-learning-strategies";
@@ -41,4 +43,5 @@
 @use "Reflections/ReflectionPrompts/reflection-prompts";
 @use "Reflections/reflections";
 @use "Reflections/ReflectionsDetails/baseSystem/evaluation/base-evaluation-details";
+@use "Reflections/ReflectionsDetails/ludus/evaluation/ludus-evaluation-details";
 @use "Reflections/ReflectionsDetails/reflections-details";

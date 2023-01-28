@@ -2,6 +2,7 @@ import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-framework";
 import { RadioOption } from "resources/radioButton/radio-button";
 import { LudusEvaluation } from "../ludus-evaluation";
+import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
 export class LudusEvaluationTopics {
@@ -25,19 +26,7 @@ export class LudusEvaluationTopics {
 			}
 			x.topicsString = x.topics.join(", ");
 		});
-		this.localParent.questions.topicRatings.topics.forEach(x => {
-			const topic = this.localParent.model.topicRatings.ratings?.find(y => y.id == x.id);
-			if (topic != null) {
-				x.rating = topic.rating;
-			}
-			x.options = this.ratingOptions.map(y => {
-				return {
-					name: "",
-					value: y.value,
-					selected: y.value == x.rating
-				}
-			})
-		});
+		this.localParent.questions.topicRatings.topics = ComponentHelper.CreateTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics, this.ratingOptions)
 	}
 
 	nextStep() {

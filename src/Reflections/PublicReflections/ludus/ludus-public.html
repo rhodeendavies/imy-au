@@ -1,3 +1,55 @@
 <template>
+	<div class="ludus-public-wrapper">
+		<div class="reflections-details-wrapper">
+			<div class="reflections-details">
+				<div class="reflection-header-wrapper">
+					<div class="reflection-header">
+						Summary
+					</div>
+				</div>
 	
+				<div class="reflection-body">
+					<div class="reflection-divider">
+						<canvas id="ludusPublicSummary"></canvas>
+					</div>
+					<div class="reflection-sub-heading">Most popular sentiments</div>
+					<div class="ludus-summary-list">
+						<div class="ludus-summary-list-item">
+							<div class="ludus-summary-list-icon">1</div>
+							<div>${firstSentiment}</div>
+						</div>
+						<div class="ludus-summary-list-item">
+							<div class="ludus-summary-list-icon">2</div>
+							<div>${secondSentiment}</div>
+						</div>
+						<div class="ludus-summary-list-item">
+							<div class="ludus-summary-list-icon">3</div>
+							<div>${thirdSentiment}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ludus-public-details">
+			<div class="reflections-details-wrapper public-reflections-details-wrapper"
+				repeat.for="reflection of reflections">
+				<div class="reflections-details">
+					<div class="reflection-header-wrapper"></div>
+		
+					<div class="reflection-body">
+						<div class="ludus-summary-wrapper">
+							<div class="ludus-summary" repeat.for="modifier of reflection">
+								<div>
+									<div>${modifier.text}</div>
+									<div class="ludus-summary-modifier">
+										${modifier.emotion} +${modifier.amount}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

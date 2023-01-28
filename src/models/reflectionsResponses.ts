@@ -41,7 +41,7 @@ export class BaseEvaluatingResponse extends ReflectionResponse {
 export class BaseEvaluatingQuestions {
 	courseFeelings: HistoricCourseFeelings;
 	topicRatings: Topics;
-	lessonRatingSummary: RegularLessonRatings[];
+	lessonRatings: RegularLessonRatings[];
 	strategyPlanning: StrategyPlanning;
 }
 // =======================================================================
@@ -155,4 +155,9 @@ export class PaidiaLessonRatings extends LessonRatings {
 	order: number;
 	emoji: string;
 	topics: string[];
+}
+
+export class FeelingsSummary {
+	rating: number;
+	createdAt: Date;
 }

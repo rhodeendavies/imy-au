@@ -9,6 +9,7 @@ export class Ludus {
 
 	@bindable reflection: LudusReflection;
 	components: LudusComponent[];
+	finalScore: number;
 
 	constructor(private localParent: ReflectionsDetails) {}
 
@@ -27,6 +28,7 @@ export class Ludus {
 
 		if (this.reflection.evaluatingReflection != null) {
 			this.components = ComponentHelper.AssignComponentScores(this.components, this.reflection.evaluatingReflection.answers.components.calculated);
+			this.finalScore = ComponentHelper.GetOriginalFinalScore(this.components);
 		} else if (this.reflection.monitoringReflection != null) {
 			this.components = ComponentHelper.AssignComponentScores(this.components, this.reflection.monitoringReflection.answers.components.calculated);
 		}

@@ -21,18 +21,25 @@ export class BaseEvaluationTopics {
 	}
 
 	initData() {
-		this.localParent.questions.lessonRatingSummary.forEach(x => {
-			x.ratingPercentage = ComponentHelper.GetRatingPercentages(x.rating);
+		this.localParent.questions.lessonRatings.forEach(x => {
+			x.ratingPercentage = ComponentHelper.GetRatingPercentages(x.rating, 3);
 			x.topicsString = x.topics.join(", ");
 		});
+		this.localParent.questions.topicRatings.topics = ComponentHelper.CreateTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics, this.ratingOptions)
 	}
 
 	nextStep() {
 		if (!this.AllowNext) return;
+		this.localParent.model.topicRatings.ratings = this.localParent.questions.topicRatings.topics.map(x => {
+			return {
+				id: x.id,
+				rating: x.rating
+			};
+		})
 		this.localParent.nextStep();
 	}
 
 	get AllowNext(): boolean {
-		return this.localParent.model.topicRatings.ratings.every(x => x.rating != null);
+		return this.localParent.questions.topicRatings?.topics?.every(x => x?.rating != null);
 	}
 }

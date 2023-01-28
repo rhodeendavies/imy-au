@@ -1,5 +1,7 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseEvaluation } from "../base-evaluation";
+import { FeelingsSummary } from "models/reflectionsResponses";
+import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
 export class BaseEvaluationFeelings {
@@ -10,12 +12,7 @@ export class BaseEvaluationFeelings {
 	constructor(private localParent: BaseEvaluation) {}
 
 	attached() {
-		this.feelingsSummary = this.localParent.questions.courseFeelings.rating.map((x, index) => {
-			return {
-				rating: x,
-				createdAt: this.localParent.questions.courseFeelings.createdAt[index]
-			}
-		})
+		this.feelingsSummary = ComponentHelper.GetFeelingsSummary(this.localParent.questions.courseFeelings)
 	}
 
 	nextStep() {
@@ -27,9 +24,4 @@ export class BaseEvaluationFeelings {
 	get AllowNext() {
 		return this.valid && this.localParent.model.courseFeelings.rating != null;
 	}
-}
-
-class FeelingsSummary {
-	rating: number;
-	createdAt: Date;
 }

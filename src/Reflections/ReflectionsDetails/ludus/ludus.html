@@ -13,8 +13,9 @@
 				<div class="reflection-header">
 					PROGRESS TOWARDS YOUR STRATEGIES
 				</div>
-				<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
-					
+				<div class="reflection-date" if.bind="localParent.FullReflection">
+					<!-- TODO: info -->
+					<!-- ? -->
 				</div>
 			</div>
 	
@@ -23,6 +24,13 @@
 					<gauge repeat.for="component of components" value.bind="component.originalScore"
 						label.bind="component.name">
 					</gauge>
+				</div>
+
+				<div class="ludus-evaluation-score-wrapper" if.bind="reflection.evaluatingReflection != null">
+					<div class="ludus-evaluation-score-text">SCORE:</div>
+					<div class="ludus-evaluation-score">
+						${finalScore} %
+					</div>
 				</div>
 			</div>
 		</div>

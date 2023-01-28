@@ -12,6 +12,7 @@
 
 	&.public-reflections-details-wrapper {
 		height: initial;
+		display: block;
 	}
 
 	>*:not(.reflection-section-tracker) {
@@ -63,14 +64,24 @@
 			max-height: 100%;
 
 			.reflection-text {
-				padding-bottom: 25px;
-				border-bottom: 1px solid $LightGrey;
-				margin-bottom: 25px;
 				font-weight: $light;
 				font-size: 16px;
 			}
 		}
 	}
+}
+
+.reflection-sub-heading {
+	font-family: $Poppins;
+	font-size: 18px;
+	font-weight: $semi-bold;
+	margin-bottom: 10px;
+}
+
+.reflection-divider {
+	padding-bottom: 25px;
+	border-bottom: 1px solid $LightGrey;
+	margin-bottom: 25px;
 }
 
 .ludus-reflection-details-container {

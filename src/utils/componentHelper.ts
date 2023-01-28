@@ -1,8 +1,10 @@
 import { LudusComponent, Strategy } from "models/reflections";
 import { Colour, StrategyOption } from "./constants";
-import { LudusCalculatedComponents, LudusModifier, LudusPreviousComponents, LudusStrategy } from "models/reflectionsApiModels";
-import { PromptSection } from "models/prompts";
+import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, TopicRating } from "models/reflectionsApiModels";
+import { EmotionModifier, PromptSection } from "models/prompts";
 import environment from "environment";
+import { FeelingsSummary, HistoricCourseFeelings, QuestionTopic } from "models/reflectionsResponses";
+import { RadioOption } from "resources/radioButton/radio-button";
 
 export class ComponentHelper {
 	static ModuleName: string = "";
@@ -51,8 +53,8 @@ export class ComponentHelper {
 		return modifiers.map(x => `${x.name} +${x.amount}`).join(", ");
 	}
 
-	static GetRatingPercentages(rating: number) {
-		const result = Math.ceil(rating / 3 * 100);
+	static GetRatingPercentages(rating: number, max: number) {
+		const result = Math.ceil(rating / max * 100);
 		if (result > 100) return 100;
 		if (result < 0) return 0;
 		return result;
@@ -64,24 +66,20 @@ export class ComponentHelper {
 			icon: strategyOptions.icon,
 			options: [{
 				name: strategyOptions.One.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.One.modifiers),
 				value: strategyOptions.One.value
 			}, {
 				name: strategyOptions.Two.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Two.modifiers),
 				value: strategyOptions.Two.value
 			}, {
 				name: strategyOptions.Three.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Three.modifiers),
 				value: strategyOptions.Three.value
 			}, {
 				name: strategyOptions.Four.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Four.modifiers),
 				value: strategyOptions.Four.value
 			}],
 			strategy: strategy,
 			rating: rating,
-			ratingPercentage: this.GetRatingPercentages(rating)
+			ratingPercentage: this.GetRatingPercentages(rating, 5)
 		};
 	}
 
@@ -242,6 +240,13 @@ export class ComponentHelper {
 		return Math.ceil(sumOfScores / totalWeights);
 	}
 
+	static GetOriginalFinalScore(components: LudusComponent[]): number {
+		if (components == null) return 0;
+		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.originalScore * curr.total)}, 0);
+		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
+		return Math.ceil(sumOfScores / totalWeights);
+	}
+
 	static FindLatestScore(components: LudusComponent[], previousComponentsScores: LudusPreviousComponents): LudusComponent[] {
 		const planningComponents = previousComponentsScores.planning?.calculated;
 		const monitoringComponents = previousComponentsScores.monitoring?.calculated;
@@ -300,5 +305,53 @@ export class ComponentHelper {
 		}
 
 		return array;
+	}
+
+	static GetFeelingsSummary(feelings: HistoricCourseFeelings): FeelingsSummary[] {
+		return feelings.rating.map((x, index) => {
+			return {
+				rating: x,
+				createdAt: feelings.createdAt[index]
+			}
+		});
+	}
+
+	static CreateTopics(topicRatings: TopicRating[], topicNames: QuestionTopic[], ratingOptions: RadioOption[]): QuestionTopic[] {
+		return topicNames.map(x => {
+			return {
+				id: x.id,
+				name: x.name,
+				rating: topicRatings?.find(y => y.id == x.id)?.rating,
+				options: ratingOptions.map(y => {
+					return {
+						name: "",
+						value: y.value,
+						selected: y.value == x.rating
+					}
+				})
+			}
+		});
+	}
+
+	static GetEmotionModifiers(learningExperience: LudusLearningExperience): EmotionModifier[] {
+		const emotions = [
+			learningExperience.enjoyment,
+			learningExperience.hope,
+			learningExperience.pride,
+			learningExperience.anger,
+			learningExperience.anxiety,
+			learningExperience.shame,
+			learningExperience.hopelessness,
+			learningExperience.boredom,
+		].filter(x => x != null);
+
+		return emotions.map(x => {
+			return {
+				text: x.text,
+				amount: x.modifiers[0].amount,
+				emotion: x.modifiers[0].name,
+				active: false
+			}
+		});
 	}
 }

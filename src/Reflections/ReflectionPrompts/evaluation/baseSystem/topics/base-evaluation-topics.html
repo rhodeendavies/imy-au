@@ -1,24 +1,26 @@
 <template>
 	<div class="evaluation-topics-wrapper">
 		<div class="evaluation-topics-question">
-			<p class="reflection-question">
-				Below are the topics covered by the videos this week. Rate them according
-				to how well you feel you mastered them.
-			</p>
-
-			<div class="evaluation-topic">
-				<div></div>
-				<div class="evaluation-topic-headings">
-					<div>Mastered</div>
-					<div>Sort of mastered</div>
-					<div>Not yet mastered</div>
+			<div>
+				<p class="reflection-question">
+					Below are the topics covered by the videos this week. Rate them according
+					to how well you feel you mastered them.
+				</p>
+	
+				<div class="evaluation-topic">
+					<div></div>
+					<div class="evaluation-topic-headings">
+						<div>Mastered</div>
+						<div>Sort of mastered</div>
+						<div>Not yet mastered</div>
+					</div>
 				</div>
 			</div>
 
 			<div class="evaluation-topics">
-				<div class="evaluation-topic bordered" repeat.for="topic of localParent.model.topicRatings.ratings">
+				<div class="evaluation-topic bordered" repeat.for="topic of localParent.questions.topicRatings.topics">
 					<div>${topic.name}</div>
-					<radio-button type="inline" value.bind="topic.rating" options.bind="ratingOptions"></radio-button>
+					<radio-button type="inline" value.bind="topic.rating" options.bind="topic.options"></radio-button>
 				</div>
 			</div>
 		</div>
@@ -27,7 +29,7 @@
 			<p class="reflection-question">Video ratings this week</p>
 			<p>This is how you rated your understanding of the videos this week.</p>
 
-			<div class="summary-with-icon" repeat.for="lesson of localParent.questions.lessonRatingSummary">
+			<div class="summary-with-icon" repeat.for="lesson of localParent.questions.lessonRatings">
 				<div class="summary-icon rating-icon saturate-${lesson.ratingPercentage}">
 					<span>${lesson.rating}/3</span>
 				</div>
