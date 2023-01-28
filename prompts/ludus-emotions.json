@@ -4,75 +4,75 @@
 		"text": "Enjoyment",
 		"modifiers": [
 			{
-				"modifier": "This week was so much fun!",
+				"text": "This week was so much fun!",
 				"amount": 3
 			},
 			{
-				"modifier": "I loved learning in {X} this week.",
+				"text": "I loved learning in {X} this week.",
 				"amount": 2
 			},
 			{
-				"modifier": "I really enjoyed the content this week.",
+				"text": "I really enjoyed the content this week.",
 				"amount": 2
 			},
 			{
-				"modifier": "I had fun this week.",
+				"text": "I had fun this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm really enjoying the module content.",
+				"text": "I'm really enjoying the module content.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm like a kid in a candy store, but the candy is knowledge.",
+				"text": "I'm like a kid in a candy store, but the candy is knowledge.",
 				"amount": 2
 			},
 			{
-				"modifier": "Learning in {X} is my new favorite hobby, second only to procrastinating.",
+				"text": "Learning in {X} is my new favorite hobby, second only to procrastinating.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm on a knowledge binge and I can't stop.",
+				"text": "I'm on a knowledge binge and I can't stop.",
 				"amount": 2
 			},
 			{
-				"modifier": "Learning in {X} is my new cardio, it gets my heart pumping and my mind racing.",
+				"text": "Learning in {X} is my new cardio, it gets my heart pumping and my mind racing.",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm like a detective, solving the mysteries of the universe one fact at a time.",
+				"text": "I'm like a detective, solving the mysteries of the universe one fact at a time.",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm so excited to learn, I can hardly contain myself.",
+				"text": "I'm so excited to learn, I can hardly contain myself.",
 				"amount": 3
 			},
 			{
-				"modifier": "{X} is like a treasure hunt, and I'm the Indiana Jones of knowledge.",
+				"text": "{X} is like a treasure hunt, and I'm the Indiana Jones of knowledge.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm having so much fun learning, I almost forgot it's supposed to be boring.",
+				"text": "I'm having so much fun learning, I almost forgot it's supposed to be boring.",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm on a knowledge high and I can't come down.",
+				"text": "I'm on a knowledge high and I can't come down.",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm having a blast, I can't believe this is actually called 'studying'",
+				"text": "I'm having a blast, I can't believe this is actually called 'studying'",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm having so much fun in {X}, I think I might just become a professional student. ",
+				"text": "I'm having so much fun in {X}, I think I might just become a professional student. ",
 				"amount": 2
 			},
 			{
-				"modifier": "This week was good.",
+				"text": "This week was good.",
 				"amount": 1
 			},
 			{
-				"modifier": "I am enjoying {X} right now. ",
+				"text": "I am enjoying {X} right now. ",
 				"amount": 1
 			}
 		]
@@ -82,35 +82,35 @@
 		"text": "Hope",
 		"modifiers": [
 			{
-				"modifier": "I'm optimistic that with enough studying, I'll become a genius... or at least pass the exam.",
+				"text": "I'm optimistic that with enough studying, I'll become a genius... or at least pass the exam.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm hopeful that one day, all this information will click and make sense.",
+				"text": "I'm hopeful that one day, all this information will click and make sense.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm confident that with enough learning, I'll be able to understand my lecturer when they talk.",
+				"text": "I'm confident that with enough learning, I'll be able to understand my lecturer when they talk.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm hopeful that one day, I'll be able to have a conversation about {X} without saying 'I have no idea what you're talking about'",
+				"text": "I'm hopeful that one day, I'll be able to have a conversation about {X} without saying 'I have no idea what you're talking about'",
 				"amount": 1
 			},
 			{
-				"modifier": "I am feeling optimistic about {X} this week.",
+				"text": "I am feeling optimistic about {X} this week.",
 				"amount": 2
 			},
 			{
-				"modifier": "I think that this week went well.",
+				"text": "I think that this week went well.",
 				"amount": 1
 			},
 			{
-				"modifier": "Things are looking up for me in {X}.",
+				"text": "Things are looking up for me in {X}.",
 				"amount": 2
 			},
 			{
-				"modifier": "I think I am going to do well in {X}.",
+				"text": "I think I am going to do well in {X}.",
 				"amount": 2
 			}
 		]
@@ -120,59 +120,59 @@
 		"text": "Pride",
 		"modifiers": [
 			{
-				"modifier": "My brain is like a sponge, but instead of water, it's soaking up information.",
+				"text": "My brain is like a sponge, but instead of water, it's soaking up information.",
 				"amount": 2
 			},
 			{
-				"modifier": "Learning is my superpower and I'm ready to flex my brain muscle.",
+				"text": "Learning is my superpower and I'm ready to flex my brain muscle.",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm a nerd and I'm not afraid to embrace it.",
+				"text": "I'm a nerd and I'm not afraid to embrace it.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm a brainiac and I'm loving every minute of it.",
+				"text": "I'm a brainiac and I'm loving every minute of it.",
 				"amount": 3
 			},
 			{
-				"modifier": "Learning is like a game, and I'm all in to win.",
+				"text": "Learning is like a game, and I'm all in to win.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so proud, I'm thinking about getting a tattoo of a brain to commemorate my newfound knowledge.",
+				"text": "I'm so proud, I'm thinking about getting a tattoo of a brain to commemorate my newfound knowledge.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so proud, I'm considering changing my name to 'Professor' for the rest of my life",
+				"text": "I'm so proud, I'm considering changing my name to 'Professor' for the rest of my life",
 				"amount": 3
 			},
 			{
-				"modifier": "I'm so proud, I'm thinking about starting a blog to share my newfound knowledge with the world.",
+				"text": "I'm so proud, I'm thinking about starting a blog to share my newfound knowledge with the world.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so proud, I'm considering becoming a walking encyclopedia, ready to spout out facts at any moment.",
+				"text": "I'm so proud, I'm considering becoming a walking encyclopedia, ready to spout out facts at any moment.",
 				"amount": 3
 			},
 			{
-				"modifier": "I am proud of what I achieved this week.",
+				"text": "I am proud of what I achieved this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I did well this week.",
+				"text": "I did well this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I am proud of myself for achieving my goals in {X} this week. ",
+				"text": "I am proud of myself for achieving my goals in {X} this week. ",
 				"amount": 1
 			},
 			{
-				"modifier": "I am proud of sticking it out this week.",
+				"text": "I am proud of sticking it out this week.",
 				"amount": 2
 			},
 			{
-				"modifier": "I am proud of how well I did this week.",
+				"text": "I am proud of how well I did this week.",
 				"amount": 2
 			}
 		]
@@ -182,43 +182,43 @@
 		"text": "Anger",
 		"modifiers": [
 			{
-				"modifier": "I am frustrated with the pace of learning. ",
+				"text": "I am frustrated with the pace of learning. ",
 				"amount": 1
 			},
 			{
-				"modifier": "I am angry about the complexity of the material in {X}.",
+				"text": "I am angry about the complexity of the material in {X}.",
 				"amount": 1
 			},
 			{
-				"modifier": "I am irritated by {X} this week.",
+				"text": "I am irritated by {X} this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I am annoyed at myself for not doing more this week.",
+				"text": "I am annoyed at myself for not doing more this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I am frustrated with the content this week. ",
+				"text": "I am frustrated with the content this week. ",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm so angry, I could throw a textbook across the room.",
+				"text": "I'm so angry, I could throw a textbook across the room.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm so mad, I could make a meme about it.",
+				"text": "I'm so mad, I could make a meme about it.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm feeling a bit annoyed at {X} at the moment. ",
+				"text": "I'm feeling a bit annoyed at {X} at the moment. ",
 				"amount": 1
 			},
 			{
-				"modifier": "I am frustrated with myself this week.",
+				"text": "I am frustrated with myself this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I could have done better in {X} this week.",
+				"text": "I could have done better in {X} this week.",
 				"amount": 1
 			}
 		]
@@ -228,99 +228,99 @@
 		"text": "Anxiety",
 		"modifiers": [
 			{
-				"modifier": "I felt a bit anxious this week.",
+				"text": "I felt a bit anxious this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I was a bit stressed this week. ",
+				"text": "I was a bit stressed this week. ",
 				"amount": 1
 			},
 			{
-				"modifier": "I was a bit nervous about {X}.",
+				"text": "I was a bit nervous about {X}.",
 				"amount": 1
 			},
 			{
-				"modifier": "I was anxious, but I handled it well.",
+				"text": "I was anxious, but I handled it well.",
 				"amount": 1
 			},
 			{
-				"modifier": "I was stressed, but I handled it well.",
+				"text": "I was stressed, but I handled it well.",
 				"amount": 1
 			},
 			{
-				"modifier": "{X} was stressful this week.",
+				"text": "{X} was stressful this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I could have done more to deal with my stress.",
+				"text": "I could have done more to deal with my stress.",
 				"amount": 1
 			},
 			{
-				"modifier": "Stress. Stress everywhere.",
+				"text": "Stress. Stress everywhere.",
 				"amount": 1
 			},
 			{
-				"modifier": "Can open, worms everywhere.",
+				"text": "Can open, worms everywhere.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm 'fine'.",
+				"text": "I'm 'fine'.",
 				"amount": 1
 			},
 			{
-				"modifier": "I need chocolate!",
+				"text": "I need chocolate!",
 				"amount": 1
 			},
 			{
-				"modifier": "I need a hug!",
+				"text": "I need a hug!",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm not anxious. You're anxious.",
+				"text": "I'm not anxious. You're anxious.",
 				"amount": 1
 			},
 			{
-				"modifier": "What if I told you that I'm a bit nervous?",
+				"text": "What if I told you that I'm a bit nervous?",
 				"amount": 1
 			},
 			{
-				"modifier": "It was a rough week.",
+				"text": "It was a rough week.",
 				"amount": 1
 			},
 			{
-				"modifier": "The anxiety was real, yoh!",
+				"text": "The anxiety was real, yoh!",
 				"amount": 1
 			},
 			{
-				"modifier": "I didn't handle my stress well. ",
+				"text": "I didn't handle my stress well. ",
 				"amount": 1
 			},
 			{
-				"modifier": "I was super anxious about {X}.",
+				"text": "I was super anxious about {X}.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm about an 11 out of 10 on the anxiety scale right now.",
+				"text": "I'm about an 11 out of 10 on the anxiety scale right now.",
 				"amount": 1
 			},
 			{
-				"modifier": "Wow, things got real this week.",
+				"text": "Wow, things got real this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I was anxious, but only a bit.",
+				"text": "I was anxious, but only a bit.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm just a brain on the brink of a breakdown!",
+				"text": "I'm just a brain on the brink of a breakdown!",
 				"amount": 1
 			},
 			{
-				"modifier": "Learning in {X} is like trying to solve a Rubik's Cube blindfolded.",
+				"text": "Learning in {X} is like trying to solve a Rubik's Cube blindfolded.",
 				"amount": 1
 			},
 			{
-				"modifier": "I am concerned about falling behind in {X}.",
+				"text": "I am concerned about falling behind in {X}.",
 				"amount": 1
 			}
 		]
@@ -330,27 +330,27 @@
 		"text": "Shame",
 		"modifiers": [
 			{
-				"modifier": "There are many topics I am unsure of.",
+				"text": "There are many topics I am unsure of.",
 				"amount": 2
 			},
 			{
-				"modifier": "I have a few questions.",
+				"text": "I have a few questions.",
 				"amount": 2
 			},
 			{
-				"modifier": "There are some things I don't understand well enough.",
+				"text": "There are some things I don't understand well enough.",
 				"amount": 2
 			},
 			{
-				"modifier": "I am worried about not being good enough in {X}.",
+				"text": "I am worried about not being good enough in {X}.",
 				"amount": 2
 			},
 			{
-				"modifier": "I feel like an imposter in {X}.",
+				"text": "I feel like an imposter in {X}.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so ashamed, I could hide under a rock... or just admit I didn't study.",
+				"text": "I'm so ashamed, I could hide under a rock... or just admit I didn't study.",
 				"amount": 2
 			}
 		]
@@ -360,67 +360,67 @@
 		"text": "Hopelessness",
 		"modifiers": [
 			{
-				"modifier": "I feel like I'm trying to drink from a fire hose of information.",
+				"text": "I feel like I'm trying to drink from a fire hose of information.",
 				"amount": 2
 			},
 			{
-				"modifier": "I think my brain is going to implode from all this new knowledge.",
+				"text": "I think my brain is going to implode from all this new knowledge.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm pretty sure my brain just short-circuited from all this studying.",
+				"text": "I'm pretty sure my brain just short-circuited from all this studying.",
 				"amount": 2
 			},
 			{
-				"modifier": "My brain is about to overload from all this new information.",
+				"text": "My brain is about to overload from all this new information.",
 				"amount": 2
 			},
 			{
-				"modifier": "Things could be worse. They could also be better.",
+				"text": "Things could be worse. They could also be better.",
 				"amount": 2
 			},
 			{
-				"modifier": "I am feeling overwhelmed and unsure this week.",
+				"text": "I am feeling overwhelmed and unsure this week.",
 				"amount": 2
 			},
 			{
-				"modifier": "I am not sure that I'll be able to pass {X}.",
+				"text": "I am not sure that I'll be able to pass {X}.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so hopeless, I'm considering becoming a beach bum instead of finishing {X}.",
+				"text": "I'm so hopeless, I'm considering becoming a beach bum instead of finishing {X}.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm convinced that I'll never understand this material, I'm ready to give up and join a cult.",
+				"text": "I'm convinced that I'll never understand this material, I'm ready to give up and join a cult.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so hopeless, I'm considering becoming a hermit and just living off berries and roots.",
+				"text": "I'm so hopeless, I'm considering becoming a hermit and just living off berries and roots.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm ready to throw in the towel and just become a professional napper instead of studying.",
+				"text": "I'm ready to throw in the towel and just become a professional napper instead of studying.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so hopeless, I'm thinking about becoming a street performer and just guessing the answers.",
+				"text": "I'm so hopeless, I'm thinking about becoming a street performer and just guessing the answers.",
 				"amount": 2
 			},
 			{
-				"modifier": "I'm so hopeless, I'm considering becoming a meme and just existing on the internet forever.",
+				"text": "I'm so hopeless, I'm considering becoming a meme and just existing on the internet forever.",
 				"amount": 2
 			},
 			{
-				"modifier": "I wish that banging my head against the table actually worked.",
+				"text": "I wish that banging my head against the table actually worked.",
 				"amount": 2
 			},
 			{
-				"modifier": "I just need to make it through this week.",
+				"text": "I just need to make it through this week.",
 				"amount": 2
 			},
 			{
-				"modifier": "I could use a motivational poster around about now.",
+				"text": "I could use a motivational poster around about now.",
 				"amount": 2
 			}
 		]
@@ -430,47 +430,47 @@
 		"text": "Boredom",
 		"modifiers": [
 			{
-				"modifier": "Meh!",
+				"text": "Meh!",
 				"amount": 1
 			},
 			{
-				"modifier": "I was bored with the content this week.",
+				"text": "I was bored with the content this week.",
 				"amount": 1
 			},
 			{
-				"modifier": "I wish the content was more interesting.",
+				"text": "I wish the content was more interesting.",
 				"amount": 1
 			},
 			{
-				"modifier": "I lost interest a bit.",
+				"text": "I lost interest a bit.",
 				"amount": 1
 			},
 			{
-				"modifier": "This week was super boring!",
+				"text": "This week was super boring!",
 				"amount": 1
 			},
 			{
-				"modifier": "Learning in {X} this week was like watching paint dry, but less exciting.",
+				"text": "Learning in {X} this week was like watching paint dry, but less exciting.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm pretty sure my brain is in hibernation mode from all this boredom.",
+				"text": "I'm pretty sure my brain is in hibernation mode from all this boredom.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'd rather watch grass grow than sit through another video.",
+				"text": "I'd rather watch grass grow than sit through another video.",
 				"amount": 1
 			},
 			{
-				"modifier": "My brain is so bored, it's starting to play solitaire with itself.",
+				"text": "My brain is so bored, it's starting to play solitaire with itself.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm convinced that learning in {X} is just a fancy way of saying 'sitting around being bored'.",
+				"text": "I'm convinced that learning in {X} is just a fancy way of saying 'sitting around being bored'.",
 				"amount": 1
 			},
 			{
-				"modifier": "I'm so bored, I think I just became an expert in the art of doodling.",
+				"text": "I'm so bored, I think I just became an expert in the art of doodling.",
 				"amount": 1
 			}
 		]

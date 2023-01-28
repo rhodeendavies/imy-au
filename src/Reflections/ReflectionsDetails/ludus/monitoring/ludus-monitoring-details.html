@@ -41,7 +41,7 @@
 					</div>
 					<div class="summary-text">
 						<div class="summary-heading">${category.title}</div>
-						<div class="summary-body">${category.strategy}</div>
+						<div class="summary-body" innerhtml.bind="category.strategy"></div>
 						<div class="summary-modifiers">
 							<div repeat.for="modifier of category.modifiers" class="summary-modifier">
 								${modifier.name} +${modifier.amount}

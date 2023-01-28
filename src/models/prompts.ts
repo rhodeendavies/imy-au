@@ -36,7 +36,7 @@ export class Emotion {
 }
 
 export class EmotionModifier {
-	modifier: string;
+	text: string;
 	amount: number;
 	emotion: string;
 	active: boolean;

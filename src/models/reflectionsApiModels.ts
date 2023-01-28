@@ -205,12 +205,14 @@ export class BaseLearningExperience {
 }
 
 export class LudusLearningExperience {
-	boredom: LudusStrategy;
-	confidence: LudusStrategy;
-	anxiety: LudusStrategy;
-	passion: LudusStrategy;
-	uncertainty: LudusStrategy;
 	enjoyment: LudusStrategy;
+	hope: LudusStrategy;
+	pride: LudusStrategy;
+	anger: LudusStrategy;
+	anxiety: LudusStrategy;
+	shame: LudusStrategy;
+	hopelessness: LudusStrategy;
+	boredom: LudusStrategy;
 	postPublicly: boolean;
 }
 

@@ -2,6 +2,7 @@ import { autoinject, computedFrom } from "aurelia-framework";
 import { LudusEvaluation } from "../ludus-evaluation";
 import { ApplicationState } from "applicationState";
 import { Emotion, EmotionModifier } from "models/prompts";
+import { LudusStrategy } from "models/reflectionsApiModels";
 
 @autoinject
 export class LudusEvaluationSummary {
@@ -62,8 +63,28 @@ export class LudusEvaluationSummary {
 
 	submit() {
 		if (!this.AllowSubmit) return;
-		this.localParent.model.learningExperience.anxiety
+		this.localParent.model.learningExperience.enjoyment = this.getEmotionForModel(this.appState.emotionsStrings.enjoyment)
+		this.localParent.model.learningExperience.hope = this.getEmotionForModel(this.appState.emotionsStrings.hope)
+		this.localParent.model.learningExperience.pride = this.getEmotionForModel(this.appState.emotionsStrings.pride)
+		this.localParent.model.learningExperience.anger = this.getEmotionForModel(this.appState.emotionsStrings.anger)
+		this.localParent.model.learningExperience.anxiety = this.getEmotionForModel(this.appState.emotionsStrings.anxiety)
+		this.localParent.model.learningExperience.shame = this.getEmotionForModel(this.appState.emotionsStrings.shame)
+		this.localParent.model.learningExperience.hopelessness = this.getEmotionForModel(this.appState.emotionsStrings.hopelessness)
+		this.localParent.model.learningExperience.boredom = this.getEmotionForModel(this.appState.emotionsStrings.boredom)
+
 		this.localParent.submitEvaluation();
+	}
+
+	getEmotionForModel(emotion: Emotion): LudusStrategy {
+		const modifier = this.selectedModifiers.find(x => x.emotion == emotion.text);
+		if (modifier == null) return null;
+		return {
+			text: modifier.text,
+			modifiers: [{
+				name: modifier.text,
+				amount: modifier.amount
+			}]
+		};
 	}
 
 	selectSegment(segment: Segment) {
@@ -113,7 +134,7 @@ export class LudusEvaluationSummary {
 				index = 0;
 			}
 			const modifier = this.currentSegment.emotion.modifiers[index];
-			if (this.selectedModifiers.some(x => x.modifier == modifier.modifier)) {
+			if (this.selectedModifiers.some(x => x.text == modifier.text)) {
 				modifier.active = true;
 			}
 			this.currentSegment.modifiers.push(modifier);

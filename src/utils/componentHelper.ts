@@ -209,9 +209,12 @@ export class ComponentHelper {
 
 	static CleanPrompt(promptString: string): string {
 		if (promptString == null) return;
+		// MODULE NAME
 		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName);
-		const wordsRegex = environment.wordIndicators.reduce(((prev, curr) => { return prev += `({${curr})+|`}), "");
-		return promptString.replace(new RegExp(`}+${wordsRegex}`, "g"), "");
+		// WORDS
+		const wordIndicators = environment.wordIndicators.concat(environment.inputIndicator);
+		const wordsRegex = wordIndicators.reduce(((prev, curr) => { return prev += `({${curr})+|`}), "");
+		return promptString.replace(new RegExp(`}+|${wordsRegex}`, "g"), "");
 	}
 
 	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[], modifier: number = 1): LudusComponent[] {

@@ -31,6 +31,7 @@ export class ApplicationState {
 	
 	ludusPrompts: Prompts;
 	emotions: Emotion[];
+	emotionsStrings: Emotions;
 	watchedLesson: Lesson;
 	reflectionSection: string;
 
@@ -307,6 +308,7 @@ export class ApplicationState {
 		return fetch("prompts/ludus-emotions.json")
 			.then(response => response.json())
 			.then((emotionsStrings: Emotions) => {
+				this.emotionsStrings = emotionsStrings;
 				this.emotions = [
 					emotionsStrings.enjoyment,
 					emotionsStrings.hope,
@@ -321,7 +323,7 @@ export class ApplicationState {
 					emotion.modifiers.forEach(x => {
 						x.emotion = emotion.text;
 						x.active = false;
-						x.modifier = ComponentHelper.CleanPrompt(x.modifier)
+						x.text = ComponentHelper.CleanPrompt(x.text)
 					});
 					emotion.modifiers = ComponentHelper.ShuffleArray(emotion.modifiers);
 				});
