@@ -1,8 +1,9 @@
 @use "./src/styles/variables"as *;
 
 .message-wrapper {
-
-	.message-icon {
-		
-	}
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: $Error;
+	margin: 10px 0;
 }
