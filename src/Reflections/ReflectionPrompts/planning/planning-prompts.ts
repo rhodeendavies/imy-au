@@ -1,6 +1,6 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { BasePlanningApiModel, LudusPlanningApiModel } from "models/reflectionsApiModels";
+import { BasePlanningApiModel, LudusPlanningApiModel, PaidiaPlanningApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -29,7 +29,7 @@ export class PlanningPrompts extends SectionTrackerParent {
 		this.weekTopic = "Styling tables and forms with CSS";
 	}
 	
-	async submitPlanning(model: BasePlanningApiModel | LudusPlanningApiModel, completed: boolean) {
+	async submitPlanning(model: BasePlanningApiModel | LudusPlanningApiModel | PaidiaPlanningApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Planning, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");

@@ -5,7 +5,7 @@
 	<require from="./paidia/paidia-planning"></require>
 
 	<div class="prompt-wrapper">
-		<div class="prompt-body-overview" if.bind="ShowOverview">
+		<!-- <div class="prompt-body-overview" if.bind="ShowOverview">
 			<p>
 				It's the start of a new week. This week's lectures are about <strong>${weekTopic}</strong>.
 			</p>
@@ -17,11 +17,11 @@
 			<button class="btn btn-primary mt-30" click.delegate="nextStep()">
 				Let's go
 			</button>
-		</div>
+		</div> -->
 
 		<base-planning class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-planning>
 		<ludus-planning class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-planning>
-		<paidia-planning class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-planning>
+		<paidia-planning class="prompt-body" if.bind="ShowPaidia" show.bind="true || !ShowOverview"></paidia-planning>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="4" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">
