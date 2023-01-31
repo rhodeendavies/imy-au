@@ -19,12 +19,23 @@
 			grid-template-rows: minmax(0, min-content);
 			grid-auto-rows: minmax(0, min-content);
 		}
+
+		.prompt-section-wide {
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+		}
 	}
 }
 
 .reflection-question {
 	font-family: $Poppins;
 	font-weight: $semi-bold;
+	color: $SeaGreen;
+	font-size: 20px;
+}
+
+.reflection-sub-question {
+	font-family: $Poppins;
 	color: $SeaGreen;
 	font-size: 20px;
 }

@@ -20,20 +20,22 @@
 		</div>
 	
 		<div class="reflection-body" if.bind="PlanningReflection != null">
-			<div class="reflection-text" if.bind="localParent.FullReflection">
-				<div class="sub-heading">Feelings about ${localParent.Course} right now</div>
-				${PlanningReflection.courseFeelings.rating}/5
+			<div class="reflection-divider" if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
+				<div class="reflection-text">
+					${PlanningReflection.courseFeelings.rating}/5
+				</div>
 			</div>
 
-			<div if.bind="localParent.FullReflection">
+			<div class="reflection-sub-heading" if.bind="localParent.FullReflection">
 				Reflecting on how to use your strengths this week
 			</div>
-			<div class="reflection-text">
+			<div class="reflection-divider reflection-text">
 				${PlanningReflection.strengthOptimization.response}
 			</div>
-			<div class="strats-summary">
-				<div class="sub-heading mb-20">Your chosen strategies for this week</div>
-				<div class="summary-with-icon" repeat.for="category of Strategies">
+			<div>
+				<div class="reflection-sub-heading">Your chosen strategies for this week</div>
+				<div class="summary-with-icon" repeat.for="category of strategies">
 					<div class="summary-icon">
 						<span class="icon">${category.icon}</span>
 					</div>

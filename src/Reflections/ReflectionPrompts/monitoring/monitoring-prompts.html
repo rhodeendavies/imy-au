@@ -15,9 +15,9 @@
 			</button>
 		</div>
 
-		<base-monitoring class="prompt-body" if.bind="ShowBaseSystem"></base-monitoring>
-		<ludus-monitoring class="prompt-body" if.bind="ShowLudus"></ludus-monitoring>
-		<paidia-monitoring class="prompt-body" if.bind="ShowPaidia"></paidia-monitoring>
+		<base-monitoring class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-monitoring>
+		<ludus-monitoring class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-monitoring>
+		<paidia-monitoring class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-monitoring>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="4" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

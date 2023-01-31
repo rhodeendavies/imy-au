@@ -17,3 +17,27 @@ export class PromptSection {
 	inputValue: string;
 	valid?: boolean;
 }
+
+export class Emotions {
+	enjoyment: Emotion;
+	hope: Emotion;
+	pride: Emotion;
+	anger: Emotion;
+	anxiety: Emotion;
+	shame: Emotion;
+	hopelessness: Emotion;
+	boredom: Emotion;
+}
+
+export class Emotion {
+	colour: string;
+	text: string;
+	modifiers: EmotionModifier[];
+}
+
+export class EmotionModifier {
+	text: string;
+	amount: number;
+	emotion: string;
+	active: boolean;
+}

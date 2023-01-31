@@ -1,8 +1,10 @@
 import { LudusComponent, Strategy } from "models/reflections";
 import { Colour, StrategyOption } from "./constants";
-import { LudusModifier, LudusStrategy } from "models/reflectionsApiModels";
-import { PromptSection } from "models/prompts";
-import { log } from "./log";
+import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, TopicRating } from "models/reflectionsApiModels";
+import { EmotionModifier, PromptSection } from "models/prompts";
+import environment from "environment";
+import { FeelingsSummary, HistoricCourseFeelings, QuestionTopic } from "models/reflectionsResponses";
+import { RadioOption } from "resources/radioButton/radio-button";
 
 export class ComponentHelper {
 	static ModuleName: string = "";
@@ -32,7 +34,7 @@ export class ComponentHelper {
 	}
 
 	static InputValid(value: string): boolean {
-		return !(/[%{}]/.test(value));
+		return !(/[{}]/.test(value));
 	}
 
 	static LoremIpsum(): string {
@@ -51,8 +53,8 @@ export class ComponentHelper {
 		return modifiers.map(x => `${x.name} +${x.amount}`).join(", ");
 	}
 
-	static GetRatingPercentages(rating: number) {
-		const result = Math.ceil(rating / 3 * 100);
+	static GetRatingPercentages(rating: number, max: number) {
+		const result = Math.ceil(rating / max * 100);
 		if (result > 100) return 100;
 		if (result < 0) return 0;
 		return result;
@@ -64,24 +66,20 @@ export class ComponentHelper {
 			icon: strategyOptions.icon,
 			options: [{
 				name: strategyOptions.One.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.One.modifiers),
 				value: strategyOptions.One.value
 			}, {
 				name: strategyOptions.Two.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Two.modifiers),
 				value: strategyOptions.Two.value
 			}, {
 				name: strategyOptions.Three.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Three.modifiers),
 				value: strategyOptions.Three.value
 			}, {
 				name: strategyOptions.Four.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Four.modifiers),
 				value: strategyOptions.Four.value
 			}],
 			strategy: strategy,
 			rating: rating,
-			ratingPercentage: this.GetRatingPercentages(rating)
+			ratingPercentage: this.GetRatingPercentages(rating, 5)
 		};
 	}
 
@@ -157,10 +155,10 @@ export class ComponentHelper {
 		let inputIndex = 0;
 		let endOfInputIndex = 0;
 
-		promptString = promptString.replace(/{%}/g, this.ModuleName);
+		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName)
 
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf("%{", index);
+			inputIndex = promptString.indexOf(`{${environment.inputIndicator}`, index);
 			endOfInputIndex = promptString.indexOf("}", index);
 			
 			let subString = "";
@@ -199,7 +197,7 @@ export class ComponentHelper {
 	static CreateResponseFromPrompt(prompt: PromptSection[]): string {
 		return prompt.reduce((prev, curr) => {
 			if (curr.input) {
-				prev += `%{${curr.inputValue}}`;
+				prev += `{${environment.inputIndicator}${curr.inputValue}}`;
 			} else {
 				prev += curr.prompt;
 			}
@@ -209,10 +207,15 @@ export class ComponentHelper {
 
 	static CleanPrompt(promptString: string): string {
 		if (promptString == null) return;
-		return promptString.replace(/[%{}]/g, "");
+		// MODULE NAME
+		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName);
+		// WORDS
+		const wordIndicators = environment.wordIndicators.concat(environment.inputIndicator);
+		const wordsRegex = wordIndicators.reduce(((prev, curr) => { return prev += `({${curr})+|`}), "");
+		return promptString.replace(new RegExp(`}+|${wordsRegex}`, "g"), "");
 	}
 
-	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[]): LudusComponent[] {
+	static GetComponentScores(components: LudusComponent[], strategyRatings: Strategy[], modifier: number = 1): LudusComponent[] {
 		if (components == null || strategyRatings == null) return [];
 		components.forEach(component => {
 			let rawValue = 0;
@@ -222,7 +225,10 @@ export class ComponentHelper {
 					rawValue += componentInStrategy.amount * strategy.rating / 100;
 				}
 			});
-			component.score = rawValue / component.total * 100;
+			if (component.originalScore == null || isNaN(component.originalScore)) {
+				component.originalScore = 0;
+			}
+			component.score = component.originalScore + (rawValue / component.total * 100 * modifier);
 		});
 		return components;
 	}
@@ -232,5 +238,120 @@ export class ComponentHelper {
 		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.score * curr.total)}, 0);
 		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
 		return Math.ceil(sumOfScores / totalWeights);
+	}
+
+	static GetOriginalFinalScore(components: LudusComponent[]): number {
+		if (components == null) return 0;
+		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.originalScore * curr.total)}, 0);
+		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
+		return Math.ceil(sumOfScores / totalWeights);
+	}
+
+	static FindLatestScore(components: LudusComponent[], previousComponentsScores: LudusPreviousComponents): LudusComponent[] {
+		const planningComponents = previousComponentsScores.planning?.calculated;
+		const monitoringComponents = previousComponentsScores.monitoring?.calculated;
+		const dailyComponents = previousComponentsScores.daily?.calculated;
+		let previousComponents: LudusCalculatedComponents[] = [];
+		if (dailyComponents != null && monitoringComponents != null) {
+			const dailyEarlier = dailyComponents.length > 0 && dailyComponents.every(x => {
+				const comp = monitoringComponents.find(y => y.name == x.name);
+				return comp == null || comp.score <= x.score;
+			});
+			if (dailyEarlier) {
+				previousComponents = dailyComponents;
+			} else {
+				previousComponents = monitoringComponents;
+			}
+		} else if (dailyComponents != null) {
+			previousComponents = dailyComponents;
+		} else if (monitoringComponents != null) {
+			previousComponents = monitoringComponents;
+		} else {
+			previousComponents = planningComponents;
+		}
+
+		return this.AssignComponentScores(components, previousComponents);
+	}
+
+	static AssignComponentScores(components: LudusComponent[], previousComponents: LudusCalculatedComponents[]): LudusComponent[] {
+		if (previousComponents == null) return components;
+		return components.map(x => {
+			const comp = previousComponents.find(y => y.name == x.name);
+			
+			if (comp != null) {
+				x.score = comp.score;
+			} else {
+				x.score = 0;
+			}
+
+			return {
+				name: x.name,
+				originalScore: x.score,
+				total: x.total,
+				score: 0
+			}
+		});
+	}
+
+	static ShuffleArray(array: any[]): any[] {
+		let currentIndex = array.length;
+		let randomIndex = 0;
+
+		while (currentIndex != 0) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
+
+			[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+		}
+
+		return array;
+	}
+
+	static GetFeelingsSummary(feelings: HistoricCourseFeelings): FeelingsSummary[] {
+		return feelings.rating.map((x, index) => {
+			return {
+				rating: x,
+				createdAt: feelings.createdAt[index]
+			}
+		});
+	}
+
+	static CreateTopics(topicRatings: TopicRating[], topicNames: QuestionTopic[], ratingOptions: RadioOption[]): QuestionTopic[] {
+		return topicNames.map(x => {
+			return {
+				id: x.id,
+				name: x.name,
+				rating: topicRatings?.find(y => y.id == x.id)?.rating,
+				options: ratingOptions.map(y => {
+					return {
+						name: "",
+						value: y.value,
+						selected: y.value == x.rating
+					}
+				})
+			}
+		});
+	}
+
+	static GetEmotionModifiers(learningExperience: LudusLearningExperience): EmotionModifier[] {
+		const emotions = [
+			learningExperience.enjoyment,
+			learningExperience.hope,
+			learningExperience.pride,
+			learningExperience.anger,
+			learningExperience.anxiety,
+			learningExperience.shame,
+			learningExperience.hopelessness,
+			learningExperience.boredom,
+		].filter(x => x != null);
+
+		return emotions.map(x => {
+			return {
+				text: x.text,
+				amount: x.modifiers[0].amount,
+				emotion: x.modifiers[0].name,
+				active: false
+			}
+		});
 	}
 }

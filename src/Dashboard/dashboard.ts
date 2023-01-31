@@ -1,11 +1,12 @@
 import { ApplicationState } from "applicationState";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { BaseReflection, LudusReflection } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { StudentRoutes } from "routes/studentRoutes";
 import { AuthenticationService } from "services/authenticationService";
-import { Routes } from "utils/constants";
+import { Events, Routes } from "utils/constants";
 import { Systems } from "utils/enums";
 import { log } from "utils/log";
 
@@ -16,13 +17,20 @@ export class Dashboard {
 	ludusReflection: LudusReflection;
 	lessonOpen: boolean = false;
 	busy: Busy = new Busy();
+	refreshSub: Subscription;
 
-	constructor(private router: Router, private appState: ApplicationState, private authService: AuthenticationService) { }
+	constructor(
+		private router: Router,
+		private appState: ApplicationState,
+		private authService: AuthenticationService,
+		private ea: EventAggregator
+		) { }
 
 	async attached() {
 		try {
 			this.busy.on();
-			const currentSection = await this.appState.getCurrentSection()
+			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => {this.attached()});
+			const currentSection = await this.appState.getCurrentSection();
 			switch (this.authService.System) {
 				case Systems.Base:
 					this.baseReflection = await this.appState.getSectionBaseReflection(currentSection);
@@ -36,6 +44,10 @@ export class Dashboard {
 		} finally {
 			this.busy.off();
 		}
+	}
+
+	detached() {
+		this.refreshSub.dispose();
 	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {

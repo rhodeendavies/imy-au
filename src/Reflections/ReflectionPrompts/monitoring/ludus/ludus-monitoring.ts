@@ -1,15 +1,16 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { LudusMonitoringApiModel, LudusStrategyPlanning } from "models/reflectionsApiModels";
+import { LudusMonitoringApiModel } from "models/reflectionsApiModels";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { MonitoringPrompts } from "../monitoring-prompts";
+import { LudusMonitoringQuestions } from "models/reflectionsResponses";
 
 @autoinject
 export class LudusMonitoring {
 	model: LudusMonitoringApiModel;
-	questions: LudusStrategyPlanning;
+	questions: LudusMonitoringQuestions;
 
 	constructor(
 		private localParent: MonitoringPrompts,
@@ -41,7 +42,7 @@ export class LudusMonitoring {
 		const reflection = await this.reflectionsApi.getLudusMonitoringReflection(id);
 		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
-		this.questions = reflection.questions.strategyPlanning;
+		this.questions = reflection.questions;
 	}
 
 	@computedFrom("authService.Course")

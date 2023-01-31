@@ -12,13 +12,13 @@ export class ApiWrapper {
 			config
 			.withBaseUrl(environment.api.baseUrl)
 			.withDefaults({
-        credentials: "include",
-        mode: "cors",
-        headers: {
-          ContentType: "application/json",
-          Accept: '*/*',
-          Host: "http://api.bevanholborn.co.za"
-        }
+				credentials: "include",
+				mode: "cors",
+				headers: {
+					ContentType: "application/json",
+					Accept: '*/*',
+					Host: environment.api.baseUrl
+				}
 			})
 			.rejectErrorResponses();
 		});

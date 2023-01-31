@@ -7,19 +7,18 @@ import { PromptSection } from "models/prompts";
 @autoinject
 export class LudusPlanningStrengths {
 
-	indexesShown: number[] = [];
-	currentIndex: number = 0;
+	currentIndex: number;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 
 	constructor(private localParent: LudusPlanning, private appState: ApplicationState) {}
 
 	async attached() {
+		this.currentIndex = -1;
 		await this.appState.initPrompts();
-		this.indexesShown = [];
 		this.numOfPrompts = this.appState.ludusPrompts.planningPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strengthOptimization.response)) {
-			this.getRandomPrompt();
+			this.getNextPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.strengthOptimization.response);
 			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
@@ -33,16 +32,17 @@ export class LudusPlanningStrengths {
 
 	getNewPrompt() {
 		++this.localParent.model.strengthOptimization.interactions;
-		this.getRandomPrompt();
+		this.getNextPrompt();
 	}
 
-	getRandomPrompt(tries: number = 0) {
-		this.currentIndex = ComponentHelper.RandomWholeNumber(0, this.numOfPrompts - 1);
-		if (this.indexesShown.includes(this.currentIndex) && tries < 10) {
-			this.getRandomPrompt(++tries);
+	getNextPrompt() {
+		let index = this.currentIndex;
+		++index;
+		if (index > (this.numOfPrompts - 1)) {
+			index = 0;
 		}
-		this.indexesShown.push(this.currentIndex);
-		this.promptSections = this.appState.ludusPrompts.planningPrompts[this.currentIndex];
+		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[index];
+		this.currentIndex = index;
 	}
 
 	get AllowNext() {

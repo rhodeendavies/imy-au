@@ -62,6 +62,7 @@ export class DailyPrompts extends SectionTrackerParent {
 	}
 
 	closeDaily() {
+		this.availability = null;
 		this.appState.closeDaily();
 	}
 
@@ -91,19 +92,22 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.activeSection == DailySections.LearningStrategies;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.DailyOpen")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Base;
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
+			this.appState.DailyOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.DailyOpen")
 	get ShowLudus(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Ludus;
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
+			this.appState.DailyOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.DailyOpen")
 	get ShowPaidia(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Paidia;
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
+			this.appState.DailyOpen;
 	}
 }
 

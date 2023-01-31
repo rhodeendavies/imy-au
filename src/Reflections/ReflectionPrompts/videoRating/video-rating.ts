@@ -36,18 +36,18 @@ export class VideoRating extends SectionTrackerParent {
 		this.appState.closeRating();
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "appState.RatingOpen")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base;
+		return this.authService.System == Systems.Base && this.appState.RatingOpen;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "appState.RatingOpen")
 	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus;
+		return this.authService.System == Systems.Ludus && this.appState.RatingOpen;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "appState.RatingOpen")
 	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia;
+		return this.authService.System == Systems.Paidia && this.appState.RatingOpen;
 	}
 }

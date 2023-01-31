@@ -18,19 +18,8 @@ export class RadioButton {
 		this.id = ComponentHelper.CreateId("radioButton");
 	}
 
-	attached() {
-		if (this.options == null) return;
-		const tempList = this.options.map(x => {
-			const newItem: RadioOption = {
-				name: x.name,
-				subText: x.subText,
-				value: x.value,
-				disabled: x.disabled,
-				selected: x.selected
-			}
-			return newItem;
-		});
-		this.options = tempList;
+	valueChanged(newValue) {
+		this.options?.forEach(x => x.selected = newValue == x.value);
 	}
 
 	optionSelected(option: RadioOption) {
@@ -56,10 +45,6 @@ export class RadioButton {
 	disableHover(option: RadioOption) {
 		option.hovered = false;
 		this.hovering = false;
-	}
-
-	valueChanged() {
-		this.options?.forEach(x => x.selected = x.value == this.value);
 	}
 
 	@computedFrom("type")

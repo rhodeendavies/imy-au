@@ -3,7 +3,7 @@ import { AuthenticationService } from "services/authenticationService";
 import { LudusDaily } from "../ludus-daily";
 
 @autoinject
-export class BaseFeelings {
+export class LudusFeelings {
 
 	constructor(private localParent: LudusDaily, private authService: AuthenticationService) {}
 

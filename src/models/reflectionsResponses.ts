@@ -1,4 +1,5 @@
-import { BaseDailyApiModel, BaseEvaluatingApiModel, BaseMonitoringApiModel, BasePlanningApiModel, BaseLessonApiModel, LudusDailyApiModel, LudusEvaluatingApiModel, LudusMonitoringApiModel, LudusPlanningApiModel, LudusStrategyPlanning, PaidiaDailyApiModel, PaidiaEvaluatingApiModel, PaidiaMonitoringApiModel, PaidiaPlanningApiModel, PaidiaStrategyPlanning, StrategyPlanning, LudusLessonApiModel } from "./reflectionsApiModels";
+import { RadioOption } from "resources/radioButton/radio-button";
+import { BaseDailyApiModel, BaseEvaluatingApiModel, BaseMonitoringApiModel, BasePlanningApiModel, BaseLessonApiModel, LudusDailyApiModel, LudusEvaluatingApiModel, LudusMonitoringApiModel, LudusPlanningApiModel, LudusStrategyPlanning, PaidiaDailyApiModel, PaidiaEvaluatingApiModel, PaidiaMonitoringApiModel, PaidiaPlanningApiModel, PaidiaStrategyPlanning, StrategyPlanning, LudusLessonApiModel, LudusCalculated, LudusPreviousComponents } from "./reflectionsApiModels";
 
 export class CreateReflectionResponse {
 	id: number;
@@ -38,9 +39,9 @@ export class BaseEvaluatingResponse extends ReflectionResponse {
 }
 
 export class BaseEvaluatingQuestions {
-	feelingsSummary: FeelingsSummary;
+	courseFeelings: HistoricCourseFeelings;
 	topicRatings: Topics;
-	lessonRatingSummary: RegularLessonRatings[];
+	lessonRatings: RegularLessonRatings[];
 	strategyPlanning: StrategyPlanning;
 }
 // =======================================================================
@@ -66,6 +67,7 @@ export class LudusMonitoringResponse extends ReflectionResponse {
 
 export class LudusMonitoringQuestions {
 	strategyPlanning: LudusStrategyPlanning;
+	previousComponents?: LudusPreviousComponents;
 }
 
 export class LudusEvaluatingResponse extends ReflectionResponse {
@@ -74,10 +76,11 @@ export class LudusEvaluatingResponse extends ReflectionResponse {
 }
 
 export class LudusEvaluatingQuestions {
-	feelingsSummary: FeelingsSummary;
+	courseFeelings: HistoricCourseFeelings;
 	topicRatings: Topics;
 	lessonRatings: RegularLessonRatings[];
 	strategyPlanning: LudusStrategyPlanning;
+	previousComponents?: LudusPreviousComponents;
 }
 // =======================================================================
 
@@ -117,15 +120,12 @@ export class QuestionTopic {
 	id: number;
 	name: string;
 	rating?: number;
-}
-
-export class FeelingsSummary {
-	courseFeelings: HistoricCourseFeelings[];
+	options?: RadioOption[];
 }
 
 export class HistoricCourseFeelings {
-	rating: number;
-	createdAt: Date;
+	rating: number[];
+	createdAt: Date[];
 }
 
 export class PaidiaFeelingsSummary {
@@ -155,4 +155,9 @@ export class PaidiaLessonRatings extends LessonRatings {
 	order: number;
 	emoji: string;
 	topics: string[];
+}
+
+export class FeelingsSummary {
+	rating: number;
+	createdAt: Date;
 }

@@ -22,7 +22,7 @@
 			<p class="reflection-question">Here's a summary of your feelings about ${localParent.Course} this week</p>
 
 			<div class="evaluation-feelings">
-				<rating-box repeat.for="feeling of localParent.questions.feelingsSummary.courseFeelings">
+				<rating-box repeat.for="feeling of feelingsSummary">
 					<div slot="header">${feeling.rating}/5</div>
 					<div slot="body">${feeling.createdAt | dateFormat}</div>
 				</rating-box>

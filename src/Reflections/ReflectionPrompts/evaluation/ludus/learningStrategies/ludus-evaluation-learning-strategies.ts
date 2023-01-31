@@ -4,8 +4,10 @@ import { ComponentHelper } from "utils/componentHelper";
 import { Colours, StrategyOptions } from "utils/constants";
 import { LudusEvaluation } from "../ludus-evaluation";
 import { Busy } from "resources/busy/busy";
-import { Chart } from "chart.js";
+import { ArcElement, Chart, DoughnutController, Legend, Tooltip } from "chart.js";
 import { log } from "utils/log";
+
+Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
 @autoinject
 export class LudusEvaluationLearningStrategies {
@@ -14,6 +16,7 @@ export class LudusEvaluationLearningStrategies {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 	busy: Busy = new Busy();
 	components: LudusComponent[];
 	chart: Chart;
@@ -38,9 +41,12 @@ export class LudusEvaluationLearningStrategies {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.localParent.model.strategyRating.reviewingRating);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.localParent.model.strategyRating.practicingRating);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.localParent.model.strategyRating.extendingRating);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
+		
+		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
 	}
 
-	submit() {
+	nextStep() {
 		if (!this.AllowSubmit) return;
 		this.localParent.model.strategyRating = {
 			learningRating: this.learningStrategy.rating,
@@ -48,16 +54,16 @@ export class LudusEvaluationLearningStrategies {
 			practicingRating: this.practicingStrategy.rating,
 			extendingRating: this.extendingStrategy.rating
 		}
-		this.localParent.submitEvaluation();
+		this.localParent.model.components.calculated = this.components;
+		this.localParent.nextStep();
 	}
 
 	updateComponents() {
-		this.components = ComponentHelper.GetComponentScores(this.components, this.Strategies);
+		this.components = ComponentHelper.GetComponentScores(this.components, this.strategies);
 		this.finalScore = ComponentHelper.GetFinalScore(this.components);
 	}
 
 	createData() {
-		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.Strategies));
 		this.updateComponents();
 		const data: number[] = this.components.map(x => x.total);
 		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
@@ -85,14 +91,6 @@ export class LudusEvaluationLearningStrategies {
 			data: this.createData(),
 			options: {
 				aspectRatio: 2,
-				layout: {
-					padding: {
-						top: 0,
-						bottom: 0,
-						right: 0,
-						left: 0
-					}
-				},
 				plugins: {
 					tooltip: {
 						callbacks: {
@@ -113,15 +111,6 @@ export class LudusEvaluationLearningStrategies {
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
 	get AllowSubmit(): boolean {
 		this.updateComponents();
-		return this.Strategies != null && this.Strategies.every(x => x?.rating != null);
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
+		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}
 }

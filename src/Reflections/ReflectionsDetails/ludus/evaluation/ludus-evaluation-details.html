@@ -19,26 +19,85 @@
 			week's videos to do so.
 		</div>
 
-		<div class="reflection-body" if.bind="EvaluatingReflection != null">
-			<div class="reflection-text">
-				<div if.bind="localParent.FullReflection">
-					<div class="sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
-					
-				</div>
-				${Experience}
-			</div>
-			<div class="strats-summary">
-				<div class="sub-heading mb-20">Rating your strategies this week</div>
-				<div class="summary-with-icon" repeat.for="category of Strategies">
-					<div class="summary-icon rating-icon saturate-${category.rating}">
-						<span>${category.rating}%</span>
+		<div class="reflection-body" show.bind="EvaluatingReflection != null">
+			<div show.bind="localParent.FullReflection">
+				<!-- feelings throughout week -->
+				<div>
+					<div class="reflection-sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
+					<div class="ludus-chart">
+						<canvas id="feelingsChartDetails"></canvas>
 					</div>
-					<div class="summary-text">
-						<div class="summary-heading">${category.title}</div>
-						<div class="summary-body">${category.strategy}</div>
-						<div class="summary-modifiers">
-							<div repeat.for="modifier of category.modifiers" class="summary-modifier">
-								${modifier.name} +${modifier.amount}
+				</div>
+				<!-- feelings affected -->
+				<div class="reflection-text reflection-divider">
+					${Experience}
+				</div>
+			</div>
+
+			<!-- summary on dash -->
+			<div class="reflection-divider" if.bind="!localParent.FullReflection">
+				<div class="ludus-summary-wrapper">
+					<div class="ludus-summary" repeat.for="modifier of modifiers">
+						<div>
+							<div>${modifier.text}</div>
+							<div class="ludus-summary-modifier">
+								${modifier.emotion} +${modifier.amount}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- topics -->
+			<div class="reflection-divider" if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Mastery of topics</div>
+				<div class="summary-with-icon ludus-topic-summary">
+					<template repeat.for="topic of evaluatingQuestions.topicRatings.topics">
+						<div class="summary-text">
+							<div class="summary-heading ludus-topic-heading">${topic.name}</div>
+						</div>
+	
+						<div class="ludus-lesson-rating">
+							<span class="icon ${(i + 1) == topic.rating ? '' : 'ludus-active-rating'}" repeat.for="i of 3">star</span>
+						</div>
+					</template>
+				</div>
+			</div>
+
+			<!-- strategy ratings -->
+			<div class="reflection-divider ludus-strategy-summary">
+				<div>
+					<div class="reflection-sub-heading">Rating your strategies this week</div>
+					<div class="summary-with-icon" repeat.for="category of strategies">
+						<div class="summary-icon rating-icon saturate-${category.rating}">
+							<span>${category.rating}%</span>
+						</div>
+						<div class="summary-text">
+							<div class="summary-heading">${category.title}</div>
+							<div class="summary-body" innerhtml.bind="category.strategy"></div>
+							<div class="summary-modifiers">
+								<div repeat.for="modifier of category.modifiers" class="summary-modifier">
+									${modifier.name} +${modifier.amount}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ludus-chart" show.bind="localParent.FullReflection">
+					<canvas id="componentsChartDetails"></canvas>
+				</div>
+			</div>
+
+			<!-- summary on reflections page -->
+			<div if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Your summary of the learning this week</div>
+				<div class="ludus-summary-wrapper">
+					<div class="ludus-summary" repeat.for="modifier of modifiers">
+						<div>
+							<div>${modifier.text}</div>
+							<div class="ludus-summary-modifier">
+								${modifier.emotion} +${modifier.amount}
 							</div>
 						</div>
 					</div>

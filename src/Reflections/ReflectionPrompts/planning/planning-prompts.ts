@@ -60,19 +60,19 @@ export class PlanningPrompts extends SectionTrackerParent {
 		return this.activeSection == PlanningSections.LearningStrategies;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.PlanningOpen")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Base;
+		return this.authService.System == Systems.Base && this.appState.PlanningOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.PlanningOpen")
 	get ShowLudus(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Ludus;
+		return this.authService.System == Systems.Ludus && this.appState.PlanningOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.PlanningOpen")
 	get ShowPaidia(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Paidia;
+		return this.authService.System == Systems.Paidia && this.appState.PlanningOpen;
 	}
 }
 

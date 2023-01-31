@@ -11,6 +11,7 @@ export class BasePlanningLearningStrategies {
 	reviewingStrategy: Strategy;
 	practicingStrategy: Strategy;
 	extendingStrategy: Strategy;
+	strategies: Strategy[];
 
 	constructor(private localParent: BasePlanning) { }
 
@@ -23,6 +24,7 @@ export class BasePlanningLearningStrategies {
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
 	submit() {
@@ -37,15 +39,6 @@ export class BasePlanningLearningStrategies {
 	}
 
 	get AllowSubmit(): boolean {
-		return this.Strategies != null && this.Strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
-	}
-
-	get Strategies(): Strategy[] {
-		return [
-			this.learningStrategy,
-			this.reviewingStrategy,
-			this.practicingStrategy,
-			this.extendingStrategy
-		];
+		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
 	}
 }

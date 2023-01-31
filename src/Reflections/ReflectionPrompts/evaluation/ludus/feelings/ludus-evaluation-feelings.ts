@@ -3,27 +3,34 @@ import { LudusEvaluation } from "../ludus-evaluation";
 import { ApplicationState } from "applicationState";
 import { PromptSection } from "models/prompts";
 import { ComponentHelper } from "utils/componentHelper";
+import { CategoryScale, Chart, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
+import { Colours } from "utils/constants";
+import { DateHelper } from "utils/dateHelper";
+
+Chart.register(LineController, Tooltip, CategoryScale, LinearScale, PointElement, LineElement);
 
 @autoinject
 export class LudusEvaluationFeelings {
 
-	indexesShown: number[] = [];
-	currentIndex: number = 0;
+	currentIndex: number;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
-	
-	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {}
+	chart: Chart;
+
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
 
 	async attached() {
+		this.currentIndex = -1;
 		await this.appState.initPrompts();
-		this.indexesShown = [];
+		await this.appState.initEmotions();
 		this.numOfPrompts = this.appState.ludusPrompts.evaluatingPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.feelingsLearningEffect.response)) {
-			this.getRandomPrompt();
+			this.getNextPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
 			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
 		}
+		this.createChart();
 	}
 
 	nextStep() {
@@ -33,16 +40,64 @@ export class LudusEvaluationFeelings {
 
 	getNewPrompt() {
 		++this.localParent.model.feelingsLearningEffect.interactions;
-		this.getRandomPrompt();
+		this.getNextPrompt();
 	}
 
-	getRandomPrompt(tries: number = 0) {
-		this.currentIndex = ComponentHelper.RandomWholeNumber(0, this.numOfPrompts - 1);
-		if (this.indexesShown.includes(this.currentIndex) && tries < 10) {
-			this.getRandomPrompt(++tries);
+	getNextPrompt() {
+		let index = this.currentIndex;
+		++index;
+		if (index > (this.numOfPrompts - 1)) {
+			index = 0;
 		}
-		this.indexesShown.push(this.currentIndex);
-		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[this.currentIndex];
+		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[index];
+		this.currentIndex = index;
+	}
+
+	createData() {
+		return {
+			labels: this.localParent.questions.courseFeelings.createdAt.map(x =>
+				DateHelper.FormatDate(x, "d LLL")
+			),
+			datasets: [{
+				label: "",
+				data: this.localParent.questions.courseFeelings.rating,
+				backgroundColor: Colours.OrangeHex,
+				borderColor: Colours.OrangeHex
+			}]
+		}
+	}
+
+	createChart() {
+		this.chart = new Chart(document.getElementById("feelingsChart") as HTMLCanvasElement,
+			{
+				type: "line",
+				data: this.createData(),
+				options: {
+					aspectRatio: 3,
+					plugins: {
+						tooltip: {
+							callbacks: {
+								label: (context) => {
+									return `${context.parsed.y} %`
+								}
+							}
+						},
+						legend: {
+							display: false
+						}
+					},
+					scales: {
+						y: {
+							beginAtZero: true,
+							max: 100,
+							ticks: {
+								stepSize: 20,
+								padding: 20
+							}
+						}
+					}
+				}
+			});
 	}
 
 	get AllowNext() {

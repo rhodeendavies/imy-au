@@ -18,18 +18,18 @@ export class PublicReflections {
 		return this.localParent.sectionSelected.id;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "SectionId")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base;
+		return this.SectionId != null && this.authService.System == Systems.Base;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "SectionId")
 	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus;
+		return this.SectionId != null && this.authService.System == Systems.Ludus;
 	}
 
-	@computedFrom("authService.System")
+	@computedFrom("authService.System", "SectionId")
 	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia;
+		return this.SectionId != null && this.authService.System == Systems.Paidia;
 	}
 }

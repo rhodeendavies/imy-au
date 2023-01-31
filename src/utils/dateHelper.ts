@@ -24,4 +24,12 @@ export class DateHelper {
 	static DateTimeFromString(date: string, format: string = this.Format): DateTime {
 		return DateTime.fromFormat(date, format);
 	}
+
+	static DateTimeFromDate(date: Date): DateTime {
+		return DateTime.fromJSDate(date);
+	}
+
+	static FormatDate(date: Date, format: string = this.Format): string {
+		return this.DateTimeFromDate(date).toFormat(format);
+	}
 }
