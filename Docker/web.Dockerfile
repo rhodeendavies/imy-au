@@ -6,7 +6,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     nano
 
 RUN npm install -g aurelia-cli
-RUN npm install -g pm2@latest
 
 # Setup entrypoint
 COPY Docker/entrypoint.web.sh /bin/docker-entrypoint.web.sh
