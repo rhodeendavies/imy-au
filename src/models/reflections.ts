@@ -27,6 +27,7 @@ export class Strategy extends LessonRatings {
 	options?: RadioOption[];
 	modifiers?: LudusModifier[];
 	valid?: boolean;
+	index?: number;
 
 	constructor() {
 		super();
@@ -54,4 +55,31 @@ export class LudusComponent {
 	total?: number;
 	score: number;
 	originalScore?: number;
+}
+
+export class PaidiaCanvasModel {
+	learningImages: number[];
+	learningStyles: number[];
+	learningImage: number;
+	reviewingImages: number[];
+	reviewingStyles: number[];
+	reviewingImage: number;
+	practicingImages: number[];
+	practicingStyles: number[];
+	practicingImage: number;
+	extendingImages: number[];
+	extendingStyles: number[];
+	extendingImage: number;
+	canvas: string;
+
+	constructor() {
+		this.learningImages = [];
+		this.learningStyles = [];
+		this.reviewingImages = [];
+		this.reviewingStyles = [];
+		this.practicingImages = [];
+		this.practicingStyles = [];
+		this.extendingImages = [];
+		this.extendingStyles = [];
+	}
 }
