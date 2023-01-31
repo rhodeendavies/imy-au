@@ -83,6 +83,29 @@ export class ComponentHelper {
 		};
 	}
 
+	static CreateStrategyFromPaidia(strategy: string, strategyOptions: StrategyOption, rating: number = null): Strategy {
+		return {
+			title: strategyOptions.title,
+			icon: strategyOptions.icon,
+			options: [{
+				name: strategyOptions.One.value,
+				value: strategyOptions.One.index
+			}, {
+				name: strategyOptions.Two.value,
+				value: strategyOptions.Two.index
+			}, {
+				name: strategyOptions.Three.value,
+				value: strategyOptions.Three.index
+			}, {
+				name: strategyOptions.Four.value,
+				value: strategyOptions.Four.index
+			}],
+			strategy: strategy,
+			rating: rating,
+			ratingPercentage: this.GetRatingPercentages(rating, 5)
+		};
+	}
+
 	static CreateStrategyFromLudus(strategy: LudusStrategy, strategyOptions: StrategyOption, rating: number = null): Strategy {
 		return {
 			title: strategyOptions.title,

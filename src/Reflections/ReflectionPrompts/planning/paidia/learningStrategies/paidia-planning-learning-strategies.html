@@ -1,4 +1,6 @@
 <template>
+	<require from="resources/paidiaCanvas/paidia-canvas"></require>
+
 	<p class="reflection-question mb-30">
 		Plan your learning approach for the week by selecting one strategy from each category. Think about how the
 		strategy will fit into your schedule this week.
@@ -12,12 +14,13 @@
 					<div class="strategy-sub-text">Choose 1</div>
 				</div>
 	
-				<radio-button options.bind="strategy.options" name.bind="strategy.strategy">
+				<radio-button options.bind="strategy.options" name.bind="strategy.strategy"
+					on-change.call="updateStrategy(strategy)" value.bind="strategy.index">
 				</radio-button>
 			</div>
 		</div>
 		<div class="strategy-visual">
-			
+			<paidia-canvas view-model.ref="canvas"></paidia-canvas>
 		</div>
 	</div>
 

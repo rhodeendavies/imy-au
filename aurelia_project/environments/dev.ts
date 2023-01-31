@@ -13,6 +13,6 @@ export default {
 	moduleIndicator: "X",
 	wordIndicators: ["A", "B"],
 	numOfBackgroundImages: 14,
-	numOfCutOutImages: 100,
+	numOfCutOutImages: 99,
 	numOfStyles: 3
 };
