@@ -6,6 +6,7 @@ build:
   image: node:14
   stage: build
   script:
+    - rm package-lock.json
     - echo "Installing Aurelia"
     - npm install -g aurelia-cli
     - echo "Performing nom install"
