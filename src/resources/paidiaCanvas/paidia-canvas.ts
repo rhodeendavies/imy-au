@@ -1,5 +1,5 @@
 import { autoinject } from "aurelia-framework";
-import fabric from "fabric/dist/fabric";
+import fabric from "fabric";
 import { ComponentHelper } from "utils/componentHelper";
 import { log } from "utils/log";
 
@@ -148,7 +148,7 @@ export class PaidiaCanvas {
 	}
 
 	saveCanvas(): string {
-		return this.canvas.toJSON();
+		return JSON.stringify(this.canvas.toJSON());
 	}
 }
 
