@@ -3,9 +3,8 @@
 	<require from="./strengths/paidia-planning-strengths"></require>
 	<require from="./learningStrategies/paidia-planning-learning-strategies"></require>
 
-	<!-- <paidia-planning-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-planning-feelings>
-	<paidia-planning-strengths class="prompt-section" if.bind="localParent.ShowStrengths"></paidia-planning-strengths> -->
-	<paidia-planning-learning-strategies class="prompt-section" 
-		if.bind="reflectionLoaded && (true || localParent.ShowLearningStrategies)">
+	<paidia-planning-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-planning-feelings>
+	<paidia-planning-strengths class="prompt-section" if.bind="localParent.ShowStrengths"></paidia-planning-strengths>
+	<paidia-planning-learning-strategies class="prompt-section" if.bind="reflectionLoaded && localParent.ShowLearningStrategies">
 	</paidia-planning-learning-strategies>
 </template>

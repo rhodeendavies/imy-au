@@ -381,4 +381,12 @@ export class ComponentHelper {
 			}
 		});
 	}
+
+	static EmojiFromString(hex: string) {
+		return String.fromCodePoint(+(`0x${hex}`));
+	}
+
+	static EmojiToString(emoji): string {
+		return emoji.codePointAt(0).toString(16);
+	}
 }
