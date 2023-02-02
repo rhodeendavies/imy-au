@@ -89,16 +89,20 @@ export class ComponentHelper {
 			icon: strategyOptions.icon,
 			options: [{
 				name: strategyOptions.One.value,
-				value: strategyOptions.One.index
+				value: strategyOptions.One.index,
+				selected: strategy == strategyOptions.One.value
 			}, {
 				name: strategyOptions.Two.value,
-				value: strategyOptions.Two.index
+				value: strategyOptions.Two.index,
+				selected: strategy == strategyOptions.Two.value
 			}, {
 				name: strategyOptions.Three.value,
-				value: strategyOptions.Three.index
+				value: strategyOptions.Three.index,
+				selected: strategy == strategyOptions.Three.value
 			}, {
 				name: strategyOptions.Four.value,
-				value: strategyOptions.Four.index
+				value: strategyOptions.Four.index,
+				selected: strategy == strategyOptions.Four.value
 			}],
 			strategy: strategy,
 			rating: rating,
