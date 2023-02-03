@@ -26,7 +26,6 @@ export class LudusEvaluationSummary {
 		this.currentRotation = 0;
 		this.selectedModifiers = [];
 
-		await this.appState.initEmotions();
 		this.numOfSegments = this.appState.emotions.length;
 		this.segments = [];
 		let degree = 0 - 180 / this.numOfSegments;

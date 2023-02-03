@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
 import { BasePlanning } from "../base-planning";
 import { Strategy } from "models/reflections";
-import { StrategyOptions } from "utils/constants";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class BasePlanningLearningStrategies {
@@ -13,17 +13,29 @@ export class BasePlanningLearningStrategies {
 	extendingStrategy: Strategy;
 	strategies: Strategy[];
 
-	constructor(private localParent: BasePlanning) { }
+	constructor(private localParent: BasePlanning, private appState: ApplicationState) { }
 
 	attached() {
 		this.initData();
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.model.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 

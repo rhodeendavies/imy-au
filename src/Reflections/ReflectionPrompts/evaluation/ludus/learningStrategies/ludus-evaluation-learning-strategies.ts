@@ -1,11 +1,12 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { LudusComponent, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { Colours, StrategyOptions } from "utils/constants";
 import { LudusEvaluation } from "../ludus-evaluation";
 import { Busy } from "resources/busy/busy";
 import { ArcElement, Chart, DoughnutController, Legend, Tooltip } from "chart.js";
 import { log } from "utils/log";
+import { ApplicationState } from "applicationState";
+import { Colours } from "utils/constants";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -22,7 +23,7 @@ export class LudusEvaluationLearningStrategies {
 	chart: Chart;
 	finalScore: number;
 
-	constructor(private localParent: LudusEvaluation) { }
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
 
 	attached() {
 		try {
@@ -37,12 +38,28 @@ export class LudusEvaluationLearningStrategies {
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies, this.localParent.model.strategyRating.learningRating);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.localParent.model.strategyRating.reviewingRating);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.localParent.model.strategyRating.practicingRating);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.questions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.localParent.model.strategyRating.extendingRating);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.questions.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies,
+			this.localParent.model.strategyRating.learningRating
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.questions.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies,
+			this.localParent.model.strategyRating.reviewingRating
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.questions.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies,
+			this.localParent.model.strategyRating.practicingRating
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.questions.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies,
+			this.localParent.model.strategyRating.extendingRating
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
-		
+
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
 	}
 
@@ -66,15 +83,15 @@ export class LudusEvaluationLearningStrategies {
 	createData() {
 		this.updateComponents();
 		const data: number[] = this.components.map(x => x.total);
-		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
+		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index - 0.1) / this.components.length)))
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
-		
+
 		return {
 			labels: this.components.map(x => x.name),
 			datasets: [{
 				label: "",
 				data: data.map(x => {
-					return x/ total * 100;
+					return x / total * 100;
 				}),
 				backgroundColor: colours,
 				borderColor: colours
@@ -84,28 +101,28 @@ export class LudusEvaluationLearningStrategies {
 
 	createChart() {
 		if (this.learningStrategy == null || this.reviewingStrategy == null || this.practicingStrategy == null || this.extendingStrategy == null) return;
-		
+
 		this.chart = new Chart(document.getElementById("componentsChart") as HTMLCanvasElement,
-		{
-			type: "doughnut",
-			data: this.createData(),
-			options: {
-				aspectRatio: 2,
-				plugins: {
-					tooltip: {
-						callbacks: {
-							label: (context) => {
-								return `${context.parsed} %`
+			{
+				type: "doughnut",
+				data: this.createData(),
+				options: {
+					aspectRatio: 2,
+					plugins: {
+						tooltip: {
+							callbacks: {
+								label: (context) => {
+									return `${context.parsed} %`
+								}
 							}
+						},
+						legend: {
+							display: true,
+							position: "right"
 						}
-					},
-					legend: {
-						display: true,
-						position: "right"
 					}
 				}
-			}
-		});
+			});
 	}
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")

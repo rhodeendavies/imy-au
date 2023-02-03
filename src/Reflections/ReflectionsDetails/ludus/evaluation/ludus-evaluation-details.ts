@@ -3,11 +3,12 @@ import { LudusComponent, Strategy } from "models/reflections";
 import { LudusEvaluatingApiModel } from "models/reflectionsApiModels";
 import { LudusEvaluatingQuestions } from "models/reflectionsResponses";
 import { ComponentHelper } from "utils/componentHelper";
-import { Colours, StrategyOptions } from "utils/constants";
 import { Ludus } from "../ludus";
 import { DateHelper } from "utils/dateHelper";
 import { ArcElement, CategoryScale, Chart, DoughnutController, Legend, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
 import { EmotionModifier } from "models/prompts";
+import { ApplicationState } from "applicationState";
+import { Colours } from "utils/constants";
 
 Chart.register(LineController, Tooltip, CategoryScale, LinearScale, PointElement, LineElement, DoughnutController, ArcElement, Legend);
 
@@ -24,7 +25,7 @@ export class LudusEvaluationDetails {
 	strategyChart: Chart;
 	modifiers: EmotionModifier[];
 
-	constructor(private localParent: Ludus) { }
+	constructor(private localParent: Ludus, private appState: ApplicationState) { }
 
 	attached() {
 		this.evaluatingReflection = null;
@@ -33,7 +34,7 @@ export class LudusEvaluationDetails {
 	}
 
 	initData() {
-		if (this.localParent.reflection.evaluatingReflection == null || 
+		if (this.localParent.reflection.evaluatingReflection == null ||
 			this.localParent.reflection.evaluatingReflection.answers == null ||
 			this.localParent.reflection.evaluatingReflection.questions == null) return;
 
@@ -53,12 +54,28 @@ export class LudusEvaluationDetails {
 			this.evaluatingReflection.strategyRating.extendingRating = 0;
 		}
 
-		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.evaluatingQuestions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.evaluatingQuestions.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies,
+			this.evaluatingReflection.strategyRating.learningRating
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.evaluatingQuestions.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies,
+			this.evaluatingReflection.strategyRating.reviewingRating
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.evaluatingQuestions.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies,
+			this.evaluatingReflection.strategyRating.practicingRating
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.evaluatingQuestions.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies,
+			this.evaluatingReflection.strategyRating.extendingRating
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
-		
+
 		this.modifiers = ComponentHelper.GetEmotionModifiers(this.evaluatingReflection.learningExperience);
 
 		this.createFeelingsChart();
@@ -80,7 +97,7 @@ export class LudusEvaluationDetails {
 	}
 
 	createFeelingsChart() {
-		const ctx =  document.getElementById("feelingsChartDetails") as HTMLCanvasElement;
+		const ctx = document.getElementById("feelingsChartDetails") as HTMLCanvasElement;
 		if (ctx == null) return;
 		this.feelingChart = new Chart(ctx,
 			{
@@ -116,15 +133,15 @@ export class LudusEvaluationDetails {
 
 	createStrategyData() {
 		const data: number[] = this.localParent.components.map(x => x.total);
-		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.localParent.components.length)))
+		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index - 0.1) / this.localParent.components.length)))
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
-		
+
 		return {
 			labels: this.localParent.components.map(x => x.name),
 			datasets: [{
 				label: "",
 				data: data.map(x => {
-					return x/ total * 100;
+					return x / total * 100;
 				}),
 				backgroundColor: colours,
 				borderColor: colours
@@ -133,30 +150,30 @@ export class LudusEvaluationDetails {
 	}
 
 	createStrategyChart() {
-		const ctx =  document.getElementById("componentsChartDetails") as HTMLCanvasElement;
+		const ctx = document.getElementById("componentsChartDetails") as HTMLCanvasElement;
 		if (ctx == null || this.learningStrategy == null || this.reviewingStrategy == null || this.practicingStrategy == null || this.extendingStrategy == null) return;
-		
+
 		this.strategyChart = new Chart(ctx,
-		{
-			type: "doughnut",
-			data: this.createStrategyData(),
-			options: {
-				aspectRatio: 2,
-				plugins: {
-					tooltip: {
-						callbacks: {
-							label: (context) => {
-								return `${context.parsed} %`
+			{
+				type: "doughnut",
+				data: this.createStrategyData(),
+				options: {
+					aspectRatio: 2,
+					plugins: {
+						tooltip: {
+							callbacks: {
+								label: (context) => {
+									return `${context.parsed} %`
+								}
 							}
+						},
+						legend: {
+							display: true,
+							position: "right"
 						}
-					},
-					legend: {
-						display: true,
-						position: "right"
 					}
 				}
-			}
-		});
+			});
 	}
 
 	@computedFrom("localParent.reflection.id")

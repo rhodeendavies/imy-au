@@ -2,7 +2,7 @@ import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { ReflectionsDetails } from "../reflections-details";
 import { LudusComponent, LudusReflection, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class Ludus {
@@ -11,17 +11,29 @@ export class Ludus {
 	components: LudusComponent[];
 	finalScore: number;
 
-	constructor(private localParent: ReflectionsDetails) {}
+	constructor(private localParent: ReflectionsDetails, private appState: ApplicationState) { }
 
 	attached() {
 		if (this.reflection == null || this.reflection.planningReflection == null) return;
 
 		const strategyPlanning = this.reflection.planningReflection.answers?.strategyPlanning;
 		const strategies: Strategy[] = [
-			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies),
-			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies),
-			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies),
-			ComponentHelper.CreateStrategyFromLudus(strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies),
+			ComponentHelper.CreateStrategyFromLudus(
+				strategyPlanning.learningStrategy,
+				this.appState.strategyOptions.LearningStrategies
+			),
+			ComponentHelper.CreateStrategyFromLudus(
+				strategyPlanning.practicingStrategy,
+				this.appState.strategyOptions.PracticingStrategies
+			),
+			ComponentHelper.CreateStrategyFromLudus(
+				strategyPlanning.reviewingStrategy,
+				this.appState.strategyOptions.ReviewingStrategies
+			),
+			ComponentHelper.CreateStrategyFromLudus(
+				strategyPlanning.extendingStrategy,
+				this.appState.strategyOptions.ExtendingStrategies
+			),
 		];
 
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(strategies));

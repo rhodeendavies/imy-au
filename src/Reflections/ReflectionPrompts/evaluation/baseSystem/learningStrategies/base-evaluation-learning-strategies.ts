@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { BaseEvaluation } from "../base-evaluation";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class BaseEvaluationLearningStrategies {
@@ -13,17 +13,29 @@ export class BaseEvaluationLearningStrategies {
 	extendingStrategy: Strategy;
 	strategies: Strategy[];
 
-	constructor(private localParent: BaseEvaluation) { }
+	constructor(private localParent: BaseEvaluation, private appState: ApplicationState) { }
 
 	attached() {
 		this.initData();
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 

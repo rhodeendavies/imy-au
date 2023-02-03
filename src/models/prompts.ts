@@ -1,3 +1,6 @@
+import { StrategyCategories, StrategyCategoryIcons } from "utils/enums";
+import { LudusModifier } from "./reflectionsApiModels";
+
 export class BasicPrompts {
 	planningPrompts: string[];
 	monitoringPrompts: string[];
@@ -40,4 +43,38 @@ export class EmotionModifier {
 	amount: number;
 	emotion: string;
 	active: boolean;
+}
+
+export class Colour {
+	red: number;
+	green: number;
+	blue: number;
+}
+
+export class StrategyWrapper {
+	name: string;
+	index: number;
+	description: string;
+	modifiers: LudusModifier[];
+}
+
+export class BasicStrategyOptions {
+	learning: StrategyOption;
+	extending: StrategyOption;
+	reviewing: StrategyOption;
+	practicing: StrategyOption;
+}
+
+export class StrategyOption {
+	title: StrategyCategories;
+	icon: StrategyCategoryIcons;
+	description: string;
+	strategies: StrategyWrapper[];
+}
+
+export class StrategyOptions {
+	LearningStrategies: StrategyOption;
+	ReviewingStrategies: StrategyOption;
+	PracticingStrategies: StrategyOption;
+	ExtendingStrategies: StrategyOption;
 }

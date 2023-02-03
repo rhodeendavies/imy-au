@@ -1,12 +1,11 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
 import { PaidiaCanvasModel, Strategy } from "models/reflections";
 import { PaidiaPlanning } from "../paidia-planning";
 import environment from "environment";
 import { StrategyCategories } from "utils/enums";
-import { log } from "utils/log";
 import { PaidiaCanvas, LudusImages } from "resources/paidiaCanvas/paidia-canvas";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class PaidiaPlanningLearningStrategies {
@@ -19,17 +18,29 @@ export class PaidiaPlanningLearningStrategies {
 	canvas: PaidiaCanvas;
 	canvasModel: PaidiaCanvasModel;
 
-	constructor(private localParent: PaidiaPlanning) { }
+	constructor(private localParent: PaidiaPlanning, private appState: ApplicationState) { }
 
 	attached() {
 		this.initData();
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromPaidia(this.localParent.model.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromPaidia(this.localParent.model.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromPaidia(this.localParent.model.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromPaidia(this.localParent.model.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromPaidia(
+			this.localParent.model.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromPaidia(
+			this.localParent.model.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromPaidia(
+			this.localParent.model.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromPaidia(
+			this.localParent.model.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strategyPlanning.canvas)) {

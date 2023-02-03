@@ -1,7 +1,6 @@
 import { LudusComponent, Strategy } from "models/reflections";
-import { Colour, StrategyOption } from "./constants";
 import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, TopicRating } from "models/reflectionsApiModels";
-import { EmotionModifier, PromptSection } from "models/prompts";
+import { Colour, EmotionModifier, PromptSection, StrategyOption } from "models/prompts";
 import environment from "environment";
 import { FeelingsSummary, HistoricCourseFeelings, QuestionTopic } from "models/reflectionsResponses";
 import { RadioOption } from "resources/radioButton/radio-button";
@@ -60,77 +59,52 @@ export class ComponentHelper {
 		return result;
 	}
 
-	static CreateStrategyFromString(strategy: string, strategyOptions: StrategyOption, rating: number = null): Strategy {
+	static CreateStrategyFromString(strategy: string, strategyOption: StrategyOption, rating: number = null): Strategy {
 		return {
-			title: strategyOptions.title,
-			icon: strategyOptions.icon,
-			options: [{
-				name: strategyOptions.One.value,
-				value: strategyOptions.One.value
-			}, {
-				name: strategyOptions.Two.value,
-				value: strategyOptions.Two.value
-			}, {
-				name: strategyOptions.Three.value,
-				value: strategyOptions.Three.value
-			}, {
-				name: strategyOptions.Four.value,
-				value: strategyOptions.Four.value
-			}],
+			title: strategyOption.title,
+			icon: strategyOption.icon,
+			options: strategyOption.strategies.map(x => {
+				return {
+					name: x.name,
+					value: x.name,
+					selected: strategy == x.name
+				}
+			}),
 			strategy: strategy,
 			rating: rating,
 			ratingPercentage: this.GetRatingPercentages(rating, 5)
 		};
 	}
 
-	static CreateStrategyFromPaidia(strategy: string, strategyOptions: StrategyOption, rating: number = null): Strategy {
+	static CreateStrategyFromPaidia(strategy: string, strategyOption: StrategyOption, rating: number = null): Strategy {
 		return {
-			title: strategyOptions.title,
-			icon: strategyOptions.icon,
-			options: [{
-				name: strategyOptions.One.value,
-				value: strategyOptions.One.index,
-				selected: strategy == strategyOptions.One.value
-			}, {
-				name: strategyOptions.Two.value,
-				value: strategyOptions.Two.index,
-				selected: strategy == strategyOptions.Two.value
-			}, {
-				name: strategyOptions.Three.value,
-				value: strategyOptions.Three.index,
-				selected: strategy == strategyOptions.Three.value
-			}, {
-				name: strategyOptions.Four.value,
-				value: strategyOptions.Four.index,
-				selected: strategy == strategyOptions.Four.value
-			}],
+			title: strategyOption.title,
+			icon: strategyOption.icon,
+			options: strategyOption.strategies.map(x => {
+				return {
+					name: x.name,
+					value: x.index,
+					selected: strategy == x.name
+				}
+			}),
 			strategy: strategy,
 			rating: rating,
 			ratingPercentage: this.GetRatingPercentages(rating, 5)
 		};
 	}
 
-	static CreateStrategyFromLudus(strategy: LudusStrategy, strategyOptions: StrategyOption, rating: number = null): Strategy {
+	static CreateStrategyFromLudus(strategy: LudusStrategy, strategyOption: StrategyOption, rating: number = null): Strategy {
 		return {
-			title: strategyOptions.title,
-			icon: strategyOptions.icon,
-			options: [{
-				name: strategyOptions.One.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.One.modifiers),
-				value: strategyOptions.One.modifiers
-			}, {
-				name: strategyOptions.Two.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Two.modifiers),
-				value: strategyOptions.Two.modifiers
-			}, {
-				name: strategyOptions.Three.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Three.modifiers),
-				value: strategyOptions.Three.modifiers
-			}, {
-				name: strategyOptions.Four.value,
-				subText: ComponentHelper.CreateModifiersString(strategyOptions.Four.modifiers),
-				value: strategyOptions.Four.modifiers
-			}],
+			title: strategyOption.title,
+			icon: strategyOption.icon,
+			options: strategyOption.strategies.map(x => {
+				return {
+					name: x.name,
+					subText: ComponentHelper.CreateModifiersString(x.modifiers),
+					value: x.modifiers,
+					selected: strategy?.text == x.name
+				}
+			}),
 			strategy: strategy?.text,
 			modifiers: strategy?.modifiers,
 			rating: rating

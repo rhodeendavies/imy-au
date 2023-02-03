@@ -1,7 +1,7 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
-import { BasicPrompts, Emotion, Emotions, Prompts } from "models/prompts";
+import { BasicPrompts, BasicStrategyOptions, Emotion, Emotions, Prompts, StrategyOptions } from "models/prompts";
 import { BaseReflection, LudusReflection } from "models/reflections";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
@@ -13,8 +13,7 @@ import { ReflectionsService } from "services/reflectionsService";
 import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
-import { ReflectionTypes } from "utils/enums";
-import { log } from "utils/log";
+import { ReflectionTypes, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
 
 @autoinject
 export class ApplicationState {
@@ -28,7 +27,8 @@ export class ApplicationState {
 	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
 	private loginSub: Subscription;
-	
+
+	strategyOptions: StrategyOptions;
 	ludusPrompts: Prompts;
 	emotions: Emotion[];
 	emotionsStrings: Emotions;
@@ -43,6 +43,12 @@ export class ApplicationState {
 		private reflectionsApi: ReflectionsService
 	) {
 		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
+	}
+
+	init() {
+		this.initEmotions();
+		this.initPrompts();
+		this.initStrategies();
 	}
 
 	setToast(_toast: Toast) {
@@ -290,6 +296,44 @@ export class ApplicationState {
 		this.sections = null;
 		this.currentSection = null;
 		this.ea.publish(Events.RefreshApp);
+	}
+
+	async initStrategies(): Promise<void | Response> {
+		return fetch("prompts/strategies.json")
+			.then(response => response.json())
+			.then((output: BasicStrategyOptions) => {
+				output.learning.strategies.forEach((x, i) => x.index = i);
+				output.reviewing.strategies.forEach((x, i) => x.index = i);
+				output.practicing.strategies.forEach((x, i) => x.index = i);
+				output.extending.strategies.forEach((x, i) => x.index = i);
+
+				this.strategyOptions = {
+					LearningStrategies: {
+						title: StrategyCategories.Learning,
+						icon: StrategyCategoryIcons.Learning,
+						description: output.learning.description,
+						strategies: output.learning.strategies
+					},
+					ReviewingStrategies: {
+						title: StrategyCategories.Reviewing,
+						icon: StrategyCategoryIcons.Reviewing,
+						description: output.reviewing.description,
+						strategies: output.reviewing.strategies
+					},
+					PracticingStrategies: {
+						title: StrategyCategories.Practicing,
+						icon: StrategyCategoryIcons.Practicing,
+						description: output.practicing.description,
+						strategies: output.practicing.strategies
+					},
+					ExtendingStrategies: {
+						title: StrategyCategories.Extending,
+						icon: StrategyCategoryIcons.Extending,
+						description: output.extending.description,
+						strategies: output.extending.strategies
+					}
+				}
+			});
 	}
 
 	async initPrompts(): Promise<void | Response> {

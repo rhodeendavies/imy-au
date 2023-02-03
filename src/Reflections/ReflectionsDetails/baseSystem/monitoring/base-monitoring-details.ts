@@ -3,7 +3,7 @@ import { BaseSystem } from "../base-system";
 import { BaseMonitoringApiModel, StrategyPlanning } from "models/reflectionsApiModels";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class BaseMonitoringDetails {
@@ -16,7 +16,7 @@ export class BaseMonitoringDetails {
 	monitoringReflection: BaseMonitoringApiModel;
 	monitoringQuestions: StrategyPlanning;
 
-	constructor(private localParent: BaseSystem) { }
+	constructor(private localParent: BaseSystem, private appState: ApplicationState) { }
 
 	attached() {
 		this.monitoringReflection = null;
@@ -42,11 +42,27 @@ export class BaseMonitoringDetails {
 		if (this.monitoringReflection.strategyRating.extendingRating == null) {
 			this.monitoringReflection.strategyRating.extendingRating = 0;
 		}
-		
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.learningStrategy, StrategyOptions.LearningStrategies, this.monitoringReflection.strategyRating.learningRating);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.monitoringReflection.strategyRating.reviewingRating);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.practicingStrategy, StrategyOptions.PracticingStrategies, this.monitoringReflection.strategyRating.practicingRating);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.monitoringQuestions.extendingStrategy, StrategyOptions.ExtendingStrategies, this.monitoringReflection.strategyRating.extendingRating);
+
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.monitoringQuestions.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies,
+			this.monitoringReflection.strategyRating.learningRating
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.monitoringQuestions.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies,
+			this.monitoringReflection.strategyRating.reviewingRating
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.monitoringQuestions.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies,
+			this.monitoringReflection.strategyRating.practicingRating
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.monitoringQuestions.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies,
+			this.monitoringReflection.strategyRating.extendingRating
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 

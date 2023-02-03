@@ -3,8 +3,8 @@ import { BaseSystem } from "../base-system";
 import { BaseEvaluatingApiModel } from "models/reflectionsApiModels";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
 import { BaseEvaluatingQuestions, FeelingsSummary } from "models/reflectionsResponses";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class BaseEvaluationDetails {
@@ -17,8 +17,8 @@ export class BaseEvaluationDetails {
 	evaluatingReflection: BaseEvaluatingApiModel;
 	evaluatingQuestions: BaseEvaluatingQuestions;
 	feelingsSummary: FeelingsSummary[];
-	
-	constructor(private localParent: BaseSystem) {}
+
+	constructor(private localParent: BaseSystem, private appState: ApplicationState) { }
 
 	attached() {
 		this.evaluatingReflection = null;
@@ -45,12 +45,28 @@ export class BaseEvaluationDetails {
 			this.evaluatingReflection.strategyRating.extendingRating = 0;
 		}
 
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies, this.evaluatingReflection.strategyRating.learningRating);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies, this.evaluatingReflection.strategyRating.reviewingRating);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies, this.evaluatingReflection.strategyRating.practicingRating);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.evaluatingQuestions.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies, this.evaluatingReflection.strategyRating.extendingRating);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.evaluatingQuestions.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies,
+			this.evaluatingReflection.strategyRating.learningRating
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.evaluatingQuestions.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies,
+			this.evaluatingReflection.strategyRating.reviewingRating
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.evaluatingQuestions.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies,
+			this.evaluatingReflection.strategyRating.practicingRating
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.evaluatingQuestions.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies,
+			this.evaluatingReflection.strategyRating.extendingRating
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
-	
+
 		this.feelingsSummary = ComponentHelper.GetFeelingsSummary(this.evaluatingQuestions.courseFeelings);
 		this.evaluatingQuestions.topicRatings.topics = ComponentHelper.CreateTopics(this.evaluatingReflection.topicRatings.ratings, this.evaluatingQuestions.topicRatings.topics, [])
 	}

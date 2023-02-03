@@ -21,8 +21,7 @@ export class LudusEvaluationFeelings {
 
 	async attached() {
 		this.currentIndex = -1;
-		await this.appState.initPrompts();
-		await this.appState.initEmotions();
+
 		this.numOfPrompts = this.appState.ludusPrompts.evaluatingPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.feelingsLearningEffect.response)) {
 			this.getNextPrompt();

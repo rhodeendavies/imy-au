@@ -2,8 +2,8 @@ import { autoinject, computedFrom } from "aurelia-framework";
 import { Ludus } from "../ludus";
 import { LudusPlanningApiModel } from "models/reflectionsApiModels";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
 import { Strategy } from "models/reflections";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class LudusPlanningDetails {
@@ -14,9 +14,9 @@ export class LudusPlanningDetails {
 	extendingStrategy: Strategy;
 	strategies: Strategy[];
 	planningReflection: LudusPlanningApiModel;
-	
-	constructor(private localParent: Ludus) {}
-	
+
+	constructor(private localParent: Ludus, private appState: ApplicationState) { }
+
 	attached() {
 		this.planningReflection = null;
 		this.initData();
@@ -26,10 +26,22 @@ export class LudusPlanningDetails {
 		if (this.localParent.reflection.planningReflection == null) return;
 
 		this.planningReflection = this.localParent.reflection.planningReflection.answers;
-		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.planningReflection.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.planningReflection.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.planningReflection.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.planningReflection.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.planningReflection.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 

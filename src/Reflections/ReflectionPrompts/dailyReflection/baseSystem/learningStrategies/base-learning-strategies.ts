@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { BaseDaily } from "../base-daily";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
-import { StrategyOptions } from "utils/constants";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class BaseLearningStrategies {
@@ -13,17 +13,29 @@ export class BaseLearningStrategies {
 	extendingStrategy: Strategy;
 	strategies: Strategy[];
 
-	constructor(private localParent: BaseDaily) {}
+	constructor(private localParent: BaseDaily, private appState: ApplicationState) { }
 
 	attached() {
 		this.initData();
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(this.localParent.questions.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 

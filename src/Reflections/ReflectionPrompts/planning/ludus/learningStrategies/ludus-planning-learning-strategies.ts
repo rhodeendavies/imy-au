@@ -1,11 +1,12 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
-import { Colours, StrategyOptions } from "utils/constants";
 import { LudusPlanning } from "../ludus-planning";
 import { LudusComponent, Strategy } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { log } from "utils/log";
 import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from 'chart.js'
+import { ApplicationState } from "applicationState";
+import { Colours } from "utils/constants";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -22,7 +23,7 @@ export class LudusPlanningLearningStrategies {
 	chartUpdated: boolean = false;
 	strategies: Strategy[];
 
-	constructor(private localParent: LudusPlanning) { }
+	constructor(private localParent: LudusPlanning, private appState: ApplicationState) { }
 
 	attached() {
 		try {
@@ -38,10 +39,22 @@ export class LudusPlanningLearningStrategies {
 	}
 
 	initData() {
-		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.learningStrategy, StrategyOptions.LearningStrategies);
-		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.reviewingStrategy, StrategyOptions.ReviewingStrategies);
-		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.practicingStrategy, StrategyOptions.PracticingStrategies);
-		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(this.localParent.model.strategyPlanning.extendingStrategy, StrategyOptions.ExtendingStrategies);
+		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.model.strategyPlanning.learningStrategy,
+			this.appState.strategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.model.strategyPlanning.reviewingStrategy,
+			this.appState.strategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.model.strategyPlanning.practicingStrategy,
+			this.appState.strategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(
+			this.localParent.model.strategyPlanning.extendingStrategy,
+			this.appState.strategyOptions.ExtendingStrategies
+		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
@@ -69,19 +82,19 @@ export class LudusPlanningLearningStrategies {
 				}]
 			}
 		}
-		
-		
+
+
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
 		const data: number[] = this.components.map(x => x.total);
-		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/this.components.length)))
+		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index - 0.1) / this.components.length)))
 		const total = data.reduce((prev, curr) => { return prev + curr }, 0);
-		
+
 		return {
 			labels: this.components.map(x => x.name),
 			datasets: [{
 				label: "",
 				data: data.map(x => {
-					return x/ total * 100;
+					return x / total * 100;
 				}),
 				backgroundColor: colours,
 				borderColor: colours
@@ -102,27 +115,27 @@ export class LudusPlanningLearningStrategies {
 
 		if (this.chart == null) {
 			this.chart = new Chart(context,
-			{
-				type: "doughnut",
-				data: this.createData(emptyChart),
-				options: {
-					animation: false,
-					aspectRatio: 2,
-					plugins: {
-						tooltip: {
-							callbacks: {
-								label: (context) => {
-									return `${context.parsed} %`
+				{
+					type: "doughnut",
+					data: this.createData(emptyChart),
+					options: {
+						animation: false,
+						aspectRatio: 2,
+						plugins: {
+							tooltip: {
+								callbacks: {
+									label: (context) => {
+										return `${context.parsed} %`
+									}
 								}
+							},
+							legend: {
+								display: !emptyChart,
+								position: "right"
 							}
-						},
-						legend: {
-							display: !emptyChart,
-							position: "right"
 						}
 					}
-				}
-			});
+				});
 		} else {
 			this.chart.data = this.createData(emptyChart);
 			this.chart.options.plugins.legend.display = !emptyChart;

@@ -11,11 +11,11 @@ export class LudusPlanningStrengths {
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 
-	constructor(private localParent: LudusPlanning, private appState: ApplicationState) {}
+	constructor(private localParent: LudusPlanning, private appState: ApplicationState) { }
 
 	async attached() {
 		this.currentIndex = -1;
-		await this.appState.initPrompts();
+
 		this.numOfPrompts = this.appState.ludusPrompts.planningPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strengthOptimization.response)) {
 			this.getNextPrompt();

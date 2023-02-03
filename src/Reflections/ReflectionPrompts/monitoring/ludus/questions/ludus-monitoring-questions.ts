@@ -11,11 +11,11 @@ export class LudusMonitoringQuestions {
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 
-	constructor(private localParent: LudusMonitoring, private appState: ApplicationState) {}
+	constructor(private localParent: LudusMonitoring, private appState: ApplicationState) { }
 
 	async attached() {
 		this.currentIndex = -1;
-		await this.appState.initPrompts();
+
 		this.numOfPrompts = this.appState.ludusPrompts.monitoringPrompts.length;
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.contentConfusion.response)) {
 			this.getNextPrompt();

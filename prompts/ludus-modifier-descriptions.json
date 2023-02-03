@@ -1,0 +1,44 @@
+{
+	"modifiers": [
+		{
+			"name": "Planner",
+			"description": "Productivity never happens by accident. "
+		},
+		{
+			"name": "Analytical",
+			"description": "Asking the right questions is half the battle."
+		},
+		{
+			"name": "Reflective",
+			"description": "Looking back so that you can move forward."
+		},
+		{
+			"name": "Curious",
+			"description": "Curiosity is the spark behind the spark of every great idea."
+		},
+		{
+			"name": "Flexible",
+			"description": "Be stubborn about your goals and flexible about your methods."
+		},
+		{
+			"name": "Interpersonal",
+			"description": "If everyone is thinking alike then no-one is thinking."
+		},
+		{
+			"name": "Persistent",
+			"description": "Impossible only means you haven't found the answer yet."
+		},
+		{
+			"name": "Adventurous",
+			"description": "Some call it adventure, you call it a way of life."
+		},
+		{
+			"name": "Confident",
+			"description": "Knowing yourself is the beginning of all wisdom."
+		},
+		{
+			"name": "Independent",
+			"description": "You are in control of the outcome."
+		}
+	]
+}
