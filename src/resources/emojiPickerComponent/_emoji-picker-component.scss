@@ -1,0 +1,50 @@
+@use "./src/styles/variables" as *;
+
+.emoji-picker-wrapper {
+	position: relative;
+
+	&.emoji-picker-open {
+		.emoji-dropdown-arrow {
+			transform: rotate(180deg);
+		}
+
+		.emoji-picker-dropdown {
+			display: block;
+		}
+	}
+
+	.emoji-picker-input {
+		height: 100px;
+		width: 100px;
+		background-color: $LighterGrey;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		cursor: pointer;
+		transition: all 0.3s;
+
+		&:hover {
+			background-color: $LightGrey;
+		}
+
+		.emoji-icon {
+			font-size: 50px;
+			font-variation-settings: "FILL" 0;
+		}
+
+		.emoji-dropdown-arrow {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			font-size: 40px;
+			transition: all 0.3s;
+		}
+	}
+
+	.emoji-picker-dropdown {
+		position: absolute;
+		z-index: 9;
+		display: none;
+	}
+}

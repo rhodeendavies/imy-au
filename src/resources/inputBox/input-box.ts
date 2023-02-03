@@ -12,8 +12,8 @@ export class InputBox {
 	@bindable placeholder: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) valid: boolean = true;
 	@bindable disabled: boolean = false;
-	@bindable min: number = 50;
-	@bindable max: number = 500;
+	@bindable min: number = null;
+	@bindable max: number = null;
 
 	@bindable onFocus;
 	@bindable onBlur;
@@ -134,6 +134,10 @@ export class InputBox {
 	@computedFrom("value.length")
 	get Valid(): boolean {
 		if (this.ShowTextarea) {
+			this.min = 50;
+			this.max = 500;
+		}
+		if (this.min != null || this.max != null) {
 			this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
 		}
 		return this.valid;
@@ -145,10 +149,10 @@ export class InputBox {
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
-	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
+	@computedFrom("disabled", "type", "showPasswordToggle", "valid", "Valid")
 	get InputClasses(): string {
 		let classes = "";
-		if (this.ShowText && this.valid != null && !this.valid) classes += " input-invalid";
+		if (this.ShowText && this.valid != null && !this.Valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
 		if (this.ShowLarge) classes += " large-input";

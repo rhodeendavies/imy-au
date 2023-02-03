@@ -105,7 +105,7 @@ export class PaidiaPlanningLearningStrategies {
 
 	submit() {
 		if (!this.AllowSubmit) return;
-		this.canvasModel.canvas = JSON.stringify(this.canvas.saveCanvas());
+		this.canvasModel.canvas = this.canvas.saveCanvas();
 		this.localParent.model.strategyPlanning = {
 			learningStrategy: this.learningStrategy.strategy,
 			reviewingStrategy: this.reviewingStrategy.strategy,

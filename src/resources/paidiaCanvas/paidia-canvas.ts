@@ -1,7 +1,6 @@
 import { autoinject } from "aurelia-framework";
-import fabric from "fabric/dist/fabric";
+import fabric from "fabric";
 import { ComponentHelper } from "utils/componentHelper";
-import { log } from "utils/log";
 
 @autoinject
 export class PaidiaCanvas {
@@ -21,7 +20,7 @@ export class PaidiaCanvas {
 		if (ctx == null) return false;
 
 		this.canvas = new fabric.Canvas(ctx);
-		return this.canvas != null
+		return this.canvas != null;
 	}
 
 	createCanvas(backgroundImageNo: number) {
@@ -30,7 +29,11 @@ export class PaidiaCanvas {
 			if (!canvasValid) return;
 		}
 
-		fabric.Image.fromURL(`images/backgrounds/${backgroundImageNo}.png`, img => {
+		this.addBackgroundImage(`images/backgrounds/${backgroundImageNo}.png`);
+	}
+
+	addBackgroundImage(src: string) {
+		fabric.Image.fromURL(src, img => {
 			img.scaleToWidth(this.canvas.width);
 			img.scaleToHeight(this.canvas.height);
 			this.canvas.setBackgroundImage(img,
@@ -40,31 +43,8 @@ export class PaidiaCanvas {
 	}
 
 	addImage(image: number, style: number, type: LudusImages) {
-		log.debug("background", this.canvas.backgroundImage)
 		fabric.Image.fromURL(`images/cutouts/${style}/${image}.png`, img => {
-			img.name = type;
-			let oldImage: fabric.Image;
-			switch (type) {
-				case LudusImages.Learning:
-					oldImage = this.learningImage;
-					this.learningImage = img;
-					break;
-				case LudusImages.Practicing:
-					oldImage = this.practicingImage;
-					this.practicingImage = img;
-					break;
-				case LudusImages.Extending:
-					oldImage = this.extendingImage;
-					this.extendingImage = img;
-					break;
-				case LudusImages.Reviewing:
-					oldImage = this.reviewingImage;
-					this.reviewingImage = img;
-					break;
-				default:
-					break;
-			}
-
+			const oldImage: fabric.Image = this.addImageObject(img, type);
 			if (oldImage != null) {
 				img.set({
 					originX: "center",
@@ -91,22 +71,48 @@ export class PaidiaCanvas {
 					angle: ComponentHelper.RandomWholeNumber(0, 360)
 				});
 			}
-
-			img.on("selected", () => {
-				img.bringToFront();
-			});
-
-			img.on("moving", () => {
-				this.preventLeaving(img);
-			});
-
-			img.on("scaling", () => {
-				this.preventLeaving(img);
-			});
-
-			this.canvas.add(img);
-			log.debug("canvas", this.canvas)
 		});
+	}
+
+	addImageObject(img: fabric.Image, type: LudusImages): fabric.Image {
+		img.name = type;
+
+		let oldImage: fabric.Image;
+		switch (type) {
+			case LudusImages.Learning:
+				oldImage = this.learningImage;
+				this.learningImage = img;
+				break;
+			case LudusImages.Practicing:
+				oldImage = this.practicingImage;
+				this.practicingImage = img;
+				break;
+			case LudusImages.Extending:
+				oldImage = this.extendingImage;
+				this.extendingImage = img;
+				break;
+			case LudusImages.Reviewing:
+				oldImage = this.reviewingImage;
+				this.reviewingImage = img;
+				break;
+			default:
+				break;
+		}
+
+		img.on("selected", () => {
+			img.bringToFront();
+		});
+
+		img.on("moving", () => {
+			this.preventLeaving(img);
+		});
+
+		img.on("scaling", () => {
+			this.preventLeaving(img);
+		});
+
+		this.canvas.add(img);
+		return oldImage;
 	}
 
 	preventLeaving(object) {
@@ -131,24 +137,25 @@ export class PaidiaCanvas {
 		}
 	}
 
-	loadCanvas(canvasData: string) {
+	loadCanvas(canvasDataJson: string) {
 		if (this.canvas == null) {
 			const canvasValid = this.initCanvas();
 			if (!canvasValid) return;
 		}
 
-		// log.debug("load canvas", canvasData)
+		const canvasData = JSON.parse(canvasDataJson);
+		this.canvas.loadFromJSON(canvasData, () => {
+			this.addBackgroundImage(canvasData.backgroundImage.src)
+			this.canvas.renderAll.bind(this.canvas);
 
-		this.canvas.loadFromJSON(canvasData,
-		this.canvas.renderAll.bind(this.canvas), (o, object) => {
-			// log.debug("o", o)
-			// log.debug("object", object)
-		});
-		log.debug("canvas", this.canvas)
+		}, (o, object) => {
+			const type = object.name;
+			this.addImageObject(object, type);
+		})
 	}
 
 	saveCanvas(): string {
-		return this.canvas.toJSON();
+		return JSON.stringify(this.canvas.toJSON(["name"]));
 	}
 }
 
