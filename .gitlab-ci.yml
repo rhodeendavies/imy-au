@@ -45,7 +45,6 @@ deploy:
     - ssh-keyscan $SSH_IP_ADDRESS >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - echo "Copying files to remote server"
-#    - scp -r wwwroot $SSH_USERNAME@$SSH_IP_ADDRESS:/var/www/imy-au
-    - rsync -avr wwwroot $SSH_USERNAME@$SSH_IP_ADDRESS:/var/www/imy-au
+    - scp -r wwwroot $SSH_USERNAME@$SSH_IP_ADDRESS:/var/www/imy-au
   only:
     - release
