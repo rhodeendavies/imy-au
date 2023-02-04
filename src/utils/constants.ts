@@ -22,5 +22,6 @@ export class Colours {
 		green: 100,
 		blue: 48
 	}
-	static readonly OrangeHex: string = "#F26430"
+	static readonly OrangeHex: string = "#F26430";
+	static readonly LightGreyHex: string = "#E2E2E2";
 }

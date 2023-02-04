@@ -23,6 +23,7 @@
 		"jquery": "^3.6.0",
 		"luxon": "^3.0.4",
 		"popper.js": "^1.16.1",
+		"simple-color-picker": "^1.0.5",
 		"whatwg-fetch": "^3.6.2"
 	},
 	"devDependencies": {

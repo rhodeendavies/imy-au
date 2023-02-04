@@ -2,13 +2,13 @@ import { autoinject, computedFrom } from "aurelia-framework";
 import { PaidiaCanvasModel, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { ApplicationState } from "applicationState";
-import { PaidiaMonitoring } from "../paidia-monitoring";
+import { PaidiaEvaluation } from "../paidia-evaluation";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
-import environment from "environment";
 import { StrategyCategories } from "utils/enums";
+import environment from "environment";
 
 @autoinject
-export class PaidiaMonitoringLearningStrategies {
+export class PaidiaEvaluationLearningStrategies {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -18,7 +18,7 @@ export class PaidiaMonitoringLearningStrategies {
 	canvas: PaidiaCanvas;
 	canvasModel: PaidiaCanvasModel;
 
-	constructor(private localParent: PaidiaMonitoring, private appState: ApplicationState) { }
+	constructor(private localParent: PaidiaEvaluation, private appState: ApplicationState) { }
 
 	attached() {
 		this.initData();
@@ -94,8 +94,8 @@ export class PaidiaMonitoringLearningStrategies {
 		return style;
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	nextStep() {
+		if (!this.AllowNext) return;
 		this.canvasModel.canvas = this.canvas.saveCanvas();
 		this.localParent.model.strategyRating = {
 			learningRating: ComponentHelper.EmojiToString(this.learningStrategy.emoji),
@@ -104,11 +104,11 @@ export class PaidiaMonitoringLearningStrategies {
 			extendingRating: ComponentHelper.EmojiToString(this.extendingStrategy.emoji),
 			canvas: JSON.stringify(this.canvasModel)
 		}
-		this.localParent.submitMonitoring();
+		this.localParent.nextStep();
 	}
 
 	@computedFrom("learningStrategy.emoji", "reviewingStrategy.emoji", "practicingStrategy.emoji", "extendingStrategy.emoji")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.emoji));
 	}
 }

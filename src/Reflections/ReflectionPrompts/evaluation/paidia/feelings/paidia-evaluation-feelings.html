@@ -1,0 +1,38 @@
+<template>
+	<require from="resources/promptSentence/prompt-sentence"></require>
+	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
+
+	<p class="reflection-question mb-10">
+		How do you feel about ${localParent.Course} right now?
+	</p>
+	<div class="paidia-emoji-word">
+		<emoji-picker-component emoji.bind="emoji"></emoji-picker-component>
+		<input-box value.bind="localParent.model.courseFeelings.word" min.bind="0" max.bind="15"
+			valid.bind="valid">
+		</input-box>
+	</div>
+
+	<p class="reflection-question mt-30 mb-10">
+		Here's a summary of your feelings about ${localParent.Course} this week
+	</p>
+	<div class="paidia-feeling-summary">
+		<div class="paidia-feeling" repeat.for="feeling of feelingsSummary">
+			<div class="paidia-feeling-emoji">${feeling.emoji}</div>
+			<div class="paidia-feeling-word">${feeling.word}</div>
+			<div class="paidia-feeling-date">${feeling.feeling.createdAt | dateFormat}</div>
+		</div>
+	</div>
+
+	<p class="reflection-question mt-30">
+		How did your feelings towards ${localParent.Course} affect your learning this week?
+	</p>
+	<prompt-sentence prompt-sections.bind="promptSections" allow-refresh.bind="false"
+		increase-interaction.call="increaseInteraction(identifier)">
+	</prompt-sentence>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
+			Next
+		</button>
+	</div>
+</template>

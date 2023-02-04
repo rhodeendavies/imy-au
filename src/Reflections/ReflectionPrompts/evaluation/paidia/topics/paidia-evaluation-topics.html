@@ -1,0 +1,41 @@
+<template>
+	<require from="resources/colourPicker/colour-picker"></require>
+
+	<div class="evaluation-topics-wrapper">
+		<div class="evaluation-topics-question">
+			<p class="reflection-question mb-30">
+				Below are the topics covered by the videos this week. Rate them according
+				to how well you feel you mastered them.
+			</p>
+
+			<div class="paidia-evaluation-topics">
+				<colour-picker label.bind="topic.name" colour.bind="topic.colour"
+					repeat.for="topic of topics">
+				</colour-picker>
+			</div>
+		</div>
+
+		<div>
+			<p class="reflection-question">Video ratings this week</p>
+			<p>This is how you rated your understanding of the videos this week.</p>
+
+			<div class="summary-with-icon ludus-summary-icon" repeat.for="lesson of localParent.questions.lessonRatings">
+				<div class="ludus-lesson-rating">
+					${lesson.emoji}
+				</div>
+				<div class="summary-text">
+					<div class="summary-heading">${lesson.name}</div>
+					<div class="summary-body">
+						${lesson.topicsString}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
+			Next
+		</button>
+	</div>
+</template>

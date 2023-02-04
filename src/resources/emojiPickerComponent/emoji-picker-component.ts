@@ -6,11 +6,16 @@ export class EmojiPickerComponent {
 
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) emoji = null;
 	@bindable onChange;
+	id: string;
 	pickerOpen: boolean = false;
+	blurring: boolean = false;
+
+	constructor() {
+		this.id = ComponentHelper.CreateId("emojiPicker");
+	}
 
 	emojiSelected(event) {
 		this.emoji = event.detail.unicode;
-		this.togglePicker();
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
@@ -19,7 +24,22 @@ export class EmojiPickerComponent {
 	}
 
 	togglePicker() {
-		this.pickerOpen = !this.pickerOpen;
+		if (!this.blurring) {
+			this.pickerOpen = !this.pickerOpen;
+		}
+		setTimeout(() => {
+			if (this.pickerOpen) {
+				document.getElementById(this.id).focus();
+			}
+		});
+	}
+
+	onBlur() {
+		this.blurring = true;
+		this.pickerOpen = false;
+		setTimeout(() => {
+			this.blurring = false;
+		}, 500);
 	}
 
 	@computedFrom("emoji")

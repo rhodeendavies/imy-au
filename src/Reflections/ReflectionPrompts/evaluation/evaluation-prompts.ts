@@ -1,6 +1,6 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { BaseEvaluatingApiModel, LudusEvaluatingApiModel } from "models/reflectionsApiModels";
+import { BaseEvaluatingApiModel, LudusEvaluatingApiModel, PaidiaEvaluatingApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -24,7 +24,7 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		this.activeSection = EvaluationSections.Overview;
 	}
 
-	async submitEvaluation(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel, completed: boolean) {
+	async submitEvaluation(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel | PaidiaEvaluatingApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Evaluating, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");

@@ -1,0 +1,13 @@
+<template>
+	<div>
+		<p class="reflection-question">
+			Summarise your experience of your learning in ${localParent.Course} this week.
+		</p>
+	</div>
+
+	<div class="btn-row mt-0">
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowSubmit">
+			Finish
+		</button>
+	</div>
+</template>

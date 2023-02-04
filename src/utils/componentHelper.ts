@@ -1,8 +1,8 @@
 import { LudusComponent, Strategy } from "models/reflections";
-import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, TopicRating } from "models/reflectionsApiModels";
+import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, PaidiaTopicRating, TopicRating } from "models/reflectionsApiModels";
 import { Colour, EmotionModifier, PaidiaWord, PromptSection, StrategyOption } from "models/prompts";
 import environment from "environment";
-import { FeelingsSummary, HistoricCourseFeelings, QuestionTopic } from "models/reflectionsResponses";
+import { FeelingsSummary, HistoricCourseFeelings, PaidiaFeelingsSummary, PaidiaHistoricCourseFeelings, PaidiaTopic, QuestionTopic } from "models/reflectionsResponses";
 import { RadioOption } from "resources/radioButton/radio-button";
 import { PromptType } from "./enums";
 
@@ -364,6 +364,16 @@ export class ComponentHelper {
 		});
 	}
 
+	static GetPaidiaFeelingsSummary(feelings: PaidiaHistoricCourseFeelings): PaidiaFeelingsSummary[] {
+		return feelings.emoji.map((x, index) => {
+			return {
+				emoji: this.EmojiFromString(x),
+				word: feelings.word[index],
+				createdAt: feelings.createdAt[index]
+			}
+		});
+	}
+
 	static CreateTopics(topicRatings: TopicRating[], topicNames: QuestionTopic[], ratingOptions: RadioOption[]): QuestionTopic[] {
 		return topicNames.map(x => {
 			return {
@@ -377,6 +387,16 @@ export class ComponentHelper {
 						selected: y.value == x.rating
 					}
 				})
+			}
+		});
+	}
+
+	static CreatePaidiaTopics(topicRatings: PaidiaTopicRating[], topicNames: QuestionTopic[]): PaidiaTopic[] {
+		return topicNames.map(x => {
+			return {
+				id: x.id,
+				name: x.name,
+				colour: topicRatings?.find(y => y.id == x.id)?.color
 			}
 		});
 	}

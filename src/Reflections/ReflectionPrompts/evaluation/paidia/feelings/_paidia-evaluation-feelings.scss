@@ -1,0 +1,27 @@
+@use "./src/styles/variables"as *;
+
+.paidia-feeling-summary {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+
+	.paidia-feeling {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+
+		.paidia-feeling-emoji {
+			font-size: 40px;
+		}
+
+		.paidia-feeling-word {
+			text-transform: uppercase;
+		}
+
+		.paidia-feeling-date {
+			font-size: 16px;
+			color: $DarkGrey;
+		}
+	}
+}

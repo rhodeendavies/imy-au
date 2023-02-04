@@ -109,10 +109,10 @@ export class PaidiaEvaluatingResponse extends ReflectionResponse {
 }
 
 export class PaidiaEvaluatingQuestions {
-	feelingsSummary: PaidiaFeelingsSummary;
+	courseFeelings: PaidiaHistoricCourseFeelings;
 	topicRatings: Topics;
-	lessonRatingSummary: PaidiaLessonRatings[];
-	strategyRating: PaidiaStrategyPlanning;
+	lessonRatings: PaidiaLessonRatings[];
+	strategyPlanning: PaidiaStrategyPlanning;
 }
 // =======================================================================
 
@@ -127,19 +127,21 @@ export class QuestionTopic {
 	options?: RadioOption[];
 }
 
+export class PaidiaTopic {
+	id: number;
+	name: string;
+	colour: string;
+}
+
 export class HistoricCourseFeelings {
 	rating: number[];
 	createdAt: Date[];
 }
 
-export class PaidiaFeelingsSummary {
-	courseFeelings: PaidiaHistoricCourseFeelings[];
-}
-
 export class PaidiaHistoricCourseFeelings {
-	emoji: string;
-	word: string;
-	createdAt: Date;
+	emoji: string[];
+	word: string[];
+	createdAt: Date[];
 }
 
 export class LessonRatings {
@@ -163,5 +165,11 @@ export class PaidiaLessonRatings extends LessonRatings {
 
 export class FeelingsSummary {
 	rating: number;
+	createdAt: Date;
+}
+
+export class PaidiaFeelingsSummary {
+	emoji: string;
+	word: string;
 	createdAt: Date;
 }

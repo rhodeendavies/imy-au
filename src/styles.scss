@@ -7,6 +7,7 @@
 
 @use "resources/accordion/accordion";
 @use "resources/checkMark/check-mark";
+@use "resources/colourPicker/colour-picker";
 @use "resources/emojiPickerComponent/emoji-picker-component";
 @use "resources/gauge/gauge";
 @use "resources/iconButton/icon-button";
@@ -40,6 +41,8 @@
 @use "Reflections/ReflectionPrompts/evaluation/evaluation-prompts";
 @use "Reflections/ReflectionPrompts/evaluation/ludus/learningStrategies/ludus-evaluation-learning-strategies";
 @use "Reflections/ReflectionPrompts/evaluation/ludus/summary/ludus-evaluation-summary";
+@use "Reflections/ReflectionPrompts/evaluation/paidia/feelings/paidia-evaluation-feelings";
+@use "Reflections/ReflectionPrompts/evaluation/paidia/topics/paidia-evaluation-topics";
 @use "Reflections/ReflectionPrompts/planning/baseSystem/learningStrategies/base-planning-learning-strategies";
 @use "Reflections/ReflectionPrompts/planning/ludus/learningStrategies/ludus-planning-learning-strategies";
 @use "Reflections/ReflectionPrompts/planning/ludus/strengths/ludus-planning-strengths";

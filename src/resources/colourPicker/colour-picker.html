@@ -1,0 +1,9 @@
+<template>
+	<div class="colour-picker-wrapper ${pickerOpen ? 'colour-picker-open' : ''}">
+		<div class="colour-picker-label-wrapper" css.bind="Colour">
+			<div class="colour-picker-label" css.bind="TextColour">${label}</div>
+		</div>
+		<div class="colour-picker-colour" click.delegate="togglePicker()" css.bind="Colour"></div>
+		<div class="colour-picker" id.bind="id" tabindex="0" blur.trigger="onBlur()"></div>
+	</div>
+</template>
