@@ -28,6 +28,9 @@ export class PaidiaPlanningStrengths {
 	}
 
 	increaseInteraction(identifier: string) {
+		if (this.localParent.model.strengthOptimization.interactions == null) {
+			this.localParent.model.strengthOptimization.interactions = [];
+		}
 		const interaction = this.localParent.model.strengthOptimization.interactions.find(x => x.identifier == identifier);
 		if (interaction != null) {
 			++interaction.numInteractions;

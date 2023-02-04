@@ -117,12 +117,11 @@ export class StrategyRating {
 }
 
 export class PaidiaStrategyRating {
-	learningRating: number;
-	reviewingRating: number;
-	practicingRating: number;
-	extendingRating: number;
+	learningRating: string;
+	reviewingRating: string;
+	practicingRating: string;
+	extendingRating: string;
 	canvas: string;
-	interactions: number;
 }
 
 export class SingleTextResponse {

@@ -43,7 +43,7 @@ export class PaidiaCanvas {
 		});
 	}
 
-	addImage(image: number, style: number, type: LudusImages) {
+	addImage(image: number, style: number, type: PaidiaImages) {
 		fabric.Image.fromURL(`images/cutouts/${style}/${image}.png`, img => {
 			const oldImage = this.addImageObject(img, type);
 			if (oldImage == null) {
@@ -100,24 +100,24 @@ export class PaidiaCanvas {
 		});
 	}
 
-	addImageObject(img: fabric.Image, type: LudusImages): fabric.Image {
+	addImageObject(img: fabric.Image, type: PaidiaImages): fabric.Image {
 		img.name = type;
 
 		let oldImage: fabric.Image;
 		switch (type) {
-			case LudusImages.Learning:
+			case PaidiaImages.Learning:
 				oldImage = this.learningImage;
 				this.learningImage = img;
 				break;
-			case LudusImages.Practicing:
+			case PaidiaImages.Practicing:
 				oldImage = this.practicingImage;
 				this.practicingImage = img;
 				break;
-			case LudusImages.Extending:
+			case PaidiaImages.Extending:
 				oldImage = this.extendingImage;
 				this.extendingImage = img;
 				break;
-			case LudusImages.Reviewing:
+			case PaidiaImages.Reviewing:
 				oldImage = this.reviewingImage;
 				this.reviewingImage = img;
 				break;
@@ -184,7 +184,7 @@ export class PaidiaCanvas {
 	}
 }
 
-export enum LudusImages {
+export enum PaidiaImages {
 	Learning = "Learning",
 	Practicing = "Practicing",
 	Extending = "Extending",

@@ -1,0 +1,33 @@
+<template>
+	<require from="resources/paidiaCanvas/paidia-canvas"></require>
+	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
+
+	<p class="reflection-question mb-30">
+		Consider your chosen learning strategies for this week. Rate yourself for how well you are applying your
+		strategy.
+	</p>
+
+	<div class="strategy-grid">
+		<div class="strategy-option-wrapper">
+			<div repeat.for="strategy of strategies" class="strategy-option">
+				<div class="strategy-heading-wrapper">
+					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
+				</div>
+	
+				<emoji-picker-component emoji.bind="strategy.emoji"
+					on-change.call="emojiChanged(strategy)">
+				</emoji-picker-component>
+			</div>
+		</div>
+		<div class="strategy-visual">
+			<paidia-canvas view-model.ref="canvas"></paidia-canvas>
+		</div>
+	</div>
+
+	<div class="mt-30">
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowSubmit">
+			Finish
+		</button>
+	</div>
+</template>

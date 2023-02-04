@@ -81,7 +81,7 @@ export class ComponentHelper {
 		};
 	}
 
-	static CreateStrategyFromPaidia(strategy: string, strategyOption: StrategyOption, rating: number = null): Strategy {
+	static CreateStrategyFromPaidia(strategy: string, strategyOption: StrategyOption, rating: string = null): Strategy {
 		return {
 			title: strategyOption.title,
 			icon: strategyOption.icon,
@@ -93,8 +93,8 @@ export class ComponentHelper {
 				}
 			}),
 			strategy: strategy,
-			rating: rating,
-			ratingPercentage: this.GetRatingPercentages(rating, 5)
+			rating: null,
+			emoji: this.EmojiFromString(rating)
 		};
 	}
 
@@ -404,10 +404,12 @@ export class ComponentHelper {
 	}
 
 	static EmojiFromString(hex: string) {
+		if (this.NullOrEmpty(hex) || Number.isNaN(hex)) return "";
 		return String.fromCodePoint(+(`0x${hex}`));
 	}
 
 	static EmojiToString(emoji): string {
+		if (this.NullOrEmpty(emoji) || Number.isNaN(emoji)) return "";
 		return emoji.codePointAt(0).toString(16);
 	}
 }

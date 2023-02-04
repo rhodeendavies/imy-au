@@ -28,6 +28,7 @@ export class Strategy extends LessonRatings {
 	modifiers?: LudusModifier[];
 	valid?: boolean;
 	index?: number;
+	emoji?: string;
 
 	constructor() {
 		super();
@@ -61,15 +62,19 @@ export class PaidiaCanvasModel {
 	learningImages: number[];
 	learningStyles: number[];
 	learningImage: number;
+	learningStyle: number;
 	reviewingImages: number[];
 	reviewingStyles: number[];
 	reviewingImage: number;
+	reviewingStyle: number;
 	practicingImages: number[];
 	practicingStyles: number[];
 	practicingImage: number;
+	practicingStyle: number;
 	extendingImages: number[];
 	extendingStyles: number[];
 	extendingImage: number;
+	extendingStyle: number;
 	canvas: string;
 
 	constructor() {

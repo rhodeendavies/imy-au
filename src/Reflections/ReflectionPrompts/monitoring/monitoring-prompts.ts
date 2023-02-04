@@ -1,6 +1,6 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { BaseMonitoringApiModel } from "models/reflectionsApiModels";
+import { BaseMonitoringApiModel, LudusMonitoringApiModel, PaidiaMonitoringApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -24,7 +24,7 @@ export class MonitoringPrompts extends SectionTrackerParent {
 		this.activeSection = MonitoringSections.Overview;
 	}
 
-	async submitMonitoring(model: BaseMonitoringApiModel, completed: boolean) {
+	async submitMonitoring(model: BaseMonitoringApiModel | LudusMonitoringApiModel | PaidiaMonitoringApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Monitoring, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");

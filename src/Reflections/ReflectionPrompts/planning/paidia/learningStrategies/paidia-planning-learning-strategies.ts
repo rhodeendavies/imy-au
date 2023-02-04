@@ -4,7 +4,7 @@ import { PaidiaCanvasModel, Strategy } from "models/reflections";
 import { PaidiaPlanning } from "../paidia-planning";
 import environment from "environment";
 import { StrategyCategories } from "utils/enums";
-import { PaidiaCanvas, LudusImages } from "resources/paidiaCanvas/paidia-canvas";
+import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import { ApplicationState } from "applicationState";
 
 @autoinject
@@ -62,25 +62,25 @@ export class PaidiaPlanningLearningStrategies {
 				image = this.canvasModel.learningImages[strategy.index];
 				style = this.canvasModel.learningStyles[strategy.index];
 				this.canvasModel.learningImage = image;
-				this.canvas.addImage(image, style, LudusImages.Learning);
+				this.canvas.addImage(image, style, PaidiaImages.Learning);
 				break;
 			case StrategyCategories.Reviewing:
 				image = this.canvasModel.reviewingImages[strategy.index];
 				style = this.canvasModel.reviewingStyles[strategy.index];
 				this.canvasModel.reviewingImage = image;
-				this.canvas.addImage(image, style, LudusImages.Reviewing);
+				this.canvas.addImage(image, style, PaidiaImages.Reviewing);
 				break;
 			case StrategyCategories.Extending:
 				image = this.canvasModel.extendingImages[strategy.index];
 				style = this.canvasModel.extendingStyles[strategy.index];
 				this.canvasModel.extendingImage = image;
-				this.canvas.addImage(image, style, LudusImages.Extending);
+				this.canvas.addImage(image, style, PaidiaImages.Extending);
 				break;
 			case StrategyCategories.Practicing:
 				image = this.canvasModel.practicingImages[strategy.index];
 				style = this.canvasModel.practicingStyles[strategy.index];
 				this.canvasModel.practicingImage = image;
-				this.canvas.addImage(image, style, LudusImages.Practicing);
+				this.canvas.addImage(image, style, PaidiaImages.Practicing);
 				break;
 		}
 	}

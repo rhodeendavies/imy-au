@@ -95,8 +95,12 @@ export class PaidiaPlanningResponse extends ReflectionResponse {
 }
 
 export class PaidiaMonitoringResponse extends ReflectionResponse {
-	questions: PaidiaStrategyPlanning;
+	questions: PaidiaMonitoringQuestions;
 	answers: PaidiaMonitoringApiModel;
+}
+
+export class PaidiaMonitoringQuestions  {
+	strategyPlanning: PaidiaStrategyPlanning;
 }
 
 export class PaidiaEvaluatingResponse extends ReflectionResponse {
