@@ -15,7 +15,6 @@ export class PaidiaPlanningFeelings {
 			this.emoji = ComponentHelper.EmojiFromString(this.localParent.model.courseFeelings.emoji);
 		}
 	}
-	
 
 	nextStep() {
 		if (!this.AllowNext) return;

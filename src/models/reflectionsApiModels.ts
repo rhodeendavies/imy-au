@@ -68,10 +68,10 @@ export class LudusEvaluatingApiModel extends ReflectionApiModel {
 }
 // =======================================================================
 
-// ========================== PADIA ======================================
+// ========================== PAIDIA ======================================
 
 export class PaidiaVideoRatingApiModel extends ReflectionApiModel {
-	rating: string
+	rating: string;
 }
 
 export class PaidiaDailyApiModel extends ReflectionApiModel {

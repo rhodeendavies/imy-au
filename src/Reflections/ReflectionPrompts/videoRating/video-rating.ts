@@ -1,6 +1,6 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { BaseLessonApiModel, LudusLessonApiModel } from "models/reflectionsApiModels";
+import { BaseLessonApiModel, LudusLessonApiModel, PaidiaVideoRatingApiModel } from "models/reflectionsApiModels";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { LessonsService } from "services/lessonsService";
@@ -21,7 +21,7 @@ export class VideoRating extends SectionTrackerParent {
 		super();
 	}
 
-	async submitRating(model: BaseLessonApiModel | LudusLessonApiModel) {
+	async submitRating(model: BaseLessonApiModel | LudusLessonApiModel | PaidiaVideoRatingApiModel) {
 		model.completed = true;
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Lesson, this.reflectionId, model);
 		if (!result) {

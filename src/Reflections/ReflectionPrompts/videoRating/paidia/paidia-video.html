@@ -1,3 +1,18 @@
 <template>
+	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
 
+	<div>
+		<p class="reflection-question mb-30">
+			You've finished ${appState.watchedLesson.name}. Rate your understanding of the concepts in the video.
+		</p>
+	
+		<emoji-picker-component emoji.bind="emoji"></emoji-picker-component>
+	</div>
+
+	<div class="btn-row">
+		<button class="btn btn-primary" click.delegate="submitRating()"
+			disabled.bind="!AllowSubmit">
+			Finish
+		</button>
+	</div>
 </template>
