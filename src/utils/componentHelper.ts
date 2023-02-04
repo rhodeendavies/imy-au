@@ -1,12 +1,14 @@
 import { LudusComponent, Strategy } from "models/reflections";
 import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, TopicRating } from "models/reflectionsApiModels";
-import { Colour, EmotionModifier, PromptSection, StrategyOption } from "models/prompts";
+import { Colour, EmotionModifier, PaidiaWord, PromptSection, StrategyOption } from "models/prompts";
 import environment from "environment";
 import { FeelingsSummary, HistoricCourseFeelings, QuestionTopic } from "models/reflectionsResponses";
 import { RadioOption } from "resources/radioButton/radio-button";
+import { PromptType } from "./enums";
 
 export class ComponentHelper {
 	static ModuleName: string = "";
+	static PaidiaWords: PaidiaWord[] = [];
 
 	static SetModule(moduleName: string) {
 		this.ModuleName = moduleName;
@@ -17,7 +19,10 @@ export class ComponentHelper {
 	}
 
 	static RandomWholeNumber(min: number = 0, max: number = 100): number {
-		return Math.floor((Math.random() * max) + min);
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		const value =  Math.floor(Math.random() * (max - min + 1)) + min;
+		return value;
 	}
 
 	static Sleep(ms: number): Promise<void> {
@@ -149,19 +154,20 @@ export class ComponentHelper {
 	}
 
 	static GeneratePromptSections(promptString: string): PromptSection[] {
+		// replace all module indicators
+		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName);
+
 		const sections: PromptSection[] = [];
 		const lengthOfString = promptString.length;
-		
 		let index = 0;
 		let inputIndex = 0;
 		let endOfInputIndex = 0;
-
-		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName)
+		let nextHasArticle = false;
 
 		while (index < lengthOfString && inputIndex >= 0 && endOfInputIndex >= 0) {
-			inputIndex = promptString.indexOf(`{${environment.inputIndicator}`, index);
+			inputIndex = promptString.indexOf(`{`, index);
 			endOfInputIndex = promptString.indexOf("}", index);
-			
+
 			let subString = "";
 			let inputString = "";
 
@@ -172,21 +178,37 @@ export class ComponentHelper {
 			}
 
 			sections.push({
-				prompt: subString,
-				input: false,
-				period: subString.indexOf(".") == 0 || subString.indexOf("?") == 0 || subString.indexOf("!") == 0 || subString.indexOf(",") == 0,
-				inputValue: ""
+				type: PromptType.Text,
+				value: subString
 			});
 
 			if (inputIndex >= 0) {
 				inputString = promptString.substring(inputIndex + 2, endOfInputIndex);
-				
-				sections.push({
-					prompt: "",
-					input: true,
-					period: false,
-					inputValue: inputString
-				});
+
+				const indicator = promptString[inputIndex + 1];
+				if (indicator == environment.inputIndicator) {
+					sections.push({
+						type: PromptType.Input,
+						value: inputString,
+						wordIndicator: indicator
+					});
+				} else if (indicator == environment.articleIndicator) {
+					nextHasArticle = true;
+				} else {
+					const section = {
+						type: PromptType.ShuffleWord,
+						value: inputString,
+						wordIndicator: indicator,
+						hasArticle: nextHasArticle
+					};
+
+					if (section.value.length == 0) {
+						section.value = this.GetWord(section);
+					}
+
+					sections.push(section);
+					nextHasArticle = false;
+				}
 			}
 
 			index = endOfInputIndex + 1;
@@ -195,12 +217,37 @@ export class ComponentHelper {
 		return sections;
 	}
 
+	static GetWord(section: PromptSection): string {
+		const paidiaWord = this.PaidiaWords.find(x => x.wordIndicator == section.wordIndicator);
+		if (paidiaWord == null) return "";
+		if (paidiaWord.currentIndex > paidiaWord.words.length) {
+			paidiaWord.currentIndex = 0;
+		}
+		const index = paidiaWord.currentIndex++;
+		const word = paidiaWord.words[index];
+		if (section.hasArticle) {
+			return `${this.DetermineArticle(word)} ${word}`;
+		}
+		return word;
+	}
+
+	static DetermineArticle(word: string) {
+		const startsWithVowel = word.match(/^[aieouAIEOU].*/g);
+		return startsWithVowel ? "an" : "a";
+	}
+
 	static CreateResponseFromPrompt(prompt: PromptSection[]): string {
 		return prompt.reduce((prev, curr) => {
-			if (curr.input) {
-				prev += `{${environment.inputIndicator}${curr.inputValue}}`;
-			} else {
-				prev += curr.prompt;
+			switch (curr.type) {
+				case PromptType.Text:
+					prev += curr.value;
+					break;
+				case PromptType.Input:
+					prev += `{${environment.inputIndicator}${curr.value}}`;
+					break;
+				case PromptType.ShuffleWord:
+					prev += `{${curr.wordIndicator}${curr.value}}`;
+					break;
 			}
 			return prev;
 		}, "");
@@ -211,8 +258,8 @@ export class ComponentHelper {
 		// MODULE NAME
 		promptString = promptString.replace(new RegExp(`{${environment.moduleIndicator}}`, "g"), this.ModuleName);
 		// WORDS
-		const wordIndicators = environment.wordIndicators.concat(environment.inputIndicator);
-		const wordsRegex = wordIndicators.reduce(((prev, curr) => { return prev += `({${curr})+|`}), "");
+		const wordIndicators = this.PaidiaWords.map(x => x.wordIndicator).concat(environment.inputIndicator);
+		const wordsRegex = wordIndicators.reduce(((prev, curr) => { return prev += `({${curr})+|` }), "");
 		return promptString.replace(new RegExp(`}+|${wordsRegex}`, "g"), "");
 	}
 
@@ -236,15 +283,15 @@ export class ComponentHelper {
 
 	static GetFinalScore(components: LudusComponent[]): number {
 		if (components == null) return 0;
-		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.score * curr.total)}, 0);
-		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
+		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.score * curr.total) }, 0);
+		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total }, 0);
 		return Math.ceil(sumOfScores / totalWeights);
 	}
 
 	static GetOriginalFinalScore(components: LudusComponent[]): number {
 		if (components == null) return 0;
-		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.originalScore * curr.total)}, 0);
-		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total}, 0);
+		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.originalScore * curr.total) }, 0);
+		const totalWeights = components.reduce((prev, curr) => { return prev + curr.total }, 0);
 		return Math.ceil(sumOfScores / totalWeights);
 	}
 
@@ -278,7 +325,7 @@ export class ComponentHelper {
 		if (previousComponents == null) return components;
 		return components.map(x => {
 			const comp = previousComponents.find(y => y.name == x.name);
-			
+
 			if (comp != null) {
 				x.score = comp.score;
 			} else {
@@ -304,7 +351,7 @@ export class ComponentHelper {
 
 			[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
 		}
-		
+
 		return array;
 	}
 

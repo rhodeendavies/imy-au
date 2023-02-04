@@ -1,0 +1,26 @@
+@use "./src/styles/variables"as *;
+
+.prompt-input {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 20px 5px;
+
+	input-box {
+		width: 400px;
+		margin: 0 15px;
+	}
+
+	.shuffle-word {
+		cursor: pointer;
+	}
+
+	.prompt-refresh {
+		cursor: pointer;
+
+		> span {
+			font-size: 50px;
+			font-weight: $semi-bold;
+		}
+	}
+}

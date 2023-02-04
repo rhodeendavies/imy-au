@@ -55,3 +55,9 @@ export enum ReflectionTypes {
 	Evaluating = "evaluating",
 	Lesson = "lesson"
 }
+
+export enum PromptType {
+	Text,
+	Input,
+	ShuffleWord
+}

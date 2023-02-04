@@ -6,6 +6,7 @@ import { ComponentHelper } from "utils/componentHelper";
 import { CategoryScale, Chart, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
 import { Colours } from "utils/constants";
 import { DateHelper } from "utils/dateHelper";
+import { PromptType } from "utils/enums";
 
 Chart.register(LineController, Tooltip, CategoryScale, LinearScale, PointElement, LineElement);
 
@@ -27,12 +28,13 @@ export class LudusEvaluationFeelings {
 			this.getNextPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
-			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
+			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.value));
 		}
 		this.createChart();
 	}
 
 	nextStep() {
+		if (!this.AllowNext) return;
 		this.localParent.model.feelingsLearningEffect.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
 		this.localParent.nextStep();
 	}
@@ -100,6 +102,7 @@ export class LudusEvaluationFeelings {
 	}
 
 	get AllowNext() {
-		return this.promptSections != null && this.promptSections.every(x => !x?.input || (x?.inputValue?.length >= 3 && x?.valid));
+		return this.promptSections != null && 
+			this.promptSections.every(x => x?.type == PromptType.Text || (x?.value?.length >= 3 && x?.valid));
 	}
 }

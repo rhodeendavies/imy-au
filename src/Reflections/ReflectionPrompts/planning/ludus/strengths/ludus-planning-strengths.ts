@@ -3,6 +3,7 @@ import { LudusPlanning } from "../ludus-planning";
 import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
 import { PromptSection } from "models/prompts";
+import { PromptType } from "utils/enums";
 
 @autoinject
 export class LudusPlanningStrengths {
@@ -21,11 +22,12 @@ export class LudusPlanningStrengths {
 			this.getNextPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.strengthOptimization.response);
-			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.inputValue));
+			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.value));
 		}
 	}
 
 	nextStep() {
+		if (!this.AllowNext) return;
 		this.localParent.model.strengthOptimization.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
 		this.localParent.nextStep();
 	}
@@ -46,6 +48,7 @@ export class LudusPlanningStrengths {
 	}
 
 	get AllowNext() {
-		return this.promptSections != null && this.promptSections.every(x => !x?.input || (x?.inputValue?.length >= 3 && x?.valid));
+		return this.promptSections != null && 
+			this.promptSections.every(x => x?.type == PromptType.Text || (x?.value?.length >= 3 && x?.valid));
 	}
 }

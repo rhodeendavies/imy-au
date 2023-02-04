@@ -1,7 +1,7 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
-import { BasicPrompts, BasicStrategyOptions, Emotion, Emotions, Prompts, StrategyOptions } from "models/prompts";
+import { BasicPrompts, BasicStrategyOptions, Emotion, Emotions, PaidiaWord, Prompts, StrategyOptions } from "models/prompts";
 import { BaseReflection, LudusReflection } from "models/reflections";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
@@ -30,6 +30,8 @@ export class ApplicationState {
 
 	strategyOptions: StrategyOptions;
 	ludusPrompts: Prompts;
+	paidiaPrompts: Prompts;
+	paidiaWords: PaidiaWord[];
 	emotions: Emotion[];
 	emotionsStrings: Emotions;
 	watchedLesson: Lesson;
@@ -46,9 +48,7 @@ export class ApplicationState {
 	}
 
 	init() {
-		this.initEmotions();
-		this.initPrompts();
-		this.initStrategies();
+		this.initFromJson();
 	}
 
 	setToast(_toast: Toast) {
@@ -298,8 +298,19 @@ export class ApplicationState {
 		this.ea.publish(Events.RefreshApp);
 	}
 
-	async initStrategies(): Promise<void | Response> {
-		return fetch("prompts/strategies.json")
+	initFromJson() {
+		fetch("prompts/paidia-words.json")
+			.then(response => response.json())
+			.then((words: PaidiaWord[]) => {
+				words.forEach(x => {
+					x.words = ComponentHelper.ShuffleArray(x.words);
+					x.currentIndex = 0;
+				});
+				this.paidiaWords = words;
+				ComponentHelper.PaidiaWords = this.paidiaWords;
+			});
+
+		fetch("prompts/strategies.json")
 			.then(response => response.json())
 			.then((output: BasicStrategyOptions) => {
 				output.learning.strategies.forEach((x, i) => x.index = i);
@@ -334,22 +345,34 @@ export class ApplicationState {
 					}
 				}
 			});
-	}
 
-	async initPrompts(): Promise<void | Response> {
-		return fetch("prompts/ludus-prompts.json")
+		fetch("prompts/ludus-prompts.json")
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
 				this.ludusPrompts = {
-					planningPrompts: ComponentHelper.ShuffleArray(prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
-					monitoringPrompts: ComponentHelper.ShuffleArray(prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
-					evaluatingPrompts: ComponentHelper.ShuffleArray(prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)))
+					planningPrompts: ComponentHelper.ShuffleArray(
+						prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
+					monitoringPrompts: ComponentHelper.ShuffleArray(
+						prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
+					evaluatingPrompts: ComponentHelper.ShuffleArray(
+						prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)))
 				}
 			});
-	}
 
-	async initEmotions(): Promise<void | Response> {
-		return fetch("prompts/ludus-emotions.json")
+		fetch("prompts/paidia-prompts.json")
+			.then(response => response.json())
+			.then((prompt: BasicPrompts) => {
+				this.paidiaPrompts = {
+					planningPrompts: ComponentHelper.ShuffleArray(
+						prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
+					monitoringPrompts: ComponentHelper.ShuffleArray(
+						prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
+					evaluatingPrompts: ComponentHelper.ShuffleArray(
+						prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)))
+				}
+			});
+
+		fetch("prompts/ludus-emotions.json")
 			.then(response => response.json())
 			.then((emotionsStrings: Emotions) => {
 				this.emotionsStrings = emotionsStrings;

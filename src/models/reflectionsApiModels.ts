@@ -136,7 +136,7 @@ export class LudusSingleTextResponse {
 
 export class PaidiaSingleTextResponse {
 	response: string;
-	interactions: PaidiaInteractions;
+	interactions: PaidiaInteractions[];
 }
 
 export class PaidiaInteractions {

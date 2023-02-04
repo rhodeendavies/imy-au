@@ -124,7 +124,7 @@ export class PaidiaPlanningLearningStrategies {
 			extendingStrategy: this.extendingStrategy.strategy,
 			canvas: JSON.stringify(this.canvasModel)
 		}
-		this.localParent.nextStep();
+		this.localParent.submitPlanning();
 	}
 
 

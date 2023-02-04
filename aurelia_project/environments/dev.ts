@@ -11,8 +11,7 @@ export default {
 	inputIndicator: "Z",
 	articleIndicator: "Y",
 	moduleIndicator: "X",
-	wordIndicators: ["A", "B"],
 	numOfBackgroundImages: 14,
-	numOfCutOutImages: 99,
+	numOfCutOutImages: 98,
 	numOfStyles: 3
 };

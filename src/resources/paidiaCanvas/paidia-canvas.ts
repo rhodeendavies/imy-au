@@ -20,6 +20,7 @@ export class PaidiaCanvas {
 		if (ctx == null) return false;
 
 		this.canvas = new fabric.Canvas(ctx);
+
 		return this.canvas != null;
 	}
 
@@ -44,8 +45,47 @@ export class PaidiaCanvas {
 
 	addImage(image: number, style: number, type: LudusImages) {
 		fabric.Image.fromURL(`images/cutouts/${style}/${image}.png`, img => {
-			const oldImage: fabric.Image = this.addImageObject(img, type);
-			if (oldImage != null) {
+			const oldImage = this.addImageObject(img, type);
+			if (oldImage == null) {
+				let scale = 0;
+				let biggerValue = 1;
+				let smallerValue = 1;
+
+				if (Math.abs(this.canvas.width - img.width) > Math.abs(this.canvas.height - img.height)) {
+					if (img.width > this.canvas.width) {
+						biggerValue = img.width;
+						smallerValue = this.canvas.width;
+					} else {
+						biggerValue = this.canvas.width;
+						smallerValue = img.width;
+					}
+				} else {
+					if (img.height > this.canvas.height) {
+						biggerValue = img.height;
+						smallerValue = this.canvas.height;
+					} else {
+						biggerValue = this.canvas.height;
+						smallerValue = img.height;
+					}
+				}
+				scale = ComponentHelper.RandomWholeNumber(5, Math.floor(smallerValue / biggerValue * 100)) / 100;
+				let padding = 0;
+				if (img.width > img.height) {
+					padding = img.width * scale / 2;
+				} else {
+					padding = img.height * scale / 2;
+				}
+				padding += 10;
+				img.set({
+					originX: "center",
+					originY: "center",
+					left: ComponentHelper.RandomWholeNumber(padding, this.canvas.width - padding),
+					top: ComponentHelper.RandomWholeNumber(padding, this.canvas.height - padding),
+					angle: ComponentHelper.RandomWholeNumber(0, 360),
+					scaleX: scale,
+					scaleY: scale
+				});
+			} else {
 				img.set({
 					originX: "center",
 					originY: "center",
@@ -55,21 +95,7 @@ export class PaidiaCanvas {
 					scaleX: oldImage.scaleX,
 					scaleY: oldImage.scaleY
 				});
-
 				this.canvas.remove(oldImage);
-			} else {
-				img.scaleToWidth(this.canvas.width / ComponentHelper.RandomWholeNumber(2, 5));
-				img.scaleToHeight(this.canvas.height / ComponentHelper.RandomWholeNumber(2, 5));
-
-				const x = Math.floor(img.width * img.scaleX);
-				const y = Math.floor(img.height * img.scaleY);
-				img.set({
-					originX: "center",
-					originY: "center",
-					left: ComponentHelper.RandomWholeNumber(x, this.canvas.width - x),
-					top: ComponentHelper.RandomWholeNumber(y, this.canvas.height - y),
-					angle: ComponentHelper.RandomWholeNumber(0, 360)
-				});
 			}
 		});
 	}
@@ -115,25 +141,24 @@ export class PaidiaCanvas {
 		return oldImage;
 	}
 
-	preventLeaving(object) {
-		if ((object.left - (object.width * object.scaleX / 2) < 0))
-			object.left = object.width * object.scaleX / 2;
-		if ((object.top - (object.height * object.scaleY / 2) < 0))
-			object.top = object.height * object.scaleY / 2;
-		if (object.left + (object.width * object.scaleX / 2) > this.canvas.width) {
-			const positionX = this.canvas.width - (object.width * object.scaleX / 2);
-			object.left = positionX > this.canvas.width / 2 ? positionX : this.canvas.width / 2;
+	preventLeaving(obj: fabric.Object) {
+		// if object is too big ignore
+		const currentHeight = obj.height * obj.scaleX;
+		const currentWidth = obj.width * obj.scaleY;
+		if (currentHeight > this.canvas.height || currentWidth > this.canvas.width) {
+			return;
 		}
-		if (object.top + (object.height * object.scaleY / 2) > this.canvas.height) {
-			const positionY = this.canvas.height - (object.height * object.scaleY / 2);
-			object.top = positionY > this.canvas.height / 2 ? positionY : this.canvas.height / 2;
+		obj.setCoords();
+		const boundingRect = obj.getBoundingRect();
+		// top-left  corner
+		if (boundingRect.top < 0 || boundingRect.left < 0) {
+			obj.top = Math.max(obj.top, obj.top - boundingRect.top);
+			obj.left = Math.max(obj.left, obj.left - boundingRect.left);
 		}
-
-		if (object.width * object.scaleX > this.canvas.width) {
-			object.scaleX = this.canvas.width / object.width;
-		}
-		if (object.height * object.scaleY > this.canvas.height) {
-			object.scaleY = this.canvas.height / object.height;
+		// bot-right corner
+		if (boundingRect.top + boundingRect.height > this.canvas.height || boundingRect.left + boundingRect.width > this.canvas.width) {
+			obj.top = Math.min(obj.top, this.canvas.height - boundingRect.height + obj.top - boundingRect.top);
+			obj.left = Math.min(obj.left, this.canvas.width - boundingRect.width + obj.left - boundingRect.left);
 		}
 	}
 

@@ -1,4 +1,4 @@
-import { StrategyCategories, StrategyCategoryIcons } from "utils/enums";
+import { PromptType, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
 import { LudusModifier } from "./reflectionsApiModels";
 
 export class BasicPrompts {
@@ -13,12 +13,22 @@ export class Prompts {
 	evaluatingPrompts: PromptSection[][];
 }
 
+export class PaidiaWord {
+	wordIndicator: string;
+	currentIndex: number;
+	words: string[];
+}
+
 export class PromptSection {
-	prompt: string;
-	input: boolean;
-	period: boolean;
-	inputValue: string;
+	type: PromptType;
+	value: string;
+	wordIndicator?: string;
 	valid?: boolean;
+	hasArticle?: boolean;
+}
+
+export class WordIndicator {
+
 }
 
 export class Emotions {
