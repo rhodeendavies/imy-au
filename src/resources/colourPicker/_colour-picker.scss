@@ -40,6 +40,7 @@
 
 	.colour-picker {
 		position: absolute;
+		z-index: 9;
 		display: none;
 		right: -200px;
 		top: 0;

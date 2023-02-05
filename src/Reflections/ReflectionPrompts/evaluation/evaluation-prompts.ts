@@ -1,6 +1,7 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseEvaluatingApiModel, LudusEvaluatingApiModel, PaidiaEvaluatingApiModel } from "models/reflectionsApiModels";
+import { Busy } from "resources/busy/busy";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -12,6 +13,7 @@ export class EvaluationPrompts extends SectionTrackerParent {
 	weekTopic: string = ""
 	reflectionId: number;
 	reflectionTriggered: boolean = false;
+	busy: Busy = new Busy();
 
 	constructor(
 		private appState: ApplicationState,
@@ -40,9 +42,9 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		return this.activeSection == EvaluationSections.Overview;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active")
 	get ShowFeelings(): boolean {
-		return this.activeSection == EvaluationSections.Feelings;
+		return this.activeSection == EvaluationSections.Feelings && !this.busy.Active;
 	}
 
 	@computedFrom("activeSection")

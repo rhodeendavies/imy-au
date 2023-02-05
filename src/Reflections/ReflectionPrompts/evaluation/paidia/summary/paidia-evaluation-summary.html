@@ -1,11 +1,50 @@
 <template>
-	<div>
-		<p class="reflection-question">
-			Summarise your experience of your learning in ${localParent.Course} this week.
-		</p>
+	<require from="resources/colourPicker/colour-picker"></require>
+	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
+
+	<p class="reflection-question mb-30">
+		Summarise your experience of your learning in ${localParent.Course} this week.
+	</p>
+
+	<div class="paidia-summary-wrapper">
+		<div class="paidia-summary" repeat.for="emoji of chosenEmojis">
+			<div class="paidia-summary-delete" click.delegate="removeEmoji(emoji, $index)">
+				<div class="icon">delete</div>
+			</div>
+			<div if.bind="emoji.type == gifType">
+	
+			</div>
+			<div if.bind="emoji.type == textType">
+				<input-box type="textarea" value.bind="localParent.model.learningExperience.text" valid.bind="textValid"></input-box>
+			</div>
+			<div if.bind="emoji.type == colourType">
+				<colour-picker label="Colour" colour.bind="localParent.model.learningExperience.color">
+				</colour-picker>
+			</div>
+			<div if.bind="emoji.type == emojiType">
+				<emoji-picker-component emoji.bind="localParent.model.learningExperience.emoji"></emoji-picker-component>
+			</div>
+		</div>
+
+		<div class="paidia-summary-dropdown-wrapper ${dropdownOpen ? 'paidia-summary-dropdown-open' : ''}"
+			if.bind="emojis.length > 0">
+			<div class="paidia-summary-dropdown-btn" click.delegate="togglePicker()">
+				<div class="icon">add</div>
+			</div>
+			<div class="paidia-summary-dropdown">
+				<div class="paidia-summary-dropdown-item" repeat.for="emoji of emojis"
+					click.delegate="selectEmoji(emoji, $index)">
+					${emoji.emoji}
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div class="btn-row mt-0">
+	<check-mark checked.bind="localParent.model.learningExperience.postPublicly">
+		<p class="body-small">Allow this summary to be posted <strong>anonymously</strong> on the public forum</p>
+	</check-mark>
+
+	<div class="btn-row">
 		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowSubmit">
 			Finish
 		</button>

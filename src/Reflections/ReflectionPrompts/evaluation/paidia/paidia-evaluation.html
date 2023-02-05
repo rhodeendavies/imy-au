@@ -4,6 +4,8 @@
 	<require from="./learningStrategies/paidia-evaluation-learning-strategies"></require>
 	<require from="./summary/paidia-evaluation-summary"></require>
 
+	<loader if.bind="localParent.busy.Active"></loader>
+
 	<paidia-evaluation-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-evaluation-feelings>
 	<paidia-evaluation-topics class="prompt-section" if.bind="localParent.ShowTopics"></paidia-evaluation-topics>
 	<paidia-evaluation-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></paidia-evaluation-learning-strategies>
