@@ -1,18 +1,19 @@
 <template>
 	<require from="resources/colourPicker/colour-picker"></require>
 	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
+	<require from="resources/gifSearch/gif-search"></require>
 
 	<p class="reflection-question mb-30">
 		Summarise your experience of your learning in ${localParent.Course} this week.
 	</p>
-
+	
 	<div class="paidia-summary-wrapper">
 		<div class="paidia-summary" repeat.for="emoji of chosenEmojis">
 			<div class="paidia-summary-delete" click.delegate="removeEmoji(emoji, $index)">
 				<div class="icon">delete</div>
 			</div>
 			<div if.bind="emoji.type == gifType">
-	
+				<gif-search gif.bind="localParent.model.learningExperience.gif"></gif-search>
 			</div>
 			<div if.bind="emoji.type == textType">
 				<input-box type="textarea" value.bind="localParent.model.learningExperience.text" valid.bind="textValid"></input-box>

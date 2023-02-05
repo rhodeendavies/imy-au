@@ -2,7 +2,11 @@ export default {
 	debug: true,
 	testing: true,
 	api: {
-		baseUrl: "http://localhost:3000"
+		baseUrl: "http://localhost:3000",
+		giphyUrl: "https://api.giphy.com/v1/gifs",
+		giphyApiKey: "u5Mj5yK4O9eGeYNYn2nolaFQahnwPnYt",
+		giphylimit: 25,
+		giphyRating: "g"
 	},
 	loginModel: {
 		studentNumber: "u00000011",

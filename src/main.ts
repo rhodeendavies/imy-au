@@ -3,6 +3,7 @@ import { Aurelia } from 'aurelia-framework';
 import environment from './environment';
 import { ApiWrapper } from 'api';
 import { ApplicationState } from 'applicationState';
+import { GiphyApi } from 'giphyApi';
 
 export function configure(aurelia: Aurelia): void {
 	aurelia.use
@@ -11,7 +12,8 @@ export function configure(aurelia: Aurelia): void {
 		.plugin('aurelia-configuration')
 		.plugin('emoji-picker-element')
 		.singleton(ApplicationState)
-		.singleton(ApiWrapper);
+		.singleton(ApiWrapper)
+		.singleton(GiphyApi);
 
 	aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
 

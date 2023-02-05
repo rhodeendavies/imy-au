@@ -1,0 +1,90 @@
+@use "./src/styles/variables"as *;
+
+.gif-search-wrapper {
+	position: relative;
+
+	&.gif-search-open {
+		.gif-search-dropdown {
+			display: flex;
+		}
+	}
+
+	.gif-search-input {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		max-width: 300px;
+	}
+
+	.gif-search-dropdown {
+		position: absolute;
+		z-index: 9;
+		top: 65px;
+		display: none;
+		justify-content: center;
+		flex-wrap: wrap;
+		padding: 10px;
+		gap: 10px;
+		background-color: $LightGrey;
+		box-shadow: $BoxShadow;
+		width: 750px;
+		max-height: 500px;
+		overflow: auto;
+
+		.giphy-logo {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+
+		.giphy-result {
+			transition: all 0.3s;
+			cursor: pointer;
+
+			&:hover {
+				border: 1px solid $Orange;
+				transform: scale(1.1);
+			}
+		}
+
+		.gif-empty-search {
+			color: $DarkGrey;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+		}
+
+		.gif-load-more {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			transition: all 0.3s;
+			cursor: pointer;
+			background-color: $LighterGrey;
+
+			&:hover {
+				background-color: $LightGrey;
+			}
+
+			.icon {
+				font-size: 30px;
+			}
+		}
+	}
+
+	.chosen-gif {
+		max-height: 300px;
+		max-width: 300px;
+		margin-top: 10px;
+
+		img {
+			max-height: 100%;
+			max-width: 100%;
+		}
+	}
+}

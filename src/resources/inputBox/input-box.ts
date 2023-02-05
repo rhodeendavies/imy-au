@@ -112,7 +112,7 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge || this.ShowSearch;
 	}
 
 	@computedFrom("type")
@@ -129,6 +129,11 @@ export class InputBox {
 	@computedFrom("type")
 	get ShowTextarea(): boolean {
 		return this.type == InputTypes.textarea;
+	}
+
+	@computedFrom("type")
+	get ShowSearch(): boolean {
+		return this.type == InputTypes.search;
 	}
 
 	@computedFrom("value.length")
@@ -155,6 +160,7 @@ export class InputBox {
 		if (this.ShowText && this.valid != null && !this.Valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
+		if (this.ShowSearch) classes += " search-input";
 		if (this.ShowLarge) classes += " large-input";
 		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
@@ -165,5 +171,6 @@ enum InputTypes {
 	text = "text",
 	textarea = "textarea",
 	large = "large",
-	password = "password"
+	password = "password",
+	search = "search"
 }

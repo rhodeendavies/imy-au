@@ -24,6 +24,10 @@
 					<span if.bind="!ShowHiddenPassword" class="icon">visibility_off</span>
 				</div>
 
+				<div if.bind="ShowSearch" click.delegate="onEnterTrigger()" class="input-search">
+					<span class="icon">search</span>
+				</div>
+
 				<textarea change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
 					blur.trigger="onBlurTrigger()" if.bind="ShowTextarea" value.bind="value"
 					placeholder.bind="placeholder" disabled.bind="disabled" id.bind="id">

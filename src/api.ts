@@ -1,14 +1,16 @@
 import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
 import { log } from 'utils/log';
-import { AureliaConfiguration } from 'aurelia-configuration';
 import environment from 'environment';
 import { DateHelper } from 'utils/dateHelper';
 
 @autoinject
 export class ApiWrapper {
-	constructor(public client: HttpClient, private aureliaConfig: AureliaConfiguration) {
-		client.configure(config => {
+
+	private client: HttpClient;
+	constructor() {
+		this.client = new HttpClient();
+		this.client.configure(config => {
 			config
 			.withBaseUrl(environment.api.baseUrl)
 			.withDefaults({

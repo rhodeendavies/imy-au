@@ -18,6 +18,14 @@
 		}
 	}
 
+	&.search-input {
+		.input-box {
+			input {
+				padding-left: 60px !important;
+			}
+		}
+	}
+
 	&.input-invalid {
 		.input-box {
 			outline: 2px solid $Error !important;
@@ -25,7 +33,6 @@
 	}
 	
 	&.large-input {
-
 		.input-box {
 			input {
 				font-size: 30px !important;
@@ -114,6 +121,20 @@
 			.input-password-toggle {
 				position: absolute;
 				right: 0;
+				height: 100%;
+				width: 60px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				background-color: transparent;
+				color: $DarkGrey;
+			}
+
+			.input-search {
+				position: absolute;
+				left: 0;
 				height: 100%;
 				width: 60px;
 				display: flex;
