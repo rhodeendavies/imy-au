@@ -19,7 +19,7 @@ export class PaidiaPublic {
 		this.reflections = result.map(x => {
 			return {
 				color: x.color,
-				emoji: x.emoji,
+				emoji: ComponentHelper.EmojiFromString(x.emoji),
 				text: x.text,
 				gif: x.gif,
 				postPublicly: false,

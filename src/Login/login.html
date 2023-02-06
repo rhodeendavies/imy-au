@@ -1,17 +1,21 @@
 <template>
 	<div class="page login-page">
 		<div class="login-image"></div>
-		
+
 		<div class="login-center">
 			<div class="top-heading login-heading">
 				Log in
 			</div>
 			<div class="login-box">
 				<div class="login-input">
-					<input-box value.bind="loginModel.studentNumber" label="Student number"></input-box>
+					<input-box value.bind="loginModel.studentNumber" label="Student number"
+						on-enter.call="login()">
+					</input-box>
 				</div>
 				<div class="login-input">
-					<input-box value.bind="loginModel.password" label="Password" type="password"></input-box>
+					<input-box value.bind="loginModel.password" label="Password" type="password"
+						on-enter.call="login()">
+					</input-box>
 				</div>
 
 				<message if.bind="ShowError">
@@ -23,7 +27,7 @@
 						Log in
 					</button>
 				</div>
-				
+
 				<div class="text-center">
 					<a class="hyper-link" disabled click.delegate="register()">
 						Forgot/ reset your password
