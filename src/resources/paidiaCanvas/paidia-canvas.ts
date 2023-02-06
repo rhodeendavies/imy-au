@@ -12,13 +12,18 @@ export class PaidiaCanvas {
 	canvas: fabric.Canvas;
 	showCanvasAsImage: boolean = false;
 	canvasImage: string = "";
+	id: string = "";
+
+	constructor() {
+		this.id = ComponentHelper.CreateId("paidiaCanvas");
+	}
 
 	attached() {
 		this.initCanvas();
 	}
 
 	initCanvas(): boolean {
-		const ctx = document.getElementById("paidiaPlanning") as HTMLCanvasElement;
+		const ctx = document.getElementById(this.id) as HTMLCanvasElement;
 		if (ctx == null) return false;
 
 		this.canvas = new fabric.Canvas(ctx);
@@ -189,9 +194,6 @@ export class PaidiaCanvas {
 			this.canvasImage = this.canvas.toDataURL({
 				format: 'jpeg',
 			});
-			setTimeout(() => {
-				this.canvas.dispose();
-			}, 500);
 		}, 500);
 	}
 

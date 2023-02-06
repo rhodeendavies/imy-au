@@ -86,7 +86,7 @@ export class LudusEvaluatingQuestions {
 
 // ========================== PAIDIA ======================================
 export class PaidiaDailyResponse extends ReflectionResponse {
-	questions: PaidiaStrategyPlanning;
+	questions: PaidiaMonitoringQuestions;
 	answers: PaidiaDailyApiModel;
 }
 

@@ -2,8 +2,9 @@ import { ApplicationState } from "applicationState";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { DateTime, Duration, Interval } from "luxon";
-import { BaseDailyApiModel } from "models/reflectionsApiModels";
+import { BaseDailyApiModel, LudusDailyApiModel, PaidiaDailyApiModel } from "models/reflectionsApiModels";
 import { Availability } from "models/userDetails";
+import { Busy } from "resources/busy/busy";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -18,6 +19,7 @@ export class DailyPrompts extends SectionTrackerParent {
 	timer: NodeJS.Timer;
 	triggerSub: Subscription;
 	reflectionId: number;
+	busy: Busy = new Busy();
 
 	constructor(
 		private appState: ApplicationState,
@@ -66,7 +68,7 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.appState.closeDaily();
 	}
 
-	async submitDaily(model: BaseDailyApiModel, completed: boolean) {
+	async submitDaily(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
@@ -82,9 +84,9 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.activeSection == DailySections.Overview;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active")
 	get ShowFeelings(): boolean {
-		return this.activeSection == DailySections.Feelings;
+		return this.activeSection == DailySections.Feelings && !this.busy.Active;
 	}
 
 	@computedFrom("activeSection")
@@ -92,19 +94,19 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.activeSection == DailySections.LearningStrategies;
 	}
 
-	@computedFrom("authService.System", "appState.DailyOpen")
+	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")
 	get ShowBaseSystem(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
 			this.appState.DailyOpen;
 	}
 
-	@computedFrom("authService.System", "appState.DailyOpen")
+	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")
 	get ShowLudus(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
 			this.appState.DailyOpen;
 	}
 
-	@computedFrom("authService.System", "appState.DailyOpen")
+	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")
 	get ShowPaidia(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
 			this.appState.DailyOpen;
