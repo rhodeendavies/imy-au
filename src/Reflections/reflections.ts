@@ -27,6 +27,7 @@ export class Reflections {
 					section.ludusReflection = await this.appState.getSectionLudusReflection(section);
 					break;
 				case Systems.Paidia:
+					section.paidiaReflection = await this.appState.getSectionPaidiaReflection(section);
 					break;
 			}
 		}

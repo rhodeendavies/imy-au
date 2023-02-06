@@ -2,8 +2,8 @@ import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
 import { BasicPrompts, BasicStrategyOptions, Emotion, Emotions, PaidiaWord, Prompts, StrategyOptions } from "models/prompts";
-import { BaseReflection, LudusReflection } from "models/reflections";
-import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse } from "models/reflectionsResponses";
+import { BaseReflection, LudusReflection, PaidiaReflection } from "models/reflections";
+import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse, PaidiaEvaluatingResponse, PaidiaMonitoringResponse, PaidiaPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
@@ -283,6 +283,27 @@ export class ApplicationState {
 		let evaluatingResponse: LudusEvaluatingResponse;
 		if (section.evaluatingReflectionId != null) {
 			evaluatingResponse = await this.reflectionsApi.getLudusEvaluatingReflection(section.evaluatingReflectionId);
+		}
+		return {
+			id: section.id,
+			planningReflection: planningResponse,
+			monitoringReflection: monitoringResponse,
+			evaluatingReflection: evaluatingResponse
+		};
+	}
+
+	async getSectionPaidiaReflection(section: Section): Promise<PaidiaReflection> {
+		let planningResponse: PaidiaPlanningResponse;
+		if (section.planningReflectionId != null) {
+			planningResponse = await this.reflectionsApi.getPaidiaPlanningReflection(section.planningReflectionId);
+		}
+		let monitoringResponse: PaidiaMonitoringResponse;
+		if (section.monitoringReflectionId != null) {
+			monitoringResponse = await this.reflectionsApi.getPaidiaMonitoringReflection(section.monitoringReflectionId);
+		}
+		let evaluatingResponse: PaidiaEvaluatingResponse;
+		if (section.evaluatingReflectionId != null) {
+			evaluatingResponse = await this.reflectionsApi.getPaidiaEvaluatingReflection(section.evaluatingReflectionId);
 		}
 		return {
 			id: section.id,

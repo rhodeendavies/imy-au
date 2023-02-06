@@ -2,7 +2,7 @@ import { ApplicationState } from "applicationState";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { Router, RouterConfiguration } from "aurelia-router";
-import { BaseReflection, LudusReflection } from "models/reflections";
+import { BaseReflection, LudusReflection, PaidiaReflection } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { StudentRoutes } from "routes/studentRoutes";
 import { AuthenticationService } from "services/authenticationService";
@@ -15,6 +15,7 @@ export class Dashboard {
 
 	baseReflection: BaseReflection;
 	ludusReflection: LudusReflection;
+	paidiaReflection: PaidiaReflection;
 	lessonOpen: boolean = false;
 	busy: Busy = new Busy();
 	refreshSub: Subscription;
@@ -24,12 +25,12 @@ export class Dashboard {
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
 		private ea: EventAggregator
-		) { }
+	) { }
 
 	async attached() {
 		try {
 			this.busy.on();
-			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => {this.attached()});
+			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => { this.attached() });
 			const currentSection = await this.appState.getCurrentSection();
 			switch (this.authService.System) {
 				case Systems.Base:
@@ -37,6 +38,9 @@ export class Dashboard {
 					break;
 				case Systems.Ludus:
 					this.ludusReflection = await this.appState.getSectionLudusReflection(currentSection);
+					break;
+				case Systems.Paidia:
+					this.paidiaReflection = await this.appState.getSectionPaidiaReflection(currentSection);
 					break;
 			}
 		} catch (error) {

@@ -61,3 +61,10 @@ export enum PromptType {
 	Input,
 	ShuffleWord
 }
+
+export enum PaidiaSummaryType {
+	gif,
+	emoji,
+	colour,
+	text
+}

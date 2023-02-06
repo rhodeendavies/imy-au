@@ -1,6 +1,6 @@
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { Reflections } from "Reflections/reflections";
-import { BaseReflection, LudusReflection } from "models/reflections";
+import { BaseReflection, LudusReflection, PaidiaReflection } from "models/reflections";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionSections, Systems } from "utils/enums";
 
@@ -9,6 +9,7 @@ export class ReflectionsDetails {
 
 	@bindable baseReflection: BaseReflection;
 	@bindable ludusReflection: LudusReflection;
+	@bindable paidiaReflection: PaidiaReflection;
 	@bindable dashboardVersion: boolean = false;
 	activeSection: number = ReflectionSections.Planning;
 

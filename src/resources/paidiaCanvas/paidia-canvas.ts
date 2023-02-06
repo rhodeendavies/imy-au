@@ -10,6 +10,8 @@ export class PaidiaCanvas {
 	practicingImage: fabric.Image;
 	extendingImage: fabric.Image;
 	canvas: fabric.Canvas;
+	showCanvasAsImage: boolean = false;
+	canvasImage: string = "";
 
 	attached() {
 		this.initCanvas();
@@ -177,6 +179,20 @@ export class PaidiaCanvas {
 			const type = object.name;
 			this.addImageObject(object, type);
 		})
+	}
+
+	loadCanvasAsImage(canvasDataJson: string) {
+		this.loadCanvas(canvasDataJson);
+
+		this.showCanvasAsImage = true;
+		setTimeout(() => {
+			this.canvasImage = this.canvas.toDataURL({
+				format: 'jpeg',
+			});
+			setTimeout(() => {
+				this.canvas.dispose();
+			}, 500);
+		}, 500);
 	}
 
 	saveCanvas(): string {

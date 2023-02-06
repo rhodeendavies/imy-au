@@ -424,8 +424,12 @@ export class ComponentHelper {
 	}
 
 	static EmojiFromString(hex: string) {
-		if (this.NullOrEmpty(hex) || Number.isNaN(hex)) return "";
-		return String.fromCodePoint(+(`0x${hex}`));
+		try {
+			if (this.NullOrEmpty(hex) || Number.isNaN(hex)) return "";
+			return String.fromCodePoint(+(`0x${hex}`));
+		} catch (error) {
+			return hex;
+		}
 	}
 
 	static EmojiToString(emoji): string {

@@ -2,6 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { PaidiaEvaluation } from "../paidia-evaluation";
 import { ComponentHelper } from "utils/componentHelper";
 import data from "emoji-picker-element-data/en/emojibase/data.json";
+import { PaidiaSummaryType } from "utils/enums";
 
 @autoinject
 export class PaidiaEvaluationSummary {
@@ -82,13 +83,6 @@ export class PaidiaEvaluationSummary {
 class EmojiDropdown {
 	emoji: string;
 	type: PaidiaSummaryType;
-}
-
-enum PaidiaSummaryType {
-	gif,
-	emoji,
-	colour,
-	text
 }
 
 class EmojiData {

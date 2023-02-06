@@ -1,5 +1,14 @@
 
+.canvas-as-image {
+	.canvas-container {
+		display: none;
+	}
+}
 
 .canvas-container {
 	z-index: 9999;
+}
+
+.paidia-canvas-image {
+	height: 250px;
 }

@@ -38,13 +38,14 @@
 				</div>
 			</div>
 			<public-reflections class="public-reflections"
-				if.bind="showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null)">
+				if.bind="showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</public-reflections>
 
 			<reflections-details 
 				base-reflection.bind="sectionSelected.baseReflection"
 				ludus-reflection.bind="sectionSelected.ludusReflection"
-				if.bind="!showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null)">
+				paidia-reflection.bind="sectionSelected.paidiaReflection"
+				if.bind="!showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</reflections-details>
 		</div>
 	</div>

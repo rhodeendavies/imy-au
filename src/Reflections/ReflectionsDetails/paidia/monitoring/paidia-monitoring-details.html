@@ -1,3 +1,50 @@
 <template>
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">bar_chart</span>
+			</div>
+			<div class="reflection-header">
+				MONITORING: Halfway through the content
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="MonitoringReflection == null">
+			You haven't completed this reflection yet. You need to finish watching half of this
+			week's videos to do so.
+		</div>
 	
+		<div class="reflection-body" if.bind="MonitoringReflection != null">
+			<div class="reflection-divider" if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
+				<div class="paidia-feeling-summary">
+					<div class="paidia-feeling">
+						<div class="paidia-feeling-emoji">${MonitoringReflection.courseFeelings.emoji}</div>
+						<div class="paidia-feeling-word">${MonitoringReflection.courseFeelings.word}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="reflection-sub-heading">Current questions or confusion</div>
+			<div class="reflection-divider reflection-text">
+				${Questions}
+			</div>
+
+			<div class="reflection-sub-heading">Rating your strategies so far</div>
+			<div class="summary-with-icon" repeat.for="category of strategies">
+				<div class="paidia-lesson-rating">
+					${category.emoji}
+				</div>
+				<div class="summary-text">
+					<div class="summary-heading">${category.title}</div>
+					<div class="summary-body" innerhtml.bind="category.strategy"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
