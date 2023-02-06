@@ -7,8 +7,27 @@ import { ComponentHelper } from "utils/componentHelper";
 @autoinject
 export class Section {
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) section: PromptSection;
+	animation: string;
+	animations: ShuffleWordAnimation[] = [
+		ShuffleWordAnimation.blink,
+		ShuffleWordAnimation.colourChange,
+		ShuffleWordAnimation.shadow,
+		ShuffleWordAnimation.wiggle
+	]
 
 	constructor(private localParent: PromptSentence) {}
+
+	attached() {
+		this.getRandomAnimation();
+	}
+
+	getRandomAnimation() {
+		this.animation = this.animations[ComponentHelper.RandomWholeNumber(0, 3)];
+		setTimeout(() => {
+			this.animation = "";
+			setTimeout(() => this.getRandomAnimation(), ComponentHelper.RandomWholeNumber(4000, 10000));
+		}, 2000);
+	}
 
 	getNextWord(section: PromptSection) {
 		this.localParent.triggerIncreaseInteraction(section.wordIndicator);
@@ -29,4 +48,11 @@ export class Section {
 	get ShuffleWord(): boolean {
 		return this.section.type == PromptType.ShuffleWord;
 	}
+}
+
+enum ShuffleWordAnimation {
+	blink = "blink",
+	colourChange = "colour-change",
+	wiggle = "wiggle",
+	shadow = "shadow"
 }

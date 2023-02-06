@@ -5,7 +5,7 @@
 
 	<input-box if.bind="Input" value.bind="section.value" valid.bind="section.valid"></input-box>
 
-	<p class="shuffle-word" if.bind="ShuffleWord" click.delegate="getNextWord(section)">
+	<p class="shuffle-word ${animation}" if.bind="ShuffleWord" click.delegate="getNextWord(section)">
 		${section.value}
 	</p>
 </template>

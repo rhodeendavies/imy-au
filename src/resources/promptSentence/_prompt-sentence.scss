@@ -14,6 +14,23 @@
 	.shuffle-word {
 		cursor: pointer;
 		user-select: none;
+		transition: all 0.3s;
+
+		&.blink {
+			animation: blinkAnimation 1s infinite;
+		}
+
+		&.wiggle {
+			animation: wiggleAnimation 2s infinite;
+		}
+
+		&.shadow {
+			animation: shadowAnimation 2s infinite;
+		}
+
+		&.colour-change {
+			animation: colourAnimation 2s infinite;
+		}
 	}
 
 	.word, .shuffle-word {
@@ -28,4 +45,30 @@
 			font-weight: $semi-bold;
 		}
 	}
+}
+
+@keyframes blinkAnimation {
+	0% {opacity: 1;}
+	30% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes wiggleAnimation {
+	0% {transform: rotate(0deg);}
+	30% {transform: rotate(-5deg);}
+	40% {transform: rotate(5deg);}
+	50% {transform: rotate(-5deg);}
+	100% {transform: rotate(0deg);}
+}
+
+@keyframes colourAnimation {
+	0% {color: $Black;}
+	60% {color: $Orange;}
+	100% {color: $Black;}
+}
+
+@keyframes shadowAnimation {
+	0% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
+	60% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 1);}
+	100% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
 }
