@@ -1,26 +1,34 @@
 <template>
 	<div class="gif-search-wrapper ${pickerOpen ? 'gif-search-open' : ''}" id.bind="id">
 		<div class="gif-search-input">
-			<input-box value.bind="search" on-enter.call="searchGiphy()" on-focus.call="togglePicker()" type="search"
-				placeholder="Search Giphy">
+			<input-box value.bind="search" on-enter.call="searchGiphy()"
+				on-focus.call="togglePicker()" type="search"
+				placeholder="Search via Giphy">
 			</input-box>
 		</div>
+		<div class="giphy-logo" if.bind="pickerOpen">
+			<img src="images/giphy.gif" />
+		</div>
 		<div class="gif-search-dropdown">
-			<div class="giphy-logo">
-				<img src="images/PoweredBy_640_Horizontal_Light-Backgrounds_With_Logo.gif" />
-			</div>
 			<img repeat.for="result of results" class="giphy-result" src.bind="result.fixed_height.url"
 				click.delegate="selectGif(result)" />
+
 			<div class="gif-empty-search" if.bind="results == null || results.length == 0">
-				<span class="icon">search</span>
 				Hit enter to search
 			</div>
+
+			<loader if.bind="busy.Active"></loader>
+
 			<div class="gif-load-more" if.bind="results.length > 0" click.delegate="loadMore()">
 				<span class="icon">add</span>
 				Load more
 			</div>
 		</div>
-		<div class="chosen-gif">
+		<div class="chosen-gif" if.bind="ShowChosenGif">
+			<div class="giphy-logo-on-chosen">
+				<img src="images/giphy.gif" />
+			</div>
+
 			<img src.bind="gif" />
 		</div>
 	</div>

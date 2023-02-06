@@ -12,17 +12,17 @@
 			<div class="paidia-summary-delete" click.delegate="removeEmoji(emoji, $index)">
 				<div class="icon">delete</div>
 			</div>
-			<div if.bind="emoji.type == gifType">
+			<div class="paidia-summary-item" if.bind="emoji.type == gifType">
 				<gif-search gif.bind="localParent.model.learningExperience.gif"></gif-search>
 			</div>
-			<div if.bind="emoji.type == textType">
+			<div class="paidia-summary-item" if.bind="emoji.type == textType">
 				<input-box type="textarea" value.bind="localParent.model.learningExperience.text" valid.bind="textValid"></input-box>
 			</div>
-			<div if.bind="emoji.type == colourType">
+			<div class="paidia-summary-item" if.bind="emoji.type == colourType">
 				<colour-picker label="Colour" colour.bind="localParent.model.learningExperience.color">
 				</colour-picker>
 			</div>
-			<div if.bind="emoji.type == emojiType">
+			<div class="paidia-summary-item" if.bind="emoji.type == emojiType">
 				<emoji-picker-component emoji.bind="localParent.model.learningExperience.emoji"></emoji-picker-component>
 			</div>
 		</div>

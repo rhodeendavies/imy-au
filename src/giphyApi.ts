@@ -33,7 +33,7 @@ export class GiphyApi {
 				throw new Error("Request did not indicate success");
 			}
 			const text = await response.text();
-			log.debug("json", text);
+			// log.debug("json", text);
 			return JSON.parse(text);
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while searching giphy`, error);

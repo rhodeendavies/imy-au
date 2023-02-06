@@ -1,7 +1,8 @@
-import { autoinject, bindable, bindingMode } from "aurelia-framework";
+import { autoinject, bindable, bindingMode, computedFrom } from "aurelia-framework";
 import { GiphyApi } from "giphyApi";
 import { GiphyImages, GiphySearchResult } from "models/apiResponse";
 import { Busy } from "resources/busy/busy";
+import { ComponentHelper } from "utils/componentHelper";
 import { log } from "utils/log";
 
 @autoinject
@@ -35,7 +36,7 @@ export class GifSearch {
 		try {
 			this.busy.on();
 			const result: GiphySearchResult = await this.giphyApi.search(this.search, this.offset);
-			this.results.concat(result.data.map(x => x.images));
+			this.results = this.results.concat(result.data.map(x => x.images));
 			this.offset = result.pagination.count + result.pagination.offset;
 			this.totalResults = result.pagination.total_count;
 		} catch (error) {
@@ -52,5 +53,10 @@ export class GifSearch {
 	selectGif(result: GiphyImages) {
 		this.gif = result.original.url;
 		this.togglePicker();
+	}
+
+	@computedFrom("gif")
+	get ShowChosenGif(): boolean {
+		return !ComponentHelper.NullOrEmpty(this.gif);
 	}
 }

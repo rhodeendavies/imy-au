@@ -10,11 +10,18 @@
 	}
 
 	.gif-search-input {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		position: relative;
-		max-width: 300px;
+		width: 300px;
+	}
+
+	.giphy-logo {
+		position: absolute;
+		z-index: 10;
+		left: 0;
+		top: 65px;
+
+		img {
+			height: 35px;
+		}
 	}
 
 	.gif-search-dropdown {
@@ -26,34 +33,26 @@
 		flex-wrap: wrap;
 		padding: 10px;
 		gap: 10px;
-		background-color: $LightGrey;
+		background-color: $Black;
 		box-shadow: $BoxShadow;
-		width: 750px;
+		max-width: 750px;
 		max-height: 500px;
 		overflow: auto;
-
-		.giphy-logo {
-			position: absolute;
-			bottom: 0;
-			left: 0;
-		}
 
 		.giphy-result {
 			transition: all 0.3s;
 			cursor: pointer;
-
-			&:hover {
-				border: 1px solid $Orange;
-				transform: scale(1.1);
-			}
 		}
 
 		.gif-empty-search {
-			color: $DarkGrey;
+			color: $LightGrey;
 			display: flex;
-			align-items: center;
+			align-items: flex-end;
+			padding-bottom: 10px;
 			justify-content: center;
 			gap: 10px;
+			width: 280px;
+			height: 75px;
 		}
 
 		.gif-load-more {
@@ -65,10 +64,11 @@
 			padding: 20px;
 			transition: all 0.3s;
 			cursor: pointer;
-			background-color: $LighterGrey;
+			background-color: $DarkGrey;
+			color: white;
 
 			&:hover {
-				background-color: $LightGrey;
+				background-color: darken($color: $DarkGrey, $amount: 1.1);
 			}
 
 			.icon {
@@ -78,11 +78,22 @@
 	}
 
 	.chosen-gif {
-		max-height: 300px;
-		max-width: 300px;
+		height: 300px;
+		width: 500px;
 		margin-top: 10px;
+		position: relative;
 
-		img {
+		.giphy-logo-on-chosen {
+			position: absolute;
+			left: 0;
+			top: 0;
+	
+			img {
+				height: 35px;
+			}
+		}
+
+		> img {
 			max-height: 100%;
 			max-width: 100%;
 		}
