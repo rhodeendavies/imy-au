@@ -232,3 +232,12 @@ export class PaidiaLearningExperience {
 	text: string;
 	postPublicly: boolean;
 }
+
+export class PublicPaidiaLearningExperience extends PaidiaLearningExperience {
+	hasEmoji: boolean;
+	hasText: boolean;
+	hasColour: boolean;
+	hasGif: boolean;
+	backgroundColour: string;
+	shadowColour: string;
+}
