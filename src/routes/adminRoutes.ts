@@ -14,7 +14,7 @@ export class AdminRoutes {
 			nav: true,
 			title: 'Admin Dashboard',
 			settings: {
-				roles: [Roles.Admin],
+				roles: [Roles.Admin, Roles.Developer],
 				navbar: true,
 				authenticated: true
 			} as RouterSettings

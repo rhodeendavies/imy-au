@@ -11,6 +11,7 @@ export class Events {
 export class Routes {
 	static readonly AdminDash: string = "admin-dashboard";
 	static readonly Login: string = "login";
+	static readonly Error: string = "error";
 	static readonly Dashboard: string = "home";
 	static readonly Reflections: string = "reflections";
 	static readonly CourseContent: string = "content";

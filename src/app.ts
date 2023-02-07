@@ -37,9 +37,10 @@ export class App {
 	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
-		config.title = 'Aurelia';
+		config.title = 'FlipQuest';
 		config.addPipelineStep('authorize', AuthorizeStep);
 		config.map(RouteManager.CreateRoutes());
+		config.fallbackRoute('not-found');
 
 		this.router = router;
 	}

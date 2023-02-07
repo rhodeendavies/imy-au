@@ -17,6 +17,7 @@ export class AuthenticationService {
 
 	busy: Busy = new Busy();
 	private user: UserDetails;
+	homeRoute: string = Routes.Login;
 
 	constructor(
 		private router: Router,
@@ -43,23 +44,27 @@ export class AuthenticationService {
 		let course: Course = null;
 		switch (this.Role) {
 			case Roles.Admin:
-				this.router.navigate(Routes.AdminDash);
+			case Roles.Developer:
+				this.homeRoute = Routes.AdminDash;
 				break;
 			case Roles.Student:
 				course = await this.courseApi.getCourse(this.user.courseId);
 				this.user.course = course.name;
 				ComponentHelper.SetModule(course.name);
-				this.router.navigate(Routes.Dashboard);
-				break
+				this.homeRoute = Routes.Dashboard;
+				this.ea.publish(Events.Login);
+				break;
 			default:
+				this.homeRoute = Routes.Login;
 				throw "Invalid login";
 		}
-		this.ea.publish(Events.Login);
+		this.router.navigate(this.homeRoute);
 	}
 
 	async logout(): Promise<void> {
 		try {
 			this.busy.on();
+			this.homeRoute = Routes.Login;
 			this.redirectToLogin();
 			this.usersApi.logout();
 			setTimeout(() => {
@@ -103,7 +108,7 @@ export class AuthenticationService {
 	}
 
 	redirectToLogin() {
-		if (this.router.currentInstruction.config.name != Routes.Login) {
+		if (this.router.currentInstruction?.config.name != Routes.Login) {
 			this.router.navigateToRoute(Routes.Login);
 		}
 	}

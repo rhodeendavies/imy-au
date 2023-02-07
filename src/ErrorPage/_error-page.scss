@@ -1,0 +1,23 @@
+@use "./src/styles/variables"as *;
+
+.error-page-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+
+	> div {
+		height: 250px;
+		width: 250px;
+		text-align: center;
+		background-color: $LightGrey;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		border-radius: $BorderRadius;
+	}
+}

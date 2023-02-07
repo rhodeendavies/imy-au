@@ -28,6 +28,17 @@ export class CommonRoutes {
 				navbar: false,
 				authenticated: false
 			} as RouterSettings
+		}, {
+			route: ['not-found'],
+			name: Routes.Error,
+			moduleId: 'ErrorPage/error-page',
+			nav: true,
+			title: 'Page Not Found',
+			settings: {
+				roles: [""],
+				navbar: false,
+				authenticated: false
+			} as RouterSettings
 		}]
 	}
 }

@@ -1,0 +1,24 @@
+<template>
+	<div class="page">
+		<div class="error-page-container">
+			<div>
+				<div>
+					Are ya lost?
+				</div>
+				<div class="btn-row" if.bind="authenticated">
+					<button class="btn btn-default" if.bind="student" click.delegate="home()">
+						Home
+					</button>
+					<button class="btn btn-default" if.bind="!student" click.delegate="logout()">
+						Logout
+					</button>
+				</div>
+				<div class="btn-row" if.bind="!authenticated">
+					<button class="btn btn-default" click.delegate="login()">
+						Login
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
