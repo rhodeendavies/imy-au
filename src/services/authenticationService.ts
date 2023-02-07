@@ -42,7 +42,7 @@ export class AuthenticationService {
 
 	async initUser() {
 		let course: Course = null;
-		switch (this.Role) {
+		switch (this.user.role) {
 			case Roles.Admin:
 			case Roles.Developer:
 				this.homeRoute = Routes.AdminDash;
@@ -113,13 +113,14 @@ export class AuthenticationService {
 		}
 	}
 
-	get Role(): Roles {
+	async Role(): Promise<Roles> {
 		if (this.user == null || this.user == undefined) {
-			this.logout();
-			this.redirectToLogin();
-			return Roles.Unauthenticated;
+			this.user = await this.usersApi.authenticate();
+			if (this.user == null || this.user == undefined || !this.user.activated) {
+				return Roles.Unauthenticated;
+			}
+			await this.initUser();
 		}
-
 		return this.user.role;
 	}
 }

@@ -31,7 +31,7 @@
 					Week ${sectionSelected.order} <span if.bind="showPublicReflections">public</span> reflections
 				</div>
 				<div>
-					<button class="btn btn-primary" click.delegate="togglePublicReflections()">
+					<button class="btn btn-primary" click.delegate="togglePublicReflections()" disabled.bind="!evaluatingDone">
 						<span if.bind="!showPublicReflections">Public reflections</span>
 						<span if.bind="showPublicReflections">Private reflections</span>
 					</button>

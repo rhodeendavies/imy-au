@@ -11,15 +11,16 @@ export class AuthorizeStep {
 
 	async run(navigationInstruction: NavigationInstruction, next: Next) {
 		log.debug("navigating...");
-		if (!(await this.validateRoute(navigationInstruction))) {
+		const role = await this.authService.Role();
+		if (!(await this.validateRoute(navigationInstruction, role))) {
 			log.debug(`not authorized; redirecting`);
 			return next.cancel(new Redirect(this.authService.homeRoute));
 		}
 		return next();
 	}
 
-	async validateRoute(navigationInstruction: NavigationInstruction): Promise<boolean> {
-		const routeRole = navigationInstruction.getAllInstructions().some(x => x.config.settings.roles.includes(this.authService.Role));
+	async validateRoute(navigationInstruction: NavigationInstruction, role: Roles): Promise<boolean> {
+		const routeRole = navigationInstruction.getAllInstructions().some(x => x.config.settings.roles.includes(role));
 		const requiresAuthentication = navigationInstruction.getAllInstructions().some(x => x.config.settings.authenticated);
 		const authenticated = await this.authService.Authenticated();
 		return !requiresAuthentication || (authenticated && routeRole); 

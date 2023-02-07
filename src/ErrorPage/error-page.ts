@@ -15,7 +15,7 @@ export class ErrorPage {
 	async attached() {
 		this.authenticated = await this.authService.Authenticated();
 		if (this.authenticated) {
-			this.student = this.authService.Role == Roles.Student;
+			this.student = (await this.authService.Role()) == Roles.Student;
 		}
 	}
 

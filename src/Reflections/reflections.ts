@@ -12,6 +12,7 @@ export class Reflections {
 	sections: Section[];
 	sectionSelected: Section;
 	showPublicReflections: boolean = false;
+	evaluatingDone: boolean = false;
 	
 	constructor(private router: Router, private appState: ApplicationState, private authService: AuthenticationService) { }
 
@@ -48,6 +49,7 @@ export class Reflections {
 				section.dateString = interval.toFormat("d LLL");
 			}
 		});
+		this.evaluatingDone = this.sectionSelected.evaluatingReflectionId != null;
 	}
 
 	navigate(fragment: string) {
@@ -65,9 +67,11 @@ export class Reflections {
 		}
 		this.sectionSelected = section;
 		this.sectionSelected.open = true;
+		this.evaluatingDone = this.sectionSelected.evaluatingReflectionId != null;
 	}
 
 	togglePublicReflections() {
+		if (!this.evaluatingDone) return;
 		this.showPublicReflections = !this.showPublicReflections;
 	}
 }

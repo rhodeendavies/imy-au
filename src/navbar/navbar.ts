@@ -34,8 +34,8 @@ export class Navbar {
 	async createRoutes() {
 		this.showNavBar = this.router.navigation != null && (await this.authService.Authenticated());
 		if (!this.showNavBar) return [];
-		this.routes = this.router.navigation.filter(x =>
-			x.settings.navbar && x.settings.roles.includes(this.authService.Role));
+		const role = await this.authService.Role();
+		this.routes = this.router.navigation.filter(x => x.settings.navbar && x.settings.roles.includes(role));
 	}
 
 	destroyRoutes() {
