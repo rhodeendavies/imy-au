@@ -3,6 +3,7 @@ import { PaidiaEvaluation } from "../paidia-evaluation";
 import { ComponentHelper } from "utils/componentHelper";
 import data from "emoji-picker-element-data/en/emojibase/data.json";
 import { PaidiaSummaryType } from "utils/enums";
+import { Colours } from "utils/constants";
 
 @autoinject
 export class PaidiaEvaluationSummary {
@@ -70,7 +71,8 @@ export class PaidiaEvaluationSummary {
 	get AllowSubmit(): boolean {
 		return this.chosenEmojis != null && this.chosenEmojis.length > 0 &&
 			(!this.chosenEmojis.some(x => x.type == PaidiaSummaryType.colour)
-				|| !ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.color)) &&
+				|| (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.color)
+					&& this.localParent.model.learningExperience.color != Colours.LightGreyHex)) &&
 			(!this.chosenEmojis.some(x => x.type == PaidiaSummaryType.text)
 				|| (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.text) && this.textValid)) &&
 			(!this.chosenEmojis.some(x => x.type == PaidiaSummaryType.gif)

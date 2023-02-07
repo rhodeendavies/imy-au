@@ -3,6 +3,7 @@ import { autoinject } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
 import { PaidiaEvaluation } from "../paidia-evaluation";
 import { PaidiaTopic } from "models/reflectionsResponses";
+import { Colours } from "utils/constants";
 
 @autoinject
 export class PaidiaEvaluationTopics {
@@ -35,6 +36,6 @@ export class PaidiaEvaluationTopics {
 	}
 
 	get AllowNext(): boolean {
-		return this.topics?.every(x => !ComponentHelper.NullOrEmpty(x?.colour));
+		return this.topics?.every(x => !ComponentHelper.NullOrEmpty(x?.colour) && x?.colour != Colours.LightGreyHex);
 	}
 }
