@@ -5,52 +5,64 @@ import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { AuthenticationService } from "services/authenticationService";
-import { BaseDailyResponse } from "models/reflectionsResponses";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { Events } from "utils/constants";
+import { log } from "utils/log";
 
 @autoinject
 export class BaseDaily {
 
 	model: BaseDailyApiModel;
 	questions: StrategyPlanning;
+	triggerSub: Subscription;
 
 	constructor(
 		private localParent: DailyPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService
+		private reflectionsApi: ReflectionsService,
+		private ea: EventAggregator
 	) { }
 
 	attached() {
 		this.getDaily();
+		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
+			this.getDaily();
+		});
+	}
+
+	detached() {
+		this.triggerSub.dispose();
 	}
 
 	nextStep() {
 		this.localParent.nextStep();
-		this.submitDaily(false);
 	}
 
-	submitDaily(completed: boolean = true) {
-		this.model.completed = completed;
-		this.localParent.submitDaily(this.model, completed);
+	async submitDaily() {
+		this.model.completed = true;
+		const currentSection = await this.appState.getCurrentSection();
+		const id = await this.createDaily(currentSection.id);
+		if (id != null) {
+			this.localParent.submitDaily(this.model, id);
+		}
 	}
 
 	async getDaily() {
-		const currentSection = await this.appState.getCurrentSection();
-		const length = currentSection.dailyReflectionIds.length;
-		let id = currentSection.dailyReflectionIds[length - 1];
-		let reflection: BaseDailyResponse = null;
+		try {
+			this.localParent.busy.on();
+			const currentSection = await this.appState.getCurrentSection();
+			if (currentSection.planningReflectionId != null) {
+				const reflection = await this.reflectionsApi.getBasePlanningReflection(currentSection.planningReflectionId);
+				this.questions = reflection.answers.strategyPlanning;
+			}
 
-		if (id != null) {
-			reflection = await this.reflectionsApi.getBaseDailyReflection(id);
+			this.model = new BaseDailyApiModel();
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
 		}
-		if (id == null || (reflection != null && reflection.completed)) {
-			id = await this.createDaily(currentSection.id);
-			reflection = await this.reflectionsApi.getBaseDailyReflection(id);
-		}
-
-		this.localParent.reflectionId = id;
-		this.model = reflection.answers;
-		this.questions = reflection.questions.strategyPlanning;
 	}
 
 	async createDaily(sectionId: number): Promise<number> {

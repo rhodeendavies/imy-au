@@ -10,6 +10,12 @@ export class BaseLessonApiModel extends ReflectionApiModel {
 export class BaseDailyApiModel extends ReflectionApiModel {
 	courseFeelings?: CourseFeelings;
 	strategyRating?: StrategyRating;
+
+	constructor() {
+		super();
+		this.courseFeelings = new CourseFeelings();
+		this.strategyRating = new StrategyRating();
+	}
 }
 
 export class BasePlanningApiModel extends ReflectionApiModel {
@@ -42,6 +48,13 @@ export class LudusDailyApiModel extends ReflectionApiModel {
 	courseFeelings?: CourseFeelings;
 	strategyRating?: StrategyRating;
 	components?: LudusCalculated;
+
+	constructor() {
+		super();
+		this.courseFeelings = new CourseFeelings();
+		this.strategyRating = new StrategyRating();
+		this.components = new LudusCalculated();
+	}
 }
 
 export class LudusPlanningApiModel extends ReflectionApiModel {
@@ -77,6 +90,12 @@ export class PaidiaVideoRatingApiModel extends ReflectionApiModel {
 export class PaidiaDailyApiModel extends ReflectionApiModel {
 	courseFeelings?: PaidiaCourseFeelings;
 	strategyRating?: PaidiaStrategyRating;
+
+	constructor() {
+		super();
+		this.courseFeelings = new PaidiaCourseFeelings();
+		this.strategyRating = new PaidiaStrategyRating();
+	}
 }
 
 export class PaidiaPlanningApiModel extends ReflectionApiModel {
@@ -102,11 +121,20 @@ export class PaidiaEvaluatingApiModel extends ReflectionApiModel {
 
 export class CourseFeelings {
 	rating: number;
+
+	constructor() {
+		this.rating = null
+	}
 }
 
 export class PaidiaCourseFeelings {
 	emoji: string;
 	word: string;
+
+	constructor() {
+		this.emoji = "";
+		this.word = "";
+	}
 }
 
 export class StrategyRating {
@@ -114,6 +142,13 @@ export class StrategyRating {
 	reviewingRating: number;
 	practicingRating: number;
 	extendingRating: number;
+
+	constructor() {
+		this.learningRating = null;
+		this.reviewingRating = null;
+		this.practicingRating = null;
+		this.extendingRating = null;
+	}
 }
 
 export class PaidiaStrategyRating {
@@ -122,6 +157,14 @@ export class PaidiaStrategyRating {
 	practicingRating: string;
 	extendingRating: string;
 	canvas: string;
+
+	constructor() {
+		this.learningRating = "";
+		this.reviewingRating = "";
+		this.practicingRating = "";
+		this.extendingRating = "";
+		this.canvas = "";
+	}
 }
 
 export class SingleTextResponse {
@@ -165,6 +208,10 @@ export class LudusPreviousComponents {
 
 export class LudusCalculated {
 	calculated: LudusCalculatedComponents[];
+
+	constructor() {
+		this.calculated = [];
+	}
 }
 
 export class LudusCalculatedComponents {

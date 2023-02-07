@@ -3,5 +3,17 @@
 	<require from="./learningStrategies/base-learning-strategies"></require>
 
 	<base-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></base-feelings>
-	<base-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></base-learning-strategies>
+	<base-learning-strategies class="prompt-section" if.bind="!localParent.EvaluatingDone && localParent.ShowLearningStrategies"></base-learning-strategies>
+
+	<div if.bind="localParent.EvaluatingDone && localParent.ShowLearningStrategies">
+		<p class="reflection-question">
+			You cannot rate your learning strategies anymore
+		</p>
+
+		<div class="mt-30">
+			<button class="btn btn-primary" click.delegate="submitDaily()">
+				Finish
+			</button>
+		</div>
+	</div>
 </template>

@@ -94,7 +94,6 @@
 			"node_modules/@fortawesome/fontawesome-free/webfonts/*": "wwwroot/@fortawesome/fontawesome-free/webfonts",
 			"favicon.ico": "wwwroot",
 			"images/**/*": "wwwroot/images",
-			"src/config/*.json": "wwwroot/config",
 			"prompts/**/*": "wwwroot/prompts"
 		},
 		"loader": {

@@ -5,5 +5,17 @@
 	<loader if.bind="localParent.busy.Active"></loader>
 
 	<paidia-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-feelings>
-	<paidia-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></paidia-learning-strategies>
+	<paidia-learning-strategies class="prompt-section" if.bind="!localParent.EvaluatingDone && localParent.ShowLearningStrategies"></paidia-learning-strategies>
+
+	<div if.bind="localParent.EvaluatingDone && localParent.ShowLearningStrategies">
+		<p class="reflection-question">
+			You cannot rate your learning strategies anymore
+		</p>
+
+		<div class="mt-30">
+			<button class="btn btn-primary" click.delegate="submitDaily()">
+				Finish
+			</button>
+		</div>
+	</div>
 </template>

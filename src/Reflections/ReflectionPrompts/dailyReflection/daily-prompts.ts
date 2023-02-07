@@ -18,8 +18,8 @@ export class DailyPrompts extends SectionTrackerParent {
 	timeTillNextReflection: string;
 	timer: NodeJS.Timer;
 	triggerSub: Subscription;
-	reflectionId: number;
 	busy: Busy = new Busy();
+	evaluatingDone: boolean = false;
 
 	constructor(
 		private appState: ApplicationState,
@@ -58,8 +58,9 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.availability.available;
 	}
 
-	startDaily() {
+	async startDaily() {
 		if (!this.determineDailyAvailable()) return;
+		this.evaluatingDone = (await this.appState.getCurrentSection()).evaluatingReflectionId != null;
 		this.nextStep();
 	}
 
@@ -68,15 +69,13 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.appState.closeDaily();
 	}
 
-	async submitDaily(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel, completed: boolean) {
-		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, this.reflectionId, model);
+	async submitDaily(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel, id: number) {
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, id, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;
 		}
-		if (completed) {
-			this.appState.closeDaily();
-		}
+		this.appState.closeDaily();
 	}
 
 	@computedFrom("activeSection")
@@ -89,9 +88,14 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.activeSection == DailySections.Feelings && !this.busy.Active;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "evaluatingDone")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == DailySections.LearningStrategies;
+		return this.activeSection == DailySections.LearningStrategies && this.evaluatingDone;
+	}
+
+	@computedFrom("evaluatingDone")
+	get EvaluatingDone(): boolean {
+		return this.evaluatingDone;
 	}
 
 	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")

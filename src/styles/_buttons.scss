@@ -81,3 +81,19 @@
 	align-items: center;
 	justify-content: center;
 }
+
+.modal-close {
+	height: 40px;
+	width: 40px;
+	color: $White;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	cursor: pointer;
+	
+	.icon {
+		font-size: 50px;
+		font-weight: $bold;
+	}
+}

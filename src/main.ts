@@ -9,7 +9,6 @@ export function configure(aurelia: Aurelia): void {
 	aurelia.use
 		.standardConfiguration()
 		.feature('resources')
-		.plugin('aurelia-configuration')
 		.plugin('emoji-picker-element')
 		.singleton(ApplicationState)
 		.singleton(ApiWrapper)

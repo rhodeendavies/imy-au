@@ -1,4 +1,3 @@
-import { AureliaConfiguration } from "aurelia-configuration";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { ApiResponse } from "models/apiResponse";
 import { UserLogin } from "models/userDetails";

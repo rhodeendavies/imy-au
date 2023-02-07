@@ -7,7 +7,7 @@
 	<require from="Reflections/ReflectionPrompts/monitoring/monitoring-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/evaluation/evaluation-prompts"></require>
 	<require from="Reflections/ReflectionPrompts/videoRating/video-rating"></require>
-	
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700
@@ -16,14 +16,14 @@
 
 	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
 		<page-loader if.bind="Loading"></page-loader>
-		
+
 		<div class="app-nav">
 			<navbar></navbar>
 		</div>
 		<div class="app-body">
 			<router-view></router-view>
 		</div>
-		
+
 		<toast view-model.ref="toast"></toast>
 
 		<modal view-model.ref="ratingModal">
@@ -40,10 +40,29 @@
 				<span class="square-icon">
 					<span class="icon">edit</span>
 				</span>
-				New daily reflection
+				<span>
+					New daily reflection
+				</span>
+				<span class="modal-close" click.delegate="appState.closeDaily(false)"
+					if.bind="!appState.showAreYouSure">
+					<span class="icon">close</span>
+				</span>
 			</div>
 			<div slot="body" class="prompt-modal-body">
-				<daily-prompts></daily-prompts>
+				<daily-prompts show.bind="!appState.showAreYouSure"></daily-prompts>
+
+				<div class="daily-are-you-sure" if.bind="appState.showAreYouSure">
+					<div>Are you sure?</div>
+					<div>All progress will be lost.</div>
+					<div class="btn-row">
+						<button class="btn btn-primary" click.delegate="appState.closeDaily()">
+							Yes
+						</button>
+						<button class="btn btn-default" click.delegate="appState.closeDaily(false)">
+							No
+						</button>
+					</div>
+				</div>
 			</div>
 		</modal>
 
@@ -58,7 +77,7 @@
 				<planning-prompts></planning-prompts>
 			</div>
 		</modal>
-		
+
 		<modal view-model.ref="monitoringModal">
 			<div slot="header" class="flex-gap-lg">
 				<span class="square-icon">
@@ -83,5 +102,5 @@
 			</div>
 		</modal>
 	</div>
-	
+
 </template>

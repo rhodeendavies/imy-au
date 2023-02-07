@@ -45,7 +45,7 @@ export class LudusLearningStrategies {
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
-		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.questions.previousComponents);
+		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.previousComponents);
 	}
 
 	updateComponents() {

@@ -18,7 +18,6 @@ export class App {
 	private planningModal: Modal;
 	private monitoringModal: Modal;
 	private evaluationModal: Modal;
-	
 	// END OF MODALS
 
 	constructor(

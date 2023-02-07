@@ -36,6 +36,7 @@ export class ApplicationState {
 	emotionsStrings: Emotions;
 	watchedLesson: Lesson;
 	reflectionSection: string;
+	showAreYouSure: boolean = false;
 
 	constructor(
 		private ea: EventAggregator,
@@ -103,15 +104,20 @@ export class ApplicationState {
 	triggerDailyModal() {
 		if (!this.dailyModal.Open) {
 			this.dailyModal.toggle();
+			this.showAreYouSure = false;
 		}
 		this.ea.publish(Events.DailyTriggered);
 	}
 
-	closeDaily() {
-		if (this.dailyModal.Open) {
-			this.dailyModal.toggle();
+	closeDaily(areYouSure: boolean = true) {
+		if (areYouSure) {
+			if (this.dailyModal.Open) {
+				this.dailyModal.toggle();
+			}
+			this.refreshSections();
+		} else {
+			this.showAreYouSure = !this.showAreYouSure;
 		}
-		this.refreshSections();
 	}
 
 	@computedFrom("dailyModal.Open")

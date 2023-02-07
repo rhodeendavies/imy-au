@@ -3,5 +3,17 @@
 	<require from="./learningStrategies/ludus-learning-strategies"></require>
 
 	<ludus-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></ludus-feelings>
-	<ludus-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></ludus-learning-strategies>
+	<ludus-learning-strategies class="prompt-section" if.bind="!localParent.EvaluatingDone && localParent.ShowLearningStrategies"></ludus-learning-strategies>
+
+	<div if.bind="localParent.EvaluatingDone && localParent.ShowLearningStrategies">
+		<p class="reflection-question">
+			You cannot rate your learning strategies anymore
+		</p>
+
+		<div class="mt-30">
+			<button class="btn btn-primary" click.delegate="submitDaily()">
+				Finish
+			</button>
+		</div>
+	</div>
 </template>
