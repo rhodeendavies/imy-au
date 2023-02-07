@@ -15,7 +15,7 @@ export default {
 	inputIndicator: "Z",
 	articleIndicator: "Y",
 	moduleIndicator: "X",
-	numOfBackgroundImages: 14,
-	numOfCutOutImages: 100,
-	numOfStyles: 3
+	numOfBackgroundImages: 24,
+	numOfCutOutImages: 98,
+	numOfStyles: 15
 };
