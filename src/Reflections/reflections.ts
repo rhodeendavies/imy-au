@@ -5,6 +5,8 @@ import { DateTime, Interval } from "luxon";
 import { ApplicationState } from "applicationState";
 import { AuthenticationService } from "services/authenticationService";
 import { Systems } from "utils/enums";
+import { Busy } from "resources/busy/busy";
+import { log } from "utils/log";
 
 @autoinject
 export class Reflections {
@@ -13,28 +15,36 @@ export class Reflections {
 	sectionSelected: Section;
 	showPublicReflections: boolean = false;
 	evaluatingDone: boolean = false;
+	busy: Busy = new Busy();
 	
 	constructor(private router: Router, private appState: ApplicationState, private authService: AuthenticationService) { }
 
 	async attached() {
-		this.sections = await this.appState.getSections();
-		for (let index = 0; index < this.sections.length; index++) {
-			const section = this.sections[index];
-			switch (this.authService.System) {
-				case Systems.Base:
-					section.baseReflection = await this.appState.getSectionBaseReflection(section);
-					break;
-				case Systems.Ludus:
-					section.ludusReflection = await this.appState.getSectionLudusReflection(section);
-					break;
-				case Systems.Paidia:
-					section.paidiaReflection = await this.appState.getSectionPaidiaReflection(section);
-					break;
+		try {
+			this.busy.on();
+			this.sections = await this.appState.getSections();
+			for (let index = 0; index < this.sections.length; index++) {
+				const section = this.sections[index];
+				switch (this.authService.System) {
+					case Systems.Base:
+						section.baseReflection = await this.appState.getSectionBaseReflection(section);
+						break;
+					case Systems.Ludus:
+						section.ludusReflection = await this.appState.getSectionLudusReflection(section);
+						break;
+					case Systems.Paidia:
+						section.paidiaReflection = await this.appState.getSectionPaidiaReflection(section);
+						break;
+				}
 			}
+			const currentSection = await this.appState.getCurrentSection();
+			this.sectionSelected = this.sections.find(x => x.id == currentSection.id);
+			this.initData();
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.busy.off();
 		}
-		const currentSection = await this.appState.getCurrentSection();
-		this.sectionSelected = this.sections.find(x => x.id == currentSection.id);
-		this.initData();
 	}
 
 	initData() {

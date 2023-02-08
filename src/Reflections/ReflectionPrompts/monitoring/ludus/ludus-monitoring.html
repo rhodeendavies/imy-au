@@ -3,6 +3,8 @@
 	<require from="./questions/ludus-monitoring-questions"></require>
 	<require from="./learningStrategies/ludus-monitoring-learning-strategies"></require>
 
+	<loader if.bind="localParent.busy.Active"></loader>
+
 	<ludus-monitoring-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></ludus-monitoring-feelings>
 	<ludus-monitoring-questions class="prompt-section" if.bind="localParent.ShowQuestions"></ludus-monitoring-questions>
 	<ludus-monitoring-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></ludus-monitoring-learning-strategies>

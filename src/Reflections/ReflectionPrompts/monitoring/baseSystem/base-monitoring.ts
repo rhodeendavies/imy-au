@@ -5,6 +5,7 @@ import { ReflectionTypes } from "utils/enums";
 import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { BaseMonitoringApiModel, StrategyPlanning } from "models/reflectionsApiModels";
+import { log } from "utils/log";
 
 @autoinject
 export class BaseMonitoring {
@@ -34,6 +35,8 @@ export class BaseMonitoring {
 	}
 
 	async getMonitoring() {
+		try {
+			this.localParent.busy.on();
 		const currentSection = await this.appState.getCurrentSection();
 		let id = currentSection.monitoringReflectionId;
 		if (id == null) {
@@ -43,6 +46,11 @@ export class BaseMonitoring {
 		this.localParent.reflectionId = id;
 		this.model = reflection.answers;
 		this.questions = reflection.questions.strategyPlanning;
+	} catch (error) {
+		log.error(error);
+	} finally {
+		this.localParent.busy.off();
+	}
 	}
 
 	@computedFrom("authService.Course")

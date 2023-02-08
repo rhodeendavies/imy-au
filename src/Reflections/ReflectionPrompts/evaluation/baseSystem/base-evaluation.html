@@ -4,6 +4,8 @@
 	<require from="./learningStrategies/base-evaluation-learning-strategies"></require>
 	<require from="./summary/base-evaluation-summary"></require>
 
+	<loader if.bind="localParent.busy.Active"></loader>
+
 	<base-evaluation-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></base-evaluation-feelings>
 	<base-evaluation-topics class="prompt-section" if.bind="localParent.ShowTopics"></base-evaluation-topics>
 	<base-evaluation-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></base-evaluation-learning-strategies>

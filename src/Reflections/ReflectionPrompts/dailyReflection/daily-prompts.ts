@@ -10,6 +10,7 @@ import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
 import { ReflectionTypes, Systems } from "utils/enums";
+import { log } from "utils/log";
 
 @autoinject
 export class DailyPrompts extends SectionTrackerParent {
@@ -19,6 +20,8 @@ export class DailyPrompts extends SectionTrackerParent {
 	timer: NodeJS.Timer;
 	triggerSub: Subscription;
 	busy: Busy = new Busy();
+	availabilityBusy: Busy = new Busy();
+	startDailyBusy: Busy = new Busy();
 	evaluatingDone: boolean = false;
 
 	constructor(
@@ -44,24 +47,38 @@ export class DailyPrompts extends SectionTrackerParent {
 	}
 
 	async determineDailyAvailable(): Promise<boolean> {
-		this.availability = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Daily, (await this.appState.getCurrentSection()).id);
-		if (this.availability == null) return false;
+		try {
+			this.availabilityBusy.on();
+			this.availability = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Daily, await this.appState.getCurrentSectionId());
+			if (this.availability == null) return false;
 
-		const now = DateTime.now();
-		const lastReflection = DateTime.fromJSDate(this.availability.lastCompletedAt);
-		const interval = Interval.fromDateTimes(lastReflection, now);
+			const now = DateTime.now();
+			const lastReflection = DateTime.fromJSDate(this.availability.lastCompletedAt);
+			const interval = Interval.fromDateTimes(lastReflection, now);
 
-		if (!interval.isValid) return false;
-		const duration = Duration.fromObject({ hours: 24, minutes: 60 }).minus(interval.toDuration(['hours', 'minutes']));
-		this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
+			if (!interval.isValid) return false;
+			const duration = Duration.fromObject({ hours: 24, minutes: 60 }).minus(interval.toDuration(['hours', 'minutes']));
+			this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
 
-		return this.availability.available;
+			return this.availability.available;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.availabilityBusy.off();
+		}
 	}
 
 	async startDaily() {
-		if (!this.determineDailyAvailable()) return;
-		this.evaluatingDone = (await this.appState.getCurrentSection()).evaluatingReflectionId != null;
-		this.nextStep();
+		try {
+			this.startDailyBusy.on();
+			if (!this.determineDailyAvailable()) return;
+			this.evaluatingDone = (await this.appState.getCurrentSection()).evaluatingReflectionId != null;
+			this.nextStep();
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.startDailyBusy.off();
+		}
 	}
 
 	closeDaily() {

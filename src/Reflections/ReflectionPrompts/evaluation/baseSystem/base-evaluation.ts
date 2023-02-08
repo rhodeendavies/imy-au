@@ -6,6 +6,7 @@ import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { BaseEvaluatingQuestions } from "models/reflectionsResponses";
+import { log } from "utils/log";
 
 @autoinject
 export class BaseEvaluation {
@@ -33,15 +34,22 @@ export class BaseEvaluation {
 	}
 
 	async getEvaluating() {
-		const currentSection = await this.appState.getCurrentSection();
-		let id = currentSection.evaluatingReflectionId;
-		if (id == null) {
-			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Evaluating, currentSection.id)
+		try {
+			this.localParent.busy.on();
+			const currentSection = await this.appState.getCurrentSection();
+			let id = currentSection.evaluatingReflectionId;
+			if (id == null) {
+				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Evaluating, currentSection.id)
+			}
+			const reflection = await this.reflectionsApi.getBaseEvaluatingReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.questions = reflection.questions;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
 		}
-		const reflection = await this.reflectionsApi.getBaseEvaluatingReflection(id);
-		this.localParent.reflectionId = id;
-		this.model = reflection.answers;
-		this.questions = reflection.questions
 	}
 
 	@computedFrom("authService.Course")

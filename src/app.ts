@@ -47,6 +47,6 @@ export class App {
 
 	// GETS
 	get Loading(): boolean {
-		return this.authService.Busy;
+		return this.authService.Busy || this.appState.determineReflectionBusy.Active;
 	}
 }

@@ -3,6 +3,8 @@
 	<require from="./questions/base-monitoring-questions"></require>
 	<require from="./learningStrategies/base-monitoring-learning-strategies"></require>
 
+	<loader if.bind="localParent.busy.Active"></loader>
+
 	<base-monitoring-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></base-monitoring-feelings>
 	<base-monitoring-questions class="prompt-section" if.bind="localParent.ShowQuestions"></base-monitoring-questions>
 	<base-monitoring-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></base-monitoring-learning-strategies>

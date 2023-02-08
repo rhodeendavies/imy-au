@@ -6,6 +6,7 @@ import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { MonitoringPrompts } from "../monitoring-prompts";
+import { log } from "utils/log";
 
 @autoinject
 export class PaidiaMonitoring {
@@ -34,15 +35,22 @@ export class PaidiaMonitoring {
 	}
 
 	async getMonitoring() {
-		const currentSection = await this.appState.getCurrentSection();
-		let id = currentSection.monitoringReflectionId;
-		if (id == null) {
-			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Monitoring, currentSection.id)
+		try {
+			this.localParent.busy.on();
+			const currentSection = await this.appState.getCurrentSection();
+			let id = currentSection.monitoringReflectionId;
+			if (id == null) {
+				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Monitoring, currentSection.id)
+			}
+			const reflection = await this.reflectionsApi.getPaidiaMonitoringReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.questions = reflection.questions;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
 		}
-		const reflection = await this.reflectionsApi.getPaidiaMonitoringReflection(id);
-		this.localParent.reflectionId = id;
-		this.model = reflection.answers;
-		this.questions = reflection.questions;
 	}
 
 	@computedFrom("authService.Course")

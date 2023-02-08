@@ -5,6 +5,7 @@ import { BasePlanningApiModel } from "models/reflectionsApiModels";
 import { ReflectionTypes } from "utils/enums";
 import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
+import { log } from "utils/log";
 
 @autoinject
 export class BasePlanning {
@@ -33,14 +34,21 @@ export class BasePlanning {
 	}
 
 	async getPlanning() {
-		const currentSection = await this.appState.getCurrentSection();
-		let id = currentSection.planningReflectionId;
-		if (id == null) {
-			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
+		try {
+			this.localParent.busy.on();
+			const currentSection = await this.appState.getCurrentSection();
+			let id = currentSection.planningReflectionId;
+			if (id == null) {
+				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
+			}
+			this.localParent.reflectionId = id;
+			const reflection = await this.reflectionsApi.getBasePlanningReflection(id);
+			this.model = reflection.answers;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
 		}
-		this.localParent.reflectionId = id;
-		const reflection = await this.reflectionsApi.getBasePlanningReflection(id);
-		this.model = reflection.answers;
 	}
 
 	@computedFrom("authService.Course")

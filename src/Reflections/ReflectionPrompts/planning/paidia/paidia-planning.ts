@@ -34,16 +34,23 @@ export class PaidiaPlanning {
 	}
 
 	async getPlanning() {
-		this.reflectionLoaded = false;
-		const currentSection = await this.appState.getCurrentSection();
-		let id = currentSection.planningReflectionId;
-		if (id == null) {
-			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
+		try {
+			this.localParent.busy.on();
+			this.reflectionLoaded = false;
+			const currentSection = await this.appState.getCurrentSection();
+			let id = currentSection.planningReflectionId;
+			if (id == null) {
+				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
+			}
+			const reflection = await this.reflectionsApi.getPaidiaPlanningReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.reflectionLoaded = true;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
 		}
-		const reflection = await this.reflectionsApi.getPaidiaPlanningReflection(id);
-		this.localParent.reflectionId = id;
-		this.model = reflection.answers;
-		this.reflectionLoaded = true;
 	}
 
 	@computedFrom("authService.Course")

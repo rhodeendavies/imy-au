@@ -3,6 +3,8 @@
 	<require from="./questions/paidia-monitoring-questions"></require>
 	<require from="./learningStrategies/paidia-monitoring-learning-strategies"></require>
 
+	<loader if.bind="localParent.busy.Active"></loader>
+
 	<paidia-monitoring-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-monitoring-feelings>
 	<paidia-monitoring-questions class="prompt-section" if.bind="localParent.ShowQuestions"></paidia-monitoring-questions>
 	<paidia-monitoring-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></paidia-monitoring-learning-strategies>

@@ -33,16 +33,21 @@ export class LudusPlanning {
 	}
 
 	async getPlanning() {
-		const currentSection = await this.appState.getCurrentSection();
-		let id = currentSection.planningReflectionId;
-		log.debug("currentSection", currentSection);
-		if (id == null) {
-			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
+		try {
+			this.localParent.busy.on();
+			const currentSection = await this.appState.getCurrentSection();
+			let id = currentSection.planningReflectionId;
+			if (id == null) {
+				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
+			}
+			const reflection = await this.reflectionsApi.getLudusPlanningReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
 		}
-		log.debug("id", id);
-		const reflection = await this.reflectionsApi.getLudusPlanningReflection(id);
-		this.localParent.reflectionId = id;
-		this.model = reflection.answers;
 	}
 
 	@computedFrom("authService.Course")

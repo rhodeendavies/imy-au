@@ -1,6 +1,7 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BasePlanningApiModel, LudusPlanningApiModel, PaidiaPlanningApiModel } from "models/reflectionsApiModels";
+import { Busy } from "resources/busy/busy";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -11,6 +12,7 @@ export class PlanningPrompts extends SectionTrackerParent {
 	
 	weekTopic: string = "";
 	reflectionId: number;
+	busy: Busy = new Busy();
 
 	constructor(
 		private appState: ApplicationState,

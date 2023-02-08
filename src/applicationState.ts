@@ -14,6 +14,7 @@ import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
 import { ReflectionTypes, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
+import { log } from "utils/log";
 
 @autoinject
 export class ApplicationState {
@@ -27,7 +28,8 @@ export class ApplicationState {
 	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
 	private loginSub: Subscription;
-
+	
+	determineReflectionBusy = new Busy();
 	strategyOptions: StrategyOptions;
 	ludusPrompts: Prompts;
 	paidiaPrompts: Prompts;
@@ -186,36 +188,43 @@ export class ApplicationState {
 	}
 
 	async determineReflectionToShow() {
-		const section = await this.getCurrentSection();
-		// lessons
-		const lessons = section.lessons;
-		for (let index = 0; index < lessons.length; index++) {
-			const lesson = lessons[index];
-			if (lesson.complete) {
-				const lessonAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Lesson, lesson.id);
-				if (lessonAvailable.available) {
-					this.triggerRatingModal(lesson);
-					return;
+		try {
+			this.determineReflectionBusy.on();
+			const section = await this.getCurrentSection();
+			// lessons
+			const lessons = section.lessons;
+			for (let index = 0; index < lessons.length; index++) {
+				const lesson = lessons[index];
+				if (lesson.complete) {
+					const lessonAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Lesson, lesson.id);
+					if (lessonAvailable.available) {
+						this.triggerRatingModal(lesson);
+						return;
+					}
 				}
 			}
-		}
-		// planning
-		const planningAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Planning, section.id);
-		if (planningAvailable.available) {
-			this.triggerPlanningModal(section.name);
-			return;
-		}
-		// monitoring
-		const monitoringAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Monitoring, section.id);
-		if (monitoringAvailable.available) {
-			this.triggerMonitoringModal(section.name);
-			return;
-		}
-		// evaluating
-		const evaluatingAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Evaluating, section.id);
-		if (evaluatingAvailable.available) {
-			this.triggerEvaluationModal(section.name);
-			return;
+			// planning
+			const planningAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Planning, section.id);
+			if (planningAvailable.available) {
+				this.triggerPlanningModal(section.name);
+				return;
+			}
+			// monitoring
+			const monitoringAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Monitoring, section.id);
+			if (monitoringAvailable.available) {
+				this.triggerMonitoringModal(section.name);
+				return;
+			}
+			// evaluating
+			const evaluatingAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Evaluating, section.id);
+			if (evaluatingAvailable.available) {
+				this.triggerEvaluationModal(section.name);
+				return;
+			}
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.determineReflectionBusy.off();
 		}
 	}
 

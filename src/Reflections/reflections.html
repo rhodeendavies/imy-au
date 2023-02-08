@@ -37,15 +37,18 @@
 					</button>
 				</div>
 			</div>
+
+			<loader if.bind="busy.Active"></loader>
+
 			<public-reflections class="public-reflections"
-				if.bind="showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
+				if.bind="!busy.Active && showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</public-reflections>
 
 			<reflections-details 
 				base-reflection.bind="sectionSelected.baseReflection"
 				ludus-reflection.bind="sectionSelected.ludusReflection"
 				paidia-reflection.bind="sectionSelected.paidiaReflection"
-				if.bind="!showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
+				if.bind="!busy.Active && !showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</reflections-details>
 		</div>
 	</div>
