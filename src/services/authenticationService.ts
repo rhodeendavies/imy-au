@@ -15,8 +15,8 @@ import { ComponentHelper } from "utils/componentHelper";
 @autoinject
 export class AuthenticationService {
 
-	busy: Busy = new Busy();
 	private user: UserDetails;
+	private busy: Busy = new Busy();
 	homeRoute: string = Routes.Login;
 
 	constructor(

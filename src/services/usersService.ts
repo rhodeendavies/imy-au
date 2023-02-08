@@ -11,7 +11,7 @@ export class UsersService {
 
 	async login(userLogin: UserLogin): Promise<UserDetails> {
 		try {
-			return await this.api.post("users/login", userLogin);
+			return await this.api.post("users/login", userLogin, true, false);
 		} catch (error) {
 			log.error(error);
 			return null;
@@ -29,7 +29,7 @@ export class UsersService {
 
 	async authenticate(): Promise<UserDetails> {
 		try {
-			return await this.api.get("users/current");
+			return await this.api.get("users/current", false);
 		} catch (error) {
 			log.error(error);
 			const unAuth = new UserDetails();
@@ -40,7 +40,7 @@ export class UsersService {
 
 	async resetPassword(model: PasswordResetModel): Promise<ApiResponse> {
 		try {
-			return await this.api.post("users/reset_password", model);
+			return await this.api.post("users/reset_password", model, true, false);
 		} catch (error) {
 			log.error(error);
 			return new ApiResponse(false, "An error occurred");

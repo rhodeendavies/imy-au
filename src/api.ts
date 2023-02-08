@@ -26,7 +26,7 @@ export class ApiWrapper {
 		});
 	}
 
-	async get(url: string): Promise<any> {
+	async get(url: string, logError: boolean = true): Promise<any> {
 		try {
 			const response = await this.client.fetch(this.buildUrl(url));
 			if (response == null || !response.ok) {
@@ -37,11 +37,18 @@ export class ApiWrapper {
 			return JSON.parse(text, this.dateTimeReceiver);
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while doing GET to url '${url}'`, error);
+			if (logError) {
+				if (error instanceof Response) {
+					this.logError(`${error.status}`, error.statusText, error);
+				} else {
+					this.logError("000", "Unknown error", error);
+				}
+			}
 			throw error;
 		}
 	}
 
-	async post(url: string, body: any, parseResponse: boolean = true): Promise<any> {
+	async post(url: string, body: any, parseResponse: boolean = true, logError: boolean = true): Promise<any> {
 		try {
 			const response = await this.client.fetch(this.buildUrl(url), {
 				method: "POST",
@@ -59,6 +66,13 @@ export class ApiWrapper {
 			}
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
+			if (logError) {
+				if (error instanceof Response) {
+					this.logError(`${error.status}`, error.statusText, error);
+				} else {
+					this.logError("000", "Unknown error", error);
+				}
+			}
 			throw error;
 		}
 	}
@@ -82,6 +96,11 @@ export class ApiWrapper {
 			}
 		} catch (error) {
 			log.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
+			if (error instanceof Response) {
+				this.logError(`${error.status}`, error.statusText, error);
+			} else {
+				this.logError("000", "Unknown error", error);
+			}
 			throw error;
 		}
 	}
@@ -101,5 +120,17 @@ export class ApiWrapper {
 			}
 		}
 		return value;
+	}
+
+	async logError(statusCode: string, message: string, trace: any): Promise<void> {
+		try {
+			await this.post("errors/client", {
+				statusCode: statusCode,
+				message: message,
+				trace: JSON.stringify(trace)
+			}, false, false);
+		} catch (error) {
+			log.error(`[ApiWrapper] An error ocurred while logging an error'`, error);
+		}
 	}
 }
