@@ -1,7 +1,7 @@
 import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
 import { ApiResponse } from "models/apiResponse";
-import { PasswordResetModel, UserDetails, UserLogin } from "models/userDetails";
+import { PasswordResetModel, UserDetails, UserLogin, UserRegister } from "models/userDetails";
 import { log } from "utils/log";
 
 @autoinject
@@ -38,9 +38,29 @@ export class UsersService {
 		}
 	}
 
+	async sendPasswordResetEmail(studentNumber: string): Promise<ApiResponse> {
+		try {
+			return await this.api.post("users/send_password_reset_email", {
+				studentNumber: studentNumber
+			}, true, false);
+		} catch (error) {
+			log.error(error);
+			return new ApiResponse(false, "An error occurred");
+		}
+	}
+
 	async resetPassword(model: PasswordResetModel): Promise<ApiResponse> {
 		try {
 			return await this.api.post("users/reset_password", model, true, false);
+		} catch (error) {
+			log.error(error);
+			return new ApiResponse(false, "An error occurred");
+		}
+	}
+
+	async activate(model: UserRegister): Promise<ApiResponse> {
+		try {
+			return await this.api.post("users/activate", model, true, false);
 		} catch (error) {
 			log.error(error);
 			return new ApiResponse(false, "An error occurred");

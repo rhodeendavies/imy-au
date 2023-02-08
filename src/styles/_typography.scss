@@ -13,6 +13,7 @@ a {
 .hyper-link {
 	color: $Black;
 	text-decoration: underline;
+	cursor: pointer;
 
 	&:hover {
 		color: $SeaGreen;

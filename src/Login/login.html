@@ -3,10 +3,27 @@
 		<div class="login-image"></div>
 
 		<div class="login-center">
-			<div class="top-heading login-heading">
-				Log in
+			<div class="login-heading-wrapper" if.bind="!ShowForgotPassword">
+				<div class="login-heading ${ShowLogin ? 'active-heading' : ''}"
+					click.delegate="showLogin()">
+					Log in
+				</div>
+				<div class="login-heading ${ShowRegistration ? 'active-heading' : ''}"
+					click.delegate="showRegister()">
+					Register
+				</div>
 			</div>
-			<div class="login-box">
+			<div class="login-heading-wrapper" if.bind="ShowForgotPassword">
+				<div class="login-heading active-heading" click.delegate="showLogin()">
+					<span class="icon">arrow_back_ios_new</span>
+					Reset Password
+				</div>
+			</div>
+
+			<div class="login-box" if.bind="busy.Active">
+				<loader></loader>
+			</div>
+			<div class="login-box" if.bind="ShowLogin">
 				<div class="login-input">
 					<input-box value.bind="loginModel.studentNumber" label="Student number"
 						on-enter.call="login()">
@@ -29,9 +46,50 @@
 				</div>
 
 				<div class="text-center">
-					<a class="hyper-link" disabled click.delegate="register()">
+					<a class="hyper-link" disabled click.delegate="showForgotPassword()">
 						Forgot/ reset your password
 					</a>
+				</div>
+			</div>
+			<div class="login-box" if.bind="ShowRegistration">
+				<div class="login-input">
+					<input-box value.bind="registerModel.studentNumber" label="Student number">
+					</input-box>
+				</div>
+				<div class="login-input">
+					<input-box value.bind="registerModel.password" label="Password" type="password">
+					</input-box>
+				</div>
+				<div class="login-input">
+					<input-box value.bind="registerModel.passwordConfirmation" label="Confirm Password" type="password"
+						on-enter.call="register()">
+					</input-box>
+				</div>
+	
+				<message if.bind="ShowError">
+					${response.message}
+				</message>
+
+				<div class="login-action">
+					<button class="btn btn-primary" click.delegate="register()">
+						Register
+					</button>
+				</div>
+			</div>
+			<div class="login-box" if.bind="ShowForgotPassword">
+				<div class="login-input">
+					<input-box value.bind="studentNumber" label="Student number">
+					</input-box>
+				</div>
+	
+				<message if.bind="ShowError">
+					${response.message}
+				</message>
+
+				<div class="login-action">
+					<button class="btn btn-primary" click.delegate="resetPassword()">
+						Reset password
+					</button>
 				</div>
 			</div>
 		</div>

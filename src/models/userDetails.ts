@@ -22,6 +22,18 @@ export class UserLogin {
 	}
 }
 
+export class UserRegister {
+	studentNumber: string;
+	password: string;
+	passwordConfirmation: string;
+
+	constructor() {
+		this.studentNumber = "";
+		this.password = "";
+		this.passwordConfirmation = "";
+	}
+}
+
 export class Availability {
 	available: boolean;
 	partial: boolean;
