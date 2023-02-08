@@ -44,7 +44,7 @@ export class Dashboard {
 					break;
 			}
 		} catch (error) {
-			log.error(error)
+			log.error(error);
 		} finally {
 			this.busy.off();
 		}

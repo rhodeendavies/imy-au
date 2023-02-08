@@ -1,8 +1,9 @@
-import { autoinject } from 'aurelia-framework';
+import { LogManager, autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { log } from 'utils/log';
 import environment from 'environment';
 import { GiphySearchResult } from 'models/apiResponse';
+
+const apiLog = LogManager.getLogger('GIPHY API');
 
 @autoinject
 export class GiphyApi {
@@ -33,10 +34,10 @@ export class GiphyApi {
 				throw new Error("Request did not indicate success");
 			}
 			const text = await response.text();
-			// log.debug("json", text);
+			// apiLog.debug("json", text);
 			return JSON.parse(text);
 		} catch (error) {
-			log.error(`[ApiWrapper] An error ocurred while searching giphy`, error);
+			apiLog.error(`[ApiWrapper] An error ocurred while searching giphy`, error);
 			throw error;
 		}
 	}

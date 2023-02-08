@@ -1,8 +1,9 @@
-import { autoinject } from 'aurelia-framework';
+import { LogManager, autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { log } from 'utils/log';
 import environment from 'environment';
 import { DateHelper } from 'utils/dateHelper';
+
+const apiLog = LogManager.getLogger('API');
 
 @autoinject
 export class ApiWrapper {
@@ -33,11 +34,11 @@ export class ApiWrapper {
 				throw new Error("Request did not indicate success");
 			}
 			const text = await response.text();
-			// log.debug("json", text);
+			// apiLog.debug("json", text);
 			return JSON.parse(text, this.dateTimeReceiver);
 		} catch (error) {
-			log.error(`[ApiWrapper] An error ocurred while doing GET to url '${url}'`, error);
 			if (logError) {
+				apiLog.error(`[ApiWrapper] An error ocurred while doing GET to url '${url}'`, error);
 				if (error instanceof Response) {
 					this.logError(`${error.status}`, error.statusText, error);
 				} else {
@@ -57,7 +58,7 @@ export class ApiWrapper {
 			if (response == null || !response.ok) {
 				throw new Error("Request did not indicate success");
 			}
-			// log.debug("json", text);\
+			// apiLog.debug("json", text);\
 			if (parseResponse) {
 				const text = await response.text();
 				return JSON.parse(text, this.dateTimeReceiver);
@@ -65,8 +66,8 @@ export class ApiWrapper {
 				return response;
 			}
 		} catch (error) {
-			log.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 			if (logError) {
+				apiLog.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 				if (error instanceof Response) {
 					this.logError(`${error.status}`, error.statusText, error);
 				} else {
@@ -87,7 +88,7 @@ export class ApiWrapper {
 				throw new Error("Request did not indicate success");
 			}
 			const text = await response.text();
-			// log.debug("json", text);
+			// apiLog.debug("json", text);
 			if (parseResponse) {
 				const text = await response.text();
 				return JSON.parse(text, this.dateTimeReceiver);
@@ -95,8 +96,8 @@ export class ApiWrapper {
 				return response;
 			}
 		} catch (error) {
-			log.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 			if (error instanceof Response) {
+				apiLog.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 				this.logError(`${error.status}`, error.statusText, error);
 			} else {
 				this.logError("000", "Unknown error", error);
@@ -124,13 +125,15 @@ export class ApiWrapper {
 
 	async logError(statusCode: string, message: string, trace: any): Promise<void> {
 		try {
+			const authenticated = await this.get("users/current", false) != null;
+			if (!authenticated) return;
 			await this.post("errors/client", {
 				statusCode: statusCode,
 				message: message,
 				trace: JSON.stringify(trace)
 			}, false, false);
 		} catch (error) {
-			log.error(`[ApiWrapper] An error ocurred while logging an error'`, error);
+			apiLog.warn(`[ApiWrapper] An error ocurred while logging an error'`, error);
 		}
 	}
 }
