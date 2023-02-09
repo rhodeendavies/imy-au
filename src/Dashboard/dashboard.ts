@@ -55,7 +55,6 @@ export class Dashboard {
 	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
-		config.title = 'Aurelia';
 		config.map(StudentRoutes.getDashboardSubRoutes());
 
 		this.router = router;
