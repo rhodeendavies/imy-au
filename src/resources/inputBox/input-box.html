@@ -12,7 +12,8 @@
 		<div class="input-box-wrapper">
 			<div class="input-box">
 				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
-					blur.trigger="onBlurTrigger()" if.bind="ShowText" value.bind="value" placeholder.bind="placeholder"
+					blur.trigger="onBlurTrigger()" if.bind="ShowText" value.bind="value"
+					placeholder.bind="placeholder"
 					type="text" disabled.bind="disabled" id.bind="id" />
 
 				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
@@ -35,6 +36,16 @@
 
 				<div class="input-height-test" if.bind="ShowTextarea">${heightTest}</div>
 			</div>
+
+			<div class="input-info-wrapper" show.bind="showInfo && focussed">
+				<div class="input-info">
+					<slot></slot>
+				</div>
+				<div class="triangle">
+					<div class="inner"></div>
+					<div class="outer"></div>
+				</div>
+			</div>
 		</div>
 
 		<div class="input-limit-wrapper" if.bind="ShowTextarea">
@@ -46,6 +57,12 @@
 			<div class="${value.length > max ? 'input-maxed' : ''}">
 				<div>${value.length}/${max} characters max</div>
 			</div>
+		</div>
+
+		<div class="input-error">
+			<span if.bind="!valid">
+				*${error}
+			</span>
 		</div>
 	</div>
 </template>

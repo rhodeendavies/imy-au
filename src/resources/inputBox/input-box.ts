@@ -14,6 +14,8 @@ export class InputBox {
 	@bindable disabled: boolean = false;
 	@bindable min: number = null;
 	@bindable max: number = null;
+	@bindable showInfo: boolean = false;
+	@bindable error: string = "";
 
 	@bindable onFocus;
 	@bindable onBlur;
@@ -26,6 +28,7 @@ export class InputBox {
 	showPasswordToggle: boolean = false;
 	initDone: boolean = false;
 	heightTest: string = "";
+	focussed: boolean = false;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("inputBox");
@@ -53,6 +56,7 @@ export class InputBox {
 	}
 
 	onFocusTrigger() {
+		this.focussed = true;
 		if (this.onFocus != null) {
 			setTimeout(() => {
 				this.onFocus();
@@ -61,6 +65,7 @@ export class InputBox {
 	}
 
 	onBlurTrigger() {
+		this.focussed = false;
 		if (this.onBlur != null) {
 			setTimeout(() => {
 				this.onBlur();
@@ -157,7 +162,7 @@ export class InputBox {
 	@computedFrom("disabled", "type", "showPasswordToggle", "valid", "Valid")
 	get InputClasses(): string {
 		let classes = "";
-		if (this.ShowText && this.valid != null && !this.Valid) classes += " input-invalid";
+		if ((this.ShowText || this.ShowPassword) && this.valid != null && !this.Valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
 		if (this.ShowSearch) classes += " search-input";

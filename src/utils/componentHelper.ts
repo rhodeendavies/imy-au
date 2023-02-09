@@ -5,6 +5,7 @@ import environment from "environment";
 import { FeelingsSummary, HistoricCourseFeelings, PaidiaFeelingsSummary, PaidiaHistoricCourseFeelings, PaidiaTopic, QuestionTopic } from "models/reflectionsResponses";
 import { RadioOption } from "resources/radioButton/radio-button";
 import { PromptType } from "./enums";
+import { PasswordRequirements } from "models/userDetails";
 
 export class ComponentHelper {
 	static ModuleName: string = "";
@@ -21,7 +22,7 @@ export class ComponentHelper {
 	static RandomWholeNumber(min: number = 0, max: number = 100): number {
 		min = Math.ceil(min);
 		max = Math.floor(max);
-		const value =  Math.floor(Math.random() * (max - min + 1)) + min;
+		const value = Math.floor(Math.random() * (max - min + 1)) + min;
 		return value;
 	}
 
@@ -435,5 +436,16 @@ export class ComponentHelper {
 	static EmojiToString(emoji): string {
 		if (this.NullOrEmpty(emoji) || Number.isNaN(emoji)) return "";
 		return emoji.codePointAt(0).toString(16);
+	}
+
+	static PasswordValid(password: string): PasswordRequirements {
+		const result = new PasswordRequirements();
+		result.hasMoreThanEightCharacters = password.length >= 8;
+		result.hasUppercase = /[A-Z]/.test(password);
+		result.hasLowercase = /[a-z]/.test(password);
+		result.hasDigit = /\d/.test(password);
+		result.hasSymbol = /\W/.test(password);
+		return result;
+		
 	}
 }

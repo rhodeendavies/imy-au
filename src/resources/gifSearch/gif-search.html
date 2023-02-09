@@ -7,7 +7,7 @@
 			</input-box>
 		</div>
 		<div class="giphy-logo" if.bind="pickerOpen">
-			<img src="images/giphy.gif" />
+			<img src="images/content/giphy.gif" />
 		</div>
 		<div class="gif-search-dropdown">
 			<img repeat.for="result of results" class="giphy-result" src.bind="result.fixed_height.url"
@@ -26,7 +26,7 @@
 		</div>
 		<div class="chosen-gif" if.bind="ShowChosenGif">
 			<div class="giphy-logo-on-chosen">
-				<img src="images/giphy.gif" />
+				<img src="images/content/giphy.gif" />
 			</div>
 
 			<img src.bind="gif" />

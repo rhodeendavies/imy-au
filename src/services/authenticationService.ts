@@ -43,7 +43,7 @@ export class AuthenticationService {
 	async initUser() {
 		let course: Course = null;
 		switch (this.user.role) {
-			case Roles.Admin:
+			case Roles.Lecturer:
 			case Roles.Developer:
 				this.homeRoute = Routes.AdminDash;
 				break;

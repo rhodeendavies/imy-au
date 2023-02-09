@@ -50,4 +50,22 @@ export class PasswordResetModel {
 	resetToken: string;
 	newPassword: string;
 	newPasswordConfirmation: string;
+
+	constructor() {
+		this.resetToken = "";
+		this.newPassword = "";
+		this.newPasswordConfirmation = "";
+	}
+}
+
+export class PasswordRequirements {
+	hasMoreThanEightCharacters: boolean;
+	hasDigit: boolean;
+	hasUppercase: boolean;
+	hasLowercase: boolean;
+	hasSymbol: boolean;
+
+	isValid() {
+		return this.hasMoreThanEightCharacters && this.hasDigit && this.hasLowercase && this.hasUppercase && this.hasSymbol;
+	}
 }

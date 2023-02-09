@@ -1,20 +1,23 @@
 <template>
-	<div class="page login-page reset-password-page">
+	<div class="page login-page register-page">
 		<div class="login-image"></div>
 
 		<div class="login-center">
 			<div class="login-heading-wrapper">
 				<div class="login-heading">
-					Reset Password
+					Register
 				</div>
 			</div>
-
+			
 			<div class="login-box" if.bind="busy.Active">
 				<loader></loader>
 			</div>
 
-			<div class="login-box" if.bind="!busy.Active && !success">
-				<input-box value.bind="model.newPassword" label="New Password" type="password"
+			<div class="login-box" if.bind="!registerSuccess && !busy.Active">
+				<input-box value.bind="registerModel.studentNumber" label="Student number"
+					valid.bind="studentNumberValid" error="Required">
+				</input-box>
+				<input-box value.bind="registerModel.password" label="Password" type="password"
 					valid.bind="passwordValid" show-info.bind="true" error="Password too weak">
 					<ul class="password-requirements">
 						<li>
@@ -49,33 +52,35 @@
 						</li>
 					</ul>
 				</input-box>
-				<input-box value.bind="model.newPasswordConfirmation" label="Confirm Password"
+				<input-box value.bind="registerModel.passwordConfirmation" label="Confirm Password"
 					type="password" on-enter.call="register()" valid.bind="passwordsMatch"
 					error="Passwords don't match">
 				</input-box>
-
+	
 				<message if.bind="ShowError">
 					${response.message}
 				</message>
 
 				<div class="login-action">
-					<button class="btn btn-primary" click.delegate="resetPassword()">
-						Reset password
+					<button class="btn btn-primary" click.delegate="register()">
+						Register
 					</button>
+				</div>
+
+				<div class="login-links">
+					<a class="hyper-link" click.delegate="navigateToLogin()">
+						Log in
+					</a>
 				</div>
 			</div>
 
-			<div class="login-box" if.bind="!busy.Active && success">
+			<div class="login-box" if.bind="registerSuccess && !busy.Active">
 				<div class="login-success">
 					<div class="login-box-icon icon text-center">verified</div>
 					<span>
-						Password successfully reset!
+						Registration successful! <br/>
+						Redirecting...
 					</span>
-				</div>
-				<div class="login-action">
-					<button class="btn btn-default" click.delegate="login()">
-						Login
-					</button>
 				</div>
 			</div>
 		</div>
