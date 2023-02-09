@@ -17,10 +17,10 @@
 	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
 		<page-loader if.bind="Loading"></page-loader>
 
-		<div class="app-nav">
+		<div class="app-nav ${ReflectionOpen ? 'disable-app' : ''}" click.trigger="clickBody($event)">
 			<navbar></navbar>
 		</div>
-		<div class="app-body">
+		<div class="app-body ${ReflectionOpen ? 'disable-app' : ''}" click.trigger="clickBody($event)">
 			<router-view></router-view>
 		</div>
 
