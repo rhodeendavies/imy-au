@@ -3,6 +3,7 @@ export default {
 	testing: true,
 	api: {
 		baseUrl: "http://localhost:3000",
+		apiUrl: "/api/",
 		giphyUrl: "https://api.giphy.com/v1/gifs",
 		giphyApiKey: "u5Mj5yK4O9eGeYNYn2nolaFQahnwPnYt",
 		giphylimit: 25,

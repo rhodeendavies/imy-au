@@ -44,6 +44,8 @@ export class ApiWrapper {
 				} else {
 					this.logError("000", "Unknown error", error);
 				}
+			} else {
+				console.log("error", error);
 			}
 			throw error;
 		}
@@ -73,6 +75,8 @@ export class ApiWrapper {
 				} else {
 					this.logError("000", "Unknown error", error);
 				}
+			} else {
+				console.log("error", error);
 			}
 			throw error;
 		}
@@ -107,7 +111,7 @@ export class ApiWrapper {
 	}
 
 	private buildUrl(apiMethod: string): string {
-		return `/api/${apiMethod}`;
+		return `${environment.api.apiUrl}${apiMethod}`;
 	}
 
 	private dateTimeReceiver = function(key, value) {
