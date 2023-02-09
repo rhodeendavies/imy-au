@@ -20,10 +20,10 @@
 			</div>
 			<div class="login-box" if.bind="ShowLogin">
 				<input-box value.bind="loginModel.studentNumber" label="Student number" on-enter.call="login()"
-					valid.bind="studentNumberValid" error="Required">
+					valid.bind="studentNumberValid" error="*Required">
 				</input-box>
 				<input-box value.bind="loginModel.password" label="Password" type="password" on-enter.call="login()"
-					valid.bind="passwordValid" error="Required">
+					valid.bind="passwordValid" error="*Required">
 				</input-box>
 
 				<message if.bind="ShowError">
@@ -48,7 +48,7 @@
 
 			<div class="login-box" if.bind="ShowForgotPassword && !resetPasswordSent">
 				<input-box value.bind="loginModel.studentNumber" label="Student number"
-					valid.bind="studentNumberValid" error="Required">
+					valid.bind="studentNumberValid" error="*Required">
 				</input-box>
 
 				<message if.bind="ShowError">

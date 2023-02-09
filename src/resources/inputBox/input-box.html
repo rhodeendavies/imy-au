@@ -59,10 +59,8 @@
 			</div>
 		</div>
 
-		<div class="input-error">
-			<span if.bind="!valid">
-				*${error}
-			</span>
+		<div class="input-error" if.bind="!valid">
+			${error}
 		</div>
 	</div>
 </template>

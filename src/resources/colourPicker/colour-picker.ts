@@ -1,7 +1,8 @@
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, bindable, bindingMode, computedFrom } from "aurelia-framework";
 import ColorPicker from "simple-color-picker";
 import { ComponentHelper } from "utils/componentHelper";
-import { Colours } from "utils/constants";
+import { Colours, Events } from "utils/constants";
 
 @autoinject
 export class ColourPicker {
@@ -11,9 +12,9 @@ export class ColourPicker {
 	colourPicker: ColorPicker;
 	id: string;
 	pickerOpen: boolean = false;
-	blurring: boolean = false;
+	clickSub: Subscription;
 
-	constructor() {
+	constructor(private ea: EventAggregator) {
 		this.id = ComponentHelper.CreateId("colourPicker");
 	}
 
@@ -26,25 +27,22 @@ export class ColourPicker {
 		this.colourPicker.onChange(newColour => {
 			this.colour = newColour;
 		});
-	}
 
-	togglePicker() {
-		if (!this.blurring) {
-			this.pickerOpen = !this.pickerOpen;
-		}
-		setTimeout(() => {
-			if (this.pickerOpen) {
-				document.getElementById(this.id).focus();
+		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => {
+			if (clickedId == this.id) {
+				this.pickerOpen = !this.pickerOpen;
+			} else {
+				this.pickerOpen = false;
 			}
 		});
 	}
 
-	onBlur() {
-		this.blurring = true;
-		this.pickerOpen = false;
-		setTimeout(() => {
-			this.blurring = false;
-		}, 500);
+	detached() {
+		this.clickSub.dispose();
+	}
+
+	togglePicker() {
+		this.ea.publish(Events.PickerClicked, this.id);
 	}
 
 	@computedFrom("colour")

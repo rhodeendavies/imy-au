@@ -1,8 +1,10 @@
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, bindable, bindingMode, computedFrom } from "aurelia-framework";
 import { GiphyApi } from "giphyApi";
 import { GiphyImages, GiphySearchResult } from "models/apiResponse";
 import { Busy } from "resources/busy/busy";
 import { ComponentHelper } from "utils/componentHelper";
+import { Events } from "utils/constants";
 import { log } from "utils/log";
 
 @autoinject
@@ -15,8 +17,26 @@ export class GifSearch {
 	results: GiphyImages[];
 	totalResults: number;
 	pickerOpen: boolean = false;
+	clickSub: Subscription;
+	id: string;
 
-	constructor(private giphyApi: GiphyApi) { }
+	constructor(private giphyApi: GiphyApi, private ea: EventAggregator) {
+		this.id = ComponentHelper.CreateId("gifSearch");
+	}
+
+	attached() {
+		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => {
+			if (clickedId == this.id) {
+				this.pickerOpen = !this.pickerOpen;
+			} else {
+				this.pickerOpen = false;
+			}
+		});
+	}
+
+	detached() {
+		this.clickSub.dispose();
+	}
 
 	async searchGiphy() {
 		try {
@@ -47,7 +67,7 @@ export class GifSearch {
 	}
 
 	togglePicker() {
-		this.pickerOpen = !this.pickerOpen;
+		this.ea.publish(Events.PickerClicked, this.id);
 	}
 
 	selectGif(result: GiphyImages) {

@@ -1,6 +1,8 @@
 @use "./src/styles/variables"as *;
 
 .input-wrapper {
+	position: relative;
+	
 	&.disable-input {
 		.input-box-wrapper {
 			.input-box {
@@ -217,6 +219,8 @@
 		height: 20px;
 		font-size: 15px;
 		color: $Error;
+		position: absolute;
+		width: 100%;
 	}
 }
 
