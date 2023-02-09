@@ -2,7 +2,7 @@ export default {
 	debug: false,
 	testing: false,
 	api: {
-		baseUrl: "http://localhost:3000",
+		baseUrl: "https://flipquest.co.za",
 		giphyUrl: "https://api.giphy.com/v1/gifs",
 		giphyApiKey: "u5Mj5yK4O9eGeYNYn2nolaFQahnwPnYt",
 		giphylimit: 25,
