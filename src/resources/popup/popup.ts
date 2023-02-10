@@ -37,8 +37,14 @@ export class Popup {
 			const offset = $(`#${this.id}`).offset();
 			let top = 0;
 			if (this.position == PopupPosition.right || this.position == PopupPosition.left) {
+				let left = 0;
+				if (this.position == PopupPosition.left) {
+					left = offset.left - $(`#${this.popupBoxId}`).width();
+				} else {
+					left = offset.left + $(`#${this.id}`).width();
+				}
 				$(`#${this.popupBoxId}`).css({
-					"left": offset.left + $(`#${this.id}`).width()
+					"left": left
 				});
 				top = offset.top - Math.floor($(`#${this.popupBoxId}`).height() / 2) + 10;
 			} else {
