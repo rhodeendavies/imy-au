@@ -216,7 +216,7 @@
 		]
 	},
 	"pride": {
-		"colour": "#FFFFFF",
+		"colour": "#FFC751",
 		"text": "Pride",
 		"modifiers": [
 			{
@@ -578,7 +578,7 @@
 		]
 	},
 	"shame": {
-		"colour": "#FFFFFF",
+		"colour": "#0570A7",
 		"text": "Shame",
 		"modifiers": [
 			{
