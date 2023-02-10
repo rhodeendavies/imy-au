@@ -51,4 +51,8 @@ export class Navbar {
 	toggleLogoutModal() {
 		this.logoutModal.toggle();
 	}
+
+	navigate(row: NavModel) {
+		this.router.navigate(row.href);
+	}
 }

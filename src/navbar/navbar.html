@@ -20,7 +20,8 @@
 		<a class="navbar-name">
 			FlipQuest
 		</a>
-		<a href.bind="row.href" repeat.for="row of routes" class="nav-item ${row.isActive ? 'active-nav-item' : ''}">
+		<a href.bind="row.href" repeat.for="row of routes" click.delegate="navigate(row)"
+			class="nav-item ${row.isActive ? 'active-nav-item' : ''}">
 			${row.title}
 		</a>
 
