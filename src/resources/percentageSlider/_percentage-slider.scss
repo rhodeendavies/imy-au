@@ -82,6 +82,23 @@
 			display: flex;
 			align-items: center;
 
+			&.hide-value {
+				.percentage-slider {
+					// Thumb
+					&::-webkit-slider-thumb {
+						opacity: 0;
+					}
+			
+					&::-moz-range-thumb {
+						opacity: 0;
+					}
+			
+					&::-ms-thumb {
+						opacity: 0;
+					}
+				}
+			}
+
 			.percentage-slider {
 				width: 100%;
 				height: 0;
@@ -131,6 +148,16 @@
 				margin: 0 11px;
 				height: 2px;
 				background-color: $DarkGrey;
+
+				.hover-percentage {
+					position: absolute;
+					bottom: 15px;
+					color: $Orange;
+					font-size: 13px;
+					width: 5px;
+					display: flex;
+					justify-content: center;
+				}
 			}
 		}
 	}

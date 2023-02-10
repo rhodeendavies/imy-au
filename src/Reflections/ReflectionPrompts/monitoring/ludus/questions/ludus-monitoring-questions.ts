@@ -43,7 +43,7 @@ export class LudusMonitoringQuestions {
 		if (index > (this.numOfPrompts - 1)) {
 			index = 0;
 		}
-		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[index];
+		this.promptSections = this.appState.ludusPrompts.monitoringPrompts[index];
 		this.currentIndex = index;
 	}
 

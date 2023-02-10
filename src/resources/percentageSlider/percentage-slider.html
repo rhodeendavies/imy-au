@@ -12,9 +12,14 @@
 				<div class="percentage-sub-text">${lowText}</div>
 			</div>
 
-			<div class="percentage-bar-wrapper">
+			<div class="percentage-bar-wrapper ${percentage == null ? 'hide-value' : ''}">
 				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider" />
-				<div class="slider-bar"></div>
+				<div class="slider-bar">
+					<div class="hover-percentage" css="left: ${percentage}%"
+						if.bind="!showCircle && percentage != null">
+						${percentage}%
+					</div>
+				</div>
 			</div>
 
 			<div class="percentage-text">

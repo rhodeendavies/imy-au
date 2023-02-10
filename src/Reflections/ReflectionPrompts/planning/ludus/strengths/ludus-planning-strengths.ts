@@ -43,7 +43,7 @@ export class LudusPlanningStrengths {
 		if (index > (this.numOfPrompts - 1)) {
 			index = 0;
 		}
-		this.promptSections = this.appState.ludusPrompts.evaluatingPrompts[index];
+		this.promptSections = this.appState.ludusPrompts.planningPrompts[index];
 		this.currentIndex = index;
 	}
 
