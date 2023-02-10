@@ -36,6 +36,7 @@ export class Strategy extends LessonRatings {
 	valid?: boolean;
 	index?: number;
 	emoji?: string;
+	description?: string;
 
 	constructor() {
 		super();
@@ -63,6 +64,7 @@ export class LudusComponent {
 	total?: number;
 	score: number;
 	originalScore?: number;
+	description?: string;
 }
 
 export class PaidiaCanvasModel {

@@ -1,6 +1,6 @@
 import { LudusComponent, Strategy } from "models/reflections";
 import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, PaidiaTopicRating, TopicRating } from "models/reflectionsApiModels";
-import { Colour, EmotionModifier, PaidiaWord, PromptSection, StrategyOption } from "models/prompts";
+import { BasicLudusModifier, Colour, EmotionModifier, PaidiaWord, PromptSection, StrategyOption } from "models/prompts";
 import environment from "environment";
 import { FeelingsSummary, HistoricCourseFeelings, PaidiaFeelingsSummary, PaidiaHistoricCourseFeelings, PaidiaTopic, QuestionTopic } from "models/reflectionsResponses";
 import { RadioOption } from "resources/radioButton/radio-button";
@@ -10,6 +10,7 @@ import { PasswordRequirements } from "models/userDetails";
 export class ComponentHelper {
 	static ModuleName: string = "";
 	static PaidiaWords: PaidiaWord[] = [];
+	static LudusModifiers: BasicLudusModifier[] = [];
 
 	static SetModule(moduleName: string) {
 		this.ModuleName = moduleName;
@@ -69,11 +70,13 @@ export class ComponentHelper {
 		return {
 			title: strategyOption.title,
 			icon: strategyOption.icon,
+			description: strategyOption.description,
 			options: strategyOption.strategies.map(x => {
 				return {
 					name: x.name,
 					value: x.name,
-					selected: strategy == x.name
+					selected: strategy == x.name,
+					description: x.description
 				}
 			}),
 			strategy: strategy,
@@ -86,11 +89,13 @@ export class ComponentHelper {
 		return {
 			title: strategyOption.title,
 			icon: strategyOption.icon,
+			description: strategyOption.description,
 			options: strategyOption.strategies.map(x => {
 				return {
 					name: x.name,
 					value: x.index,
-					selected: strategy == x.name
+					selected: strategy == x.name,
+					description: x.description
 				}
 			}),
 			strategy: strategy,
@@ -103,12 +108,14 @@ export class ComponentHelper {
 		return {
 			title: strategyOption.title,
 			icon: strategyOption.icon,
+			description: strategyOption.description,
 			options: strategyOption.strategies.map(x => {
 				return {
 					name: x.name,
 					subText: ComponentHelper.CreateModifiersString(x.modifiers),
 					value: x.modifiers,
-					selected: strategy?.text == x.name
+					selected: strategy?.text == x.name,
+					description: x.description
 				}
 			}),
 			strategy: strategy?.text,
@@ -129,7 +136,10 @@ export class ComponentHelper {
 			if (!components.some(y => y.name == x.name)) {
 				components.push({
 					name: x.name,
-					amount: modifiers.filter(y => y.name == x.name).reduce((prev, curr) => { return prev + curr.amount }, 0)
+					amount: modifiers
+						.filter(y => y.name == x.name)
+						.reduce((prev, curr) => { return prev + curr.amount }, 0),
+					description: this.LudusModifiers.find(y => y.name == x.name)?.description
 				});
 			}
 		});
@@ -137,7 +147,8 @@ export class ComponentHelper {
 			return {
 				name: x.name,
 				total: x.amount,
-				score: 0
+				score: 0,
+				description: x.description
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 import { autoinject, bindable, bindingMode, computedFrom } from 'aurelia-framework';
 import { ComponentHelper } from 'utils/componentHelper';
+import { PopupPosition } from 'utils/enums';
 
 @autoinject
 export class RadioButton {
@@ -11,6 +12,7 @@ export class RadioButton {
 	@bindable label: string = "";
 	@bindable id: string = "";
 	@bindable type: RadioButtonTypes = RadioButtonTypes.normal;
+	@bindable position: PopupPosition = PopupPosition.right;
 
 	hovering: boolean;
 
@@ -81,6 +83,7 @@ export class RadioButton {
 export class RadioOption {
 	name: string;
 	subText?: string;
+	popup?: string;
 	value: any;
 	disabled?: boolean;
 	selected?: boolean;

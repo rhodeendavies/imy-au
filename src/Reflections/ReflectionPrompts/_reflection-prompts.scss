@@ -69,6 +69,8 @@
 		border-right: 1px solid $DarkGrey40;
 		padding-right: 20px;
 		overflow: auto;
+		position: relative;
+		z-index: 99999;
 
 		.strategy-option {
 			max-width: 80%;
@@ -96,6 +98,9 @@
 	font-size: 20px;
 	font-weight: $semi-bold;
 	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 .strategy-text {

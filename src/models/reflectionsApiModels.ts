@@ -270,6 +270,7 @@ export class LudusStrategy {
 export class LudusModifier {
 	name: string;
 	amount: number;
+	description?: string;
 }
 
 export class PaidiaLearningExperience {

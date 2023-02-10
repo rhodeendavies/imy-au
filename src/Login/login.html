@@ -19,12 +19,14 @@
 				<loader></loader>
 			</div>
 			<div class="login-box" if.bind="ShowLogin">
-				<input-box value.bind="loginModel.studentNumber" label="Student number" on-enter.call="login()"
-					valid.bind="studentNumberValid" error="*Required">
-				</input-box>
-				<input-box value.bind="loginModel.password" label="Password" type="password" on-enter.call="login()"
-					valid.bind="passwordValid" error="*Required">
-				</input-box>
+				<div class="login-inputs">
+					<input-box value.bind="loginModel.studentNumber" label="Student number" on-enter.call="login()"
+						valid.bind="studentNumberValid" error="*Required">
+					</input-box>
+					<input-box value.bind="loginModel.password" label="Password" type="password" on-enter.call="login()"
+						valid.bind="passwordValid" error="*Required">
+					</input-box>
+				</div>
 
 				<message if.bind="ShowError">
 					${response.message}

@@ -10,12 +10,19 @@
 		<div class="strategy-option-wrapper" if.bind="!busy.active">
 			<div repeat.for="strategy of strategies" class="strategy-option">
 				<div class="strategy-heading-wrapper">
-					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-heading">
+						<span>${strategy.title}</span>
+						<popup position="right">
+							<div slot="popup">
+								${strategy.description}
+							</div>
+						</popup>
+					</div>
 					<div class="strategy-sub-text">Choose 1</div>
 				</div>
 	
 				<radio-button options.bind="strategy.options" name.bind="strategy.strategy" value.bind="strategy.modifiers"
-					click.delegate="updateChart()">
+					click.delegate="updateChart()" position="right">
 				</radio-button>
 			</div>
 		</div>
@@ -31,7 +38,14 @@
 				reflections.
 			</div>
 			<div class="ludus-gauges">
-				<gauge repeat.for="component of components" value.bind="0" label.bind="component.name"></gauge>
+				<popup repeat.for="component of components">
+					<div slot="item">
+						<gauge value.bind="0"
+							label.bind="component.name">
+						</gauge>
+					</div>
+					<div slot="popup">${component.description}</div>
+				</popup>
 			</div>
 		</div>
 	</div>

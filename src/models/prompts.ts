@@ -88,3 +88,8 @@ export class StrategyOptions {
 	PracticingStrategies: StrategyOption;
 	ExtendingStrategies: StrategyOption;
 }
+
+export class BasicLudusModifier {
+	name: string;
+	description: string;
+}

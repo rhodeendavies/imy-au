@@ -10,7 +10,14 @@
 		<div class="strategy-option-wrapper">
 			<div repeat.for="strategy of strategies" class="strategy-option">
 				<div class="strategy-heading-wrapper">
-					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-heading">
+						<span>${strategy.title}</span>
+						<popup position="right">
+							<div slot="popup">
+								${strategy.description}
+							</div>
+						</popup>
+					</div>
 					<div class="strategy-sub-text">Choose 1</div>
 				</div>
 	

@@ -58,6 +58,12 @@
 		}
 
 		.login-box {
+			.login-inputs {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+			}
+
 			.login-action {
 				margin-top: 20px;
 				margin-bottom: 40px;

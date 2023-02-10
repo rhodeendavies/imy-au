@@ -11,12 +11,20 @@
 					<span class="icon">${strategy.icon}</span>
 				</div>
 				<div>
-					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-heading">
+						<span>${strategy.title}</span>
+						<popup>
+							<div slot="popup">
+								${strategy.description}
+							</div>
+						</popup>
+					</div>
 					<div class="strategy-sub-text">Choose 1</div>
 				</div>
 			</div>
 
-			<radio-button options.bind="strategy.options" value.bind="strategy.strategy">
+			<radio-button options.bind="strategy.options" value.bind="strategy.strategy"
+				position="bottom">
 			</radio-button>
 		</div>
 	</div>

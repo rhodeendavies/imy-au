@@ -69,3 +69,10 @@ export enum PaidiaSummaryType {
 	colour,
 	text
 }
+
+export enum PopupPosition {
+	top = "top",
+	bottom = "bottom",
+	left = "left",
+	right = "right"
+}

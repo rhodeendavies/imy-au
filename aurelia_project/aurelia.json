@@ -86,6 +86,13 @@
 						"name": "chart.js",
 						"path": "../node_modules/chart.js/dist",
 						"main": "chart.js"
+					},
+					{
+						"name": "jquery",
+						"path": "../node_modules/jquery/dist",
+						"main": "jquery.min.js",
+						"exports": "$",
+						"map": "jquery.min.map"
 					}
 				]
 			}

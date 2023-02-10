@@ -6,6 +6,8 @@ import { AuthorizeStep } from 'services/authorizeStep';
 import { Toast } from 'resources/toast/toast';
 import { ApplicationState } from 'applicationState';
 import { Modal } from 'resources/modal/modal';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { Events } from 'utils/constants';
 
 @autoinject
 export class App {
@@ -23,7 +25,8 @@ export class App {
 	constructor(
 		private router: Router,
 		private authService: AuthenticationService,
-		private appState: ApplicationState
+		private appState: ApplicationState,
+		private ea: EventAggregator
 	) { }
 
 	attached() {
@@ -34,6 +37,10 @@ export class App {
 		this.appState.setMonitoringModal(this.monitoringModal);
 		this.appState.setEvaluationModal(this.evaluationModal);
 		this.appState.init();
+
+		window.addEventListener("scroll", () => {
+			this.ea.publish(Events.Scrolled);
+		})
 	}
 
 	clickBody(event: Event) {

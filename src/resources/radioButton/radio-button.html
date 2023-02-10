@@ -6,7 +6,7 @@
 	<div if.bind="options.length > 0 && Normal" class="radio-options-wrapper ${Styles}">
 		<div repeat.for="option of options"
 			class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''} ${option.hovered ? 'hovered-radio-option' : ''}">
-			<p click.delegate="optionSelected(option)" class="radio-circle-wrapper">
+			<div click.delegate="optionSelected(option)" class="radio-circle-wrapper">
 				<!-- star -->
 				<span if.bind="Stars" class="icon radio-star" mouseenter.trigger="enableHover(option)" mouseleave.trigger="disableHover(option)">
 					star
@@ -15,8 +15,13 @@
 				<span if.bind="!Stars" class="radio-circle">
 					<span class="radio-inner-circle"></span>
 				</span>
-				<span if.bind="option.name != ''" innerhtml.bind="option.name"></span>
-			</p>
+				<popup position.bind="position">
+					<div slot="item">
+						<span if.bind="option.name != ''" innerhtml.bind="option.name"></span>
+					</div>
+					<div slot="popup">${option.description}</div>
+				</popup>
+			</div>
 
 			<div class="radio-option-subtext" if.bind="option.subText != ''">${option.subText}</div>
 		</div>

@@ -1,7 +1,7 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
-import { BasicPrompts, BasicStrategyOptions, Emotion, Emotions, PaidiaWord, Prompts, StrategyOptions } from "models/prompts";
+import { BasicLudusModifier, BasicPrompts, BasicStrategyOptions, Emotion, Emotions, PaidiaWord, Prompts, StrategyOptions } from "models/prompts";
 import { BaseReflection, LudusReflection, PaidiaReflection } from "models/reflections";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse, PaidiaEvaluatingResponse, PaidiaMonitoringResponse, PaidiaPlanningResponse } from "models/reflectionsResponses";
 import { Busy } from "resources/busy/busy";
@@ -430,6 +430,12 @@ export class ApplicationState {
 					});
 					emotion.modifiers = ComponentHelper.ShuffleArray(emotion.modifiers);
 				});
+			});
+
+		fetch("prompts/ludus-modifier-descriptions.json")
+			.then(response => response.json())
+			.then((output: BasicLudusModifier[]) => {
+				ComponentHelper.LudusModifiers = output;
 			});
 	}
 }

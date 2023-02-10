@@ -7,6 +7,7 @@ export class Events {
 	static readonly DailyTriggered: string = "DailyTriggered";
 	static readonly RefreshApp: string = "RefreshApp";
 	static readonly PickerClicked: string = "PickerClicked";
+	static readonly Scrolled: string = "Scrolled";
 }
 
 export class Routes {

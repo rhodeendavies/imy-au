@@ -23,12 +23,6 @@ export class PlanningPrompts extends SectionTrackerParent {
 
 	attached() {
 		this.activeSection = PlanningSections.Overview;
-		this.getWeekTopic();
-	}
-
-	getWeekTopic() {
-		// TODO: replace with actual call
-		this.weekTopic = "Styling tables and forms with CSS";
 	}
 	
 	async submitPlanning(model: BasePlanningApiModel | LudusPlanningApiModel | PaidiaPlanningApiModel, completed: boolean) {
