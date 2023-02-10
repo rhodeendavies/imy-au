@@ -26,29 +26,29 @@ export class PaidiaLearningStrategies {
 
 	initData() {
 		this.learningStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.localParent.questions.learningStrategy,
+			this.localParent.questions[0].learningStrategy,
 			this.appState.strategyOptions.LearningStrategies,
 			this.localParent.model.strategyRating.learningRating
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.localParent.questions.reviewingStrategy,
+			this.localParent.questions[0].reviewingStrategy,
 			this.appState.strategyOptions.ReviewingStrategies,
 			this.localParent.model.strategyRating.reviewingRating
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.localParent.questions.practicingStrategy,
+			this.localParent.questions[0].practicingStrategy,
 			this.appState.strategyOptions.PracticingStrategies,
 			this.localParent.model.strategyRating.practicingRating
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.localParent.questions.extendingStrategy,
+			this.localParent.questions[0].extendingStrategy,
 			this.appState.strategyOptions.ExtendingStrategies,
 			this.localParent.model.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 		
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strategyRating.canvas)) {
-			this.canvasModel = JSON.parse(this.localParent.questions.canvas);
+			this.canvasModel = JSON.parse(this.localParent.questions[1].canvas);
 		} else {
 			this.canvasModel = JSON.parse(this.localParent.model.strategyRating.canvas);
 		}

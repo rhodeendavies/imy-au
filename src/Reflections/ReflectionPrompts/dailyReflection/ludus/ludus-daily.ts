@@ -26,6 +26,7 @@ export class LudusDaily {
 	) { }
 
 	attached() {
+		this.getDaily();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.getDaily();
 		});

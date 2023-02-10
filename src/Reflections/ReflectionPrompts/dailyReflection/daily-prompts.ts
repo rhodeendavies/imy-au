@@ -101,14 +101,19 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.activeSection == DailySections.Overview;
 	}
 
-	@computedFrom("activeSection", "busy.Active")
-	get ShowFeelings(): boolean {
-		return this.activeSection == DailySections.Feelings && !this.busy.Active;
+	@computedFrom("busy.Active", "availabilityBusy.Active", "startDailyBusy.Active")
+	get Busy(): boolean {
+		return this.busy.Active || this.availabilityBusy.Active || this.startDailyBusy.Active;
 	}
 
-	@computedFrom("activeSection", "evaluatingDone")
+	@computedFrom("activeSection", "Busy")
+	get ShowFeelings(): boolean {
+		return this.activeSection == DailySections.Feelings && !this.Busy;
+	}
+
+	@computedFrom("activeSection")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == DailySections.LearningStrategies && this.evaluatingDone;
+		return this.activeSection == DailySections.LearningStrategies;
 	}
 
 	@computedFrom("evaluatingDone")

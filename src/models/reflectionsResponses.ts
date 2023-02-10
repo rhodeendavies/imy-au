@@ -100,7 +100,7 @@ export class PaidiaMonitoringResponse extends ReflectionResponse {
 }
 
 export class PaidiaMonitoringQuestions  {
-	strategyPlanning: PaidiaStrategyPlanning;
+	strategyPlanning: PaidiaStrategyPlanning[];
 }
 
 export class PaidiaEvaluatingResponse extends ReflectionResponse {
@@ -112,7 +112,7 @@ export class PaidiaEvaluatingQuestions {
 	courseFeelings: PaidiaHistoricCourseFeelings;
 	topicRatings: Topics;
 	lessonRatings: PaidiaLessonRatings[];
-	strategyPlanning: PaidiaStrategyPlanning;
+	strategyPlanning: PaidiaStrategyPlanning[];
 }
 // =======================================================================
 

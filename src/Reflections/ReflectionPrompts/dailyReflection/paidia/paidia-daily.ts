@@ -12,7 +12,7 @@ import { Events } from "utils/constants";
 @autoinject
 export class PaidiaDaily {
 	model: PaidiaDailyApiModel;
-	questions: PaidiaStrategyPlanning;
+	questions: PaidiaStrategyPlanning[];
 	triggerSub: Subscription;
 
 	constructor(
@@ -24,6 +24,7 @@ export class PaidiaDaily {
 	) { }
 
 	attached() {
+		this.getDaily();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.getDaily();
 		});
@@ -44,6 +45,7 @@ export class PaidiaDaily {
 
 	async getDaily() {
 		try {
+			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSectionId();
 			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, currentSection);
 			const reflection = await this.reflectionsApi.getPaidiaDailyReflection(id);

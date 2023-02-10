@@ -13,7 +13,7 @@ export class PaidiaMonitoringDetails {
 	extendingStrategy: Strategy;
 	strategies: Strategy[];
 	monitoringReflection: PaidiaMonitoringApiModel;
-	monitoringQuestions: PaidiaStrategyPlanning;
+	monitoringQuestions: PaidiaStrategyPlanning[];
 
 	constructor(private localParent: Paidia, private appState: ApplicationState) { }
 
@@ -30,22 +30,22 @@ export class PaidiaMonitoringDetails {
 		this.monitoringQuestions = this.localParent.reflection.monitoringReflection.questions.strategyPlanning;
 
 		this.learningStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.monitoringQuestions.learningStrategy,
+			this.monitoringQuestions[0].learningStrategy,
 			this.appState.strategyOptions.LearningStrategies,
 			this.monitoringReflection.strategyRating.learningRating
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.monitoringQuestions.reviewingStrategy,
+			this.monitoringQuestions[0].reviewingStrategy,
 			this.appState.strategyOptions.ReviewingStrategies,
 			this.monitoringReflection.strategyRating.reviewingRating
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.monitoringQuestions.practicingStrategy,
+			this.monitoringQuestions[0].practicingStrategy,
 			this.appState.strategyOptions.PracticingStrategies,
 			this.monitoringReflection.strategyRating.practicingRating
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromPaidia(
-			this.monitoringQuestions.extendingStrategy,
+			this.monitoringQuestions[0].extendingStrategy,
 			this.appState.strategyOptions.ExtendingStrategies,
 			this.monitoringReflection.strategyRating.extendingRating
 		);
@@ -58,12 +58,6 @@ export class PaidiaMonitoringDetails {
 	get MonitoringReflection(): PaidiaMonitoringApiModel {
 		this.initData();
 		return this.monitoringReflection;
-	}
-
-	@computedFrom("localParent.reflection.id")
-	get MonitoringQuestions(): PaidiaStrategyPlanning {
-		this.initData();
-		return this.monitoringQuestions;
 	}
 
 	@computedFrom("monitoringReflection.contentConfusion.response")

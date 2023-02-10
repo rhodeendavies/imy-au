@@ -25,6 +25,7 @@ export class BaseDaily {
 	) { }
 
 	attached() {
+		this.getDaily();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.getDaily();
 		});
