@@ -72,7 +72,7 @@ export class DailyPrompts extends SectionTrackerParent {
 	async startDaily() {
 		try {
 			this.startDailyBusy.on();
-			if (!this.determineDailyAvailable()) return;
+			if (!this.availability.available) return;
 			this.evaluatingDone = (await this.appState.getCurrentSection()).evaluatingReflectionId != null;
 			this.nextStep();
 		} catch (error) {

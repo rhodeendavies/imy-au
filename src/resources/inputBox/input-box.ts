@@ -74,14 +74,6 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
-		if (this.ShowLarge) {
-			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
-		} else {
-			this.valid = true;
-		}
-
-		this.valid = this.valid && ComponentHelper.InputValid(this.value);
-		
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
@@ -143,13 +135,19 @@ export class InputBox {
 
 	@computedFrom("value.length")
 	get Valid(): boolean {
-		if (this.ShowTextarea) {
+		if (this.value == null) return false;
+
+		if (this.ShowLarge) {
+			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+		} else if (this.ShowTextarea) {
 			this.min = 50;
 			this.max = 500;
-		}
-		if (this.min != null || this.max != null) {
 			this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+		} else {
+			this.valid = this.value.length >= 3;
 		}
+
+		this.valid = this.valid && ComponentHelper.InputValid(this.value);
 		return this.valid;
 	}
 
