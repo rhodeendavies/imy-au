@@ -17,6 +17,7 @@ export class PaidiaLearningStrategies {
 	strategies: Strategy[];
 	canvas: PaidiaCanvas;
 	canvasModel: PaidiaCanvasModel;
+	interactions: number = 0;
 
 	constructor(private localParent: PaidiaDaily, private appState: ApplicationState) { }
 
@@ -53,6 +54,13 @@ export class PaidiaLearningStrategies {
 			this.canvasModel = JSON.parse(this.localParent.model.strategyRating.canvas);
 		}
 		this.canvas.loadCanvas(this.canvasModel.canvas);
+
+		
+		if (this.localParent.model.strategyRating.interactions == null) {
+			this.interactions = 0;
+		} else {
+			this.interactions = this.localParent.model.strategyRating.interactions;
+		}
 	}
 
 	emojiChanged(strategy: Strategy) {
@@ -102,7 +110,8 @@ export class PaidiaLearningStrategies {
 			reviewingRating: ComponentHelper.EmojiToString(this.reviewingStrategy.emoji),
 			practicingRating: ComponentHelper.EmojiToString(this.practicingStrategy.emoji),
 			extendingRating: ComponentHelper.EmojiToString(this.extendingStrategy.emoji),
-			canvas: JSON.stringify(this.canvasModel)
+			canvas: JSON.stringify(this.canvasModel),
+			interactions: this.interactions
 		}
 		this.localParent.submitDaily();
 	}

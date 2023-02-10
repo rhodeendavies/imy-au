@@ -1,6 +1,7 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, bindable, bindingMode } from "aurelia-framework";
 import fabric from "fabric";
 import { ComponentHelper } from "utils/componentHelper";
+import { log } from "utils/log";
 
 @autoinject
 export class PaidiaCanvas {
@@ -13,6 +14,7 @@ export class PaidiaCanvas {
 	showCanvasAsImage: boolean = false;
 	canvasImage: string = "";
 	id: string = "";
+	@bindable({ defaultBindingMode: bindingMode.twoWay }) interactions: number = 0;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("paidiaCanvas");
@@ -27,6 +29,10 @@ export class PaidiaCanvas {
 		if (ctx == null) return false;
 
 		this.canvas = new fabric.Canvas(ctx);
+
+		this.canvas.on("mouse:down", () => {
+			++this.interactions;
+		});
 
 		return this.canvas != null;
 	}

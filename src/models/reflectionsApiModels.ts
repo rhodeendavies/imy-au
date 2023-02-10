@@ -157,6 +157,7 @@ export class PaidiaStrategyRating {
 	practicingRating: string;
 	extendingRating: string;
 	canvas: string;
+	interactions: number;
 
 	constructor() {
 		this.learningRating = "";
@@ -225,6 +226,7 @@ export class PaidiaStrategyPlanning {
 	practicingStrategy: string;
 	extendingStrategy: string;
 	canvas: string;
+	interactions: number;
 }
 
 export class TopicRatings {

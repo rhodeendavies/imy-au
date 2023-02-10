@@ -17,6 +17,7 @@ export class PaidiaPlanningLearningStrategies {
 	strategies: Strategy[];
 	canvas: PaidiaCanvas;
 	canvasModel: PaidiaCanvasModel;
+	interactions: number = 0;
 
 	constructor(private localParent: PaidiaPlanning, private appState: ApplicationState) { }
 
@@ -51,6 +52,12 @@ export class PaidiaPlanningLearningStrategies {
 		} else {
 			this.canvasModel = JSON.parse(this.localParent.model.strategyPlanning.canvas)
 			this.canvas.loadCanvas(this.canvasModel.canvas);
+		}
+		
+		if (this.localParent.model.strategyPlanning.interactions == null) {
+			this.interactions = 0;
+		} else {
+			this.interactions = this.localParent.model.strategyPlanning.interactions;
 		}
 	}
 
@@ -122,7 +129,8 @@ export class PaidiaPlanningLearningStrategies {
 			reviewingStrategy: this.reviewingStrategy.strategy,
 			practicingStrategy: this.practicingStrategy.strategy,
 			extendingStrategy: this.extendingStrategy.strategy,
-			canvas: JSON.stringify(this.canvasModel)
+			canvas: JSON.stringify(this.canvasModel),
+			interactions: this.interactions
 		}
 		this.localParent.submitPlanning();
 	}
