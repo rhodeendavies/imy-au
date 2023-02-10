@@ -2,7 +2,7 @@ stages:
   - deploy
 
 deploy:
-  image: node:14
+  image: node:16
   stage: deploy
   script:
     - echo "Removing package-lock.json"
