@@ -1,8 +1,13 @@
 <template>
 	<div class="percentage-slider-wrapper">
 		<div class="percentage-wrapper" if.bind="showCircle">
-			<div>
-				<div>${percentage}%</div>
+			<div class="outer-border">
+				<div class="inner-circle">
+					<div class="percentage-text">
+						${percentage}%
+					</div>
+					<div class="percentage-fill" css="height: ${percentage}%"></div>
+				</div>
 			</div>
 		</div>
 

@@ -1,5 +1,7 @@
 @use "./src/styles/variables"as *;
 
+$OppositeSeaGreen: #F27F87;
+
 @mixin rangeThumb {
 	width: 18px;
 	height: 18px;
@@ -25,27 +27,45 @@
 	justify-content: center;
 	margin-top: 30px;
 
-	> div {
-		border: 2px solid $SeaGreen;
+	.outer-border {
+		border: 2px solid $OppositeSeaGreen;
 		height: 125px;
 		width: 125px;
 		border-radius: 125px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: black;
+		filter: invert(100);
 
-		> div {
+		.inner-circle {
 			height: 115px;
 			width: 115px;
 			border-radius: 115px;
-			background-color: $SeaGreen;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 40px;
-			font-weight: $bold;
-			font-family: $Poppins;
-			color: white;
+			overflow: hidden;
+			position: relative;
+			
+			.percentage-text {
+				font-size: 40px;
+				font-weight: $bold;
+				font-family: $Poppins;
+				color: $OppositeSeaGreen;
+				text-align: center;
+				position: relative;
+				z-index: 2;
+				mix-blend-mode: difference;
+			}
+
+			.percentage-fill {
+				width: 100%;
+				position: absolute;
+				z-index: 1;
+				bottom: 0;
+				background-color: $OppositeSeaGreen;
+			}
 		}
 	}
 }
