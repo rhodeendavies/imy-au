@@ -28,6 +28,7 @@ export class ApplicationState {
 	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
 	private loginSub: Subscription;
+	private logoutSub: Subscription;
 	
 	determineReflectionBusy = new Busy();
 	strategyOptions: StrategyOptions;
@@ -48,6 +49,7 @@ export class ApplicationState {
 		private reflectionsApi: ReflectionsService
 	) {
 		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
+		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.refreshSections());
 	}
 
 	init() {
