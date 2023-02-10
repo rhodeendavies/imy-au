@@ -3,7 +3,7 @@ import { autoinject } from 'aurelia-framework';
 import { Router, NavModel } from 'aurelia-router';
 import { Modal } from 'resources/modal/modal';
 import { AuthenticationService } from 'services/authenticationService';
-import { Events } from 'utils/constants';
+import { Events, Routes } from 'utils/constants';
 
 @autoinject
 export class Navbar {
@@ -54,5 +54,9 @@ export class Navbar {
 
 	navigate(row: NavModel) {
 		this.router.navigate(row.href);
+	}
+
+	navigateHome() {
+		this.router.navigate(Routes.Dashboard, {replace: true, trigger: true});
 	}
 }

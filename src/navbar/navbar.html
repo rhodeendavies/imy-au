@@ -17,7 +17,7 @@
 	</modal>
 
 	<div class="navbar-wrapper" if.bind="showNavBar">
-		<a class="navbar-name">
+		<a class="navbar-name" click.delegate="navigateHome()">
 			FlipQuest
 		</a>
 		<a href.bind="row.href" repeat.for="row of routes" click.delegate="navigate(row)"
