@@ -8,11 +8,12 @@ import { DailyPrompts } from "../daily-prompts";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { Events } from "utils/constants";
 import { log } from "utils/log";
+import { LudusMonitoringQuestions } from "models/reflectionsResponses";
 
 @autoinject
 export class LudusDaily {
 	model: LudusDailyApiModel;
-	questions: LudusPlanningApiModel;
+	questions: LudusMonitoringQuestions;
 	previousComponents: LudusPreviousComponents;
 	triggerSub: Subscription;
 
@@ -25,7 +26,6 @@ export class LudusDaily {
 	) { }
 
 	attached() {
-		this.getDaily();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.getDaily();
 		});
@@ -41,45 +41,22 @@ export class LudusDaily {
 
 	async submitDaily() {
 		this.model.completed = true;
-		const currentSection = await this.appState.getCurrentSection();
-		const id = await this.createDaily(currentSection.id);
-		if (id != null) {
-			this.localParent.submitDaily(this.model, id);
-		}
+		this.localParent.submitDaily(this.model);
 	}
 
 	async getDaily() {
 		try {
 			this.localParent.busy.on();
-			const currentSection = await this.appState.getCurrentSection();
-			if (currentSection.monitoringReflectionId != null) {
-				const reflection = await this.reflectionsApi.getLudusMonitoringReflection(currentSection.monitoringReflectionId);
-				this.questions = reflection.questions;
-				this.previousComponents = reflection.questions.previousComponents;
-			} else if (currentSection.dailyReflectionIds != null && currentSection.dailyReflectionIds.length > 0) {
-				const id = currentSection.dailyReflectionIds[currentSection.dailyReflectionIds.length - 1];
-				const reflection = await this.reflectionsApi.getLudusDailyReflection(id);
-				this.questions = reflection.questions;
-				this.previousComponents = reflection.questions.previousComponents;
-			} else if (currentSection.planningReflectionId != null) {
-				const reflection = await this.reflectionsApi.getLudusPlanningReflection(currentSection.planningReflectionId);
-				this.questions = reflection.answers;
-				this.previousComponents = {
-					planning: reflection.answers.components,
-					monitoring: null,
-					daily: null
-				}
-			}
-
-			this.model = new LudusDailyApiModel();
+			const currentSection = await this.appState.getCurrentSectionId();
+			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, currentSection);
+			const reflection = await this.reflectionsApi.getLudusDailyReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.questions = reflection.questions;
 		} catch (error) {
 			log.error(error);
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	async createDaily(sectionId: number): Promise<number> {
-		return await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, sectionId);
 	}
 }

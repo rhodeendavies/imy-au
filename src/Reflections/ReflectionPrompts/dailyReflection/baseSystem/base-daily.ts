@@ -25,7 +25,6 @@ export class BaseDaily {
 	) { }
 
 	attached() {
-		this.getDaily();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.getDaily();
 		});
@@ -41,31 +40,22 @@ export class BaseDaily {
 
 	async submitDaily() {
 		this.model.completed = true;
-		const currentSection = await this.appState.getCurrentSection();
-		const id = await this.createDaily(currentSection.id);
-		if (id != null) {
-			this.localParent.submitDaily(this.model, id);
-		}
+		this.localParent.submitDaily(this.model);
 	}
 
 	async getDaily() {
 		try {
 			this.localParent.busy.on();
-			const currentSection = await this.appState.getCurrentSection();
-			if (currentSection.planningReflectionId != null) {
-				const reflection = await this.reflectionsApi.getBasePlanningReflection(currentSection.planningReflectionId);
-				this.questions = reflection.answers.strategyPlanning;
-			}
-
-			this.model = new BaseDailyApiModel();
+			const currentSection = await this.appState.getCurrentSectionId();
+			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection);
+			const reflection = await this.reflectionsApi.getBaseDailyReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.questions = reflection.questions.strategyPlanning;
 		} catch (error) {
 			log.error(error);
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	async createDaily(sectionId: number): Promise<number> {
-		return await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, sectionId);
 	}
 }

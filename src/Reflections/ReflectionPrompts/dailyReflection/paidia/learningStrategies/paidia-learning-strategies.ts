@@ -6,7 +6,6 @@ import { PaidiaDaily } from "../paidia-daily";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import { StrategyCategories } from "utils/enums";
 import environment from "environment";
-import { log } from "utils/log";
 
 @autoinject
 export class PaidiaLearningStrategies {

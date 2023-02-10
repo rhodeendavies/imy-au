@@ -3,11 +3,13 @@
 	<require from="./learningStrategies/base-learning-strategies"></require>
 
 	<base-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></base-feelings>
-	<base-learning-strategies class="prompt-section" if.bind="!localParent.EvaluatingDone && localParent.ShowLearningStrategies"></base-learning-strategies>
+	<base-learning-strategies class="prompt-section"
+		if.bind="!localParent.EvaluatingDone && localParent.ShowLearningStrategies"></base-learning-strategies>
 
 	<div if.bind="localParent.EvaluatingDone && localParent.ShowLearningStrategies">
 		<p class="reflection-question">
-			You cannot rate your learning strategies anymore
+			You’ve already finished evaluating your work this week so the option to evaluate yourself daily is disabled
+			for the rest of the week.
 		</p>
 
 		<div class="mt-30">

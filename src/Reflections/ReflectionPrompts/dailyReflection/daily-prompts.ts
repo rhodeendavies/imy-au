@@ -23,6 +23,7 @@ export class DailyPrompts extends SectionTrackerParent {
 	availabilityBusy: Busy = new Busy();
 	startDailyBusy: Busy = new Busy();
 	evaluatingDone: boolean = false;
+	reflectionId: number;
 
 	constructor(
 		private appState: ApplicationState,
@@ -86,8 +87,8 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.appState.closeDaily();
 	}
 
-	async submitDaily(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel, id: number) {
-		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, id, model);
+	async submitDaily(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel) {
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;

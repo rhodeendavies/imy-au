@@ -24,8 +24,6 @@ export class PaidiaDaily {
 	) { }
 
 	attached() {
-		this.getDaily();
-
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.getDaily();
 		});
@@ -41,38 +39,21 @@ export class PaidiaDaily {
 
 	async submitDaily() {
 		this.model.completed = true;
-		const currentSection = await this.appState.getCurrentSection();
-		const id = await this.createDaily(currentSection.id);
-		if (id != null) {
-			this.localParent.submitDaily(this.model, id);
-		}
+		this.localParent.submitDaily(this.model);
 	}
 
 	async getDaily() {
 		try {
-			this.localParent.busy.on();
-			const currentSection = await this.appState.getCurrentSection();
-			if (currentSection.monitoringReflectionId != null) {
-				const reflection = await this.reflectionsApi.getPaidiaMonitoringReflection(currentSection.monitoringReflectionId);
-				this.questions = reflection.questions.strategyPlanning;
-			} else if (currentSection.dailyReflectionIds != null && currentSection.dailyReflectionIds.length > 0) {
-				const id = currentSection.dailyReflectionIds[currentSection.dailyReflectionIds.length - 1];
-				const reflection = await this.reflectionsApi.getPaidiaDailyReflection(id);
-				this.questions = reflection.questions.strategyPlanning;
-			} else if (currentSection.planningReflectionId != null) {
-				const reflection = await this.reflectionsApi.getPaidiaPlanningReflection(currentSection.planningReflectionId);
-				this.questions = reflection.answers.strategyPlanning;
-			}
-
-			this.model = new PaidiaDailyApiModel();
+			const currentSection = await this.appState.getCurrentSectionId();
+			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, currentSection);
+			const reflection = await this.reflectionsApi.getPaidiaDailyReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.questions = reflection.questions.strategyPlanning;
 		} catch (error) {
 			log.error(error);
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	async createDaily(sectionId: number): Promise<number> {
-		return await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, sectionId);
 	}
 }
