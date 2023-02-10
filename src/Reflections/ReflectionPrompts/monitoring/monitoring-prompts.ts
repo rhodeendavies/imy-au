@@ -1,10 +1,12 @@
 import { ApplicationState } from "applicationState";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseMonitoringApiModel, LudusMonitoringApiModel, PaidiaMonitoringApiModel } from "models/reflectionsApiModels";
 import { Busy } from "resources/busy/busy";
 import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
+import { Events } from "utils/constants";
 import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
@@ -14,12 +16,17 @@ export class MonitoringPrompts extends SectionTrackerParent {
 	reflectionId: number;
 	reflectionTriggered: boolean = false;
 	busy: Busy = new Busy();
+	triggerSub: Subscription;
 
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
-		private reflectionsApi: ReflectionsService) {
+		private reflectionsApi: ReflectionsService,
+		private ea: EventAggregator) {
 		super();
+		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
+			this.activeSection = MonitoringSections.Overview;
+		});
 	}
 
 	attached() {

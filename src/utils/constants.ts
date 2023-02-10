@@ -5,6 +5,9 @@ export class Events {
 	static readonly Login: string = "Login";
 	static readonly Logout: string = "Logout";
 	static readonly DailyTriggered: string = "DailyTriggered";
+	static readonly PlanningTriggered: string = "PlanningTriggered";
+	static readonly MonitoringTriggered: string = "MonitoringTriggered";
+	static readonly EvaluationTriggered: string = "EvaluationTriggered";
 	static readonly RefreshApp: string = "RefreshApp";
 	static readonly PickerClicked: string = "PickerClicked";
 	static readonly Scrolled: string = "Scrolled";

@@ -134,6 +134,7 @@ export class ApplicationState {
 		if (!this.planningModal.Open) {
 			this.planningModal.toggle();
 		}
+		this.ea.publish(Events.PlanningTriggered);
 	}
 
 	closePlanning() {
@@ -154,6 +155,7 @@ export class ApplicationState {
 		if (!this.monitoringModal.Open) {
 			this.monitoringModal.toggle();
 		}
+		this.ea.publish(Events.MonitoringTriggered);
 	}
 
 	closeMonitoring() {
@@ -174,6 +176,7 @@ export class ApplicationState {
 		if (!this.evaluationModal.Open) {
 			this.evaluationModal.toggle();
 		}
+		this.ea.publish(Events.EvaluationTriggered);
 	}
 
 	closeEvaluation() {
