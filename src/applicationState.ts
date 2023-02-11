@@ -309,6 +309,7 @@ export class ApplicationState {
 		}
 		return {
 			id: section.id,
+			section: section,
 			planningReflection: planningResponse,
 			monitoringReflection: monitoringResponse,
 			evaluatingReflection: evaluatingResponse

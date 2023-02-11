@@ -2,6 +2,7 @@ import { RadioOption } from "resources/radioButton/radio-button";
 import { StrategyCategories } from "utils/enums";
 import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LessonRatings, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse, PaidiaEvaluatingResponse, PaidiaMonitoringResponse, PaidiaPlanningResponse } from "./reflectionsResponses";
 import { LudusModifier } from "./reflectionsApiModels";
+import { Section } from "./course";
 
 export class BaseReflection {
 	id: number;
@@ -12,6 +13,7 @@ export class BaseReflection {
 
 export class LudusReflection {
 	id: number;
+	section: Section;
 	planningReflection: LudusPlanningResponse;
 	monitoringReflection: LudusMonitoringResponse;
 	evaluatingReflection: LudusEvaluatingResponse;

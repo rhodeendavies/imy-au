@@ -3,6 +3,7 @@ import { ReflectionsDetails } from "../reflections-details";
 import { LudusComponent, LudusReflection, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { ApplicationState } from "applicationState";
+import { ReflectionsService } from "services/reflectionsService";
 
 @autoinject
 export class Ludus {
@@ -11,9 +12,13 @@ export class Ludus {
 	components: LudusComponent[];
 	finalScore: number;
 
-	constructor(private localParent: ReflectionsDetails, private appState: ApplicationState) { }
+	constructor(
+		private localParent: ReflectionsDetails,
+		private appState: ApplicationState,
+		private reflectionApi: ReflectionsService
+	) { }
 
-	attached() {
+	async attached() {
 		if (this.reflection == null || this.reflection.planningReflection == null) return;
 
 		const strategyPlanning = this.reflection.planningReflection.answers?.strategyPlanning;
@@ -39,13 +44,19 @@ export class Ludus {
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(strategies));
 
 		if (this.reflection.evaluatingReflection != null) {
+			// calculate from evaluation directly
 			this.components = ComponentHelper.AssignComponentScores(this.components, this.reflection.evaluatingReflection.answers.components.calculated);
 			this.finalScore = ComponentHelper.GetOriginalFinalScore(this.components);
 		} else if (this.reflection.monitoringReflection != null) {
-			this.components = ComponentHelper.AssignComponentScores(this.components, this.reflection.monitoringReflection.answers.components.calculated);
+			// use monitoring previous components
+			this.components = ComponentHelper.FindLatestScore(this.components, this.reflection.monitoringReflection.questions.previousComponents);
+		} else if (this.reflection.section.dailyReflectionIds != null && this.reflection.section.dailyReflectionIds.length > 0){
+			// check for latest daily
+			const length = this.reflection.section.dailyReflectionIds.length;
+			const latestDailyId = this.reflection.section.dailyReflectionIds[length - 1];
+			const latestDaily = await this.reflectionApi.getLudusDailyReflection(latestDailyId);
+			this.components = ComponentHelper.FindLatestScore(this.components, latestDaily.questions.previousComponents);
 		}
-
-		// TODO: check on any daily that could have been after monitoring
 	}
 
 	@computedFrom("localParent.dashboardVersion")

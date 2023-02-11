@@ -76,13 +76,9 @@ export class LudusEvaluationLearningStrategies {
 		this.localParent.nextStep();
 	}
 
-	updateComponents(strategy: Strategy = null) {
+	updateComponents() {
 		this.components = ComponentHelper.GetComponentScores(this.components, this.strategies);
 		this.finalScore = ComponentHelper.GetFinalScore(this.components);
-
-		if (strategy != null) {
-			this.saveStrategy(strategy);
-		}
 	}
 
 	saveStrategy(strategy: Strategy) {
@@ -149,6 +145,7 @@ export class LudusEvaluationLearningStrategies {
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
 	get AllowSubmit(): boolean {
+		this.updateComponents();
 		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}
 }

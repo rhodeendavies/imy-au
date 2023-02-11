@@ -49,13 +49,9 @@ export class LudusMonitoringLearningStrategies {
 		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.questions.previousComponents);
 	}
 
-	updateComponents(strategy: Strategy = null) {
+	updateComponents() {
 		if (this.components != null && this.components.length > 0) {
 			this.components = ComponentHelper.GetComponentScores(this.components, this.strategies, 0.6);
-		}
-
-		if (strategy != null) {
-			this.saveStrategy(strategy);
 		}
 	}
 
@@ -90,6 +86,7 @@ export class LudusMonitoringLearningStrategies {
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
 	get AllowSubmit(): boolean {
+		this.updateComponents();
 		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}
 }
