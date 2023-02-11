@@ -7,10 +7,6 @@
 		.emoji-dropdown-arrow {
 			transform: rotate(180deg);
 		}
-
-		.emoji-picker-dropdown {
-			display: block;
-		}
 	}
 
 	.emoji-picker-input {
@@ -45,9 +41,8 @@
 	}
 
 	.emoji-picker-dropdown {
-		position: absolute;
+		position: fixed;
 		z-index: 9;
-		display: none;
 		box-shadow: $BoxShadow;
 	}
 }
