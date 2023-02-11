@@ -21,6 +21,7 @@ export class PaidiaVideo {
 	) { }
 
 	attached() {
+		this.emoji = null;
 		this.model = new PaidiaVideoRatingApiModel();
 	}
 
