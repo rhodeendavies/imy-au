@@ -24,7 +24,7 @@
 			</div>
 
 			<radio-button options.bind="strategy.options" value.bind="strategy.strategy"
-				position="bottom">
+				position="bottom" on-change.call="saveStrategy(strategy)">
 			</radio-button>
 		</div>
 	</div>

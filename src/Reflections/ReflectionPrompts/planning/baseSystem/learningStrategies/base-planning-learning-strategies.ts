@@ -3,6 +3,7 @@ import { ComponentHelper } from "utils/componentHelper";
 import { BasePlanning } from "../base-planning";
 import { Strategy } from "models/reflections";
 import { ApplicationState } from "applicationState";
+import { StrategyCategories } from "utils/enums";
 
 @autoinject
 export class BasePlanningLearningStrategies {
@@ -37,6 +38,23 @@ export class BasePlanningLearningStrategies {
 			this.appState.strategyOptions.ExtendingStrategies
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
+	}
+
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyPlanning.learningStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyPlanning.extendingStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyPlanning.reviewingStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyPlanning.practicingStrategy = strategy.strategy;
+				break;
+		}
 	}
 
 	submit() {
