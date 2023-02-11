@@ -11,68 +11,107 @@
 
 	.gif-search-input {
 		width: 300px;
-	}
+		display: grid;
+		grid-template-columns: 250px auto;
+		gap: 20px;
 
-	.giphy-logo {
-		position: absolute;
-		z-index: 10;
-		left: 0;
-		top: 65px;
+		.search-btn {
+			background: $White;
+			border-radius: $BorderRadius;
+			height: 60px;
+			width: 60px;
+			font-size: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+			outline: 2px solid $SeaGreen;
+			cursor: pointer;
 
-		img {
-			height: 35px;
+			&:hover {
+				background-color: $PaleBlue;
+				outline-color: $PaleBlue;
+			}
 		}
 	}
 
 	.gif-search-dropdown {
-		position: absolute;
+		position: fixed;
 		z-index: 9;
-		top: 65px;
-		display: none;
-		justify-content: center;
-		flex-wrap: wrap;
 		padding: 10px;
-		gap: 10px;
 		background-color: $Black;
 		box-shadow: $BoxShadow;
-		max-width: 750px;
-		max-height: 500px;
-		overflow: auto;
+		border-radius: $BorderRadius;
 
-		.giphy-result {
-			transition: all 0.3s;
-			cursor: pointer;
-		}
-
-		.gif-empty-search {
-			color: $LightGrey;
+		.gif-search-header {
 			display: flex;
-			align-items: flex-end;
-			padding-bottom: 10px;
-			justify-content: center;
-			gap: 10px;
-			width: 280px;
-			height: 75px;
-		}
-
-		.gif-load-more {
-			display: flex;
-			flex-direction: column;
-			gap: 5px;
-			align-items: center;
-			justify-content: center;
-			padding: 20px;
-			transition: all 0.3s;
-			cursor: pointer;
-			background-color: $DarkGrey;
-			color: white;
-
-			&:hover {
-				background-color: darken($color: $DarkGrey, $amount: 1.1);
+			justify-content: space-between;
+			margin-bottom: 10px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			
+			.giphy-logo {
+				img {
+					height: 35px;
+				}
 			}
-
-			.icon {
+	
+			.gif-search-close {
+				color: white;
+				padding: 5px;
 				font-size: 30px;
+				display: flex;
+				cursor: pointer;
+			}
+		}
+
+		.gif-search-results {
+			max-width: 750px;
+			max-height: 400px;
+			overflow: auto;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			gap: 10px;
+
+			.giphy-result {
+				transition: all 0.3s;
+				cursor: pointer;
+				max-height: 150px;
+			}
+	
+			.gif-empty-search {
+				color: $LightGrey;
+				display: flex;
+				align-items: flex-end;
+				padding-bottom: 10px;
+				justify-content: center;
+				gap: 10px;
+				width: 280px;
+				height: 75px;
+			}
+	
+			.gif-load-more {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				transition: all 0.3s;
+				cursor: pointer;
+				background-color: $DarkGrey;
+				color: white;
+	
+				&:hover {
+					background-color: darken($color: $DarkGrey, $amount: 1.1);
+				}
+	
+				.icon {
+					font-size: 30px;
+				}
 			}
 		}
 	}

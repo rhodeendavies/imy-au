@@ -1,29 +1,42 @@
 <template>
-	<div class="gif-search-wrapper ${pickerOpen ? 'gif-search-open' : ''}" id.bind="id">
-		<div class="gif-search-input">
+	<div class="gif-search-wrapper ${pickerOpen ? 'gif-search-open' : ''}">
+		<div class="gif-search-input" id.bind="id">
 			<input-box value.bind="search" on-enter.call="searchGiphy()"
-				on-focus.call="togglePicker()" type="search"
+				on-focus.call="openPicker()"
 				placeholder="Search via Giphy" validate.bind="false">
 			</input-box>
-		</div>
-		<div class="giphy-logo" if.bind="pickerOpen">
-			<img src="images/content/giphy.gif" />
-		</div>
-		<div class="gif-search-dropdown">
-			<img repeat.for="result of results" class="giphy-result" src.bind="result.fixed_height.url"
-				click.delegate="selectGif(result)" />
-
-			<div class="gif-empty-search" if.bind="results == null || results.length == 0">
-				Hit enter to search
-			</div>
-
-			<loader if.bind="busy.Active"></loader>
-
-			<div class="gif-load-more" if.bind="results.length > 0" click.delegate="loadMore()">
-				<span class="icon">add</span>
-				Load more
+			<div class="search-btn" click.delegate="searchGiphy()">
+				<span class="icon">search</span>
 			</div>
 		</div>
+		
+		<div class="gif-search-dropdown" id.bind="pickerId" show.bind="pickerOpen">
+			<div class="gif-search-header">
+				<div class="giphy-logo">
+					<img src="images/content/giphy.gif" />
+				</div>
+				<div class="gif-search-close" click.delegate="closePicker()">
+					<span class="icon">close</span>
+				</div>
+			</div>
+
+			<div class="gif-search-results">
+				<img repeat.for="result of results" class="giphy-result" src.bind="result.fixed_height.url"
+					click.delegate="selectGif(result)" />
+	
+				<div class="gif-empty-search" if.bind="results == null || results.length == 0">
+					Hit enter to search
+				</div>
+	
+				<loader if.bind="busy.Active"></loader>
+	
+				<div class="gif-load-more" if.bind="results.length > 0" click.delegate="loadMore()">
+					<span class="icon">add</span>
+					Load more
+				</div>
+			</div>
+		</div>
+
 		<div class="chosen-gif" if.bind="ShowChosenGif">
 			<div class="giphy-logo-on-chosen">
 				<img src="images/content/giphy.gif" />

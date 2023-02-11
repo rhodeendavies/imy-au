@@ -30,27 +30,34 @@ export class ColourPicker {
 			this.colour = newColour;
 		});
 
-		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => {
-			if (clickedId == this.id) {
-				this.pickerOpen = !this.pickerOpen;
-				const offset = $(`#${this.id}`).offset();
-				$(`#${this.pickerId}`).css({
-					"top": offset.top - $(window).scrollTop(),
-					"left": offset.left + $(`#${this.id}`).width() + 15
-				});
-
-			} else {
-				this.pickerOpen = false;
-			}
-		});
+		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => this.openPicker(clickedId));
+		this.clickSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
 	}
 
 	detached() {
 		this.clickSub.dispose();
 	}
 
+	openPicker(clickedId: string) {
+		if (clickedId == this.id) {
+			this.pickerOpen = !this.pickerOpen;
+			const offset = $(`#${this.id}`).offset();
+			$(`#${this.pickerId}`).css({
+				"top": offset.top - $(window).scrollTop(),
+				"left": offset.left + $(`#${this.id}`).width() + 15
+			});
+
+		} else {
+			this.closePicker();
+		}
+	}
+
 	togglePicker() {
 		this.ea.publish(Events.PickerClicked, this.id);
+	}
+
+	closePicker() {
+		this.pickerOpen = false;
 	}
 
 	@computedFrom("colour")

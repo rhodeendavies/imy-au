@@ -30,7 +30,7 @@
 		</div>
 
 		<div class="paidia-summary-dropdown-wrapper ${pickerOpen ? 'paidia-summary-dropdown-open' : ''}"
-			if.bind="emojis.length > 0" tabindex="0" blur.trigger="togglePicker()">
+			if.bind="emojis.length > 0" tabindex="0" blur.trigger="closePicker()">
 			<div class="paidia-summary-dropdown-btn" click.delegate="togglePicker()" id.bind="id">
 				<div class="icon">add</div>
 			</div>

@@ -1,6 +1,6 @@
 <template>
 	<div class="colour-picker-wrapper ${pickerOpen ? 'colour-picker-open' : ''}"
-		tabindex="0" blur.trigger="togglePicker()">
+		tabindex="0" blur.trigger="closePicker()">
 		<div class="colour-picker-label-wrapper" css.bind="Colour">
 			<div class="colour-picker-label" css.bind="TextColour">${label}</div>
 		</div>

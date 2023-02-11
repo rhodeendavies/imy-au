@@ -10,6 +10,7 @@ export class Events {
 	static readonly EvaluationTriggered: string = "EvaluationTriggered";
 	static readonly RefreshApp: string = "RefreshApp";
 	static readonly PickerClicked: string = "PickerClicked";
+	static readonly Scrolled: string = "Scrolled";
 	static readonly ReflectionDetailsChanged: string = "ReflectionDetailsChanged";
 }
 

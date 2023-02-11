@@ -39,7 +39,7 @@ export class App {
 		this.appState.init();
 
 		window.addEventListener("scroll", () => {
-			this.ea.publish(Events.PickerClicked);
+			this.ea.publish(Events.Scrolled);
 		}, true)
 	}
 

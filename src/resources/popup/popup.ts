@@ -21,9 +21,7 @@ export class Popup {
 	}
 
 	attached() {
-		this.scrollSub = this.ea.subscribe(Events.PickerClicked, () => {
-			this.close();
-		});
+		this.scrollSub = this.ea.subscribe(Events.Scrolled, () => this.close());
 	}
 
 	detached() {
