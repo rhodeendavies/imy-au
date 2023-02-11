@@ -22,7 +22,7 @@
 				</div>
 
 				<radio-button options.bind="strategy.options" name.bind="strategy.strategy"
-					value.bind="strategy.modifiers" click.delegate="updateChart()" position="right">
+					value.bind="strategy.modifiers" on-change.call="updateChart(strategy)" position="right">
 				</radio-button>
 			</div>
 		</div>

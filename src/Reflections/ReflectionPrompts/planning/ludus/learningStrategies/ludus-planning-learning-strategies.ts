@@ -7,6 +7,7 @@ import { log } from "utils/log";
 import { Chart, DoughnutController, ArcElement, Tooltip, Legend, ChartType } from 'chart.js'
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
+import { StrategyCategories } from "utils/enums";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -58,6 +59,23 @@ export class LudusPlanningLearningStrategies {
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyPlanning.learningStrategy = ComponentHelper.CreateLudusModifier(strategy);
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyPlanning.extendingStrategy = ComponentHelper.CreateLudusModifier(strategy);
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyPlanning.reviewingStrategy = ComponentHelper.CreateLudusModifier(strategy);
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyPlanning.practicingStrategy = ComponentHelper.CreateLudusModifier(strategy);
+				break;
+		}
+	}
+
 	submit() {
 		if (!this.AllowSubmit) return;
 		this.localParent.model.strategyPlanning = {
@@ -102,11 +120,15 @@ export class LudusPlanningLearningStrategies {
 		}
 	}
 
-	updateChart() {
+	updateChart(strategy: Strategy = null) {
 		setTimeout(() => {
 			const emptyChart = this.strategies.every(x => ComponentHelper.NullOrEmpty(x.strategy));
 			this.createChart(emptyChart);
 		}, 0);
+
+		if (strategy != null) {
+			this.saveStrategy(strategy);
+		}
 	}
 
 	createChart(emptyChart: boolean) {

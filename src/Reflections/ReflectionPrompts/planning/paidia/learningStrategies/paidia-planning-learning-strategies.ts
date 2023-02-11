@@ -90,6 +90,27 @@ export class PaidiaPlanningLearningStrategies {
 				this.canvas.addImage(image, style, PaidiaImages.Practicing);
 				break;
 		}
+
+		this.saveStrategy(strategy);
+	}
+
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyPlanning.learningStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyPlanning.extendingStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyPlanning.reviewingStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyPlanning.practicingStrategy = strategy.strategy;
+				break;
+		}
+		this.canvasModel.canvas = this.canvas.saveCanvas();
+		this.localParent.model.strategyPlanning.canvas = JSON.stringify(this.canvasModel)
 	}
 
 	generateRandomImagesForStrategies() {
