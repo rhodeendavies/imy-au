@@ -47,7 +47,7 @@ export class PaidiaLearningStrategies {
 			this.localParent.model.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
-		
+
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strategyRating.canvas)) {
 			this.canvasModel = JSON.parse(this.localParent.questions[1].canvas);
 		} else {
@@ -55,7 +55,7 @@ export class PaidiaLearningStrategies {
 		}
 		this.canvas.loadCanvas(this.canvasModel.canvas);
 
-		
+
 		if (this.localParent.model.strategyRating.interactions == null) {
 			this.interactions = 0;
 		} else {
@@ -92,6 +92,8 @@ export class PaidiaLearningStrategies {
 				this.canvas.addImage(image, style, PaidiaImages.Practicing);
 				break;
 		}
+
+		this.saveStrategy(strategy);
 	}
 
 	getNewStyle(currentStyle: number): number {
@@ -100,6 +102,31 @@ export class PaidiaLearningStrategies {
 			style = ComponentHelper.RandomWholeNumber(1, environment.numOfStyles);
 		}
 		return style;
+	}
+
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyRating.learningRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyRating.extendingRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyRating.reviewingRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyRating.practicingRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+		}
+		this.saveCanvas();
+	}
+
+	saveCanvas() {
+		setTimeout(() => {
+			this.canvasModel.canvas = this.canvas.saveCanvas();
+			this.localParent.model.strategyRating.canvas = JSON.stringify(this.canvasModel);
+		}, 500);
 	}
 
 	submit() {

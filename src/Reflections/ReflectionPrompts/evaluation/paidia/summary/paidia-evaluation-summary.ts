@@ -26,25 +26,31 @@ export class PaidiaEvaluationSummary {
 	constructor(private localParent: PaidiaEvaluation) { }
 
 	attached() {
-		this.chosenEmojis = [];
-		const allEmojis = data.map(x => x.emoji);
-		const length = allEmojis.length - 1;
-		const indexes = [];
-		let index = ComponentHelper.RandomWholeNumber(0, length);
-		for (let i = 0; i < 4; i++) {
-			while (indexes.includes(index)) {
-				index = ComponentHelper.RandomWholeNumber(0, length);
+		if (this.localParent.model.chosenEmojis == null || this.localParent.model.emojis == null) {
+			this.chosenEmojis = [];
+			const allEmojis = data.map(x => x.emoji);
+			const length = allEmojis.length - 1;
+			const indexes = [];
+			let index = ComponentHelper.RandomWholeNumber(0, length);
+			for (let i = 0; i < 4; i++) {
+				while (indexes.includes(index)) {
+					index = ComponentHelper.RandomWholeNumber(0, length);
+				}
+				indexes.push(index);
 			}
-			indexes.push(index);
-		}
-		this.emojis = indexes.map((x, index) => {
-			return {
-				emoji: allEmojis[x],
-				type: this.types[index]
-			}
-		});
-		this.emojis = ComponentHelper.ShuffleArray(this.emojis);
+			this.emojis = indexes.map((x, index) => {
+				return {
+					emoji: allEmojis[x],
+					type: this.types[index]
+				}
+			});
+			this.emojis = ComponentHelper.ShuffleArray(this.emojis);
 
+			this.localParent.model.emojis = this.emojis;
+		} else {
+			this.chosenEmojis = this.localParent.model.chosenEmojis;
+			this.emojis = this.localParent.model.emojis;
+		}
 	}
 
 	togglePicker() {
@@ -55,11 +61,28 @@ export class PaidiaEvaluationSummary {
 		this.emojis.splice(index, 1);
 		this.chosenEmojis.push(emoji);
 		this.togglePicker();
+		this.localParent.model.chosenEmojis = this.chosenEmojis;
 	}
 
 	removeEmoji(emoji: EmojiDropdown, index: number) {
 		this.chosenEmojis.splice(index, 1);
 		this.emojis.push(emoji);
+		switch (emoji.type) {
+			case PaidiaSummaryType.colour:
+				this.localParent.model.learningExperience.color = null;
+				break;
+			case PaidiaSummaryType.gif:
+				this.localParent.model.learningExperience.gif = null;
+				break;
+			case PaidiaSummaryType.text:
+				this.localParent.model.learningExperience.text = null;
+				break;
+			case PaidiaSummaryType.emoji:
+				this.localParent.model.learningExperience.emoji = null;
+				break;
+
+		}
+		this.localParent.model.chosenEmojis = this.chosenEmojis;
 	}
 
 	submit() {
@@ -82,17 +105,7 @@ export class PaidiaEvaluationSummary {
 	}
 }
 
-class EmojiDropdown {
+export class EmojiDropdown {
 	emoji: string;
 	type: PaidiaSummaryType;
-}
-
-class EmojiData {
-	shortcodes: string[];
-	annotation: string;
-	tags: string[];
-	emoji: string;
-	order: number;
-	group: number;
-	version: number
 }

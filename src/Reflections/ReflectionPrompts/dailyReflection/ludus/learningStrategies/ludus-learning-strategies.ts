@@ -3,6 +3,7 @@ import { LudusComponent, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { LudusDaily } from "../ludus-daily";
 import { ApplicationState } from "applicationState";
+import { StrategyCategories } from "utils/enums";
 
 @autoinject
 export class LudusLearningStrategies {
@@ -48,8 +49,31 @@ export class LudusLearningStrategies {
 		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.previousComponents);
 	}
 
-	updateComponents() {
-		this.components = ComponentHelper.GetComponentScores(this.components, this.strategies, 0.1);
+	updateComponents(strategy: Strategy = null) {
+		if (this.components != null && this.components.length > 0) {
+			this.components = ComponentHelper.GetComponentScores(this.components, this.strategies, 0.1);
+		}
+
+		if (strategy != null) {
+			this.saveStrategy(strategy);
+		}
+	}
+
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyRating.learningRating = strategy.rating;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyRating.extendingRating = strategy.rating;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyRating.reviewingRating = strategy.rating;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyRating.practicingRating = strategy.rating;
+				break;
+		}
 	}
 
 	submit() {
@@ -66,7 +90,6 @@ export class LudusLearningStrategies {
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
 	get AllowSubmit(): boolean {
-		this.updateComponents();
 		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}
 }

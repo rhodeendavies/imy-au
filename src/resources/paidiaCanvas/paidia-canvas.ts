@@ -15,6 +15,7 @@ export class PaidiaCanvas {
 	canvasImage: string = "";
 	id: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) interactions: number = 0;
+	@bindable onChange;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("paidiaCanvas");
@@ -148,6 +149,12 @@ export class PaidiaCanvas {
 
 		img.on("scaling", () => {
 			this.preventLeaving(img);
+		});
+
+		img.on("mouseup", () => {
+			if (this.onChange != null) {
+				this.onChange();
+			}
 		});
 
 		this.canvas.add(img);

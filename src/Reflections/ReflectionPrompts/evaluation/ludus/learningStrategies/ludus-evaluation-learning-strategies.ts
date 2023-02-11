@@ -7,6 +7,7 @@ import { ArcElement, Chart, ChartType, DoughnutController, Legend, Tooltip } fro
 import { log } from "utils/log";
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
+import { StrategyCategories } from "utils/enums";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -75,9 +76,30 @@ export class LudusEvaluationLearningStrategies {
 		this.localParent.nextStep();
 	}
 
-	updateComponents() {
+	updateComponents(strategy: Strategy = null) {
 		this.components = ComponentHelper.GetComponentScores(this.components, this.strategies);
 		this.finalScore = ComponentHelper.GetFinalScore(this.components);
+
+		if (strategy != null) {
+			this.saveStrategy(strategy);
+		}
+	}
+
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyRating.learningRating = strategy.rating;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyRating.extendingRating = strategy.rating;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyRating.reviewingRating = strategy.rating;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyRating.practicingRating = strategy.rating;
+				break;
+		}
 	}
 
 	createData() {
@@ -127,7 +149,6 @@ export class LudusEvaluationLearningStrategies {
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
 	get AllowSubmit(): boolean {
-		this.updateComponents();
 		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}
 }

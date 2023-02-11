@@ -3,6 +3,7 @@ import { BaseDaily } from "../base-daily";
 import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { ApplicationState } from "applicationState";
+import { StrategyCategories } from "utils/enums";
 
 @autoinject
 export class BaseLearningStrategies {
@@ -37,6 +38,23 @@ export class BaseLearningStrategies {
 			this.appState.strategyOptions.ExtendingStrategies
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
+	}
+
+	saveStrategy(strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyRating.learningRating = strategy.rating;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyRating.extendingRating = strategy.rating;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyRating.reviewingRating = strategy.rating;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyRating.practicingRating = strategy.rating;
+				break;
+		}
 	}
 
 	submit() {

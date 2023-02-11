@@ -1,3 +1,5 @@
+import { EmojiDropdown } from "Reflections/ReflectionPrompts/evaluation/paidia/summary/paidia-evaluation-summary";
+
 export class ReflectionApiModel {
 	completed?: boolean;
 }
@@ -116,6 +118,10 @@ export class PaidiaEvaluatingApiModel extends ReflectionApiModel {
 	topicRatings?: PaidiaTopicRatings;
 	strategyRating?: PaidiaStrategyRating;
 	learningExperience?: PaidiaLearningExperience;
+
+	// for frontend
+	chosenEmojis: EmojiDropdown[];
+	emojis: EmojiDropdown[];
 }
 // =======================================================================
 

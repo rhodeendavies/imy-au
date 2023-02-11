@@ -6,6 +6,7 @@ import environment from "environment";
 import { StrategyCategories } from "utils/enums";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import { ApplicationState } from "applicationState";
+import { log } from "utils/log";
 
 @autoinject
 export class PaidiaPlanningLearningStrategies {
@@ -109,8 +110,14 @@ export class PaidiaPlanningLearningStrategies {
 				this.localParent.model.strategyPlanning.practicingStrategy = strategy.strategy;
 				break;
 		}
-		this.canvasModel.canvas = this.canvas.saveCanvas();
-		this.localParent.model.strategyPlanning.canvas = JSON.stringify(this.canvasModel)
+		this.saveCanvas();
+	}
+
+	saveCanvas() {
+		setTimeout(() => {
+			this.canvasModel.canvas = this.canvas.saveCanvas();
+			this.localParent.model.strategyPlanning.canvas = JSON.stringify(this.canvasModel);
+		}, 500);
 	}
 
 	generateRandomImagesForStrategies() {

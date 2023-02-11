@@ -6,6 +6,7 @@ import { PaidiaMonitoring } from "../paidia-monitoring";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import environment from "environment";
 import { StrategyCategories } from "utils/enums";
+import { log } from "utils/log";
 
 @autoinject
 export class PaidiaMonitoringLearningStrategies {
@@ -91,6 +92,8 @@ export class PaidiaMonitoringLearningStrategies {
 				this.canvas.addImage(image, style, PaidiaImages.Practicing);
 				break;
 		}
+
+		this.saveStrategy(strategy);
 	}
 
 	getNewStyle(currentStyle: number): number {
@@ -99,6 +102,31 @@ export class PaidiaMonitoringLearningStrategies {
 			style = ComponentHelper.RandomWholeNumber(1, environment.numOfStyles);
 		}
 		return style;
+	}
+
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyRating.learningRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyRating.extendingRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyRating.reviewingRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyRating.practicingRating = ComponentHelper.EmojiToString(strategy.emoji);
+				break;
+		}
+		this.saveCanvas();
+	}
+
+	saveCanvas() {
+		setTimeout(() => {
+			this.canvasModel.canvas = this.canvas.saveCanvas();
+			this.localParent.model.strategyRating.canvas = JSON.stringify(this.canvasModel);
+		}, 500);
 	}
 
 	submit() {

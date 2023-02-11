@@ -10,29 +10,14 @@ export class PercentageSlider {
 	@bindable showValues: boolean = true;
 	@bindable lowText: string = "Not great";
 	@bindable highText: string = "Excellent";
-	clicking: boolean = false;
-	percentageCircleSize: number = 15;
+	@bindable onChange;
 
-	attached() {
-		const root = document.documentElement;
-		root.style.setProperty('--slider-value-circle', `${this.percentageCircleSize}px`);
-	}
-
-	selectPercentage() {
-		this.clicking = false;
-	}
-
-	mouseDown() {
-		this.clicking = true;
-	}
-
-	mouseMove(event) {
-		if (!this.clicking) return;
-
-		const rect = event.currentTarget.getBoundingClientRect();
-		const barWidth = rect.width;
-		const fraction = (event.pageX - rect.left - (this.percentageCircleSize / 4)) / barWidth;
-		this.percentage = Math.ceil(fraction * 100);
+	onChangeTrigger() {
+		if (this.onChange != null) {
+			setTimeout(() => {
+				this.onChange();
+			});
+		}
 	}
 
 	@computedFrom("percentage")

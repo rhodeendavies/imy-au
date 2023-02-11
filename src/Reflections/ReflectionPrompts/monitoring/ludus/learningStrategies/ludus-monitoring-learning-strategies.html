@@ -16,7 +16,8 @@
 				</div>
 
 				<percentage-slider percentage.bind="strategy.rating" show-values.bind="false"
-					show-circle.bind="false" low-text="Not going so well" high-text="I'm acing it">
+					show-circle.bind="false" low-text="Not going so well" high-text="I'm acing it"
+					on-change.call="updateComponents(strategy)">
 				</percentage-slider>
 			</div>
 		</div>

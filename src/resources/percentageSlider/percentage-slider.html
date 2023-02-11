@@ -18,7 +18,8 @@
 			</div>
 
 			<div class="percentage-bar-wrapper ${percentage == null ? 'hide-value' : ''}">
-				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider" />
+				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider"
+					change.delegate="onChangeTrigger()" />
 				<div class="slider-bar">
 					<div class="hover-percentage" css="left: ${percentage}%"
 						if.bind="!showCircle && percentage != null">

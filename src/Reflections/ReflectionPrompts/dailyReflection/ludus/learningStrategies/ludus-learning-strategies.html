@@ -15,7 +15,7 @@
 					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
 				</div>
 
-				<percentage-slider percentage.bind="strategy.rating"
+				<percentage-slider percentage.bind="strategy.rating" on-change.call="updateComponents(strategy)"
 					show-circle.bind="false" low-text="Not going so well" high-text="I'm acing it">
 				</percentage-slider>
 			</div>
