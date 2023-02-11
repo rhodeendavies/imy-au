@@ -5,7 +5,7 @@ import { AuthenticationService } from "services/authenticationService";
 import { UsersService } from "services/usersService";
 import { Busy } from "resources/busy/busy";
 import { Router } from "aurelia-router";
-import { Routes } from "utils/constants";
+import { AttributionLinks, Routes } from "utils/constants";
 import { ComponentHelper } from "utils/componentHelper";
 import { log } from "utils/log";
 
@@ -19,6 +19,7 @@ export class Register {
 	passwordValid: boolean = true;
 	studentNumberValid: boolean = true;
 	registerSuccess: boolean = false;
+	onlineEducation: string = AttributionLinks.onlineEducation;
 
 	constructor(
 		private authService: AuthenticationService,
@@ -56,6 +57,10 @@ export class Register {
 
 	navigateToLogin() {
 		this.router.navigate(Routes.Login);
+	}
+
+	navigateToAttribution() {
+		window.open(this.onlineEducation, "_blank");
 	}
 
 	@computedFrom("response.result")

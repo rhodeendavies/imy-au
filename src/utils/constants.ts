@@ -32,3 +32,8 @@ export class Colours {
 	static readonly OrangeHex: string = "#F26430";
 	static readonly LightGreyHex: string = "#E2E2E2";
 }
+
+export class AttributionLinks {
+	static readonly onlineEducation: string = "https://www.vecteezy.com/free-vector/online-education";
+	static readonly human: string = "https://www.vecteezy.com/free-vector/human";
+}

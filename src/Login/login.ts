@@ -6,7 +6,7 @@ import environment from '../environment'
 import { UsersService } from "services/usersService";
 import { Busy } from "resources/busy/busy";
 import { Router } from "aurelia-router";
-import { Routes } from "utils/constants";
+import { AttributionLinks, Routes } from "utils/constants";
 import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
@@ -19,7 +19,7 @@ export class Login {
 	resetPasswordSent: boolean = false;
 	studentNumberValid: boolean = true;
 	passwordValid: boolean = true;
-	
+	onlineEducation: string = AttributionLinks.onlineEducation;
 
 	constructor(
 		private authService: AuthenticationService,
@@ -79,6 +79,10 @@ export class Login {
 		this.passwordValid = true;
 		this.response = null;
 		this.screenType = LoginScreens.forgotPassword;
+	}
+
+	navigateToAttribution() {
+		window.open(this.onlineEducation, "_blank");
 	}
 
 	@computedFrom("response.result")

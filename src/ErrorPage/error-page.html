@@ -1,7 +1,7 @@
 <template>
 	<div class="page">
 		<div class="error-page-container">
-			<img src="images/content/error404.png"/>
+			<img src="images/content/error404.png" title.bind="human" click.delegate="navigateToAttribution()"/>
 			<button class="btn btn-default" if.bind="authenticated && student" click.delegate="home()">
 				Back to home
 			</button>

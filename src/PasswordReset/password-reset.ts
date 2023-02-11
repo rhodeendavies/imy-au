@@ -5,7 +5,7 @@ import { PasswordRequirements, PasswordResetModel, UserLogin } from "models/user
 import { Busy } from "resources/busy/busy";
 import { UsersService } from "services/usersService";
 import { ComponentHelper } from "utils/componentHelper";
-import { Routes } from "utils/constants";
+import { AttributionLinks, Routes } from "utils/constants";
 import { log } from "utils/log";
 
 @autoinject
@@ -17,6 +17,7 @@ export class PasswordReset {
 	passwordValid: boolean = true;
 	busy: Busy = new Busy();
 	success: boolean = true;
+	onlineEducation: string = AttributionLinks.onlineEducation;
 
 	constructor(private usersService: UsersService, private router: Router) { }
 
@@ -46,6 +47,10 @@ export class PasswordReset {
 
 	login() {
 		this.router.navigate(Routes.Login);
+	}
+
+	navigateToAttribution() {
+		window.open(this.onlineEducation, "_blank");
 	}
 
 	@computedFrom("response.result")
