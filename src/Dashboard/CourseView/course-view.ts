@@ -55,10 +55,18 @@ export class CourseView {
 		this.contentId = params.contentId;
 	}
 
-	async attached() {
+	attached() {
+		this.getData();
+		this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => this.getData());
+	}
+
+	detached() {
+		this.refreshSub.dispose();
+	}
+
+	async getData() {
 		try {
 			this.busy.on();
-			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => { this.attached() });
 			this.initDone = false;
 			this.sections = await this.appState.getSections();
 			this.currentSection = await this.appState.getCurrentSection();
@@ -83,10 +91,6 @@ export class CourseView {
 			this.initDone = true;
 			this.busy.off();
 		}
-	}
-
-	detached() {
-		this.refreshSub.dispose();
 	}
 
 	initData() {

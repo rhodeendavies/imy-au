@@ -4,6 +4,6 @@
 			<div class="colour-picker-label" css.bind="TextColour">${label}</div>
 		</div>
 		<div class="colour-picker-colour" click.delegate="togglePicker()" css.bind="Colour"></div>
-		<div class="colour-picker" id.bind="id"></div>
+		<div class="colour-picker" id.bind="id" mouseup.delegate="togglePicker()"></div>
 	</div>
 </template>

@@ -27,10 +27,18 @@ export class Dashboard {
 		private ea: EventAggregator
 	) { }
 
-	async attached() {
+	attached() {
+		this.initData();
+		this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => this.initData());
+	}
+
+	detached() {
+		this.refreshSub.dispose();
+	}
+
+	async initData() {
 		try {
 			this.busy.on();
-			this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => { this.attached() });
 			const currentSection = await this.appState.getCurrentSection();
 			switch (this.authService.System) {
 				case Systems.Base:
@@ -48,10 +56,6 @@ export class Dashboard {
 		} finally {
 			this.busy.off();
 		}
-	}
-
-	detached() {
-		this.refreshSub.dispose();
 	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
