@@ -17,7 +17,7 @@
 			</div>
 			<div class="paidia-summary-item" if.bind="emoji.type == textType">
 				<input-box type="textarea" value.bind="localParent.model.learningExperience.text"
-					valid.bind="textValid" min.bind="10">
+					valid.bind="textValid" min.bind="10" max.bind="250">
 				</input-box>
 			</div>
 			<div class="paidia-summary-item" if.bind="emoji.type == colourType">

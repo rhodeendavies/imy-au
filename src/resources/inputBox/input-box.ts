@@ -40,6 +40,16 @@ export class InputBox {
 		this.setInputElement();
 		this.heightTest = new Array(Math.ceil(this.max / 2)).join("# ");
 
+		if (this.ShowTextarea) {
+			// check the length between 50 and 250
+			if (this.min == null) {
+				this.min = 50;
+			}
+			if (this.max == null) {
+				this.max = 250;
+			}
+		}
+
 		setTimeout(() => {
 			this.initDone = true;
 		});
@@ -82,13 +92,6 @@ export class InputBox {
 				// test if its a number between 0 and 5
 				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
 			} else if (this.ShowTextarea) {
-				// check the length between 50 and 250
-				if (this.min == null) {
-					this.min = 50;
-				}
-				if (this.max == null) {
-					this.max = 250;
-				}
 				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
 			} else {
 				// no validation
@@ -161,14 +164,6 @@ export class InputBox {
 	@computedFrom("value.length")
 	get LargeTextValid(): boolean {
 		if (this.value == null) return false;
-
-		// check the length between 50 and 250
-		if (this.min == null) {
-			this.min = 50;
-		}
-		if (this.max == null) {
-			this.max = 250;
-		}
 
 		// check for funky characters
 		return this.value != null && this.value.length >= this.min && this.value.length <= this.max

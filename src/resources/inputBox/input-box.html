@@ -50,11 +50,11 @@
 		<div class="input-limit-wrapper" if.bind="ShowTextarea">
 			<div class="input-minimum ${LargeTextValid ? 'input-minimum-reached' : ''}">
 				<div class="icon">check_circle</div>
-				<div>${value.length}/${min} characters required</div>
+				<div>${value == null ? '0' : ''}${value.length}/${min} characters required</div>
 			</div>
 
 			<div class="${value.length > max ? 'input-maxed' : ''}">
-				<div>${value.length}/${max} characters max</div>
+				<div>${value == null ? '0' : ''}${value.length}/${max} characters max</div>
 			</div>
 		</div>
 
