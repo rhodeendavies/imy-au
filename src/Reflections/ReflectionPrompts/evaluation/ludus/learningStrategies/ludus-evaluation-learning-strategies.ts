@@ -120,7 +120,7 @@ export class LudusEvaluationLearningStrategies {
 	createChart() {
 		if (this.learningStrategy == null || this.reviewingStrategy == null || this.practicingStrategy == null || this.extendingStrategy == null) return;
 
-		this.chart = new Chart(document.getElementById("componentsChart") as HTMLCanvasElement,
+		this.chart = new Chart(document.getElementById("evaluationComponentsChart") as HTMLCanvasElement,
 			{
 				type: "doughnut" as ChartType,
 				data: this.createData(),
