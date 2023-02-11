@@ -1,9 +1,12 @@
 <template>
-	<div class="colour-picker-wrapper ${pickerOpen ? 'colour-picker-open' : ''}">
+	<div class="colour-picker-wrapper ${pickerOpen ? 'colour-picker-open' : ''}"
+		tabindex="0" blur.trigger="togglePicker()">
 		<div class="colour-picker-label-wrapper" css.bind="Colour">
 			<div class="colour-picker-label" css.bind="TextColour">${label}</div>
 		</div>
-		<div class="colour-picker-colour" click.delegate="togglePicker()" css.bind="Colour"></div>
-		<div class="colour-picker" id.bind="id" mouseup.delegate="togglePicker()"></div>
+		<div class="colour-picker-colour" click.delegate="togglePicker()"
+			css.bind="Colour" id.bind="id">
+		</div>
+		<div class="colour-picker" id.bind="pickerId" show.bind="pickerOpen"></div>
 	</div>
 </template>

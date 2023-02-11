@@ -11,17 +11,19 @@ export class ColourPicker {
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) colour: string = null;
 	colourPicker: ColorPicker;
 	id: string;
+	pickerId: string;
 	pickerOpen: boolean = false;
 	clickSub: Subscription;
 
 	constructor(private ea: EventAggregator) {
 		this.id = ComponentHelper.CreateId("colourPicker");
+		this.pickerId = ComponentHelper.CreateId("colourPickerBox");
 	}
 
 	attached() {
 		this.colourPicker = new ColorPicker({
 			color: this.colour == null ? Colours.LightGreyHex : this.colour,
-			el: document.getElementById(this.id)
+			el: document.getElementById(this.pickerId)
 		})
 
 		this.colourPicker.onChange(newColour => {
@@ -31,6 +33,12 @@ export class ColourPicker {
 		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => {
 			if (clickedId == this.id) {
 				this.pickerOpen = !this.pickerOpen;
+				const offset = $(`#${this.id}`).offset();
+				$(`#${this.pickerId}`).css({
+					"top": offset.top - $(window).scrollTop(),
+					"left": offset.left + $(`#${this.id}`).width() + 15
+				});
+
 			} else {
 				this.pickerOpen = false;
 			}

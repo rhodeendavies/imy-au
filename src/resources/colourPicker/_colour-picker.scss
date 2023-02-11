@@ -11,10 +11,6 @@
 		.colour-picker-colour {
 			border-color: $DarkGrey;
 		}
-
-		.colour-picker {
-			display: block;
-		}
 	}
 
 	.colour-picker-label-wrapper {
@@ -40,11 +36,8 @@
 	}
 
 	.colour-picker {
-		position: absolute;
+		position: fixed;
 		z-index: 9;
-		display: none;
-		right: -200px;
-		top: 0;
 		padding: 10px;
 		background: $LightGrey;
 		box-shadow: $BoxShadow;
