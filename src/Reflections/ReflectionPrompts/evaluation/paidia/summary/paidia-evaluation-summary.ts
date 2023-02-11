@@ -3,7 +3,8 @@ import { PaidiaEvaluation } from "../paidia-evaluation";
 import { ComponentHelper } from "utils/componentHelper";
 import data from "emoji-picker-element-data/en/emojibase/data.json";
 import { PaidiaSummaryType } from "utils/enums";
-import { Colours } from "utils/constants";
+import { Colours, Events } from "utils/constants";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 
 @autoinject
 export class PaidiaEvaluationSummary {
@@ -21,9 +22,15 @@ export class PaidiaEvaluationSummary {
 	textType: PaidiaSummaryType = PaidiaSummaryType.text;
 	colourType: PaidiaSummaryType = PaidiaSummaryType.colour;
 	textValid: boolean = true;
-	dropdownOpen: boolean = false;
+	pickerOpen: boolean = false;
+	pickerId: string = "";
+	id: string = "";
+	clickSub: Subscription;
 
-	constructor(private localParent: PaidiaEvaluation) { }
+	constructor(private localParent: PaidiaEvaluation, private ea: EventAggregator) {
+		this.id = ComponentHelper.CreateId("summaryPicker");
+		this.pickerId = ComponentHelper.CreateId("summaryPickerBox");
+	}
 
 	attached() {
 		if (this.localParent.model.chosenEmojis == null || this.localParent.model.emojis == null) {
@@ -51,10 +58,27 @@ export class PaidiaEvaluationSummary {
 			this.chosenEmojis = this.localParent.model.chosenEmojis;
 			this.emojis = this.localParent.model.emojis;
 		}
+
+		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => {
+			if (clickedId == this.id) {
+				this.pickerOpen = !this.pickerOpen;
+				const offset = $(`#${this.id}`).offset();
+				$(`#${this.pickerId}`).css({
+					"top": offset.top - $(window).scrollTop(),
+					"left": offset.left + $(`#${this.id}`).width() + 15
+				});
+			} else {
+				this.pickerOpen = false;
+			}
+		});
+	}
+
+	detached() {
+		this.clickSub.dispose();
 	}
 
 	togglePicker() {
-		this.dropdownOpen = !this.dropdownOpen;
+		this.ea.publish(Events.PickerClicked, this.id);
 	}
 
 	selectEmoji(emoji: EmojiDropdown, index: number) {

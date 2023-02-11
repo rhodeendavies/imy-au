@@ -29,12 +29,12 @@
 			</div>
 		</div>
 
-		<div class="paidia-summary-dropdown-wrapper ${dropdownOpen ? 'paidia-summary-dropdown-open' : ''}"
-			if.bind="emojis.length > 0">
-			<div class="paidia-summary-dropdown-btn" click.delegate="togglePicker()">
+		<div class="paidia-summary-dropdown-wrapper ${pickerOpen ? 'paidia-summary-dropdown-open' : ''}"
+			if.bind="emojis.length > 0" tabindex="0" blur.trigger="togglePicker()">
+			<div class="paidia-summary-dropdown-btn" click.delegate="togglePicker()" id.bind="id">
 				<div class="icon">add</div>
 			</div>
-			<div class="paidia-summary-dropdown">
+			<div class="paidia-summary-dropdown" id.bind="pickerId" show.bind="pickerOpen">
 				<div class="paidia-summary-dropdown-item" repeat.for="emoji of emojis"
 					click.delegate="selectEmoji(emoji, $index)">
 					${emoji.emoji}

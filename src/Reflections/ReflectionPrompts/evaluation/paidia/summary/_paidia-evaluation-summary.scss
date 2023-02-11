@@ -41,10 +41,6 @@
 		.paidia-summary-dropdown-btn {
 			background-color: darken($color: $Orange, $amount: 1.5);
 		}
-
-		.paidia-summary-dropdown {
-			display: flex;
-		}
 	}
 
 	.paidia-summary-dropdown-btn {
@@ -70,10 +66,8 @@
 	}
 
 	.paidia-summary-dropdown {
-		position: absolute;
-		top: 0;
-		left: 80px;
-		display: none;
+		position: fixed;
+		display: flex;
 		flex-direction: column;
 		align-items: center;
 		background-color: $LightGrey;
