@@ -20,6 +20,7 @@ export class PaidiaEvaluation {
 		private reflectionsApi: ReflectionsService) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getEvaluating();
 	}
 
@@ -45,6 +46,7 @@ export class PaidiaEvaluation {
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
 			this.questions = reflection.questions
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

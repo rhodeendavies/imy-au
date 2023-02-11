@@ -11,26 +11,38 @@ import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class EvaluationPrompts extends SectionTrackerParent {
-	
+
 	weekTopic: string = ""
 	reflectionId: number;
 	reflectionTriggered: boolean = false;
 	busy: Busy = new Busy();
+	evaluationOpen: boolean = false;
+	modelLoaded: boolean = false;
 	triggerSub: Subscription;
 
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator) {
+		private ea: EventAggregator
+	) {
 		super();
+	}
+
+	attached() {
+		this.activeSection = EvaluationSections.Overview;
 		this.triggerSub = this.ea.subscribe(Events.EvaluationTriggered, () => {
 			this.activeSection = EvaluationSections.Overview;
 		});
 	}
 
-	attached() {
-		this.activeSection = EvaluationSections.Overview;
+	detached() {
+		this.triggerSub.dispose();
+	}
+
+	nextStep() {
+		this.tracker.moveForward();
+		this.evaluationOpen = true;
 	}
 
 	async submitEvaluation(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel | PaidiaEvaluatingApiModel, completed: boolean) {
@@ -41,6 +53,7 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		}
 		if (completed) {
 			this.appState.closeEvaluation();
+			this.evaluationOpen = false;
 		}
 	}
 
@@ -49,39 +62,39 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		return this.activeSection == EvaluationSections.Overview;
 	}
 
-	@computedFrom("activeSection", "busy.Active")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == EvaluationSections.Feelings && !this.busy.Active;
+		return this.activeSection == EvaluationSections.Feelings && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowTopics(): boolean {
-		return this.activeSection == EvaluationSections.Topics;
+		return this.activeSection == EvaluationSections.Topics && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == EvaluationSections.LearningStrategies;
+		return this.activeSection == EvaluationSections.LearningStrategies && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowSummary(): boolean {
-		return this.activeSection == EvaluationSections.Summary;
+		return this.activeSection == EvaluationSections.Summary && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("authService.System", "appState.EvaluationOpen")
+	@computedFrom("authService.System", "evaluationOpen")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base && this.appState.EvaluationOpen;
+		return this.authService.System == Systems.Base && this.evaluationOpen;
 	}
 
-	@computedFrom("authService.System", "appState.EvaluationOpen")
+	@computedFrom("authService.System", "evaluationOpen")
 	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus && this.appState.EvaluationOpen;
+		return this.authService.System == Systems.Ludus && this.evaluationOpen;
 	}
 
-	@computedFrom("authService.System", "appState.EvaluationOpen")
+	@computedFrom("authService.System", "evaluationOpen")
 	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia && this.appState.EvaluationOpen;
+		return this.authService.System == Systems.Paidia && this.evaluationOpen;
 	}
 }
 

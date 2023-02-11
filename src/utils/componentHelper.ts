@@ -308,9 +308,9 @@ export class ComponentHelper {
 	}
 
 	static FindLatestScore(components: LudusComponent[], previousComponentsScores: LudusPreviousComponents): LudusComponent[] {
-		const planningComponents = previousComponentsScores.planning?.calculated;
-		const monitoringComponents = previousComponentsScores.monitoring?.calculated;
-		const dailyComponents = previousComponentsScores.daily?.calculated;
+		const planningComponents = previousComponentsScores?.planning?.calculated;
+		const monitoringComponents = previousComponentsScores?.monitoring?.calculated;
+		const dailyComponents = previousComponentsScores?.daily?.calculated;
 		let previousComponents: LudusCalculatedComponents[] = [];
 		if (dailyComponents != null && monitoringComponents != null) {
 			const dailyEarlier = dailyComponents.length > 0 && dailyComponents.every(x => {

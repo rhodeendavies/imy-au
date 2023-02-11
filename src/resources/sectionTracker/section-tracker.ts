@@ -87,7 +87,6 @@ export abstract class SectionTrackerParent {
 	tracker: SectionTracker;
 	activeSection: number;
 
-
 	nextStep() {
 		this.tracker.moveForward();
 	}

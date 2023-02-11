@@ -5,8 +5,6 @@ import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { DailyPrompts } from "../daily-prompts";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
-import { Events } from "utils/constants";
 import { log } from "utils/log";
 import { LudusMonitoringQuestions } from "models/reflectionsResponses";
 
@@ -15,25 +13,17 @@ export class LudusDaily {
 	model: LudusDailyApiModel;
 	questions: LudusMonitoringQuestions;
 	previousComponents: LudusPreviousComponents;
-	triggerSub: Subscription;
 
 	constructor(
 		private localParent: DailyPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator
+		private reflectionsApi: ReflectionsService
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getDaily();
-		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
-			this.getDaily();
-		});
-	}
-
-	detached() {
-		this.triggerSub.dispose();
 	}
 
 	nextStep() {
@@ -54,6 +44,7 @@ export class LudusDaily {
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
 			this.questions = reflection.questions;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

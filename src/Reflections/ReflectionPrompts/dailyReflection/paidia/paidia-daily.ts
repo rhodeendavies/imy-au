@@ -6,32 +6,22 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { DailyPrompts } from "../daily-prompts";
 import { log } from "utils/log";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
-import { Events } from "utils/constants";
 
 @autoinject
 export class PaidiaDaily {
 	model: PaidiaDailyApiModel;
 	questions: PaidiaStrategyPlanning[];
-	triggerSub: Subscription;
 
 	constructor(
 		private localParent: DailyPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator
+		private reflectionsApi: ReflectionsService
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getDaily();
-		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
-			this.getDaily();
-		});
-	}
-
-	detached() {
-		this.triggerSub.dispose();
 	}
 
 	nextStep() {
@@ -52,6 +42,7 @@ export class PaidiaDaily {
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
 			this.questions = reflection.questions.strategyPlanning;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

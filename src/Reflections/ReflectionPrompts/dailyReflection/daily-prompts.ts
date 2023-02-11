@@ -24,6 +24,8 @@ export class DailyPrompts extends SectionTrackerParent {
 	startDailyBusy: Busy = new Busy();
 	evaluatingDone: boolean = false;
 	reflectionId: number;
+	dailyOpen: boolean = false;
+	modelLoaded: boolean = false;
 
 	constructor(
 		private appState: ApplicationState,
@@ -82,7 +84,13 @@ export class DailyPrompts extends SectionTrackerParent {
 		}
 	}
 
+	nextStep() {
+		this.tracker.moveForward();
+		this.dailyOpen = true;
+	}
+
 	closeDaily() {
+		this.dailyOpen = false;
 		this.availability = null;
 		this.appState.closeDaily();
 	}
@@ -93,6 +101,7 @@ export class DailyPrompts extends SectionTrackerParent {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;
 		}
+		this.dailyOpen = false;
 		this.appState.closeDaily();
 	}
 
@@ -106,14 +115,14 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.busy.Active || this.availabilityBusy.Active || this.startDailyBusy.Active;
 	}
 
-	@computedFrom("activeSection", "Busy")
+	@computedFrom("activeSection", "Busy", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == DailySections.Feelings && !this.Busy;
+		return this.activeSection == DailySections.Feelings && !this.Busy && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "Busy", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == DailySections.LearningStrategies;
+		return this.activeSection == DailySections.LearningStrategies && !this.Busy && this.modelLoaded;
 	}
 
 	@computedFrom("evaluatingDone")
@@ -121,22 +130,22 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.evaluatingDone;
 	}
 
-	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")
+	@computedFrom("authService.System", "dailyOpen", "availability.available")
 	get ShowBaseSystem(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
-			this.appState.DailyOpen;
+			this.dailyOpen;
 	}
 
-	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")
+	@computedFrom("authService.System", "dailyOpen", "availability.available")
 	get ShowLudus(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
-			this.appState.DailyOpen;
+			this.dailyOpen;
 	}
 
-	@computedFrom("authService.System", "appState.DailyOpen", "availability.available")
+	@computedFrom("authService.System", "dailyOpen", "availability.available")
 	get ShowPaidia(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
-			this.appState.DailyOpen;
+			this.dailyOpen;
 	}
 }
 

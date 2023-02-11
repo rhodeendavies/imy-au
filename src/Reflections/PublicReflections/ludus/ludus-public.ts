@@ -16,7 +16,6 @@ export class LudusPublic {
 	secondSentiment: string;
 	thirdSentiment: string;
 
-
 	constructor(private localParent: PublicReflections, private reflectionsApi: ReflectionsService) { }
 
 	attached() {

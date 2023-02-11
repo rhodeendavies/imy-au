@@ -21,6 +21,7 @@ export class PaidiaMonitoring {
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getMonitoring();
 	}
 
@@ -46,6 +47,7 @@ export class PaidiaMonitoring {
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
 			this.questions = reflection.questions;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

@@ -5,8 +5,6 @@ import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { AuthenticationService } from "services/authenticationService";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
-import { Events } from "utils/constants";
 import { log } from "utils/log";
 
 @autoinject
@@ -14,25 +12,17 @@ export class BaseDaily {
 
 	model: BaseDailyApiModel;
 	questions: StrategyPlanning;
-	triggerSub: Subscription;
 
 	constructor(
 		private localParent: DailyPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator
+		private reflectionsApi: ReflectionsService
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getDaily();
-		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
-			this.getDaily();
-		});
-	}
-
-	detached() {
-		this.triggerSub.dispose();
 	}
 
 	nextStep() {
@@ -53,6 +43,7 @@ export class BaseDaily {
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
 			this.questions = reflection.questions.strategyPlanning;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

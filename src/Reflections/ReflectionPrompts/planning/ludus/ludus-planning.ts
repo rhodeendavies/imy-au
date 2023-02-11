@@ -19,6 +19,7 @@ export class LudusPlanning {
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getPlanning();
 	}
 
@@ -43,6 +44,7 @@ export class LudusPlanning {
 			const reflection = await this.reflectionsApi.getLudusPlanningReflection(id);
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

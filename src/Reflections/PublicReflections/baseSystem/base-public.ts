@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { PublicReflections } from "../public-reflections";
 import { ReflectionsService } from "services/reflectionsService";
 
@@ -15,11 +15,5 @@ export class BasePublic {
 
 	async getPublicReflections() {
 		this.reflections = await this.reflectionsApi.getBasePublicReflections(this.localParent.SectionId);
-	}
-
-	@computedFrom("localParent.sectionSelected.id", "reflections.length")
-	get Reflections(): string[] {
-		this.getPublicReflections();
-		return this.reflections;
 	}
 }

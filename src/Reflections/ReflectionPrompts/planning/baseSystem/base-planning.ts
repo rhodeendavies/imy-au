@@ -20,6 +20,7 @@ export class BasePlanning {
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getPlanning();
 	}
 
@@ -44,6 +45,7 @@ export class BasePlanning {
 			this.localParent.reflectionId = id;
 			const reflection = await this.reflectionsApi.getBasePlanningReflection(id);
 			this.model = reflection.answers;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

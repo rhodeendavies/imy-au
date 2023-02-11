@@ -10,7 +10,6 @@ import { log } from "utils/log";
 @autoinject
 export class PaidiaPlanning {
 	model: PaidiaPlanningApiModel;
-	reflectionLoaded: boolean = false;
 
 	constructor(
 		private localParent: PlanningPrompts,
@@ -20,6 +19,7 @@ export class PaidiaPlanning {
 	) { }
 
 	attached() {
+		this.localParent.modelLoaded = false;
 		this.getPlanning();
 	}
 
@@ -36,7 +36,6 @@ export class PaidiaPlanning {
 	async getPlanning() {
 		try {
 			this.localParent.busy.on();
-			this.reflectionLoaded = false;
 			const currentSection = await this.appState.getCurrentSection();
 			let id = currentSection.planningReflectionId;
 			if (id == null) {
@@ -45,7 +44,7 @@ export class PaidiaPlanning {
 			const reflection = await this.reflectionsApi.getPaidiaPlanningReflection(id);
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
-			this.reflectionLoaded = true;
+			this.localParent.modelLoaded = true;
 		} catch (error) {
 			log.error(error);
 		} finally {

@@ -7,6 +7,8 @@ import { AuthenticationService } from "services/authenticationService";
 import { Systems } from "utils/enums";
 import { Busy } from "resources/busy/busy";
 import { log } from "utils/log";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { Events } from "utils/constants";
 
 @autoinject
 export class Reflections {
@@ -16,29 +18,21 @@ export class Reflections {
 	showPublicReflections: boolean = false;
 	evaluatingDone: boolean = false;
 	busy: Busy = new Busy();
-	
-	constructor(private router: Router, private appState: ApplicationState, private authService: AuthenticationService) { }
+
+	constructor(
+		private router: Router,
+		private appState: ApplicationState,
+		private authService: AuthenticationService,
+		private ea: EventAggregator
+	) { }
 
 	async attached() {
 		try {
 			this.busy.on();
 			this.sections = await this.appState.getSections();
-			for (let index = 0; index < this.sections.length; index++) {
-				const section = this.sections[index];
-				switch (this.authService.System) {
-					case Systems.Base:
-						section.baseReflection = await this.appState.getSectionBaseReflection(section);
-						break;
-					case Systems.Ludus:
-						section.ludusReflection = await this.appState.getSectionLudusReflection(section);
-						break;
-					case Systems.Paidia:
-						section.paidiaReflection = await this.appState.getSectionPaidiaReflection(section);
-						break;
-				}
-			}
-			const currentSection = await this.appState.getCurrentSection();
-			this.sectionSelected = this.sections.find(x => x.id == currentSection.id);
+			this.sections = this.sections.filter(x => x.system == this.authService.System)
+			const currentSection = await this.appState.getCurrentSectionId();
+			this.selectSection(this.sections.find(x => x.id == currentSection))
 			this.initData();
 		} catch (error) {
 			log.error(error);
@@ -70,14 +64,35 @@ export class Reflections {
 		this.router.navigateToRoute(route);
 	}
 
-	selectSection(section: Section) {
-		if (!section.active) return;
-		if (this.sectionSelected != null) {
-			this.sectionSelected.open = false;
+	async selectSection(section: Section) {
+		try {
+			this.busy.on();
+			if (!section.available) return;
+			if (this.sectionSelected != null) {
+				this.sectionSelected.open = false;
+			}
+			this.sectionSelected = section;
+			this.sectionSelected.open = true;
+			this.evaluatingDone = this.sectionSelected.evaluatingReflectionId != null;
+
+			switch (this.authService.System) {
+				case Systems.Base:
+					this.sectionSelected.baseReflection = await this.appState.getSectionBaseReflection(this.sectionSelected);
+					break;
+				case Systems.Ludus:
+					this.sectionSelected.ludusReflection = await this.appState.getSectionLudusReflection(this.sectionSelected);
+					break;
+				case Systems.Paidia:
+					this.sectionSelected.paidiaReflection = await this.appState.getSectionPaidiaReflection(this.sectionSelected);
+					break;
+			}
+
+			this.ea.publish(Events.ReflectionDetailsChanged);
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.busy.off();
 		}
-		this.sectionSelected = section;
-		this.sectionSelected.open = true;
-		this.evaluatingDone = this.sectionSelected.evaluatingReflectionId != null;
 	}
 
 	togglePublicReflections() {

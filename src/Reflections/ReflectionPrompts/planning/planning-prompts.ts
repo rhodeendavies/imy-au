@@ -11,27 +11,39 @@ import { ReflectionTypes, Systems } from "utils/enums";
 
 @autoinject
 export class PlanningPrompts extends SectionTrackerParent {
-	
+
 	weekTopic: string = "";
 	reflectionId: number;
 	busy: Busy = new Busy();
+	planningOpen: boolean = false;
+	modelLoaded: boolean = false;
 	triggerSub: Subscription;
 
 	constructor(
 		private appState: ApplicationState,
 		private authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator) {
+		private ea: EventAggregator
+	) {
 		super();
-		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
-			this.activeSection = PlanningSections.Overview;
-		});
 	}
 
 	attached() {
 		this.activeSection = PlanningSections.Overview;
+		this.triggerSub = this.ea.subscribe(Events.PlanningTriggered, () => {
+			this.activeSection = PlanningSections.Overview;
+		});
 	}
-	
+
+	detached() {
+		this.triggerSub.dispose();
+	}
+
+	nextStep(): void {
+		this.tracker.moveForward();
+		this.planningOpen = true;
+	}
+
 	async submitPlanning(model: BasePlanningApiModel | LudusPlanningApiModel | PaidiaPlanningApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Planning, this.reflectionId, model);
 		if (!result) {
@@ -40,6 +52,7 @@ export class PlanningPrompts extends SectionTrackerParent {
 		}
 		if (completed) {
 			this.appState.closePlanning();
+			this.planningOpen = false;
 		}
 	}
 
@@ -48,34 +61,34 @@ export class PlanningPrompts extends SectionTrackerParent {
 		return this.activeSection == PlanningSections.Overview;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == PlanningSections.Feelings;
+		return this.activeSection == PlanningSections.Feelings && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowStrengths(): boolean {
-		return this.activeSection == PlanningSections.Strengths;
+		return this.activeSection == PlanningSections.Strengths && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.Active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == PlanningSections.LearningStrategies;
+		return this.activeSection == PlanningSections.LearningStrategies && !this.busy.Active && this.modelLoaded;
 	}
 
-	@computedFrom("authService.System", "appState.PlanningOpen")
+	@computedFrom("authService.System", "planningOpen")
 	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base && this.appState.PlanningOpen;
+		return this.authService.System == Systems.Base && this.planningOpen;
 	}
 
-	@computedFrom("authService.System", "appState.PlanningOpen")
+	@computedFrom("authService.System", "planningOpen")
 	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus && this.appState.PlanningOpen;
+		return this.authService.System == Systems.Ludus && this.planningOpen;
 	}
 
-	@computedFrom("authService.System", "appState.PlanningOpen")
+	@computedFrom("authService.System", "planningOpen")
 	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia && this.appState.PlanningOpen;
+		return this.authService.System == Systems.Paidia && this.planningOpen;
 	}
 }
 
