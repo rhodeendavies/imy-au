@@ -13,6 +13,7 @@ export class EmojiPickerComponent {
 	pickerOpen: boolean = false;
 	blurring: boolean = false;
 	clickSub: Subscription;
+	scrollSub: Subscription;
 
 	constructor(private ea: EventAggregator) {
 		this.id = ComponentHelper.CreateId("emojiPicker");
@@ -21,11 +22,12 @@ export class EmojiPickerComponent {
 
 	attached() {
 		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => this.openPicker(clickedId));
-		this.clickSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
+		this.scrollSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
 	}
 
 	detached() {
 		this.clickSub.dispose();
+		this.scrollSub.dispose();
 	}
 
 	emojiSelected(event) {

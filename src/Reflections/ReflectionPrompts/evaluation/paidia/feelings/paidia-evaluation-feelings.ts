@@ -13,7 +13,7 @@ export class PaidiaEvaluationFeelings {
 	emoji;
 	promptSections: PromptSection[];
 	feelingsSummary: PaidiaFeelingsSummary[];
-	
+
 	constructor(private localParent: PaidiaEvaluation, private appState: ApplicationState) { }
 
 	async attached() {

@@ -14,6 +14,7 @@ export class ColourPicker {
 	pickerId: string;
 	pickerOpen: boolean = false;
 	clickSub: Subscription;
+	scrollSub: Subscription;
 
 	constructor(private ea: EventAggregator) {
 		this.id = ComponentHelper.CreateId("colourPicker");
@@ -31,11 +32,12 @@ export class ColourPicker {
 		});
 
 		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => this.openPicker(clickedId));
-		this.clickSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
+		this.scrollSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
 	}
 
 	detached() {
 		this.clickSub.dispose();
+		this.scrollSub.dispose();
 	}
 
 	openPicker(clickedId: string) {

@@ -26,6 +26,7 @@ export class PaidiaEvaluationSummary {
 	pickerId: string = "";
 	id: string = "";
 	clickSub: Subscription;
+	scrollSub: Subscription;
 
 	constructor(private localParent: PaidiaEvaluation, private ea: EventAggregator) {
 		this.id = ComponentHelper.CreateId("summaryPicker");
@@ -60,11 +61,12 @@ export class PaidiaEvaluationSummary {
 		}
 
 		this.clickSub = this.ea.subscribe(Events.PickerClicked, (clickedId: string) => this.openPicker(clickedId));
-		this.clickSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
+		this.scrollSub = this.ea.subscribe(Events.Scrolled, (clickedId: string) => this.openPicker(clickedId));
 	}
 
 	detached() {
 		this.clickSub.dispose();
+		this.scrollSub.dispose();
 	}
 
 	openPicker(clickedId: string) {

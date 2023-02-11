@@ -444,9 +444,12 @@ export class ComponentHelper {
 		}
 	}
 
-	static EmojiToString(emoji): string {
-		if (this.NullOrEmpty(emoji) || Number.isNaN(emoji)) return "";
-		return emoji.codePointAt(0).toString(16);
+	static EmojiToString(text): string {
+		if (text == null) return "";
+		return text.replace(/\\u[\dA-F]{4}/gi,
+			function (match) {
+				return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+			});
 	}
 
 	static PasswordValid(password: string): PasswordRequirements {
