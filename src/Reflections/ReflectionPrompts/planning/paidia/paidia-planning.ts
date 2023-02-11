@@ -52,8 +52,8 @@ export class PaidiaPlanning {
 		}
 	}
 
-	@computedFrom("authService.Course")
+	@computedFrom("localParent.Course")
 	get Course(): string {
-		return this.authService.Course;
+		return this.localParent.Course;
 	}
 }

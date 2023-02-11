@@ -1,7 +1,7 @@
 <template>
 	<require from="resources/slider/slider"></require>
 
-	<p class="reflection-question">How do you feel about ${Course} right now?</p>
+	<p class="reflection-question">How do you feel about ${localParent.Course} right now?</p>
 	<slider value.bind="localParent.model.courseFeelings.rating"></slider>
 
 	<div class="mt-30">

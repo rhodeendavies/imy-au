@@ -91,6 +91,11 @@ export class MonitoringPrompts extends SectionTrackerParent {
 	get ShowPaidia(): boolean {
 		return this.authService.System == Systems.Paidia && this.monitoringOpen;
 	}
+
+	@computedFrom("authService.Course")
+	get Course(): string {
+		return this.authService.Course;
+	}
 }
 
 enum MonitoringSections {

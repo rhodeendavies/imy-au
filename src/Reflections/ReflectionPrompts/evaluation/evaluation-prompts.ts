@@ -96,6 +96,12 @@ export class EvaluationPrompts extends SectionTrackerParent {
 	get ShowPaidia(): boolean {
 		return this.authService.System == Systems.Paidia && this.evaluationOpen;
 	}
+
+	
+	@computedFrom("authService.Course")
+	get Course(): string {
+		return this.authService.Course;
+	}
 }
 
 enum EvaluationSections {

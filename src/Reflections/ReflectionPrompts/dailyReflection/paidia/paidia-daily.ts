@@ -1,5 +1,5 @@
 import { ApplicationState } from "applicationState";
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { PaidiaDailyApiModel, PaidiaStrategyPlanning } from "models/reflectionsApiModels";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
@@ -48,5 +48,10 @@ export class PaidiaDaily {
 		} finally {
 			this.localParent.busy.off();
 		}
+	}
+
+	@computedFrom("localParent.Course")
+	get Course(): string {
+		return this.localParent.Course;
 	}
 }

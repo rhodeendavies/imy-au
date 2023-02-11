@@ -147,6 +147,11 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
 			this.dailyOpen;
 	}
+
+	@computedFrom("authService.Course")
+	get Course(): string {
+		return this.authService.Course;
+	}
 }
 
 enum DailySections {

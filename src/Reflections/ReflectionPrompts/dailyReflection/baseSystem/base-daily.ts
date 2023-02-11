@@ -1,4 +1,4 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { DailyPrompts } from "../daily-prompts";
 import { BaseDailyApiModel, StrategyPlanning } from "models/reflectionsApiModels";
 import { ApplicationState } from "applicationState";
@@ -49,5 +49,10 @@ export class BaseDaily {
 		} finally {
 			this.localParent.busy.off();
 		}
+	}
+
+	@computedFrom("localParent.Course")
+	get Course(): string {
+		return this.localParent.Course;
 	}
 }

@@ -90,6 +90,11 @@ export class PlanningPrompts extends SectionTrackerParent {
 	get ShowPaidia(): boolean {
 		return this.authService.System == Systems.Paidia && this.planningOpen;
 	}
+
+	@computedFrom("authService.Course")
+	get Course(): string {
+		return this.authService.Course;
+	}
 }
 
 enum PlanningSections {

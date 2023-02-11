@@ -1,19 +1,13 @@
-import { autoinject, computedFrom } from "aurelia-framework";
-import { AuthenticationService } from "services/authenticationService";
+import { autoinject } from "aurelia-framework";
 import { BaseDaily } from "../base-daily";
 
 @autoinject
 export class BaseFeelings {
 
-	constructor(private localParent: BaseDaily, private authService: AuthenticationService) {}
+	constructor(private localParent: BaseDaily) {}
 
 	nextStep() {
 		if (this.localParent.model.courseFeelings.rating == null) return;
 		this.localParent.nextStep();
-	}
-
-	@computedFrom("authService.Course")
-	get Course(): string {
-		return this.authService.Course;
 	}
 }
