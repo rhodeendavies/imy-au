@@ -13,10 +13,6 @@
 					{
 						"name": "Persistent",
 						"amount": 4
-					},
-					{
-						"name": "Flexible",
-						"amount": 3
 					}
 				]
 			},
@@ -31,10 +27,6 @@
 					{
 						"name": "Persistent",
 						"amount": 2
-					},
-					{
-						"name": "Flexible",
-						"amount": 3
 					}
 				]
 			},
@@ -47,10 +39,6 @@
 						"amount": 3
 					},
 					{
-						"name": "Persistent",
-						"amount": 3
-					},
-					{
 						"name": "Flexible",
 						"amount": 2
 					}
@@ -60,10 +48,6 @@
 				"name": "Watch one video a day this week.",
 				"description": "Learn a bit each day by watching one video. If there are more than five videos, you may have to double up on some days.",
 				"modifiers": [
-					{
-						"name": "Planner",
-						"amount": 2
-					},
 					{
 						"name": "Persistent",
 						"amount": 4
@@ -90,10 +74,6 @@
 					{
 						"name": "Reflective",
 						"amount": 5
-					},
-					{
-						"name": "Flexible",
-						"amount": 1
 					}
 				]
 			},
@@ -104,10 +84,6 @@
 					{
 						"name": "Planner",
 						"amount": 4
-					},
-					{
-						"name": "Flexible",
-						"amount": 3
 					},
 					{
 						"name": "Analytical",
@@ -127,10 +103,6 @@
 						"name": "Independent",
 						"amount": 3
 					},
-					{
-						"name": "Planner",
-						"amount": 3
-					}
 				]
 			},
 			{
@@ -144,10 +116,6 @@
 					{
 						"name": "Reflective",
 						"amount": 3
-					},
-					{
-						"name": "Planner",
-						"amount": 4
 					}
 				]
 			}
@@ -167,10 +135,6 @@
 					{
 						"name": "Analytical",
 						"amount": 3
-					},
-					{
-						"name": "Flexible",
-						"amount": 1
 					}
 				]
 			},
@@ -178,10 +142,6 @@
 				"name": "Practice the concepts in each video in a project of my own.",
 				"description": "Try to use what you've learnt in your own application so that you can apply it more effectively.",
 				"modifiers": [
-					{
-						"name": "Curious",
-						"amount": 3
-					},
 					{
 						"name": "Independent",
 						"amount": 4
@@ -197,10 +157,6 @@
 				"description": "Challenge yourself to think about your own examples of the things mentioned in the video.",
 				"modifiers": [
 					{
-						"name": "Adventurous",
-						"amount": 3
-					},
-					{
 						"name": "Independent",
 						"amount": 4
 					},
@@ -214,10 +170,6 @@
 				"name": "Write down how this week's concepts link to previous things that I've learnt.",
 				"description": "Think about the links between your new knowledge and what you already know. How do these work together?",
 				"modifiers": [
-					{
-						"name": "Adventurous",
-						"amount": 4
-					},
 					{
 						"name": "Reflective",
 						"amount": 3
@@ -242,10 +194,6 @@
 						"amount": 5
 					},
 					{
-						"name": "Confident",
-						"amount": 4
-					},
-					{
 						"name": "Reflective",
 						"amount": 4
 					}
@@ -258,10 +206,6 @@
 					{
 						"name": "Interpersonal",
 						"amount": 4
-					},
-					{
-						"name": "Confident",
-						"amount": 3
 					},
 					{
 						"name": "Reflective",
@@ -278,10 +222,6 @@
 						"amount": 3
 					},
 					{
-						"name": "Adventurous",
-						"amount": 3
-					},
-					{
 						"name": "Independent",
 						"amount": 4
 					}
@@ -291,10 +231,6 @@
 				"name": "Find real-world examples of the concepts in the videos.",
 				"description": "Think about how the concepts from the videos work in the real-world. Find or brainstorm some examples for yourself.",
 				"modifiers": [
-					{
-						"name": "Adventurous",
-						"amount": 4
-					},
 					{
 						"name": "Independent",
 						"amount": 4
