@@ -6,6 +6,7 @@ import { Paidia } from "../paidia";
 import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
 import { PaidiaSummaryType } from "utils/enums";
+import { PaidiaCanvas } from "resources/paidiaCanvas/paidia-canvas";
 
 @autoinject
 export class PaidiaEvaluationDetails {
@@ -23,6 +24,8 @@ export class PaidiaEvaluationDetails {
 	showGif: boolean;
 	showText: boolean;
 	showColour: boolean;
+	
+	canvas: PaidiaCanvas;
 
 	constructor(private localParent: Paidia, private appState: ApplicationState) { }
 
@@ -92,6 +95,12 @@ export class PaidiaEvaluationDetails {
 		this.showColour = types[0] == PaidiaSummaryType.colour || types[1] == PaidiaSummaryType.colour;
 		this.showGif = types[0] == PaidiaSummaryType.gif || types[1] == PaidiaSummaryType.gif;
 		this.showText = types[0] == PaidiaSummaryType.text || types[1] == PaidiaSummaryType.text;
+
+		
+		if (!ComponentHelper.NullOrEmpty(this.evaluatingReflection.strategyRating.canvas)) {
+			const canvasModel = JSON.parse(this.evaluatingReflection.strategyRating.canvas)
+			this.canvas.loadCanvasAsImage(canvasModel.canvas);
+		}
 		
 	}
 
@@ -118,33 +127,33 @@ export class PaidiaEvaluationDetails {
 
 	@computedFrom("evaluatingReflection.learningExperience.emoji")
 	get HasEmoji(): boolean {
-		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection.learningExperience.emoji);
+		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection?.learningExperience.emoji);
 	}
 
 	@computedFrom("evaluatingReflection.learningExperience.text")
 	get HasText(): boolean {
-		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection.learningExperience.text);
+		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection?.learningExperience.text);
 	}
 
 	@computedFrom("evaluatingReflection.learningExperience.color")
 	get HasColour(): boolean {
-		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection.learningExperience.color);
+		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection?.learningExperience.color);
 	}
 
 	@computedFrom("evaluatingReflection.learningExperience.color")
 	get Colour(): string {
 		if (!this.HasColour || (!this.showColour && !this.localParent.FullReflection)) return "";
-		return `background-color: ${this.evaluatingReflection.learningExperience.color}`;
+		return `background-color: ${this.evaluatingReflection?.learningExperience.color}`;
 	}
 
 	@computedFrom("evaluatingReflection.learningExperience.color")
 	get ShadowColour(): string {
 		if (!this.HasColour || (!this.showColour && !this.localParent.FullReflection)) return "";
-		return `box-shadow: 0px 3px 6px ${this.evaluatingReflection.learningExperience.color}`;
+		return `box-shadow: 0px 3px 6px ${this.evaluatingReflection?.learningExperience.color}`;
 	}
 
 	@computedFrom("evaluatingReflection.learningExperience.gif")
 	get HasGif(): boolean {
-		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection.learningExperience.gif);
+		return !ComponentHelper.NullOrEmpty(this.evaluatingReflection?.learningExperience.gif);
 	}
 }

@@ -4,6 +4,7 @@ import { PaidiaMonitoringApiModel, PaidiaStrategyPlanning } from "models/reflect
 import { Paidia } from "../paidia";
 import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
+import { PaidiaCanvas } from "resources/paidiaCanvas/paidia-canvas";
 
 @autoinject
 export class PaidiaMonitoringDetails {
@@ -14,6 +15,7 @@ export class PaidiaMonitoringDetails {
 	strategies: Strategy[];
 	monitoringReflection: PaidiaMonitoringApiModel;
 	monitoringQuestions: PaidiaStrategyPlanning[];
+	canvas: PaidiaCanvas;
 
 	constructor(private localParent: Paidia, private appState: ApplicationState) { }
 
@@ -52,6 +54,11 @@ export class PaidiaMonitoringDetails {
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	
 		this.monitoringReflection.courseFeelings.emoji = ComponentHelper.EmojiFromString(this.monitoringReflection.courseFeelings.emoji)
+	
+		if (!ComponentHelper.NullOrEmpty(this.monitoringReflection.strategyRating.canvas)) {
+			const canvasModel = JSON.parse(this.monitoringReflection.strategyRating.canvas)
+			this.canvas.loadCanvasAsImage(canvasModel.canvas);
+		}
 	}
 
 	@computedFrom("localParent.reflection.id")

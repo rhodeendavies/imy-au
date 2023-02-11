@@ -1,4 +1,6 @@
 <template>
+	<require from="resources/paidiaCanvas/paidia-canvas"></require>
+	
 	<div class="reflections-details">
 		<div class="reflection-header-wrapper">
 			<div class="circle-icon">
@@ -71,16 +73,21 @@
 			</div>
 
 			<!-- strategy ratings -->
-			<div class="reflection-divider">
-				<div class="reflection-sub-heading">Rating your strategies this week</div>
-				<div class="summary-with-icon" repeat.for="category of strategies">
-					<div class="paidia-lesson-rating">
-						${category.emoji}
+			<div class="paidia-reflection-details-canvas ${localParent.FullReflection ? '' : 'paidia-reflection-details-canvas-stacked'}">
+				<div>
+					<div class="reflection-sub-heading">Rating your strategies this week</div>
+					<div class="summary-with-icon" repeat.for="category of strategies">
+						<div class="paidia-lesson-rating">
+							${category.emoji}
+						</div>
+						<div class="summary-text">
+							<div class="summary-heading">${category.title}</div>
+							<div class="summary-body" innerhtml.bind="category.strategy"></div>
+						</div>
 					</div>
-					<div class="summary-text">
-						<div class="summary-heading">${category.title}</div>
-						<div class="summary-body" innerhtml.bind="category.strategy"></div>
-					</div>
+				</div>
+				<div class="paidia-reflection-canvas" show.bind="localParent.FullReflection">
+					<paidia-canvas view-model.ref="canvas"></paidia-canvas>
 				</div>
 			</div>
 
