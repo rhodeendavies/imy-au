@@ -141,7 +141,7 @@ export class LudusEvaluationDetails {
 			datasets: [{
 				label: "",
 				data: data.map(x => {
-					return x / total * 100;
+					return Math.round(x / total * 100);
 				}),
 				backgroundColor: colours,
 				borderColor: colours

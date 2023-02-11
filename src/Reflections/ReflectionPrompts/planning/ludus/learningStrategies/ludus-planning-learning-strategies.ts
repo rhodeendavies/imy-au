@@ -101,7 +101,6 @@ export class LudusPlanningLearningStrategies {
 			}
 		}
 
-
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
 		const data: number[] = this.components.map(x => x.total);
 		const colours = data.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index - 0.1) / this.components.length)))
@@ -112,7 +111,7 @@ export class LudusPlanningLearningStrategies {
 			datasets: [{
 				label: "",
 				data: data.map(x => {
-					return x / total * 100;
+					return Math.round(x / total * 100);
 				}),
 				backgroundColor: colours,
 				borderColor: colours

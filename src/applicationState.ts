@@ -89,6 +89,7 @@ export class ApplicationState {
 
 	triggerRatingModal(lesson: Lesson) {
 		this.watchedLesson = lesson;
+		this.watchedLesson.name = `"${this.watchedLesson.name}"`;
 		if (!this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
