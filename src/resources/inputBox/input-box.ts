@@ -141,7 +141,7 @@ export class InputBox {
 			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
 		} else if (this.ShowTextarea) {
 			this.min = 50;
-			this.max = 500;
+			this.max = 250;
 			this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
 		} else {
 			this.valid = this.value.length >= 3;
