@@ -19,7 +19,7 @@
 
 		.evaluation-topic {
 			display: grid;
-			grid-template-columns: 250px 1fr;
+			grid-template-columns: 250px 1fr 1fr;
 			gap: 20px;
 			padding-bottom: 20px;
 			margin-bottom: 20px;
@@ -39,6 +39,12 @@
 				gap: 40px;
 				text-align: center;
 				margin-top: 30px;
+			}
+
+			.topic-phrase {
+				font-size: 15px;
+				color: $DarkGrey;
+				text-align: left;
 			}
 		}
 	}

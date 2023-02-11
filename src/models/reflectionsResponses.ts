@@ -125,6 +125,7 @@ export class QuestionTopic {
 	name: string;
 	rating?: number;
 	options?: RadioOption[];
+	phrase?: string;
 }
 
 export class PaidiaTopic {

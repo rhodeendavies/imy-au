@@ -9,7 +9,10 @@
 			<div class="evaluation-topics">
 				<div class="evaluation-topic" repeat.for="topic of localParent.questions.topicRatings.topics">
 					<div>${topic.name}</div>
-					<radio-button type="stars" value.bind="topic.rating" options.bind="topic.options"></radio-button>
+					<radio-button type="stars" value.bind="topic.rating"
+						options.bind="topic.options" on-change.call="getPhrase(topic)">
+					</radio-button>
+					<div class="topic-phrase">${topic.phrase}</div>
 				</div>
 			</div>
 		</div>

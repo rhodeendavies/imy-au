@@ -36,6 +36,9 @@ export class ApplicationState {
 	paidiaPrompts: Prompts;
 	paidiaWords: PaidiaWord[];
 	emotions: Emotion[];
+	oneStarTopicPhrases: string[];
+	twoStarTopicPhrases: string[];
+	threeStarTopicPhrases: string[];
 	emotionsStrings: Emotions;
 	watchedLesson: Lesson;
 	reflectionSection: string;
@@ -441,6 +444,14 @@ export class ApplicationState {
 			.then(response => response.json())
 			.then((output: BasicLudusModifier[]) => {
 				ComponentHelper.LudusModifiers = output;
+			});
+
+		fetch("prompts/ludus-topic-phrases.json")
+			.then(response => response.json())
+			.then((output) => {
+				this.oneStarTopicPhrases = ComponentHelper.ShuffleArray(output.one)
+				this.twoStarTopicPhrases = ComponentHelper.ShuffleArray(output.two)
+				this.threeStarTopicPhrases = ComponentHelper.ShuffleArray(output.three)
 			});
 	}
 }
