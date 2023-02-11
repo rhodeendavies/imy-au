@@ -62,12 +62,11 @@
 			.login-inputs {
 				display: flex;
 				flex-direction: column;
-				gap: 10px;
+				gap: 20px;
 			}
 
 			.login-action {
-				margin-top: 20px;
-				margin-bottom: 40px;
+				margin: 40px 0;
 
 				.btn {
 					width: 100%;

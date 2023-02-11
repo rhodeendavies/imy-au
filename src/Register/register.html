@@ -16,10 +16,11 @@
 			<div class="login-box" if.bind="!registerSuccess && !busy.Active">
 				<div class="login-inputs">
 					<input-box value.bind="registerModel.studentNumber" label="Student number"
-						valid.bind="studentNumberValid" error="*Required">
+						valid.bind="studentNumberValid" error="*Required"  validate.bind="false">
 					</input-box>
 					<input-box value.bind="registerModel.password" label="Password" type="password"
-						valid.bind="passwordValid" show-info.bind="true" error="Password too weak">
+						valid.bind="passwordValid" show-info.bind="true" error="Password too weak"
+						validate.bind="false">
 						<ul class="password-requirements">
 							<li>
 								At least 8 characters
@@ -55,7 +56,7 @@
 					</input-box>
 					<input-box value.bind="registerModel.passwordConfirmation" label="Confirm Password"
 						type="password" on-enter.call="register()" valid.bind="passwordsMatch"
-						error="Passwords don't match">
+						error="Passwords don't match" validate.bind="false">
 					</input-box>
 				</div>
 	

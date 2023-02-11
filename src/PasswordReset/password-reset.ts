@@ -16,7 +16,7 @@ export class PasswordReset {
 	passwordsMatch: boolean = true;
 	passwordValid: boolean = true;
 	busy: Busy = new Busy();
-	success: boolean = true;
+	success: boolean = false;
 	onlineEducation: string = AttributionLinks.onlineEducation;
 
 	constructor(private usersService: UsersService, private router: Router) { }

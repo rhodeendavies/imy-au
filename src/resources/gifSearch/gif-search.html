@@ -3,7 +3,7 @@
 		<div class="gif-search-input">
 			<input-box value.bind="search" on-enter.call="searchGiphy()"
 				on-focus.call="togglePicker()" type="search"
-				placeholder="Search via Giphy">
+				placeholder="Search via Giphy" validate.bind="false">
 			</input-box>
 		</div>
 		<div class="giphy-logo" if.bind="pickerOpen">

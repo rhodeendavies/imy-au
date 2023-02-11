@@ -16,6 +16,7 @@ export class InputBox {
 	@bindable max: number = null;
 	@bindable showInfo: boolean = false;
 	@bindable error: string = "";
+	@bindable validate: boolean = true;
 
 	@bindable onFocus;
 	@bindable onBlur;
@@ -74,6 +75,30 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
+		if (this.validate) {
+			if (this.value == null) return false;
+
+			if (this.ShowLarge) {
+				// test if its a number between 0 and 5
+				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+			} else if (this.ShowTextarea) {
+				// check the length between 50 and 250
+				if (this.min == null) {
+					this.min = 50;
+				}
+				if (this.max == null) {
+					this.max = 250;
+				}
+				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+			} else {
+				// no validation
+				this.valid = true;
+			}
+	
+			// check for funky characters
+			this.valid = this.valid && ComponentHelper.InputValid(this.value);
+		}
+
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
@@ -134,21 +159,20 @@ export class InputBox {
 	}
 
 	@computedFrom("value.length")
-	get Valid(): boolean {
+	get LargeTextValid(): boolean {
 		if (this.value == null) return false;
 
-		if (this.ShowLarge) {
-			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
-		} else if (this.ShowTextarea) {
+		// check the length between 50 and 250
+		if (this.min == null) {
 			this.min = 50;
+		}
+		if (this.max == null) {
 			this.max = 250;
-			this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
-		} else {
-			this.valid = this.value.length >= 3;
 		}
 
-		this.valid = this.valid && ComponentHelper.InputValid(this.value);
-		return this.valid;
+		// check for funky characters
+		return this.value != null && this.value.length >= this.min && this.value.length <= this.max
+			&& ComponentHelper.InputValid(this.value);
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -157,10 +181,10 @@ export class InputBox {
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
-	@computedFrom("disabled", "type", "showPasswordToggle", "valid", "Valid")
+	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
 	get InputClasses(): string {
 		let classes = "";
-		if ((this.ShowText || this.ShowPassword) && this.valid != null && !this.Valid) classes += " input-invalid";
+		if (this.valid != null && !this.valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
 		if (this.ShowSearch) classes += " search-input";
