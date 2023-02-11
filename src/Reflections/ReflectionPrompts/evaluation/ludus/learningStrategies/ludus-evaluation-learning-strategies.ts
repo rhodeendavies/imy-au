@@ -3,7 +3,7 @@ import { LudusComponent, Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { LudusEvaluation } from "../ludus-evaluation";
 import { Busy } from "resources/busy/busy";
-import { ArcElement, Chart, DoughnutController, Legend, Tooltip } from "chart.js";
+import { ArcElement, Chart, ChartType, DoughnutController, Legend, Tooltip } from "chart.js";
 import { log } from "utils/log";
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
@@ -104,7 +104,7 @@ export class LudusEvaluationLearningStrategies {
 
 		this.chart = new Chart(document.getElementById("componentsChart") as HTMLCanvasElement,
 			{
-				type: "doughnut",
+				type: "doughnut" as ChartType,
 				data: this.createData(),
 				options: {
 					aspectRatio: 2,

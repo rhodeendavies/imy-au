@@ -3,7 +3,7 @@ import { LudusEvaluation } from "../ludus-evaluation";
 import { ApplicationState } from "applicationState";
 import { PromptSection } from "models/prompts";
 import { ComponentHelper } from "utils/componentHelper";
-import { CategoryScale, Chart, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
+import { CategoryScale, Chart, ChartType, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
 import { Colours } from "utils/constants";
 import { DateHelper } from "utils/dateHelper";
 import { PromptType } from "utils/enums";
@@ -71,7 +71,7 @@ export class LudusEvaluationFeelings {
 	createChart() {
 		this.chart = new Chart(document.getElementById("feelingsChart") as HTMLCanvasElement,
 			{
-				type: "line",
+				type: "line" as ChartType,
 				data: this.createData(),
 				options: {
 					aspectRatio: 3,

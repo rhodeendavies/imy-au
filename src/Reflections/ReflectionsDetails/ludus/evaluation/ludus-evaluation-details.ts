@@ -5,7 +5,7 @@ import { LudusEvaluatingQuestions } from "models/reflectionsResponses";
 import { ComponentHelper } from "utils/componentHelper";
 import { Ludus } from "../ludus";
 import { DateHelper } from "utils/dateHelper";
-import { ArcElement, CategoryScale, Chart, DoughnutController, Legend, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
+import { ArcElement, CategoryScale, Chart, ChartType, DoughnutController, Legend, LineController, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
 import { EmotionModifier } from "models/prompts";
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
@@ -101,7 +101,7 @@ export class LudusEvaluationDetails {
 		if (ctx == null) return;
 		this.feelingChart = new Chart(ctx,
 			{
-				type: "line",
+				type: "line" as ChartType,
 				data: this.createFeelingsData(),
 				options: {
 					aspectRatio: 3,
@@ -155,7 +155,7 @@ export class LudusEvaluationDetails {
 
 		this.strategyChart = new Chart(ctx,
 			{
-				type: "doughnut",
+				type: "doughnut" as ChartType,
 				data: this.createStrategyData(),
 				options: {
 					aspectRatio: 2,

@@ -4,7 +4,7 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { EmotionModifier } from "models/prompts";
 import { Colours } from "utils/constants";
-import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart, DoughnutController, ArcElement, Tooltip, Legend, ChartType } from "chart.js";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -83,7 +83,7 @@ export class LudusPublic {
 		
 		this.chart = new Chart(ctx,
 		{
-			type: "doughnut",
+			type: "doughnut" as ChartType,
 			data: this.createData(),
 			options: {
 				aspectRatio: 2,

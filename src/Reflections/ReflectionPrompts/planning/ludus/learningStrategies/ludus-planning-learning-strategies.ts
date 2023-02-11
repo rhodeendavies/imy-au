@@ -4,7 +4,7 @@ import { LudusPlanning } from "../ludus-planning";
 import { LudusComponent, Strategy } from "models/reflections";
 import { Busy } from "resources/busy/busy";
 import { log } from "utils/log";
-import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Chart, DoughnutController, ArcElement, Tooltip, Legend, ChartType } from 'chart.js'
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
 
@@ -116,7 +116,7 @@ export class LudusPlanningLearningStrategies {
 		if (this.chart == null) {
 			this.chart = new Chart(context,
 				{
-					type: "doughnut",
+					type: "doughnut" as ChartType,
 					data: this.createData(emptyChart),
 					options: {
 						animation: false,
