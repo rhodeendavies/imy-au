@@ -1,6 +1,6 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { PaidiaVideoRatingApiModel } from "models/reflectionsApiModels";
+import { PaidiaLessonRating, PaidiaVideoRatingApiModel } from "models/reflectionsApiModels";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
@@ -27,7 +27,10 @@ export class PaidiaVideo {
 	async submitRating() {
 		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
 		this.localParent.reflectionId = id;
-		this.model.rating = ComponentHelper.EmojiToString(this.emoji);
+		if (this.model.lessonRating == null) {
+			this.model.lessonRating = new PaidiaLessonRating();
+		}
+		this.model.lessonRating.rating = ComponentHelper.EmojiToString(this.emoji);
 		this.localParent.submitRating(this.model);
 	}
 

@@ -84,7 +84,7 @@ export class LudusEvaluatingApiModel extends ReflectionApiModel {
 // ========================== PAIDIA ======================================
 
 export class PaidiaVideoRatingApiModel extends ReflectionApiModel {
-	rating: string;
+	lessonRating: PaidiaLessonRating;
 }
 
 export class PaidiaDailyApiModel extends ReflectionApiModel {
@@ -124,6 +124,14 @@ export class CourseFeelings {
 
 	constructor() {
 		this.rating = null
+	}
+}
+
+export class PaidiaLessonRating {
+	rating: string;
+
+	constructor() {
+		this.rating = "";
 	}
 }
 
