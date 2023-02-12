@@ -38,7 +38,7 @@ export class StudentRoutes {
 			name: Routes.CourseContent,
 			moduleId: 'Dashboard/CourseView/course-view',
 			nav: true,
-			title: 'Content',
+			title: '',
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
