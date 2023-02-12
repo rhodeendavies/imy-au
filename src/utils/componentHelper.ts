@@ -81,7 +81,8 @@ export class ComponentHelper {
 			}),
 			strategy: strategy,
 			rating: rating,
-			ratingPercentage: this.GetRatingPercentages(rating, 5)
+			ratingPercentage: this.GetRatingPercentages(rating, 5),
+			valid: rating != null ? true : null
 		};
 	}
 

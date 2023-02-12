@@ -50,6 +50,10 @@ export class InputBox {
 			}
 		}
 
+		if (!ComponentHelper.NullOrEmpty(this.value)) {
+			this.validateValue();
+		}
+
 		setTimeout(() => {
 			this.initDone = true;
 		});
@@ -64,6 +68,25 @@ export class InputBox {
 
 	togglePassword() {
 		this.showPasswordToggle = !this.showPasswordToggle;
+	}
+
+	validateValue() {
+		if (this.validate) {
+			if (this.value == null) return false;
+
+			if (this.ShowLarge) {
+				// test if its a number between 0 and 5
+				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+			} else if (this.ShowTextarea) {
+				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+			} else {
+				// no validation
+				this.valid = true;
+			}
+	
+			// check for funky characters
+			this.valid = this.valid && ComponentHelper.InputValid(this.value);
+		}
 	}
 
 	onFocusTrigger() {
@@ -85,22 +108,7 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
-		if (this.validate) {
-			if (this.value == null) return false;
-
-			if (this.ShowLarge) {
-				// test if its a number between 0 and 5
-				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
-			} else if (this.ShowTextarea) {
-				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
-			} else {
-				// no validation
-				this.valid = true;
-			}
-	
-			// check for funky characters
-			this.valid = this.valid && ComponentHelper.InputValid(this.value);
-		}
+		this.validateValue();
 
 		if (this.onChange != null) {
 			setTimeout(() => {
