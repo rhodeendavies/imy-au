@@ -19,3 +19,14 @@
 	grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
 	gap: 20px;
 }
+
+.ludus-details-gauges {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 5px 20px;
+
+	.ludus-detail-gauge {
+		width: 30%;
+	}
+}

@@ -11,7 +11,7 @@
 					<span class="icon">signal_cellular_alt</span>
 				</div>
 				<div class="reflection-header">
-					PROGRESS TOWARDS YOUR STRATEGIES
+					YOUR ATTRIBUTE PERFORMANCE
 				</div>
 				<div class="reflection-date" if.bind="localParent.FullReflection">
 					<!-- TODO: info -->
@@ -22,7 +22,7 @@
 			<div class="reflection-body">
 				<div class="ludus-gauges ludus-details-gauges">
 					<gauge repeat.for="component of components" value.bind="component.originalScore"
-						label.bind="component.name">
+						label.bind="component.name" class="ludus-detail-gauge">
 					</gauge>
 				</div>
 
