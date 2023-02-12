@@ -16,7 +16,7 @@ $OppositeSeaGreen: #F27F87;
 	width: calc(100% - (20px));
 	cursor: pointer;
 	margin: auto;
-	height: 75px;
+	height: 50px;
 	display: flex;
 	align-items: center;
 }
@@ -158,6 +158,12 @@ $OppositeSeaGreen: #F27F87;
 					background: none;
 					outline: none;
 				}
+
+				&:hover {
+					+.slider-bar {
+						background: $Orange;
+					}
+				}
 			}
 	
 			.slider-bar {
@@ -168,7 +174,8 @@ $OppositeSeaGreen: #F27F87;
 				margin: 0 11px;
 				height: 2px;
 				background-color: $DarkGrey;
-
+				transition: all 0.3s;
+				
 				.hover-percentage {
 					position: absolute;
 					bottom: 15px;
