@@ -65,19 +65,19 @@ export class PlanningPrompts extends SectionTrackerParent {
 		return this.activeSection == PlanningSections.Overview;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == PlanningSections.Feelings && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == PlanningSections.Feelings && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowStrengths(): boolean {
-		return this.activeSection == PlanningSections.Strengths && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == PlanningSections.Strengths && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == PlanningSections.LearningStrategies && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == PlanningSections.LearningStrategies && !this.busy.active && this.modelLoaded;
 	}
 
 	@computedFrom("authService.System", "planningOpen")

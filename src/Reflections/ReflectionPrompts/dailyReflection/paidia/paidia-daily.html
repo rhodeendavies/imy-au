@@ -2,8 +2,6 @@
 	<require from="./feelings/paidia-feelings"></require>
 	<require from="./learningStrategies/paidia-learning-strategies"></require>
 
-	<loader if.bind="localParent.busy.Active"></loader>
-
 	<paidia-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-feelings>
 	<paidia-learning-strategies class="prompt-section"
 		if.bind="!localParent.EvaluatingDone && localParent.ShowLearningStrategies"></paidia-learning-strategies>

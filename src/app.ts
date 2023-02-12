@@ -62,7 +62,7 @@ export class App {
 
 	// GETS
 	get Loading(): boolean {
-		return this.authService.Busy || this.appState.determineReflectionBusy.Active;
+		return this.authService.Busy || this.appState.determineReflectionBusy.active;
 	}
 
 	@computedFrom("appState.RatingOpen", "appState.DailyOpen", "appState.PlanningOpen", "appState.MonitoringOpen", "appState.EvaluationOpen")

@@ -66,19 +66,19 @@ export class MonitoringPrompts extends SectionTrackerParent {
 		return this.activeSection == MonitoringSections.Overview;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == MonitoringSections.Feelings && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == MonitoringSections.Feelings && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowQuestions(): boolean {
-		return this.activeSection == MonitoringSections.Questions && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == MonitoringSections.Questions && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == MonitoringSections.LearningStrategies && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == MonitoringSections.LearningStrategies && !this.busy.active && this.modelLoaded;
 	}
 
 	@computedFrom("authService.System", "monitoringOpen")

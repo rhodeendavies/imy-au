@@ -9,11 +9,11 @@
 				</div>
 			</div>
 			
-			<div class="login-box" if.bind="busy.Active">
+			<div class="login-box" if.bind="busy.active">
 				<loader></loader>
 			</div>
 
-			<div class="login-box" if.bind="!registerSuccess && !busy.Active">
+			<div class="login-box" if.bind="!registerSuccess && !busy.active">
 				<div class="login-inputs">
 					<input-box value.bind="registerModel.studentNumber" label="Student number"
 						valid.bind="studentNumberValid" error="*Required"  validate.bind="false">
@@ -80,7 +80,7 @@
 				</div>
 			</div>
 
-			<div class="login-box" if.bind="registerSuccess && !busy.Active">
+			<div class="login-box" if.bind="registerSuccess && !busy.active">
 				<div class="login-success">
 					<div class="login-box-icon icon text-center">verified</div>
 					<span>

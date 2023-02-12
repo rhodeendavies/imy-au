@@ -4,7 +4,7 @@
 	<require from="./learningStrategies/ludus-evaluation-learning-strategies"></require>
 	<require from="./summary/ludus-evaluation-summary"></require>
 
-	<loader if.bind="localParent.busy.Active"></loader>
+	<loader if.bind="localParent.busy.active"></loader>
 
 	<ludus-evaluation-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></ludus-evaluation-feelings>
 	<ludus-evaluation-topics class="prompt-section" if.bind="localParent.ShowTopics"></ludus-evaluation-topics>

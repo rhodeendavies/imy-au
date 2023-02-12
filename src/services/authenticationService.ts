@@ -113,9 +113,9 @@ export class AuthenticationService {
 		return this.user !== null && this.user !== undefined && this.user.courseId;
 	}
 
-	@computedFrom("busy.Active")
+	@computedFrom("busy.active")
 	get Busy(): boolean {
-		return this.busy.Active;
+		return this.busy.active;
 	}
 
 	redirectToLogin() {

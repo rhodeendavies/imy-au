@@ -38,17 +38,17 @@
 				</div>
 			</div>
 
-			<loader if.bind="busy.Active"></loader>
+			<loader if.bind="busy.active"></loader>
 
 			<public-reflections class="public-reflections"
-				if.bind="!busy.Active && showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
+				if.bind="!busy.active && showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</public-reflections>
 
 			<reflections-details 
 				base-reflection.bind="sectionSelected.baseReflection"
 				ludus-reflection.bind="sectionSelected.ludusReflection"
 				paidia-reflection.bind="sectionSelected.paidiaReflection"
-				if.bind="!busy.Active && !showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
+				if.bind="!busy.active && !showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</reflections-details>
 		</div>
 	</div>

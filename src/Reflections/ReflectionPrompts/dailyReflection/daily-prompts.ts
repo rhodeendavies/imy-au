@@ -24,7 +24,6 @@ export class DailyPrompts extends SectionTrackerParent {
 	startDailyBusy: Busy = new Busy();
 	evaluatingDone: boolean = false;
 	reflectionId: number;
-	dailyOpen: boolean = false;
 	modelLoaded: boolean = false;
 
 	constructor(
@@ -36,21 +35,19 @@ export class DailyPrompts extends SectionTrackerParent {
 	}
 
 	attached() {
-		this.init();
+		this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
-			if (this.timer != null) {
-				clearInterval(this.timer);
-			}
-			this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
 			this.init();
-			this.determineDailyAvailable();
 		});
 	}
 
-	init() {
+	async init() {
+		this.reflectionId = null;
 		this.modelLoaded = false;
 		this.activeSection = DailySections.Overview;
 		this.tracker.resetTracker();
+		await this.getAvailability();
+		this.determineDailyAvailable();
 	}
 
 	detached() {
@@ -58,28 +55,32 @@ export class DailyPrompts extends SectionTrackerParent {
 		clearInterval(this.timer);
 	}
 
-	async determineDailyAvailable(): Promise<boolean> {
+	async getAvailability() {
 		try {
 			this.availabilityBusy.on();
 			this.availability = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Daily, await this.appState.getCurrentSectionId());
-			if (this.availability == null) return false;
-
-			const now = DateTime.now();
-			const lastReflection = DateTime.fromJSDate(this.availability.lastCompletedAt);
-			const interval = Interval.fromDateTimes(lastReflection, now);
-
-			if (!interval.isValid) return false;
-			const duration = Duration.fromObject({ hours: 23, minutes: 59 })
-				.minus(interval.toDuration(['hours', 'minutes']));
-			
-			this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
-
-			return this.availability.available;
+			if (this.availability != null) {
+				this.reflectionId = this.availability.incompleteDailyReflectionId;
+			}
 		} catch (error) {
 			log.error(error);
 		} finally {
 			this.availabilityBusy.off();
 		}
+	}
+
+	async determineDailyAvailable() {
+		if (this.availability == null || this.availability.available) return;
+
+		const now = DateTime.now();
+		const lastReflection = DateTime.fromJSDate(this.availability.lastCompletedAt);
+		const interval = Interval.fromDateTimes(lastReflection, now);
+		if (!interval.isValid) return;
+
+		const duration = Duration.fromObject({ hours: 23, minutes: 59 })
+			.minus(interval.toDuration(['hours', 'minutes']));
+		
+		this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
 	}
 
 	async startDaily() {
@@ -97,11 +98,10 @@ export class DailyPrompts extends SectionTrackerParent {
 
 	nextStep() {
 		this.tracker.moveForward();
-		this.dailyOpen = true;
+		this.appState.dailyOpen = true;
 	}
 
 	closeDaily() {
-		this.dailyOpen = false;
 		this.availability = null;
 		this.appState.closeDaily();
 	}
@@ -112,7 +112,6 @@ export class DailyPrompts extends SectionTrackerParent {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;
 		}
-		this.dailyOpen = false;
 		this.appState.closeDaily();
 	}
 
@@ -121,9 +120,9 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.activeSection == DailySections.Overview;
 	}
 
-	@computedFrom("busy.Active", "availabilityBusy.Active", "startDailyBusy.Active")
+	@computedFrom("busy.active", "availabilityBusy.active", "startDailyBusy.active")
 	get Busy(): boolean {
-		return this.busy.Active || this.availabilityBusy.Active || this.startDailyBusy.Active;
+		return this.busy.active || this.availabilityBusy.active || this.startDailyBusy.active;
 	}
 
 	@computedFrom("activeSection", "Busy", "modelLoaded")
@@ -141,22 +140,22 @@ export class DailyPrompts extends SectionTrackerParent {
 		return this.evaluatingDone;
 	}
 
-	@computedFrom("authService.System", "dailyOpen", "availability.available")
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
 	get ShowBaseSystem(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
-			this.dailyOpen;
+			this.appState.dailyOpen;
 	}
 
-	@computedFrom("authService.System", "dailyOpen", "availability.available")
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
 	get ShowLudus(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
-			this.dailyOpen;
+			this.appState.dailyOpen;
 	}
 
-	@computedFrom("authService.System", "dailyOpen", "availability.available")
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
 	get ShowPaidia(): boolean {
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
-			this.dailyOpen;
+			this.appState.dailyOpen;
 	}
 
 	@computedFrom("authService.Course")

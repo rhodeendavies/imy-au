@@ -38,10 +38,16 @@ export class LudusDaily {
 	async getDaily() {
 		try {
 			this.localParent.busy.on();
-			const currentSection = await this.appState.getCurrentSectionId();
-			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, currentSection);
-			const reflection = await this.reflectionsApi.getLudusDailyReflection(id);
-			this.localParent.reflectionId = id;
+			if (this.localParent.reflectionId == null) {
+				const currentSection = await this.appState.getCurrentSectionId();
+				this.localParent.reflectionId = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, currentSection);
+			}
+			if (this.localParent.reflectionId == null) {
+				this.appState.triggerToast("Failed to load daily...");
+				return;
+			}
+			
+			const reflection = await this.reflectionsApi.getLudusDailyReflection(this.localParent.reflectionId);
 			this.model = reflection.answers;
 			this.questions = reflection.questions;
 			this.localParent.modelLoaded = true;

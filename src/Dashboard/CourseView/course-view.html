@@ -1,9 +1,9 @@
 <template>
 	<require from="./SectionView/section-view"></require>
 
-	<loader if.bind="busy.Active || !initDone"></loader>
+	<loader if.bind="busy.active || !initDone"></loader>
 	
-	<div class="course-wrapper ${IsLessonSelected ? 'lesson-open' : ''}" if.bind="!busy.Active && initDone">
+	<div class="course-wrapper ${IsLessonSelected ? 'lesson-open' : ''}" if.bind="!busy.active && initDone">
 		<div class="dash-section-heading">
 			<div class="main-heading">
 				${courseHeading}

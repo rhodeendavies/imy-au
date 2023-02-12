@@ -66,24 +66,24 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		return this.activeSection == EvaluationSections.Overview;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == EvaluationSections.Feelings && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == EvaluationSections.Feelings && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowTopics(): boolean {
-		return this.activeSection == EvaluationSections.Topics && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == EvaluationSections.Topics && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == EvaluationSections.LearningStrategies && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == EvaluationSections.LearningStrategies && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection", "busy.Active", "modelLoaded")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowSummary(): boolean {
-		return this.activeSection == EvaluationSections.Summary && !this.busy.Active && this.modelLoaded;
+		return this.activeSection == EvaluationSections.Summary && !this.busy.active && this.modelLoaded;
 	}
 
 	@computedFrom("authService.System", "evaluationOpen")

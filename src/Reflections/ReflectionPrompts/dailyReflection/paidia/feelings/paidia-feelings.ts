@@ -11,6 +11,7 @@ export class PaidiaFeelings {
 	constructor(private localParent: PaidiaDaily) {}
 
 	attached() {
+		this.emoji = "";
 		if (!ComponentHelper.NullOrEmpty(this.localParent.model.courseFeelings.emoji)) {
 			this.emoji = ComponentHelper.EmojiFromString(this.localParent.model.courseFeelings.emoji);
 		}

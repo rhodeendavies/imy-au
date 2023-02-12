@@ -92,13 +92,13 @@ export class Login {
 		return this.response != null && !this.response.result;
 	}
 
-	@computedFrom("appState.loginScreenType", "busy.Active")
+	@computedFrom("appState.loginScreenType", "busy.active")
 	get ShowLogin(): boolean {
-		return this.appState.loginScreenType == LoginScreens.login && !this.busy.Active;
+		return this.appState.loginScreenType == LoginScreens.login && !this.busy.active;
 	}
 
-	@computedFrom("appState.loginScreenType", "busy.Active")
+	@computedFrom("appState.loginScreenType", "busy.active")
 	get ShowForgotPassword(): boolean {
-		return this.appState.loginScreenType == LoginScreens.forgotPassword && !this.busy.Active;
+		return this.appState.loginScreenType == LoginScreens.forgotPassword && !this.busy.active;
 	}
 }

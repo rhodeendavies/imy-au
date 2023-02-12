@@ -43,6 +43,7 @@ export class ApplicationState {
 	watchedLesson: Lesson;
 	reflectionSection: string;
 	showAreYouSure: boolean = false;
+	dailyOpen: boolean = false;
 	loginScreenType: LoginScreens = LoginScreens.login;
 
 	constructor(
@@ -125,6 +126,7 @@ export class ApplicationState {
 		if (areYouSure) {
 			if (this.dailyModal.Open) {
 				this.dailyModal.toggle();
+				this.dailyOpen = false;
 			}
 			this.refreshSections();
 		} else {
@@ -244,7 +246,7 @@ export class ApplicationState {
 	async getSections(): Promise<Section[]> {
 		if (!(await this.authService.Authenticated())) return null;
 
-		if (this.sectionsBusy.Active) {
+		if (this.sectionsBusy.active) {
 			await ComponentHelper.Sleep(500);
 			return this.getSections();
 		}

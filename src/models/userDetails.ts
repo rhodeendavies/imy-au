@@ -36,13 +36,13 @@ export class UserRegister {
 
 export class Availability {
 	available: boolean;
-	partial: boolean;
 	lastCompletedAt: Date;
+	incompleteDailyReflectionId: number;
 
 	constructor() {
 		this.available = false;
-		this.partial = false;
 		this.lastCompletedAt = null;
+		this.incompleteDailyReflectionId = null;
 	}
 }
 
