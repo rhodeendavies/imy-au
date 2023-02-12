@@ -8,6 +8,12 @@ export class Slider {
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) value: number;
 	ticks: number[] = [1, 2, 3, 4, 5];
 
+	attached() {
+		if (this.value == null) {
+			this.value = 3;
+		}
+	}
+
 	selectTick(tick: number) {
 		this.value = tick;
 	}
