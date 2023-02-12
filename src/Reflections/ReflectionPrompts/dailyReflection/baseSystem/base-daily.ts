@@ -38,7 +38,7 @@ export class BaseDaily {
 		try {
 			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSectionId();
-			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection);
+			const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Daily, currentSection);
 			const reflection = await this.reflectionsApi.getBaseDailyReflection(id);
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
