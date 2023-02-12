@@ -23,7 +23,7 @@ export class SectionView {
 
 	completeLesson(lesson: Lesson) {
 		if (!lesson.complete) return
-		this.appState.triggerRatingModal(lesson);
+		this.appState.triggerRatingModal(lesson, this.section.id);
 	}
 
 	downloadLesson(lesson: Lesson, event: Event) {

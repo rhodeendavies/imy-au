@@ -70,6 +70,9 @@ export class Lesson {
 	complete: boolean;
 	available: boolean;
 
+	// for frontend
+	sectionId?: number;
+
 	constructor() {
 		this.id = 0;
 		this.name = "";

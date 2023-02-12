@@ -87,9 +87,10 @@ export class ApplicationState {
 		this.toast.trigger(message, seconds);
 	}
 
-	triggerRatingModal(lesson: Lesson) {
+	triggerRatingModal(lesson: Lesson, sectionId: number) {
 		this.watchedLesson = lesson;
 		this.watchedLesson.name = `"${this.watchedLesson.name}"`;
+		this.watchedLesson.sectionId = sectionId;
 		if (!this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
@@ -99,9 +100,11 @@ export class ApplicationState {
 		if (this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
+		if (this.watchedLesson.sectionId == this.currentSection.id) {
+			this.determineReflectionToShow();
+			this.refreshSections();
+		}
 		this.watchedLesson = null;
-		this.determineReflectionToShow();
-		this.refreshSections();
 	}
 
 	@computedFrom("ratingModal.Open")
@@ -207,7 +210,7 @@ export class ApplicationState {
 				if (lesson.complete) {
 					const lessonAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Lesson, lesson.id);
 					if (lessonAvailable.available) {
-						this.triggerRatingModal(lesson);
+						this.triggerRatingModal(lesson, section.id);
 						return;
 					}
 				}
