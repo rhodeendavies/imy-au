@@ -24,8 +24,13 @@
 			<div class="reflection-divider" if.bind="localParent.FullReflection">
 				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
 				<div class="percentage-wrapper">
-					<div>
-						<div>${PlanningReflection.courseFeelings.rating}%</div>
+					<div class="outer-border">
+						<div class="inner-circle">
+							<div class="percentage-text">
+								${PlanningReflection.courseFeelings.rating}%
+							</div>
+							<div class="percentage-fill" css="height: ${PlanningReflection.courseFeelings.rating}%"></div>
+						</div>
 					</div>
 				</div>
 			</div>
