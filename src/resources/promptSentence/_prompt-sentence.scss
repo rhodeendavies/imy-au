@@ -72,3 +72,9 @@
 	60% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 1);}
 	100% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
 }
+
+.final-prompt {
+	margin-left: 15px;
+	font-weight: $semi-bold;
+	margin-top: 30px;
+}
