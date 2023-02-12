@@ -1,6 +1,7 @@
 import { autoinject, bindable, bindingMode } from "aurelia-framework";
 import { PromptSection } from "models/prompts";
 import { ComponentHelper } from "utils/componentHelper";
+import { PromptType } from "utils/enums";
 
 @autoinject
 export class PromptSentence {
@@ -22,7 +23,14 @@ export class PromptSentence {
 		}
 	}
 
-	get FinalSentence() {
-		return ComponentHelper.CleanPrompt(this.promptSections?.map(x => x.value).join(""));
+	get FinalSentence(): string {
+		if (this.promptSections == null) return "";
+		return ComponentHelper.CleanPrompt(this.promptSections
+			.map(x => {
+				if (ComponentHelper.NullOrEmpty(x.value) && x.type == PromptType.Input) {
+					return "______";
+				}
+				return x.value;
+			}).join(""));
 	}
 }

@@ -29,7 +29,7 @@ export class ApplicationState {
 	private currentSection: Section;
 	private loginSub: Subscription;
 	private logoutSub: Subscription;
-	
+
 	determineReflectionBusy = new Busy();
 	strategyOptions: StrategyOptions;
 	ludusPrompts: Prompts;
@@ -372,7 +372,7 @@ export class ApplicationState {
 		this.threeStarTopicPhrases = ComponentHelper.ShuffleArray(this.threeStarTopicPhrases)
 	}
 
-	initFromJson(): Promise<[void,void,void,void,void,void,void]> {
+	initFromJson(): Promise<[void, void, void, void, void, void]> {
 		const paidiaWordsPromise = fetch("prompts/paidia-words.json")
 			.then(response => response.json())
 			.then((words: PaidiaWord[]) => {
@@ -380,6 +380,17 @@ export class ApplicationState {
 					x.currentIndex = 0;
 				});
 				this.paidiaWords = words;
+				this.paidiaWords.forEach(x => x.words = ComponentHelper.ShuffleArray(x.words));
+				ComponentHelper.PaidiaWords = this.paidiaWords;
+			})
+			.then(() => fetch("prompts/paidia-prompts.json"))
+			.then(response => response.json())
+			.then((prompt: BasicPrompts) => {
+				this.paidiaPrompts = {
+					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x))
+				}
 			});
 
 		const strategiesPromise = fetch("prompts/strategies.json")
@@ -428,16 +439,6 @@ export class ApplicationState {
 				}
 			});
 
-		const paidiaPromptsPromise = fetch("prompts/paidia-prompts.json")
-			.then(response => response.json())
-			.then((prompt: BasicPrompts) => {
-				this.paidiaPrompts = {
-					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
-					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
-					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x))
-				}
-			});
-
 		const ludusEmotionsPromise = fetch("prompts/ludus-emotions.json")
 			.then(response => response.json())
 			.then((emotionsStrings: Emotions) => {
@@ -475,7 +476,7 @@ export class ApplicationState {
 				this.threeStarTopicPhrases = output.three;
 			});
 
-		return Promise.all([paidiaWordsPromise, strategiesPromise, ludusPromptsPromise, paidiaPromptsPromise,
+		return Promise.all([paidiaWordsPromise, strategiesPromise, ludusPromptsPromise,
 			ludusEmotionsPromise, ludusModifiersPromise, ludusTopicPhrasesPromise]);
 	}
 }
