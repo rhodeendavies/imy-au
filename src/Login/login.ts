@@ -8,6 +8,8 @@ import { Busy } from "resources/busy/busy";
 import { Router } from "aurelia-router";
 import { AttributionLinks, Routes } from "utils/constants";
 import { ComponentHelper } from "utils/componentHelper";
+import { LoginScreens } from "utils/enums";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class Login {
@@ -15,7 +17,6 @@ export class Login {
 	loginModel: UserLogin = new UserLogin();
 	response: ApiResponse;
 	busy: Busy = new Busy();
-	screenType: LoginScreens = LoginScreens.login;
 	resetPasswordSent: boolean = false;
 	studentNumberValid: boolean = true;
 	passwordValid: boolean = true;
@@ -24,11 +25,12 @@ export class Login {
 	constructor(
 		private authService: AuthenticationService,
 		private userService: UsersService,
-		private router: Router
+		private router: Router,
+		private appState: ApplicationState
 	) { }
 
 	async attached() {
-		this.screenType = LoginScreens.login;
+		this.appState.loginScreenType = LoginScreens.login;
 		await this.authService.Authenticated();
 		this.loginModel = environment.loginModel;
 	}
@@ -67,7 +69,7 @@ export class Login {
 		this.studentNumberValid = true;
 		this.passwordValid = true;
 		this.response = null;
-		this.screenType = LoginScreens.login;
+		this.appState.loginScreenType = LoginScreens.login;
 	}
 
 	navigateToRegister() {
@@ -78,7 +80,7 @@ export class Login {
 		this.studentNumberValid = true;
 		this.passwordValid = true;
 		this.response = null;
-		this.screenType = LoginScreens.forgotPassword;
+		this.appState.loginScreenType = LoginScreens.forgotPassword;
 	}
 
 	navigateToAttribution() {
@@ -90,18 +92,13 @@ export class Login {
 		return this.response != null && !this.response.result;
 	}
 
-	@computedFrom("screenType", "busy.Active")
+	@computedFrom("appState.loginScreenType", "busy.Active")
 	get ShowLogin(): boolean {
-		return this.screenType == LoginScreens.login && !this.busy.Active;
+		return this.appState.loginScreenType == LoginScreens.login && !this.busy.Active;
 	}
 
-	@computedFrom("screenType", "busy.Active")
+	@computedFrom("appState.loginScreenType", "busy.Active")
 	get ShowForgotPassword(): boolean {
-		return this.screenType == LoginScreens.forgotPassword && !this.busy.Active;
+		return this.appState.loginScreenType == LoginScreens.forgotPassword && !this.busy.Active;
 	}
-}
-
-enum LoginScreens {
-	login,
-	forgotPassword
 }

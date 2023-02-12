@@ -2,6 +2,7 @@ import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
 import { ApiResponse } from "models/apiResponse";
 import { PasswordResetModel, UserDetails, UserLogin, UserRegister } from "models/userDetails";
+import { StatusCodes } from "utils/constants";
 import { log } from "utils/log";
 
 @autoinject
@@ -14,7 +15,11 @@ export class UsersService {
 			return await this.api.post("users/login", userLogin, true, false);
 		} catch (error) {
 			log.error(error);
-			return null;
+			if (error instanceof Response) {
+				throw error;
+			} else {
+				return null;
+			}
 		}
 	}
 
@@ -45,7 +50,16 @@ export class UsersService {
 			}, true, false);
 		} catch (error) {
 			log.error(error);
-			return new ApiResponse(false, "An error occurred");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.NotFound:
+						return new ApiResponse(false, "Account does not exist");
+					default:
+						return new ApiResponse(false, "An error occurred");
+				}
+			} else {
+				return new ApiResponse(false, "An error occurred");
+			}
 		}
 	}
 
@@ -54,7 +68,16 @@ export class UsersService {
 			return await this.api.post("users/reset_password", model, true, false);
 		} catch (error) {
 			log.error(error);
-			return new ApiResponse(false, "An error occurred");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.InternalServerError:
+						return new ApiResponse(false, "Reset link not valid");
+					default:
+						return new ApiResponse(false, "An error occurred");
+				}
+			} else {
+				return new ApiResponse(false, "An error occurred");
+			}
 		}
 	}
 
@@ -63,7 +86,16 @@ export class UsersService {
 			return await this.api.post("users/activate", model, true, false);
 		} catch (error) {
 			log.error(error);
-			return new ApiResponse(false, "An error occurred");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.Forbidden:
+						return new ApiResponse(false, "Account already exists");
+					default:
+						return new ApiResponse(false, "An error occurred");
+				}
+			} else {
+				return new ApiResponse(false, "An error occurred");
+			}
 		}
 	}
 }

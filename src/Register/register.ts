@@ -5,9 +5,11 @@ import { AuthenticationService } from "services/authenticationService";
 import { UsersService } from "services/usersService";
 import { Busy } from "resources/busy/busy";
 import { Router } from "aurelia-router";
-import { AttributionLinks, Routes } from "utils/constants";
+import { AttributionLinks, Routes, StatusCodes } from "utils/constants";
 import { ComponentHelper } from "utils/componentHelper";
 import { log } from "utils/log";
+import { ApplicationState } from "applicationState";
+import { LoginScreens } from "utils/enums";
 
 @autoinject
 export class Register {
@@ -24,7 +26,8 @@ export class Register {
 	constructor(
 		private authService: AuthenticationService,
 		private userService: UsersService,
-		private router: Router
+		private router: Router,
+		private appState: ApplicationState
 	) { }
 
 	async attached() {
@@ -45,17 +48,23 @@ export class Register {
 
 			this.response = await this.userService.activate(this.registerModel);
 			this.registerSuccess = this.response != null && this.response.result;
-			
+
 			this.authService.Authenticated();
 		} catch (error) {
 			log.error(error);
-			this.response = new ApiResponse(false, "Failed to register");
+			this.response = new ApiResponse(false, "An error occurred");
 		} finally {
 			this.busy.off();
 		}
 	}
 
 	navigateToLogin() {
+		this.appState.loginScreenType = LoginScreens.login;
+		this.router.navigate(Routes.Login);
+	}
+
+	navigateToForgotPassword() {
+		this.appState.loginScreenType = LoginScreens.forgotPassword;
 		this.router.navigate(Routes.Login);
 	}
 

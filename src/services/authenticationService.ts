@@ -5,7 +5,7 @@ import { ApiResponse } from "models/apiResponse";
 import { Course } from "models/course";
 import { UserDetails, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
-import { Events, Routes } from "utils/constants";
+import { Events, Routes, StatusCodes } from "utils/constants";
 import { Roles, Systems } from "utils/enums";
 import { log } from "utils/log";
 import { CoursesService } from "./coursesService";
@@ -34,7 +34,18 @@ export class AuthenticationService {
 			return new ApiResponse(true, "");
 		} catch (error) {
 			log.error(error);
-			return new ApiResponse(false, "An error occurred");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.Unauthorized:
+						return new ApiResponse(false, "Incorrect password");
+					case StatusCodes.InternalServerError:
+						return new ApiResponse(false, "Invalid student number");
+					default:
+						return new ApiResponse(false, "An error occurred");
+				}
+			} else {
+				return new ApiResponse(false, "An error occurred");
+			}
 		} finally {
 			this.busy.off();
 		}

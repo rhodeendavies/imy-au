@@ -38,3 +38,10 @@ export class AttributionLinks {
 	static readonly onlineEducation: string = "https://www.vecteezy.com/free-vector/online-education";
 	static readonly human: string = "https://www.vecteezy.com/free-vector/human";
 }
+
+export class StatusCodes {
+	static readonly Unauthorized: number = 401;
+	static readonly NotFound: number = 404;
+	static readonly Forbidden: number = 403;
+	static readonly InternalServerError: number = 500;
+}

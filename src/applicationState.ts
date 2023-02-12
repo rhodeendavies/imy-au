@@ -13,7 +13,7 @@ import { ReflectionsService } from "services/reflectionsService";
 import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
-import { ReflectionTypes, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
+import { LoginScreens, ReflectionTypes, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
 import { log } from "utils/log";
 
 @autoinject
@@ -43,6 +43,7 @@ export class ApplicationState {
 	watchedLesson: Lesson;
 	reflectionSection: string;
 	showAreYouSure: boolean = false;
+	loginScreenType: LoginScreens = LoginScreens.login;
 
 	constructor(
 		private ea: EventAggregator,

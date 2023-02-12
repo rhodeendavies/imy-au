@@ -76,3 +76,8 @@ export enum PopupPosition {
 	left = "left",
 	right = "right"
 }
+
+export enum LoginScreens {
+	login,
+	forgotPassword
+}
