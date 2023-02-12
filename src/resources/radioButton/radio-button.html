@@ -1,6 +1,5 @@
 <template>
-	<div class="label radio-label" if.bind="label != ''">
-		${label}
+	<div class="label radio-label" if.bind="label != ''" innerhtml.bind="label">
 	</div>
 
 	<div if.bind="options.length > 0 && Normal" class="radio-options-wrapper ${Styles}">

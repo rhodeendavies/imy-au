@@ -1,6 +1,7 @@
 <template>
 	<radio-button options.bind="videoRatingOptions" value.bind="model.lessonRating.rating" type="stars"
-		label="You've finished ${appState.watchedLesson.name}. Rate your understanding of the concepts in the video.">
+		label="You've finished watching <span class='watched-lesson'>${appState.watchedLesson.name}</span>.
+		Rate your understanding of the concepts in the video.">
 	</radio-button>
 
 	<div class="btn-row">

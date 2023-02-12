@@ -91,7 +91,6 @@ export class ApplicationState {
 
 	triggerRatingModal(lesson: Lesson, sectionId: number) {
 		this.watchedLesson = lesson;
-		this.watchedLesson.name = `"${this.watchedLesson.name}"`;
 		this.watchedLesson.sectionId = sectionId;
 		if (!this.ratingModal.Open) {
 			this.ratingModal.toggle();
