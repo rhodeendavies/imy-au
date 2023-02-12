@@ -30,10 +30,13 @@ export class MonitoringPrompts extends SectionTrackerParent {
 	}
 
 	attached() {
+		this.init();
+		this.triggerSub = this.ea.subscribe(Events.MonitoringTriggered, () => this.init());
+	}
+
+	init() {
+		this.modelLoaded = false;
 		this.activeSection = MonitoringSections.Overview;
-		this.triggerSub = this.ea.subscribe(Events.MonitoringTriggered, () => {
-			this.activeSection = MonitoringSections.Overview;
-		});
 	}
 
 	detached() {

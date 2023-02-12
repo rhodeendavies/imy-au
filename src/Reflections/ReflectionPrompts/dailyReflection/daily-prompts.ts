@@ -36,12 +36,17 @@ export class DailyPrompts extends SectionTrackerParent {
 	}
 
 	attached() {
-		this.activeSection = DailySections.Overview;
+		this.init();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
 			this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
-			this.activeSection = DailySections.Overview;
+			this.init();
 			this.determineDailyAvailable();
 		});
+	}
+
+	init() {
+		this.modelLoaded = false;
+		this.activeSection = DailySections.Overview;
 	}
 
 	detached() {

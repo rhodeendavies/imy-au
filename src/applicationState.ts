@@ -56,7 +56,7 @@ export class ApplicationState {
 	}
 
 	init() {
-		this.initFromJson();
+		this.initFromJson().then(() => this.shufflePrompts());
 	}
 
 	setToast(_toast: Toast) {
@@ -344,22 +344,42 @@ export class ApplicationState {
 	refreshSections() {
 		this.sections = null;
 		this.currentSection = null;
+		this.shufflePrompts();
 		this.ea.publish(Events.RefreshApp);
 	}
 
-	initFromJson() {
-		fetch("prompts/paidia-words.json")
+	shufflePrompts() {
+		this.paidiaWords.forEach(x => x.words = ComponentHelper.ShuffleArray(x.words));
+		ComponentHelper.PaidiaWords = this.paidiaWords;
+
+		this.ludusPrompts.planningPrompts = ComponentHelper.ShuffleArray(this.ludusPrompts.planningPrompts);
+		this.ludusPrompts.monitoringPrompts = ComponentHelper.ShuffleArray(this.ludusPrompts.monitoringPrompts);
+		this.ludusPrompts.evaluatingPrompts = ComponentHelper.ShuffleArray(this.ludusPrompts.evaluatingPrompts);
+
+		this.paidiaPrompts.planningPrompts = ComponentHelper.ShuffleArray(this.paidiaPrompts.planningPrompts);
+		this.paidiaPrompts.monitoringPrompts = ComponentHelper.ShuffleArray(this.paidiaPrompts.monitoringPrompts);
+		this.paidiaPrompts.evaluatingPrompts = ComponentHelper.ShuffleArray(this.paidiaPrompts.evaluatingPrompts);
+
+		this.emotions.forEach(emotion => {
+			emotion.modifiers = ComponentHelper.ShuffleArray(emotion.modifiers);
+		});
+
+		this.oneStarTopicPhrases = ComponentHelper.ShuffleArray(this.oneStarTopicPhrases)
+		this.twoStarTopicPhrases = ComponentHelper.ShuffleArray(this.twoStarTopicPhrases)
+		this.threeStarTopicPhrases = ComponentHelper.ShuffleArray(this.threeStarTopicPhrases)
+	}
+
+	initFromJson(): Promise<[void,void,void,void,void,void,void]> {
+		const paidiaWordsPromise = fetch("prompts/paidia-words.json")
 			.then(response => response.json())
 			.then((words: PaidiaWord[]) => {
 				words.forEach(x => {
-					x.words = ComponentHelper.ShuffleArray(x.words);
 					x.currentIndex = 0;
 				});
 				this.paidiaWords = words;
-				ComponentHelper.PaidiaWords = this.paidiaWords;
 			});
 
-		fetch("prompts/strategies.json")
+		const strategiesPromise = fetch("prompts/strategies.json")
 			.then(response => response.json())
 			.then((output: BasicStrategyOptions) => {
 				output.learning.strategies.forEach((x, i) => x.index = i);
@@ -395,33 +415,27 @@ export class ApplicationState {
 				}
 			});
 
-		fetch("prompts/ludus-prompts.json")
+		const ludusPromptsPromise = fetch("prompts/ludus-prompts.json")
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
 				this.ludusPrompts = {
-					planningPrompts: ComponentHelper.ShuffleArray(
-						prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
-					monitoringPrompts: ComponentHelper.ShuffleArray(
-						prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
-					evaluatingPrompts: ComponentHelper.ShuffleArray(
-						prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)))
+					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x))
 				}
 			});
 
-		fetch("prompts/paidia-prompts.json")
+		const paidiaPromptsPromise = fetch("prompts/paidia-prompts.json")
 			.then(response => response.json())
 			.then((prompt: BasicPrompts) => {
 				this.paidiaPrompts = {
-					planningPrompts: ComponentHelper.ShuffleArray(
-						prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
-					monitoringPrompts: ComponentHelper.ShuffleArray(
-						prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x))),
-					evaluatingPrompts: ComponentHelper.ShuffleArray(
-						prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x)))
+					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x))
 				}
 			});
 
-		fetch("prompts/ludus-emotions.json")
+		const ludusEmotionsPromise = fetch("prompts/ludus-emotions.json")
 			.then(response => response.json())
 			.then((emotionsStrings: Emotions) => {
 				this.emotionsStrings = emotionsStrings;
@@ -441,22 +455,24 @@ export class ApplicationState {
 						x.active = false;
 						x.text = ComponentHelper.CleanPrompt(x.text)
 					});
-					emotion.modifiers = ComponentHelper.ShuffleArray(emotion.modifiers);
 				});
 			});
 
-		fetch("prompts/ludus-modifier-descriptions.json")
+		const ludusModifiersPromise = fetch("prompts/ludus-modifier-descriptions.json")
 			.then(response => response.json())
 			.then((output: BasicLudusModifier[]) => {
 				ComponentHelper.LudusModifiers = output;
 			});
 
-		fetch("prompts/ludus-topic-phrases.json")
+		const ludusTopicPhrasesPromise = fetch("prompts/ludus-topic-phrases.json")
 			.then(response => response.json())
 			.then((output) => {
-				this.oneStarTopicPhrases = ComponentHelper.ShuffleArray(output.one)
-				this.twoStarTopicPhrases = ComponentHelper.ShuffleArray(output.two)
-				this.threeStarTopicPhrases = ComponentHelper.ShuffleArray(output.three)
+				this.oneStarTopicPhrases = output.one;
+				this.twoStarTopicPhrases = output.two;
+				this.threeStarTopicPhrases = output.three;
 			});
+
+		return Promise.all([paidiaWordsPromise, strategiesPromise, ludusPromptsPromise, paidiaPromptsPromise,
+			ludusEmotionsPromise, ludusModifiersPromise, ludusTopicPhrasesPromise]);
 	}
 }

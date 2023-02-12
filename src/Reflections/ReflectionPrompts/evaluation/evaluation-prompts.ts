@@ -30,10 +30,13 @@ export class EvaluationPrompts extends SectionTrackerParent {
 	}
 
 	attached() {
+		this.init();
+		this.triggerSub = this.ea.subscribe(Events.EvaluationTriggered, () => this.init());
+	}
+
+	init() {
+		this.modelLoaded = false;
 		this.activeSection = EvaluationSections.Overview;
-		this.triggerSub = this.ea.subscribe(Events.EvaluationTriggered, () => {
-			this.activeSection = EvaluationSections.Overview;
-		});
 	}
 
 	detached() {

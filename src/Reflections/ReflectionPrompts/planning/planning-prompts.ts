@@ -29,10 +29,13 @@ export class PlanningPrompts extends SectionTrackerParent {
 	}
 
 	attached() {
+		this.init();
+		this.triggerSub = this.ea.subscribe(Events.PlanningTriggered, () => this.init());
+	}
+	
+	init() {
+		this.modelLoaded = false;
 		this.activeSection = PlanningSections.Overview;
-		this.triggerSub = this.ea.subscribe(Events.PlanningTriggered, () => {
-			this.activeSection = PlanningSections.Overview;
-		});
 	}
 
 	detached() {
