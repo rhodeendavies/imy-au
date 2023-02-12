@@ -37,6 +37,7 @@ export class MonitoringPrompts extends SectionTrackerParent {
 	init() {
 		this.modelLoaded = false;
 		this.activeSection = MonitoringSections.Overview;
+		this.tracker.resetTracker();
 	}
 
 	detached() {

@@ -38,6 +38,9 @@ export class DailyPrompts extends SectionTrackerParent {
 	attached() {
 		this.init();
 		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
+			if (this.timer != null) {
+				clearInterval(this.timer);
+			}
 			this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
 			this.init();
 			this.determineDailyAvailable();
@@ -47,6 +50,7 @@ export class DailyPrompts extends SectionTrackerParent {
 	init() {
 		this.modelLoaded = false;
 		this.activeSection = DailySections.Overview;
+		this.tracker.resetTracker();
 	}
 
 	detached() {
@@ -65,7 +69,9 @@ export class DailyPrompts extends SectionTrackerParent {
 			const interval = Interval.fromDateTimes(lastReflection, now);
 
 			if (!interval.isValid) return false;
-			const duration = Duration.fromObject({ hours: 24, minutes: 60 }).minus(interval.toDuration(['hours', 'minutes']));
+			const duration = Duration.fromObject({ hours: 23, minutes: 59 })
+				.minus(interval.toDuration(['hours', 'minutes']));
+			
 			this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
 
 			return this.availability.available;

@@ -37,6 +37,7 @@ export class EvaluationPrompts extends SectionTrackerParent {
 	init() {
 		this.modelLoaded = false;
 		this.activeSection = EvaluationSections.Overview;
+		this.tracker.resetTracker();
 	}
 
 	detached() {

@@ -36,6 +36,7 @@ export class PlanningPrompts extends SectionTrackerParent {
 	init() {
 		this.modelLoaded = false;
 		this.activeSection = PlanningSections.Overview;
+		this.tracker.resetTracker();
 	}
 
 	detached() {
