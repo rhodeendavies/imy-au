@@ -91,8 +91,8 @@ export class AuthenticationService {
 		}
 	}
 
-	async Authenticated(): Promise<boolean> {
-		if (this.user == null || this.user == undefined) {
+	async Authenticated(retry: boolean = false): Promise<boolean> {
+		if (this.user == null || this.user == undefined || retry) {
 			this.user = await this.usersApi.authenticate();
 			if (this.user == null || this.user == undefined || !this.user.activated) {
 				return false;

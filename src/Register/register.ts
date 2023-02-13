@@ -46,13 +46,31 @@ export class Register {
 			this.passwordsMatch = this.registerModel.password == this.registerModel.passwordConfirmation;
 			if (!this.passwordsMatch) return;
 
-			this.response = await this.userService.activate(this.registerModel);
-			this.registerSuccess = this.response != null && this.response.result;
+			const user = await this.userService.activate(this.registerModel);
+			this.registerSuccess = user != null && user.activated;
+			if (!this.registerSuccess) {
+				this.response = new ApiResponse(false, "An error occurred");
+				return;
+			}
 
-			this.authService.Authenticated();
+			this.authService.Authenticated(true);
 		} catch (error) {
 			log.error(error);
-			this.response = new ApiResponse(false, "An error occurred");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.Unauthorized:
+						this.response = new ApiResponse(false, "Incorrect password");
+						break;
+					case StatusCodes.InternalServerError:
+						this.response = new ApiResponse(false, "Invalid student number");
+						break;
+					default:
+						this.response = new ApiResponse(false, "An error occurred");
+						break;
+				}
+			} else {
+				this.response = new ApiResponse(false, "An error occurred");
+			}
 		} finally {
 			this.busy.off();
 		}

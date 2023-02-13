@@ -81,20 +81,15 @@ export class UsersService {
 		}
 	}
 
-	async activate(model: UserRegister): Promise<ApiResponse> {
+	async activate(model: UserRegister): Promise<UserDetails> {
 		try {
 			return await this.api.post("users/activate", model, true, false);
 		} catch (error) {
 			log.error(error);
 			if (error instanceof Response) {
-				switch (error.status) {
-					case StatusCodes.Forbidden:
-						return new ApiResponse(false, "Account already exists");
-					default:
-						return new ApiResponse(false, "An error occurred");
-				}
+				throw error;
 			} else {
-				return new ApiResponse(false, "An error occurred");
+				return null;
 			}
 		}
 	}
