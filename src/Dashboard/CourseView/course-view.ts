@@ -61,6 +61,7 @@ export class CourseView {
 	}
 
 	detached() {
+		this.endTimer();
 		this.refreshSub.dispose();
 	}
 
@@ -113,11 +114,16 @@ export class CourseView {
 
 	selectLesson(lesson: Lesson) {
 		if (lesson != null && this.lessonSelected != null && lesson.id != this.lessonSelected.id) {
-			this.endTimer(this.lessonSelected);
+			this.endTimer();
 		}
 		this.lessonSelected = lesson;
 		this.localParent.lessonOpen = true;
 		this.localParent.navigate(`${Routes.CourseContent}/${lesson.id}`);
+
+		const video = document.getElementById("lessonVideo") as HTMLVideoElement;
+		if (video != null) {
+			video.currentTime = 0;
+		}
 	}
 
 	downloadLesson(lesson: Lesson) {
@@ -136,10 +142,12 @@ export class CourseView {
 		this.lessonWatchStartTime = DateHelper.NowDateTime().toSeconds();
 	}
 
-	endTimer(lesson: Lesson) {
+	endTimer() {
+		if (this.lessonSelected == null) return;
+
 		const endTime = DateHelper.NowDateTime().toSeconds();
 		const elapsedTime = endTime - this.lessonWatchStartTime;
-		this.lessonApi.logLessonWatchTime(lesson.id, this.videoCurrentTimeStamp, elapsedTime);
+		this.lessonApi.logLessonWatchTime(this.lessonSelected.id, this.videoCurrentTimeStamp, elapsedTime);
 	}
 
 	@computedFrom("localParent.lessonOpen")
