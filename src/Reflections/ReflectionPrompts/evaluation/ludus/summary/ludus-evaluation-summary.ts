@@ -24,7 +24,6 @@ export class LudusEvaluationSummary {
 
 	async attached() {
 		this.currentRotation = 0;
-		this.selectedModifiers = [];
 
 		this.numOfSegments = this.appState.emotions.length;
 		this.segments = [];
@@ -58,19 +57,24 @@ export class LudusEvaluationSummary {
 
 			degree = nextDegree;
 		}
+
+		this.selectedModifiers = this.segments.reduce((prev, curr) => {
+			return prev.concat(curr.emotion.modifiers);
+		}, [])
+			.filter(x => x.active)
+
 	}
 
 	submit() {
 		if (!this.AllowSubmit) return;
-		this.localParent.model.learningExperience.enjoyment = this.getEmotionForModel(this.appState.emotionsStrings.enjoyment)
-		this.localParent.model.learningExperience.hope = this.getEmotionForModel(this.appState.emotionsStrings.hope)
-		this.localParent.model.learningExperience.pride = this.getEmotionForModel(this.appState.emotionsStrings.pride)
-		this.localParent.model.learningExperience.anger = this.getEmotionForModel(this.appState.emotionsStrings.anger)
-		this.localParent.model.learningExperience.anxiety = this.getEmotionForModel(this.appState.emotionsStrings.anxiety)
-		this.localParent.model.learningExperience.shame = this.getEmotionForModel(this.appState.emotionsStrings.shame)
-		this.localParent.model.learningExperience.hopelessness = this.getEmotionForModel(this.appState.emotionsStrings.hopelessness)
-		this.localParent.model.learningExperience.boredom = this.getEmotionForModel(this.appState.emotionsStrings.boredom)
-
+		this.localParent.model.learningExperience.enjoyment = this.getEmotionForModel(this.appState.emotionsStrings.enjoyment);
+		this.localParent.model.learningExperience.hope = this.getEmotionForModel(this.appState.emotionsStrings.hope);
+		this.localParent.model.learningExperience.pride = this.getEmotionForModel(this.appState.emotionsStrings.pride);
+		this.localParent.model.learningExperience.anger = this.getEmotionForModel(this.appState.emotionsStrings.anger);
+		this.localParent.model.learningExperience.anxiety = this.getEmotionForModel(this.appState.emotionsStrings.anxiety);
+		this.localParent.model.learningExperience.shame = this.getEmotionForModel(this.appState.emotionsStrings.shame);
+		this.localParent.model.learningExperience.hopelessness = this.getEmotionForModel(this.appState.emotionsStrings.hopelessness);
+		this.localParent.model.learningExperience.boredom = this.getEmotionForModel(this.appState.emotionsStrings.boredom);
 		this.localParent.submitEvaluation();
 	}
 
