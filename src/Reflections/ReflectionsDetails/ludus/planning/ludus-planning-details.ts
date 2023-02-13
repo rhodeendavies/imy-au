@@ -28,19 +28,19 @@ export class LudusPlanningDetails {
 		this.planningReflection = this.localParent.reflection.planningReflection.answers;
 		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.planningReflection.strategyPlanning.learningStrategy,
-			this.appState.strategyOptions.LearningStrategies
+			ComponentHelper.StrategyOptions.LearningStrategies
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.planningReflection.strategyPlanning.reviewingStrategy,
-			this.appState.strategyOptions.ReviewingStrategies
+			ComponentHelper.StrategyOptions.ReviewingStrategies
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.planningReflection.strategyPlanning.practicingStrategy,
-			this.appState.strategyOptions.PracticingStrategies
+			ComponentHelper.StrategyOptions.PracticingStrategies
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.planningReflection.strategyPlanning.extendingStrategy,
-			this.appState.strategyOptions.ExtendingStrategies
+			ComponentHelper.StrategyOptions.ExtendingStrategies
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}

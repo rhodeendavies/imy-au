@@ -62,6 +62,7 @@ export class AuthenticationService {
 				course = await this.courseApi.getCourse(this.user.courseId);
 				this.user.course = course.name;
 				ComponentHelper.SetModule(course.name);
+				ComponentHelper.SetStrategies();
 				this.homeRoute = Routes.Dashboard;
 				this.ea.publish(Events.Login);
 				break;

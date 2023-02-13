@@ -56,22 +56,22 @@ export class LudusEvaluationDetails {
 
 		this.learningStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.evaluatingQuestions.strategyPlanning.learningStrategy,
-			this.appState.strategyOptions.LearningStrategies,
+			ComponentHelper.StrategyOptions.LearningStrategies,
 			this.evaluatingReflection.strategyRating.learningRating
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.evaluatingQuestions.strategyPlanning.reviewingStrategy,
-			this.appState.strategyOptions.ReviewingStrategies,
+			ComponentHelper.StrategyOptions.ReviewingStrategies,
 			this.evaluatingReflection.strategyRating.reviewingRating
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.evaluatingQuestions.strategyPlanning.practicingStrategy,
-			this.appState.strategyOptions.PracticingStrategies,
+			ComponentHelper.StrategyOptions.PracticingStrategies,
 			this.evaluatingReflection.strategyRating.practicingRating
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromLudus(
 			this.evaluatingQuestions.strategyPlanning.extendingStrategy,
-			this.appState.strategyOptions.ExtendingStrategies,
+			ComponentHelper.StrategyOptions.ExtendingStrategies,
 			this.evaluatingReflection.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];

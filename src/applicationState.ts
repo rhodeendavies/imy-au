@@ -31,9 +31,6 @@ export class ApplicationState {
 	private logoutSub: Subscription;
 
 	determineReflectionBusy = new Busy();
-	strategyOptions: StrategyOptions;
-	strategyOptions110: StrategyOptions;
-	strategyOptions310: StrategyOptions;
 	ludusPrompts: Prompts;
 	paidiaPrompts: Prompts;
 	paidiaWords: PaidiaWord[];
@@ -55,14 +52,7 @@ export class ApplicationState {
 		private authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService
 	) {
-		this.loginSub = this.ea.subscribe(Events.Login, () => {
-			// if (authService.Course == "IMY 110") {
-			// 	this.strategyOptions = this.strategyOptions110;
-			// } else if (authService.Course == "IMY 310") {
-			// 	this.strategyOptions = this.strategyOptions310;
-			// }
-			this.determineReflectionToShow()
-		});
+		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
 		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.refreshSections());
 	}
 
@@ -353,7 +343,6 @@ export class ApplicationState {
 	}
 
 	refreshSections() {
-		this.strategyOptions = null;
 		this.sections = null;
 		this.currentSection = null;
 		this.shufflePrompts();
@@ -410,7 +399,7 @@ export class ApplicationState {
 				output.practicing.strategies.forEach((x, i) => x.index = i);
 				output.extending.strategies.forEach((x, i) => x.index = i);
 
-				this.strategyOptions110 = {
+				ComponentHelper.StrategyOptions110 = {
 					LearningStrategies: {
 						title: StrategyCategories.Learning,
 						icon: StrategyCategoryIcons.Learning,
@@ -446,7 +435,7 @@ export class ApplicationState {
 				output.practicing.strategies.forEach((x, i) => x.index = i);
 				output.extending.strategies.forEach((x, i) => x.index = i);
 
-				this.strategyOptions310 = {
+				ComponentHelper.StrategyOptions310 = {
 					LearningStrategies: {
 						title: StrategyCategories.Learning,
 						icon: StrategyCategoryIcons.Learning,

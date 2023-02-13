@@ -45,22 +45,22 @@ export class BaseMonitoringDetails {
 
 		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
 			this.monitoringQuestions.learningStrategy,
-			this.appState.strategyOptions.LearningStrategies,
+			ComponentHelper.StrategyOptions.LearningStrategies,
 			this.monitoringReflection.strategyRating.learningRating
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
 			this.monitoringQuestions.reviewingStrategy,
-			this.appState.strategyOptions.ReviewingStrategies,
+			ComponentHelper.StrategyOptions.ReviewingStrategies,
 			this.monitoringReflection.strategyRating.reviewingRating
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
 			this.monitoringQuestions.practicingStrategy,
-			this.appState.strategyOptions.PracticingStrategies,
+			ComponentHelper.StrategyOptions.PracticingStrategies,
 			this.monitoringReflection.strategyRating.practicingRating
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
 			this.monitoringQuestions.extendingStrategy,
-			this.appState.strategyOptions.ExtendingStrategies,
+			ComponentHelper.StrategyOptions.ExtendingStrategies,
 			this.monitoringReflection.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];

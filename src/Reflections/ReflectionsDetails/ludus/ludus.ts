@@ -25,19 +25,19 @@ export class Ludus {
 		const strategies: Strategy[] = [
 			ComponentHelper.CreateStrategyFromLudus(
 				strategyPlanning.learningStrategy,
-				this.appState.strategyOptions.LearningStrategies
+				ComponentHelper.StrategyOptions.LearningStrategies
 			),
 			ComponentHelper.CreateStrategyFromLudus(
 				strategyPlanning.practicingStrategy,
-				this.appState.strategyOptions.PracticingStrategies
+				ComponentHelper.StrategyOptions.PracticingStrategies
 			),
 			ComponentHelper.CreateStrategyFromLudus(
 				strategyPlanning.reviewingStrategy,
-				this.appState.strategyOptions.ReviewingStrategies
+				ComponentHelper.StrategyOptions.ReviewingStrategies
 			),
 			ComponentHelper.CreateStrategyFromLudus(
 				strategyPlanning.extendingStrategy,
-				this.appState.strategyOptions.ExtendingStrategies
+				ComponentHelper.StrategyOptions.ExtendingStrategies
 			),
 		];
 

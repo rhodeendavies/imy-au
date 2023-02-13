@@ -29,6 +29,10 @@ export class App {
 		private ea: EventAggregator
 	) { }
 
+	activate(params, routeConfig, navigationInstruction) {
+		this.appState.init();
+	}
+
 	attached() {
 		this.appState.setToast(this.toast);
 		this.appState.setRatingModal(this.ratingModal);
@@ -36,7 +40,6 @@ export class App {
 		this.appState.setPlanningModal(this.planningModal);
 		this.appState.setMonitoringModal(this.monitoringModal);
 		this.appState.setEvaluationModal(this.evaluationModal);
-		this.appState.init();
 
 		window.addEventListener("scroll", () => {
 			this.ea.publish(Events.Scrolled);

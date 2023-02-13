@@ -33,22 +33,22 @@ export class PaidiaMonitoringDetails {
 
 		this.learningStrategy = ComponentHelper.CreateStrategyFromPaidia(
 			this.monitoringQuestions[0].learningStrategy,
-			this.appState.strategyOptions.LearningStrategies,
+			ComponentHelper.StrategyOptions.LearningStrategies,
 			this.monitoringReflection.strategyRating.learningRating
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromPaidia(
 			this.monitoringQuestions[0].reviewingStrategy,
-			this.appState.strategyOptions.ReviewingStrategies,
+			ComponentHelper.StrategyOptions.ReviewingStrategies,
 			this.monitoringReflection.strategyRating.reviewingRating
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromPaidia(
 			this.monitoringQuestions[0].practicingStrategy,
-			this.appState.strategyOptions.PracticingStrategies,
+			ComponentHelper.StrategyOptions.PracticingStrategies,
 			this.monitoringReflection.strategyRating.practicingRating
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromPaidia(
 			this.monitoringQuestions[0].extendingStrategy,
-			this.appState.strategyOptions.ExtendingStrategies,
+			ComponentHelper.StrategyOptions.ExtendingStrategies,
 			this.monitoringReflection.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];

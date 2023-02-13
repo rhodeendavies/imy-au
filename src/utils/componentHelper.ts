@@ -1,6 +1,6 @@
 import { LudusComponent, Strategy } from "models/reflections";
 import { LudusCalculatedComponents, LudusLearningExperience, LudusModifier, LudusPreviousComponents, LudusStrategy, PaidiaTopicRating, TopicRating } from "models/reflectionsApiModels";
-import { BasicLudusModifier, Colour, EmotionModifier, PaidiaWord, PromptSection, StrategyOption } from "models/prompts";
+import { BasicLudusModifier, Colour, EmotionModifier, PaidiaWord, PromptSection, StrategyOption, StrategyOptions } from "models/prompts";
 import environment from "environment";
 import { FeelingsSummary, HistoricCourseFeelings, PaidiaFeelingsSummary, PaidiaHistoricCourseFeelings, PaidiaTopic, QuestionTopic } from "models/reflectionsResponses";
 import { RadioOption } from "resources/radioButton/radio-button";
@@ -11,9 +11,20 @@ export class ComponentHelper {
 	static ModuleName: string = "";
 	static PaidiaWords: PaidiaWord[] = [];
 	static LudusModifiers: BasicLudusModifier[] = [];
+	static StrategyOptions: StrategyOptions;
+	static StrategyOptions110: StrategyOptions;
+	static StrategyOptions310: StrategyOptions;
 
 	static SetModule(moduleName: string) {
 		this.ModuleName = moduleName;
+	}
+
+	static SetStrategies() {
+		if (this.ModuleName == "IMY 110") {
+			ComponentHelper.StrategyOptions = this.StrategyOptions110;
+		} else if (this.ModuleName == "IMY 310") {
+			ComponentHelper.StrategyOptions = this.StrategyOptions310;
+		}
 	}
 
 	static CreateId(component: string): string {
@@ -461,6 +472,6 @@ export class ComponentHelper {
 		result.hasDigit = /\d/.test(password);
 		result.hasSymbol = /\W/.test(password);
 		return result;
-		
+
 	}
 }
