@@ -3,8 +3,7 @@
 	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
 
 	<p class="reflection-question mb-30">
-		Review your chosen learning strategies from this week. Rate yourself for how well
-		you are applying them.
+		Review your chosen learning strategies from this week. Rate yourself for how well you are applying each one.
 	</p>
 
 	<div class="strategy-grid">
@@ -14,15 +13,13 @@
 					<div class="strategy-heading">${strategy.title}</div>
 					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
 				</div>
-	
-				<emoji-picker-component emoji.bind="strategy.emoji"
-					on-change.call="emojiChanged(strategy)">
+
+				<emoji-picker-component emoji.bind="strategy.emoji" on-change.call="emojiChanged(strategy)">
 				</emoji-picker-component>
 			</div>
 		</div>
 		<div class="strategy-visual">
-			<paidia-canvas view-model.ref="canvas" interactions.bind="interactions"
-				on-change.call="saveCanvas()">
+			<paidia-canvas view-model.ref="canvas" interactions.bind="interactions" on-change.call="saveCanvas()">
 			</paidia-canvas>
 		</div>
 	</div>
