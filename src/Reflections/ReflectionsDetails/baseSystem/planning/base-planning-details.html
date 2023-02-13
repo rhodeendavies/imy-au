@@ -22,8 +22,11 @@
 		<div class="reflection-body" if.bind="PlanningReflection != null">
 			<div class="reflection-divider" if.bind="localParent.FullReflection">
 				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
-				<div class="reflection-text">
-					${PlanningReflection.courseFeelings.rating}/5
+				<div class="evaluation-feelings">
+					<rating-box>
+						<div slot="header">${PlanningReflection.courseFeelings.rating}/5</div>
+						<div slot="body">${DateRecorded | dateFormat}</div>
+					</rating-box>
 				</div>
 			</div>
 
