@@ -43,7 +43,12 @@ export class PaidiaEvaluationDetails {
 		this.evaluatingReflection = this.localParent.reflection.evaluatingReflection.answers;
 		this.evaluatingQuestions = this.localParent.reflection.evaluatingReflection.questions;
 
-		this.feelingsSummary = ComponentHelper.GetPaidiaFeelingsSummary(this.evaluatingQuestions.courseFeelings)
+		this.feelingsSummary = ComponentHelper.GetPaidiaFeelingsSummary(this.evaluatingQuestions.courseFeelings);
+		this.feelingsSummary.push({
+			emoji: ComponentHelper.EmojiFromString(this.evaluatingReflection.courseFeelings.emoji),
+			word: this.evaluatingReflection.courseFeelings.word,
+			createdAt: this.localParent.reflection.evaluatingReflection.completedAt
+		});
 
 		this.learningStrategy = ComponentHelper.CreateStrategyFromPaidia(
 			this.evaluatingQuestions.strategyPlanning[0].learningStrategy,
@@ -69,10 +74,6 @@ export class PaidiaEvaluationDetails {
 
 		this.evaluatingReflection.courseFeelings.emoji = ComponentHelper.EmojiFromString(this.evaluatingReflection.courseFeelings.emoji);
 	
-		this.evaluatingQuestions.lessonRatings.forEach(x => {
-			x.emoji = ComponentHelper.EmojiFromString(x.emoji);
-			x.topicsString = x.topics.join(", ");
-		});
 		this.topics = ComponentHelper.CreatePaidiaTopics(this.evaluatingReflection.topicRatings.ratings, this.evaluatingQuestions.topicRatings.topics)
 	
 		this.evaluatingReflection.learningExperience.emoji = ComponentHelper.EmojiFromString(this.evaluatingReflection.learningExperience.emoji);

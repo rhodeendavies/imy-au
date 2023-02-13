@@ -83,13 +83,19 @@ export class LudusEvaluationDetails {
 	}
 
 	createFeelingsData() {
+		this.evaluatingQuestions.courseFeelings.createdAt.push(this.localParent.reflection.evaluatingReflection.completedAt);
+		this.evaluatingQuestions.courseFeelings.rating.push(this.evaluatingReflection.courseFeelings.rating);
+
+		const feelingsSummary = ComponentHelper.GetFeelingsSummary(this.evaluatingQuestions.courseFeelings);
+		feelingsSummary.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+
 		return {
-			labels: this.evaluatingQuestions.courseFeelings.createdAt.map(x =>
-				DateHelper.FormatDate(x, "d LLL")
+			labels: feelingsSummary.map(x =>
+				DateHelper.FormatDate(x.createdAt, "d LLL")
 			),
 			datasets: [{
 				label: "",
-				data: this.evaluatingQuestions.courseFeelings.rating,
+				data: feelingsSummary.map(x => x.rating),
 				backgroundColor: Colours.OrangeHex,
 				borderColor: Colours.OrangeHex
 			}]

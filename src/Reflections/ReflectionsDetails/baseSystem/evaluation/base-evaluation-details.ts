@@ -68,6 +68,11 @@ export class BaseEvaluationDetails {
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 
 		this.feelingsSummary = ComponentHelper.GetFeelingsSummary(this.evaluatingQuestions.courseFeelings);
+		this.feelingsSummary.push({
+			rating: this.evaluatingReflection.courseFeelings.rating,
+			createdAt: this.localParent.reflection.evaluatingReflection.completedAt
+		});
+
 		this.evaluatingQuestions.topicRatings.topics = ComponentHelper.CreateTopics(this.evaluatingReflection.topicRatings.ratings, this.evaluatingQuestions.topicRatings.topics, [])
 	}
 

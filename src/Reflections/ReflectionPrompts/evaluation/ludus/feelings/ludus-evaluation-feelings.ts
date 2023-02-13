@@ -55,13 +55,16 @@ export class LudusEvaluationFeelings {
 	}
 
 	createData() {
+		const feelingsSummary = ComponentHelper.GetFeelingsSummary(this.localParent.questions.courseFeelings);
+		feelingsSummary.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+
 		return {
-			labels: this.localParent.questions.courseFeelings.createdAt.map(x =>
-				DateHelper.FormatDate(x, "d LLL")
+			labels: feelingsSummary.map(x =>
+				DateHelper.FormatDate(x.createdAt, "d LLL")
 			),
 			datasets: [{
 				label: "",
-				data: this.localParent.questions.courseFeelings.rating,
+				data: feelingsSummary.map(x => x.rating),
 				backgroundColor: Colours.OrangeHex,
 				borderColor: Colours.OrangeHex
 			}]
