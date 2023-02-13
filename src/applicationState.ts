@@ -32,6 +32,8 @@ export class ApplicationState {
 
 	determineReflectionBusy = new Busy();
 	strategyOptions: StrategyOptions;
+	strategyOptions110: StrategyOptions;
+	strategyOptions310: StrategyOptions;
 	ludusPrompts: Prompts;
 	paidiaPrompts: Prompts;
 	paidiaWords: PaidiaWord[];
@@ -53,7 +55,14 @@ export class ApplicationState {
 		private authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService
 	) {
-		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
+		this.loginSub = this.ea.subscribe(Events.Login, () => {
+			// if (authService.Course == "IMY 110") {
+			// 	this.strategyOptions = this.strategyOptions110;
+			// } else if (authService.Course == "IMY 310") {
+			// 	this.strategyOptions = this.strategyOptions310;
+			// }
+			this.determineReflectionToShow()
+		});
 		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.refreshSections());
 	}
 
@@ -344,6 +353,7 @@ export class ApplicationState {
 	}
 
 	refreshSections() {
+		this.strategyOptions = null;
 		this.sections = null;
 		this.currentSection = null;
 		this.shufflePrompts();
@@ -371,7 +381,7 @@ export class ApplicationState {
 		this.threeStarTopicPhrases = ComponentHelper.ShuffleArray(this.threeStarTopicPhrases)
 	}
 
-	initFromJson(): Promise<[void, void, void, void, void, void]> {
+	initFromJson(): Promise<[void, void, void, void, void, void, void]> {
 		const paidiaWordsPromise = fetch("prompts/paidia-words.json")
 			.then(response => response.json())
 			.then((words: PaidiaWord[]) => {
@@ -392,7 +402,7 @@ export class ApplicationState {
 				}
 			});
 
-		const strategiesPromise = fetch("prompts/strategies.json")
+		const strategies110Promise = fetch("prompts/strategies-110.json")
 			.then(response => response.json())
 			.then((output: BasicStrategyOptions) => {
 				output.learning.strategies.forEach((x, i) => x.index = i);
@@ -400,7 +410,43 @@ export class ApplicationState {
 				output.practicing.strategies.forEach((x, i) => x.index = i);
 				output.extending.strategies.forEach((x, i) => x.index = i);
 
-				this.strategyOptions = {
+				this.strategyOptions110 = {
+					LearningStrategies: {
+						title: StrategyCategories.Learning,
+						icon: StrategyCategoryIcons.Learning,
+						description: output.learning.description,
+						strategies: output.learning.strategies
+					},
+					ReviewingStrategies: {
+						title: StrategyCategories.Reviewing,
+						icon: StrategyCategoryIcons.Reviewing,
+						description: output.reviewing.description,
+						strategies: output.reviewing.strategies
+					},
+					PracticingStrategies: {
+						title: StrategyCategories.Practicing,
+						icon: StrategyCategoryIcons.Practicing,
+						description: output.practicing.description,
+						strategies: output.practicing.strategies
+					},
+					ExtendingStrategies: {
+						title: StrategyCategories.Extending,
+						icon: StrategyCategoryIcons.Extending,
+						description: output.extending.description,
+						strategies: output.extending.strategies
+					}
+				}
+			});
+
+		const strategies310Promise = fetch("prompts/strategies-310.json")
+			.then(response => response.json())
+			.then((output: BasicStrategyOptions) => {
+				output.learning.strategies.forEach((x, i) => x.index = i);
+				output.reviewing.strategies.forEach((x, i) => x.index = i);
+				output.practicing.strategies.forEach((x, i) => x.index = i);
+				output.extending.strategies.forEach((x, i) => x.index = i);
+
+				this.strategyOptions310 = {
 					LearningStrategies: {
 						title: StrategyCategories.Learning,
 						icon: StrategyCategoryIcons.Learning,
@@ -475,7 +521,7 @@ export class ApplicationState {
 				this.threeStarTopicPhrases = output.three;
 			});
 
-		return Promise.all([paidiaWordsPromise, strategiesPromise, ludusPromptsPromise,
+		return Promise.all([paidiaWordsPromise, strategies110Promise, strategies310Promise, ludusPromptsPromise,
 			ludusEmotionsPromise, ludusModifiersPromise, ludusTopicPhrasesPromise]);
 	}
 }

@@ -1,0 +1,246 @@
+{
+	"learning": {
+		"description": "The first step in the learning process is to consume the material. Do this early on in the week to allow time to deepen your understanding. ",
+		"strategies": [
+			{
+				"name": "Watch all the videos on the first day of the week.",
+				"description": "Clear some space in your day and watch all the videos in one day. Overachiever!",
+				"modifiers": [
+					{
+						"name": "Planner",
+						"amount": 5
+					},
+					{
+						"name": "Persistent",
+						"amount": 4
+					}
+				]
+			},
+			{
+				"name": "Watch all the videos in the first two days of the week.",
+				"description": "Divide the videos in half and finish them in the first two days of the week. More time to practice.",
+				"modifiers": [
+					{
+						"name": "Planner",
+						"amount": 4
+					},
+					{
+						"name": "Persistent",
+						"amount": 2
+					}
+				]
+			},
+			{
+				"name": "Watch all the videos in the first three days of the week.",
+				"description": "A measured approach. Divide the videos in three and finish them over three days.",
+				"modifiers": [
+					{
+						"name": "Planner",
+						"amount": 3
+					},
+					{
+						"name": "Flexible",
+						"amount": 2
+					}
+				]
+			},
+			{
+				"name": "Watch one video a day this week.",
+				"description": "Learn a bit each day by watching one video. If there are more than five videos, you may have to double up on some days.",
+				"modifiers": [
+					{
+						"name": "Persistent",
+						"amount": 4
+					},
+					{
+						"name": "Flexible",
+						"amount": 1
+					}
+				]
+			}
+		]
+	},
+	"reviewing": {
+		"description": "Once you've watched the videos, it is important to review their contents so that you remember what you watched.",
+		"strategies": [
+			{
+				"name": "Write down the things that I did not understand in each video.",
+				"description": "Keep track of things that you are unsure so that you can ask the right questions later on.",
+				"modifiers": [
+					{
+						"name": "Analytical",
+						"amount": 2
+					},
+					{
+						"name": "Reflective",
+						"amount": 5
+					}
+				]
+			},
+			{
+				"name": "Take notes during or after watching each video.",
+				"description": "Take notes about each video soon after watching so that you remember the concepts better.",
+				"modifiers": [
+					{
+						"name": "Planner",
+						"amount": 4
+					},
+					{
+						"name": "Analytical",
+						"amount": 4
+					}
+				]
+			},
+			{
+				"name": "Review the lecture materials after watching each video.",
+				"description": "Make use of the provided lecture material to review what the video said will help you to check your understanding.",
+				"modifiers": [
+					{
+						"name": "Analytical",
+						"amount": 3
+					},
+					{
+						"name": "Independent",
+						"amount": 3
+					}
+				]
+			},
+			{
+				"name": "Summarise what I have learnt after watching each video.",
+				"description": "Challenge yourself to summarise the video after watching it to check how much you understood. If this activity is challenging then watch the video again.",
+				"modifiers": [
+					{
+						"name": "Independent",
+						"amount": 3
+					},
+					{
+						"name": "Reflective",
+						"amount": 3
+					}
+				]
+			}
+		]
+	},
+	"practicing": {
+		"description": "Practice is how you solidify what you've learnt in the videos. It is the best way to make sure that you really understand what was taught.",
+		"strategies": [
+			{
+				"name": "Do the optional homework given by the lecturer this week.",
+				"description": "Don't just watch the videos, practice the concepts that they teach by applying them to given scenarios.",
+				"modifiers": [
+					{
+						"name": "Planner",
+						"amount": 3
+					},
+					{
+						"name": "Analytical",
+						"amount": 3
+					}
+				]
+			},
+			{
+				"name": "Memorise the key concepts from the content this week.",
+				"description": "Memorising the most important concepts will make you more capable of using them flexibly later on.",
+				"modifiers": [
+					{
+						"name": "Independent",
+						"amount": 4
+					},
+					{
+						"name": "Adventurous",
+						"amount": 5
+					}
+				]
+			},
+			{
+				"name": "Write down my own examples of the concepts in each video.",
+				"description": "Challenge yourself to think about your own examples of the things mentioned in the video.",
+				"modifiers": [
+					{
+						"name": "Independent",
+						"amount": 4
+					},
+					{
+						"name": "Analytical",
+						"amount": 3
+					}
+				]
+			},
+			{
+				"name": "Write down how this week's concepts link to previous things that I've learnt.",
+				"description": "Think about the links between your new knowledge and what you already know. How do these work together?",
+				"modifiers": [
+					{
+						"name": "Reflective",
+						"amount": 3
+					},
+					{
+						"name": "Analytical",
+						"amount": 4
+					}
+				]
+			}
+		]
+	},
+	"extending": {
+		"description": "Once you've practiced, you can deepen your understanding by speaking to others or finding other sources of information.",
+		"strategies": [
+			{
+				"name": "Speak to my classmates about the videos this week.",
+				"description": "Ask a friend about their learning this week or talk about how yours went.",
+				"modifiers": [
+					{
+						"name": "Interpersonal",
+						"amount": 5
+					},
+					{
+						"name": "Reflective",
+						"amount": 4
+					}
+				]
+			},
+			{
+				"name": "Speak to the lecturer about concepts that I did not understand in the videos.",
+				"description": "Ask the lecturer for help with challenging concepts from this week's videos.",
+				"modifiers": [
+					{
+						"name": "Interpersonal",
+						"amount": 4
+					},
+					{
+						"name": "Reflective",
+						"amount": 5
+					}
+				]
+			},
+			{
+				"name": "Search the web for extra resources relating to this week's videos.",
+				"description": "Find extra online sources to supplement this week's videos. Read them and add them to your resource list.",
+				"modifiers": [
+					{
+						"name": "Curious",
+						"amount": 3
+					},
+					{
+						"name": "Independent",
+						"amount": 4
+					}
+				]
+			},
+			{
+				"name": "Find real-world examples of the concepts in the videos.",
+				"description": "Think about how the concepts from the videos work in the real-world. Find or brainstorm some examples for yourself.",
+				"modifiers": [
+					{
+						"name": "Independent",
+						"amount": 4
+					},
+					{
+						"name": "Curious",
+						"amount": 4
+					}
+				]
+			}
+		]
+	}
+}
