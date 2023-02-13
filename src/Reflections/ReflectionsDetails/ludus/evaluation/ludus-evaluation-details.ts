@@ -105,6 +105,11 @@ export class LudusEvaluationDetails {
 	createFeelingsChart() {
 		const ctx = document.getElementById("feelingsChartDetails") as HTMLCanvasElement;
 		if (ctx == null) return;
+
+		if (this.feelingChart != null) {
+			this.feelingChart.destroy();
+		}
+
 		this.feelingChart = new Chart(ctx,
 			{
 				type: "line" as ChartType,
@@ -158,6 +163,10 @@ export class LudusEvaluationDetails {
 	createStrategyChart() {
 		const ctx = document.getElementById("componentsChartDetails") as HTMLCanvasElement;
 		if (ctx == null || this.learningStrategy == null || this.reviewingStrategy == null || this.practicingStrategy == null || this.extendingStrategy == null) return;
+
+		if (this.strategyChart != null) {
+			this.strategyChart.destroy();
+		}
 
 		this.strategyChart = new Chart(ctx,
 			{

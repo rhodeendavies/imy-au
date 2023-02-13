@@ -63,13 +63,13 @@ export class LudusPublic {
 		this.secondSentiment = sentiments[1]?.emotion;
 		this.thirdSentiment = sentiments[2]?.emotion;
 
-		const colours = emotions.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index-0.1)/emotions.length)))
-		const total = emotions.reduce((prev, curr) => {return prev + curr.total}, 0)
+		const colours = emotions.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index - 0.1) / emotions.length)))
+		const total = emotions.reduce((prev, curr) => { return prev + curr.total }, 0)
 		return {
 			labels: emotions.map(x => x.emotion),
 			datasets: [{
 				label: "",
-				data: emotions.map(x => Math.floor(x.total/total*100)),
+				data: emotions.map(x => Math.floor(x.total / total * 100)),
 				backgroundColor: colours,
 				borderColor: colours
 			}]
@@ -77,30 +77,34 @@ export class LudusPublic {
 	}
 
 	createChart() {
-		const ctx =  document.getElementById("ludusPublicSummary") as HTMLCanvasElement;
+		const ctx = document.getElementById("ludusPublicSummary") as HTMLCanvasElement;
 		if (ctx == null) return;
-		
+
+		if (this.chart != null) {
+			this.chart.destroy();
+		}
+
 		this.chart = new Chart(ctx,
-		{
-			type: "doughnut" as ChartType,
-			data: this.createData(),
-			options: {
-				aspectRatio: 2,
-				plugins: {
-					tooltip: {
-						callbacks: {
-							label: (context) => {
-								return `${context.parsed} %`
+			{
+				type: "doughnut" as ChartType,
+				data: this.createData(),
+				options: {
+					aspectRatio: 2,
+					plugins: {
+						tooltip: {
+							callbacks: {
+								label: (context) => {
+									return `${context.parsed} %`
+								}
 							}
+						},
+						legend: {
+							display: true,
+							position: "right"
 						}
-					},
-					legend: {
-						display: true,
-						position: "right"
 					}
 				}
-			}
-		});
+			});
 	}
 }
 

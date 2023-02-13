@@ -72,6 +72,10 @@ export class LudusEvaluationFeelings {
 	}
 
 	createChart() {
+		if (this.chart != null) {
+			this.chart.destroy();
+		}
+
 		this.chart = new Chart(document.getElementById("feelingsChart") as HTMLCanvasElement,
 			{
 				type: "line" as ChartType,
@@ -105,7 +109,7 @@ export class LudusEvaluationFeelings {
 	}
 
 	get AllowNext() {
-		return this.promptSections != null && 
+		return this.promptSections != null &&
 			this.promptSections.every(x => x?.type == PromptType.Text || (x?.value?.length >= 3 && x?.valid));
 	}
 }

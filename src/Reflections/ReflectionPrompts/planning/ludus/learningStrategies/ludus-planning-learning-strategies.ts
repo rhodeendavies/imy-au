@@ -134,6 +134,10 @@ export class LudusPlanningLearningStrategies {
 		const context = document.getElementById("planningComponentsChart") as HTMLCanvasElement;
 		if (context == null) return;
 
+		if (this.chart != null) {
+			this.chart.destroy();
+		}
+
 		if (this.chart == null) {
 			this.chart = new Chart(context,
 				{
