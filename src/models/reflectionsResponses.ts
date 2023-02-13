@@ -160,7 +160,7 @@ export class RegularLessonRatings extends LessonRatings {
 export class PaidiaLessonRatings extends LessonRatings {
 	name: string;
 	order: number;
-	emoji: string;
+	rating: string;
 	topics: string[];
 }
 

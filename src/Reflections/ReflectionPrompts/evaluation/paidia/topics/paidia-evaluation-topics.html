@@ -19,9 +19,9 @@
 			<p class="reflection-question">Video ratings this week</p>
 			<p>This is how you rated your understanding of the videos this week.</p>
 
-			<div class="summary-with-icon ludus-summary-icon" repeat.for="lesson of localParent.questions.lessonRatings">
+			<div class="summary-with-icon paidia-summary-icon" repeat.for="lesson of localParent.questions.lessonRatings">
 				<div class="paidia-lesson-rating">
-					${lesson.emoji}
+					${lesson.rating}
 				</div>
 				<div class="summary-text">
 					<div class="summary-heading">${lesson.name}</div>

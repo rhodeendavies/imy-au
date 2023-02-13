@@ -18,7 +18,7 @@ export class PaidiaEvaluationTopics {
 
 	initData() {
 		this.localParent.questions.lessonRatings.forEach(x => {
-			x.emoji = ComponentHelper.EmojiFromString(x.emoji);
+			x.rating = ComponentHelper.EmojiFromString(x.rating);
 			x.topicsString = x.topics.join(", ");
 		});
 		this.topics = ComponentHelper.CreatePaidiaTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics)
