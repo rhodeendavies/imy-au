@@ -23,24 +23,28 @@ export class BaseLearningStrategies {
 	initData() {
 		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
 			this.localParent.questions.learningStrategy,
-			this.appState.strategyOptions.LearningStrategies
+			this.appState.strategyOptions.LearningStrategies,
+			this.localParent.model.strategyRating.learningRating
 		);
 		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
 			this.localParent.questions.reviewingStrategy,
-			this.appState.strategyOptions.ReviewingStrategies
+			this.appState.strategyOptions.ReviewingStrategies,
+			this.localParent.model.strategyRating.reviewingRating
 		);
 		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
 			this.localParent.questions.practicingStrategy,
-			this.appState.strategyOptions.PracticingStrategies
+			this.appState.strategyOptions.PracticingStrategies,
+			this.localParent.model.strategyRating.practicingRating
 		);
 		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
 			this.localParent.questions.extendingStrategy,
-			this.appState.strategyOptions.ExtendingStrategies
+			this.appState.strategyOptions.ExtendingStrategies,
+			this.localParent.model.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
-	saveStrategy(strategy) {
+	saveStrategy(strategy: Strategy) {
 		switch (strategy.title) {
 			case StrategyCategories.Learning:
 				this.localParent.model.strategyRating.learningRating = strategy.rating;
