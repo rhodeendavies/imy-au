@@ -12,9 +12,9 @@ Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 export class LudusPublic {
 	reflections: EmotionModifier[][];
 	chart: Chart;
-	firstSentiment: string;
-	secondSentiment: string;
-	thirdSentiment: string;
+	// firstSentiment: string;
+	// secondSentiment: string;
+	// thirdSentiment: string;
 
 	constructor(private localParent: PublicReflections, private reflectionsApi: ReflectionsService) { }
 
@@ -58,10 +58,10 @@ export class LudusPublic {
 			});
 		});
 
-		sentiments.sort((a, b) => b.total - a.total);
-		this.firstSentiment = sentiments[0].emotion;
-		this.secondSentiment = sentiments[1]?.emotion;
-		this.thirdSentiment = sentiments[2]?.emotion;
+		// sentiments.sort((a, b) => b.total - a.total);
+		// this.firstSentiment = sentiments[0].emotion;
+		// this.secondSentiment = sentiments[1]?.emotion;
+		// this.thirdSentiment = sentiments[2]?.emotion;
 
 		const colours = emotions.map((x, index) => ComponentHelper.GetColourOpacity(Colours.Orange, 1 - ((index - 0.1) / emotions.length)))
 		const total = emotions.reduce((prev, curr) => { return prev + curr.total }, 0)

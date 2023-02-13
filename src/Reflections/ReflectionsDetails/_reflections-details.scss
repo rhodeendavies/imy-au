@@ -13,6 +13,7 @@
 	&.public-reflections-details-wrapper {
 		height: initial;
 		display: block;
+		max-height: initial;
 	}
 
 	>*:not(.reflection-section-tracker) {
