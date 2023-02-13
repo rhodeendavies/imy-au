@@ -42,6 +42,11 @@ export class PaidiaEvaluation {
 			if (id == null) {
 				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Evaluating, currentSection.id)
 			}
+			if (id == null) {
+				this.appState.triggerToast("Failed to load evaluation...");
+				return;
+			}
+
 			const reflection = await this.reflectionsApi.getPaidiaEvaluatingReflection(id);
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;

@@ -12,9 +12,7 @@ import { ReflectionTypes, Systems } from "utils/enums";
 @autoinject
 export class EvaluationPrompts extends SectionTrackerParent {
 
-	weekTopic: string = ""
 	reflectionId: number;
-	reflectionTriggered: boolean = false;
 	busy: Busy = new Busy();
 	evaluationOpen: boolean = false;
 	modelLoaded: boolean = false;

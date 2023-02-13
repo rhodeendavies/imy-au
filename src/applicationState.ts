@@ -52,7 +52,10 @@ export class ApplicationState {
 		private authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService
 	) {
-		this.loginSub = this.ea.subscribe(Events.Login, () => this.determineReflectionToShow());
+		this.loginSub = this.ea.subscribe(Events.Login, () => {
+			this.init();
+			this.determineReflectionToShow();
+		});
 		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.refreshSections());
 	}
 

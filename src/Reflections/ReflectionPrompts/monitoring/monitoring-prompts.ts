@@ -14,7 +14,6 @@ export class MonitoringPrompts extends SectionTrackerParent {
 
 	weekTopic: string = ""
 	reflectionId: number;
-	reflectionTriggered: boolean = false;
 	busy: Busy = new Busy();
 	monitoringOpen: boolean = false;
 	modelLoaded: boolean = false;

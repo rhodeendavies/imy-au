@@ -43,6 +43,11 @@ export class LudusMonitoring {
 			if (id == null) {
 				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Monitoring, currentSection.id)
 			}
+			if (id == null) {
+				this.appState.triggerToast("Failed to load monitoring...");
+				return;
+			}
+
 			const reflection = await this.reflectionsApi.getLudusMonitoringReflection(id);
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;

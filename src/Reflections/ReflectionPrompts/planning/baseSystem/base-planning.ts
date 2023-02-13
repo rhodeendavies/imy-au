@@ -42,6 +42,11 @@ export class BasePlanning {
 			if (id == null) {
 				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
 			}
+			if (id == null) {
+				this.appState.triggerToast("Failed to load planning...");
+				return;
+			}
+			
 			this.localParent.reflectionId = id;
 			const reflection = await this.reflectionsApi.getBasePlanningReflection(id);
 			this.model = reflection.answers;

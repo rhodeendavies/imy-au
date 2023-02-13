@@ -41,6 +41,11 @@ export class LudusPlanning {
 			if (id == null) {
 				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Planning, currentSection.id)
 			}
+			if (id == null) {
+				this.appState.triggerToast("Failed to load planning...");
+				return;
+			}
+			
 			const reflection = await this.reflectionsApi.getLudusPlanningReflection(id);
 			this.localParent.reflectionId = id;
 			this.model = reflection.answers;
