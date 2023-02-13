@@ -152,6 +152,7 @@ export class LudusEvaluationSummary {
 	}
 
 	removeModifier(index: number) {
+		this.selectedModifiers[index].active = false;
 		this.selectedModifiers.splice(index, 1);
 	}
 
