@@ -45,6 +45,8 @@ export class PaidiaMonitoring {
 			}
 			if (id == null) {
 				this.appState.triggerToast("Failed to load monitoring...");
+				this.localParent.init();
+				this.localParent.init();
 				return;
 			}
 

@@ -45,6 +45,7 @@ export class LudusMonitoring {
 			}
 			if (id == null) {
 				this.appState.triggerToast("Failed to load monitoring...");
+				this.localParent.init();
 				return;
 			}
 

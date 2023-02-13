@@ -44,6 +44,7 @@ export class PaidiaEvaluation {
 			}
 			if (id == null) {
 				this.appState.triggerToast("Failed to load evaluation...");
+				this.localParent.init();
 				return;
 			}
 

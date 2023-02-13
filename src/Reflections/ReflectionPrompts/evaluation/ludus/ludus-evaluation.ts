@@ -44,6 +44,7 @@ export class LudusEvaluation {
 			}
 			if (id == null) {
 				this.appState.triggerToast("Failed to load evaluation...");
+				this.localParent.init();
 				return;
 			}
 

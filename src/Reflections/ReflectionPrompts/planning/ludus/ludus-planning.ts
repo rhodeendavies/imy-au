@@ -43,6 +43,7 @@ export class LudusPlanning {
 			}
 			if (id == null) {
 				this.appState.triggerToast("Failed to load planning...");
+				this.localParent.init();
 				return;
 			}
 			

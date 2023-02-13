@@ -43,6 +43,7 @@ export class BaseDaily {
 			}
 			if (this.localParent.reflectionId == null) {
 				this.appState.triggerToast("Failed to load daily...");
+				this.localParent.init();
 				return;
 			}
 			
