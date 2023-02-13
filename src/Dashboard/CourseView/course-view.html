@@ -30,14 +30,13 @@
 			</div>
 		</div>
 
-		<div class="lesson-wrapper" if.bind="IsLessonSelected">
+		<div class="lesson-wrapper" show.bind="IsLessonSelected">
 			<div class="lesson-heading">${lessonSelected.order}. ${lessonSelected.name}</div>
 			<div class="lesson-video-wrapper">
 				<div class="lesson-video">
 					<video class="lesson-video-component" controls id="lessonVideo" play.trigger="startTimer()"
 						pause.trigger="endTimer()"
 						current-time.from-view="videoCurrentTimeStamp" playback-rate.bind="playbackSpeed">
-						<source src.bind="lessonSelected.videoUrl">
 					</video>
 				</div>
 			</div>

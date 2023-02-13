@@ -119,10 +119,10 @@ export class CourseView {
 		this.lessonSelected = lesson;
 		this.localParent.lessonOpen = true;
 		this.localParent.navigate(`${Routes.CourseContent}/${lesson.id}`);
-
 		const video = document.getElementById("lessonVideo") as HTMLVideoElement;
 		if (video != null) {
 			video.currentTime = 0;
+			video.src = this.lessonSelected.videoUrl;
 		}
 	}
 
