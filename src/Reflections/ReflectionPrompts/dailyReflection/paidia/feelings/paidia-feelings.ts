@@ -1,14 +1,18 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { PaidiaDaily } from "../paidia-daily";
 import { ComponentHelper } from "utils/componentHelper";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaFeelings {
+export class PaidiaFeelings extends ReflectionStep {
 
 	valid: boolean = true;
 	emoji;
 	
-	constructor(private localParent: PaidiaDaily) {}
+	constructor(private localParent: PaidiaDaily) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.emoji = "";
@@ -17,10 +21,8 @@ export class PaidiaFeelings {
 		}
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.courseFeelings.emoji = ComponentHelper.EmojiToString(this.emoji);
-		this.localParent.nextStep();
 	}
 
 	@computedFrom("emoji", "localParent.model.courseFeelings.word", "valid")

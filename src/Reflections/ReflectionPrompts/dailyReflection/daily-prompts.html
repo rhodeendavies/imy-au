@@ -19,12 +19,12 @@
 			</p>
 
 			<div class="btn-row">
+				<button class="btn btn-default" click.delegate="closeDaily()">
+					Close
+				</button>
 				<button class="btn btn-primary" click.delegate="startDaily()"
 					disabled.bind="!availability.available">
 					Let's go
-				</button>
-				<button class="btn btn-default" click.delegate="closeDaily()">
-					Close
 				</button>
 			</div>
 			<div class="body-small mt-10" if.bind="!availability.available">

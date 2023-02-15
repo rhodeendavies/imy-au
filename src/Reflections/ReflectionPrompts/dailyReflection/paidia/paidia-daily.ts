@@ -6,9 +6,10 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { DailyPrompts } from "../daily-prompts";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaDaily {
+export class PaidiaDaily extends ReflectionStepParent {
 	model: PaidiaDailyApiModel;
 	questions: PaidiaStrategyPlanning[];
 
@@ -17,15 +18,14 @@ export class PaidiaDaily {
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
-	) { }
+	) {
+		super();
+		this.mainParent = localParent;
+	}
 
 	attached() {
 		this.localParent.modelLoaded = false;
 		this.getDaily();
-	}
-
-	nextStep() {
-		this.localParent.nextStep();
 	}
 
 	async submitDaily() {

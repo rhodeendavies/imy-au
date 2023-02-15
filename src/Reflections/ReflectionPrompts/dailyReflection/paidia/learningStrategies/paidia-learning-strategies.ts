@@ -6,9 +6,10 @@ import { PaidiaDaily } from "../paidia-daily";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import { StrategyCategories } from "utils/enums";
 import environment from "environment";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaLearningStrategies {
+export class PaidiaLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -19,7 +20,10 @@ export class PaidiaLearningStrategies {
 	canvasModel: PaidiaCanvasModel;
 	interactions: number = 0;
 
-	constructor(private localParent: PaidiaDaily, private appState: ApplicationState) { }
+	constructor(private localParent: PaidiaDaily, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -129,8 +133,7 @@ export class PaidiaLearningStrategies {
 		}, 500);
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.canvasModel.canvas = this.canvas.saveCanvas();
 		this.localParent.model.strategyRating = {
 			learningRating: ComponentHelper.EmojiToString(this.learningStrategy.emoji),
@@ -140,11 +143,15 @@ export class PaidiaLearningStrategies {
 			canvas: JSON.stringify(this.canvasModel),
 			interactions: this.interactions
 		}
+	}
+
+	submit() {
+		this.saveStep();
 		this.localParent.submitDaily();
 	}
 
 	@computedFrom("learningStrategy.emoji", "reviewingStrategy.emoji", "practicingStrategy.emoji", "extendingStrategy.emoji")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.emoji));
 	}
 }
