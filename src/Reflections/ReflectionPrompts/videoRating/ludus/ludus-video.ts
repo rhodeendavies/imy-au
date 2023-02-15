@@ -1,5 +1,5 @@
 import { ApplicationState } from "applicationState";
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { LudusLessonApiModel } from "models/reflectionsApiModels";
 import { RadioOption } from "resources/radioButton/radio-button";
 import { AuthenticationService } from "services/authenticationService";
@@ -28,6 +28,7 @@ export class LudusVideo {
 	}
 
 	async submitRating() {
+		if (!this.AllowSubmit) return;
 		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
 		if (id == null) {
 			this.appState.triggerToast("Failed to create rating...");
@@ -35,6 +36,12 @@ export class LudusVideo {
 		}
 
 		this.localParent.reflectionId = id;
-		this.localParent.submitRating(this.model);
+		this.localParent.submit(this.model);
+	}
+
+	
+	@computedFrom("model.lessonRating.rating")
+	get AllowSubmit(): boolean {
+		return this.model.lessonRating.rating != null;
 	}
 }

@@ -1,4 +1,4 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { VideoRating } from "../video-rating";
 import { ApplicationState } from "applicationState";
 import { RadioOption } from "resources/radioButton/radio-button";
@@ -30,6 +30,7 @@ export class BaseVideo {
 	}
 
 	async submitRating() {
+		if (!this.AllowSubmit) return;
 		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
 		if (id == null) {
 			this.appState.triggerToast("Failed to create rating...");
@@ -37,6 +38,12 @@ export class BaseVideo {
 		}
 
 		this.localParent.reflectionId = id;
-		this.localParent.submitRating(this.model);
+		this.localParent.submit(this.model);
+	}
+	
+	
+	@computedFrom("model.lessonRating.rating")
+	get AllowSubmit(): boolean {
+		return this.model.lessonRating.rating != null;
 	}
 }

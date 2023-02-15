@@ -5,8 +5,7 @@
 	</radio-button>
 
 	<div class="btn-row">
-		<button class="btn btn-primary" click.delegate="submitRating()"
-			disabled.bind="model.lessonRating.rating == null">
+		<button class="btn btn-primary" click.delegate="submitRating()" disabled.bind="!AllowSubmit">
 			Finish
 		</button>
 	</div>

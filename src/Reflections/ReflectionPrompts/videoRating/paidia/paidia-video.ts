@@ -26,6 +26,7 @@ export class PaidiaVideo {
 	}
 
 	async submitRating() {
+		if (!this.AllowSubmit) return;
 		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
 		if (id == null) {
 			this.appState.triggerToast("Failed to create rating...");
@@ -37,7 +38,7 @@ export class PaidiaVideo {
 			this.model.lessonRating = new PaidiaLessonRating();
 		}
 		this.model.lessonRating.rating = ComponentHelper.EmojiToString(this.emoji);
-		this.localParent.submitRating(this.model);
+		this.localParent.submit(this.model);
 	}
 
 	@computedFrom("emoji")

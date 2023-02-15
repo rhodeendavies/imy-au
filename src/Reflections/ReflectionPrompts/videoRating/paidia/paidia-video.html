@@ -3,16 +3,15 @@
 
 	<div>
 		<p class="reflection-question mb-30">
-			You've finished watching <span class="watched-lesson">${appState.watchedLesson.name}</span>. 
+			You've finished watching <span class="watched-lesson">${appState.watchedLesson.name}</span>.
 			Rate your understanding of the concepts in the video.
 		</p>
-	
+
 		<emoji-picker-component emoji.bind="emoji"></emoji-picker-component>
 	</div>
 
 	<div class="btn-row">
-		<button class="btn btn-primary" click.delegate="submitRating()"
-			disabled.bind="!AllowSubmit">
+		<button class="btn btn-primary" click.delegate="submitRating()" disabled.bind="!AllowSubmit">
 			Finish
 		</button>
 	</div>
