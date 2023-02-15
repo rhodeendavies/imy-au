@@ -6,6 +6,7 @@ import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { ReflectionPrompt } from "../reflection-step";
+import { Events } from "utils/constants";
 
 @autoinject
 export class EvaluationPrompts extends ReflectionPrompt {
@@ -17,6 +18,7 @@ export class EvaluationPrompts extends ReflectionPrompt {
 		ea: EventAggregator
 	) {
 		super(authService, ea);
+		this.event = Events.EvaluationTriggered;
 	}
 
 	async submit(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel | PaidiaEvaluatingApiModel, completed: boolean) {

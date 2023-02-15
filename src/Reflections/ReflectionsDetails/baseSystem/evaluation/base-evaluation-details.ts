@@ -67,6 +67,7 @@ export class BaseEvaluationDetails {
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 
+		this.feelingsSummary = [];
 		this.feelingsSummary = ComponentHelper.GetFeelingsSummary(this.evaluatingQuestions.courseFeelings);
 		this.feelingsSummary.push({
 			rating: this.evaluatingReflection.courseFeelings.rating,

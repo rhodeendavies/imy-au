@@ -17,7 +17,7 @@
 				<div class="percentage-sub-text">${lowText}</div>
 			</div>
 
-			<div class="percentage-bar-wrapper ${percentage == null ? 'hide-value' : ''}">
+			<div class="percentage-bar-wrapper">
 				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider"
 					change.delegate="onChangeTrigger()" />
 				<div class="slider-bar">

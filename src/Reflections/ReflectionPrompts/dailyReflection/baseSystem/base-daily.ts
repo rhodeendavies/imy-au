@@ -38,7 +38,7 @@ export class BaseDaily extends ReflectionStepParent {
 			}
 			
 			const reflection = await this.reflectionsApi.getBaseDailyReflection(this.localParent.reflectionId);
-			this.model = reflection.answers;
+			this.model = new BaseDailyApiModel();
 			this.questions = reflection.questions.strategyPlanning;
 			this.localParent.modelLoaded = true;
 		} catch (error) {

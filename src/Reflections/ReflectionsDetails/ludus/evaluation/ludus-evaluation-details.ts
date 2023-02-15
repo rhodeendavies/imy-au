@@ -80,13 +80,17 @@ export class LudusEvaluationDetails {
 
 		this.createFeelingsChart();
 		this.createStrategyChart();
+		
+		this.evaluatingQuestions.topicRatings.topics = ComponentHelper.CreateTopics(this.evaluatingReflection.topicRatings.ratings, this.evaluatingQuestions.topicRatings.topics, [])
 	}
 
 	createFeelingsData() {
-		this.evaluatingQuestions.courseFeelings.createdAt.push(this.localParent.reflection.evaluatingReflection.completedAt);
-		this.evaluatingQuestions.courseFeelings.rating.push(this.evaluatingReflection.courseFeelings.rating);
+		const courseFeelings = {
+			createdAt: this.evaluatingQuestions.courseFeelings.createdAt.concat([this.localParent.reflection.evaluatingReflection.completedAt]),
+			rating: this.evaluatingQuestions.courseFeelings.rating.concat([this.evaluatingReflection.courseFeelings.rating])
+		}
 
-		const feelingsSummary = ComponentHelper.GetFeelingsSummary(this.evaluatingQuestions.courseFeelings);
+		const feelingsSummary = ComponentHelper.GetFeelingsSummary(courseFeelings);
 		feelingsSummary.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
 
 		return {

@@ -26,7 +26,7 @@ export class PaidiaEvaluationFeelings extends ReflectionStep {
 			this.promptSections = this.appState.paidiaPrompts.evaluatingPrompts[0];
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
-			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.value));
+			this.promptSections.forEach(x => x.valid = ComponentHelper.PromptInputValid(x.value));
 		}
 		if (!ComponentHelper.NullOrEmpty(this.localParent.model.courseFeelings.emoji)) {
 			this.emoji = ComponentHelper.EmojiFromString(this.localParent.model.courseFeelings.emoji);

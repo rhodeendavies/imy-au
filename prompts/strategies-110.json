@@ -65,7 +65,7 @@
 		"strategies": [
 			{
 				"name": "Write down the things that I did not understand in each video.",
-				"description": "Keep track of things that you are unsure so that you can ask the right questions later on.",
+				"description": "Keep track of things that you are unsure of so that you can ask the right questions later on.",
 				"modifiers": [
 					{
 						"name": "Analytical",
@@ -93,7 +93,7 @@
 			},
 			{
 				"name": "Review the lecture materials (slides and/or code) after watching each video.",
-				"description": "Make use of the provided lecture material to review what the video said will help you to check your understanding.",
+				"description": "Make use of the provided lecture material to review the video content to help you check your understanding.",
 				"modifiers": [
 					{
 						"name": "Analytical",

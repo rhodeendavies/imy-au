@@ -15,18 +15,14 @@ export abstract class ReflectionStep {
 
 	nextStep() {
 		if (!this.AllowNext) return;
-		if (this.saveOnStep) {
-			this.saveStep();
-		}
-		this.stepParent.nextStep();
+		this.saveStep();
+		this.stepParent.nextStep(this.saveOnStep);
 	}
 
 	previousStep() {
 		if (!this.AllowNext) return;
-		if (this.saveOnStep) {
-			this.saveStep();
-		}
-		this.stepParent.previousStep();
+		this.saveStep();
+		this.stepParent.previousStep(this.saveOnStep);
 	}
 
 	submit() {
@@ -49,14 +45,18 @@ export abstract class ReflectionStepParent {
 
 	abstract getModel();
 
-	nextStep() {
+	nextStep(submit: boolean) {
 		this.mainParent.nextStep();
-		this.submit(false);
+		if (submit) {
+			this.submit(false);
+		}
 	}
 
-	previousStep() {
+	previousStep(submit: boolean) {
 		this.mainParent.previousStep();
-		this.submit(false);
+		if (submit) {
+			this.submit(false);
+		}
 	}
 
 	submit(completed: boolean) {
@@ -73,7 +73,7 @@ export abstract class ReflectionStepParent {
 export abstract class ReflectionPrompt extends SectionTrackerParent {
 	isOpen: boolean;
 	triggerSub: Subscription;
-	event: string;
+	event: string = "NoEvent";
 	busy: Busy = new Busy();
 	reflectionId: number;
 	modelLoaded: boolean = false;
@@ -97,7 +97,9 @@ export abstract class ReflectionPrompt extends SectionTrackerParent {
 	init() {
 		this.modelLoaded = false;
 		this.activeSection = 0;
-		this.tracker.resetTracker();
+		if (this.tracker != null) {
+			this.tracker.resetTracker();
+		}
 	}
 
 	nextStep() {

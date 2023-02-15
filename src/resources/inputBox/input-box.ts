@@ -79,6 +79,15 @@ export class InputBox {
 				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
 			} else if (this.ShowTextarea) {
 				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+			} else if (this.ShowSmall) {
+				this.valid = ComponentHelper.PromptInputValid(this.value, this.max, this.min);
+				if (!this.valid) {
+					if (this.value.length > this.max) {
+						this.error = `Maximum ${this.max} characters`;
+					} else if (this.value.length < this.min) {
+						this.error = `Minimum ${this.min} characters`;
+					}
+				}
 			} else {
 				// no validation
 				this.valid = true;
@@ -145,7 +154,7 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge || this.ShowSearch;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge || this.ShowSmall;
 	}
 
 	@computedFrom("type")
@@ -165,8 +174,8 @@ export class InputBox {
 	}
 
 	@computedFrom("type")
-	get ShowSearch(): boolean {
-		return this.type == InputTypes.search;
+	get ShowSmall(): boolean {
+		return this.type == InputTypes.small;
 	}
 
 	@computedFrom("value.length")
@@ -184,13 +193,17 @@ export class InputBox {
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
+	@computedFrom("type", "min", "max")
+	get ShowMinMax(): boolean {
+		return (this.min != null || this.max != null) && !this.ShowTextarea;
+	}
+
 	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
 	get InputClasses(): string {
 		let classes = "";
 		if (this.valid != null && !this.valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
-		if (this.ShowSearch) classes += " search-input";
 		if (this.ShowLarge) classes += " large-input";
 		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
@@ -202,5 +215,5 @@ enum InputTypes {
 	textarea = "textarea",
 	large = "large",
 	password = "password",
-	search = "search"
+	small = "small"
 }

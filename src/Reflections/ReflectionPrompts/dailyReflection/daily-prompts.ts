@@ -1,5 +1,5 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { DateTime, Duration, Interval } from "luxon";
 import { BaseDailyApiModel, LudusDailyApiModel, PaidiaDailyApiModel } from "models/reflectionsApiModels";
@@ -8,7 +8,7 @@ import { Busy } from "resources/busy/busy";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
-import { ReflectionTypes } from "utils/enums";
+import { ReflectionTypes, Systems } from "utils/enums";
 import { log } from "utils/log";
 import { ReflectionPrompt } from "../reflection-step";
 
@@ -18,7 +18,6 @@ export class DailyPrompts extends ReflectionPrompt {
 	availability: Availability;
 	timeTillNextReflection: string;
 	timer: NodeJS.Timer;
-	triggerSub: Subscription;
 	availabilityBusy: Busy = new Busy();
 	startDailyBusy: Busy = new Busy();
 	evaluatingDone: boolean = false;
@@ -130,6 +129,24 @@ export class DailyPrompts extends ReflectionPrompt {
 	@computedFrom("evaluatingDone")
 	get EvaluatingDone(): boolean {
 		return this.evaluatingDone;
+	}
+
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
+	get ShowBaseSystem(): boolean {
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
+			this.appState.dailyOpen;
+	}
+
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
+	get ShowLudus(): boolean {
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
+			this.appState.dailyOpen;
+	}
+
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
+	get ShowPaidia(): boolean {
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
+			this.appState.dailyOpen;
 	}
 }
 
