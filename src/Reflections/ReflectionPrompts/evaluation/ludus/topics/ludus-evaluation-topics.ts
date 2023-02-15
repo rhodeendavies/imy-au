@@ -10,9 +10,9 @@ import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 export class LudusEvaluationTopics extends ReflectionStep {
 
 	ratingOptions: RadioOption[] = [
-		{ name: "", value: 1 },
-		{ name: "", value: 2 },
-		{ name: "", value: 3 }
+		{ name: 1, value: "" },
+		{ name: 2, value: "" },
+		{ name: 3, value: "" }
 	];
 	oneIndex: number = 0;
 	twoIndex: number = 0;

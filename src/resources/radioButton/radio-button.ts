@@ -20,10 +20,6 @@ export class RadioButton {
 		this.id = ComponentHelper.CreateId("radioButton");
 	}
 
-	valueChanged(newValue) {
-		this.options?.forEach(x => x.selected = newValue == x.value);
-	}
-
 	nameChanged(newValue) {
 		this.options?.forEach(x => x.selected = newValue == x.name);
 	}
@@ -73,19 +69,19 @@ export class RadioButton {
 		return this.type == RadioButtonTypes.inline;
 	}
 
-	@computedFrom("hovering", "type", "value")
+	@computedFrom("hovering", "type", "name")
 	get Styles(): string {
 		let classes = "";
 		if (this.hovering) classes += " radio-options-hovering";
 		if (this.Inline || this.Stars) classes += " radio-options-inline";
 		if (this.Stars) classes += " radio-options-stars";
-		if (this.value == null) classes += " empty-stars";
+		if (this.name == null) classes += " empty-stars";
 		return classes;
 	}
 }
 
 export class RadioOption {
-	name: string;
+	name: any;
 	subText?: string;
 	popup?: string;
 	value: any;

@@ -80,6 +80,8 @@ export class LudusEvaluationDetails {
 
 		this.createFeelingsChart();
 		this.createStrategyChart();
+		
+		this.evaluatingQuestions.topicRatings.topics = ComponentHelper.CreateTopics(this.evaluatingReflection.topicRatings.ratings, this.evaluatingQuestions.topicRatings.topics, [])
 	}
 
 	createFeelingsData() {

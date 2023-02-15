@@ -10,9 +10,9 @@ import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 export class BaseEvaluationTopics extends ReflectionStep {
 
 	ratingOptions: RadioOption[] = [
-		{ name: "", value: BaseTopicRating.Mastered },
-		{ name: "", value: BaseTopicRating.SortOfMastered },
-		{ name: "", value: BaseTopicRating.NotYetMastered }
+		{ name: BaseTopicRating.Mastered, value: "" },
+		{ name: BaseTopicRating.SortOfMastered, value: "" },
+		{ name: BaseTopicRating.NotYetMastered, value: "" }
 	];
 
 	constructor(private localParent: BaseEvaluation, private appState: ApplicationState) {

@@ -9,7 +9,7 @@
 			<div class="evaluation-topics">
 				<div class="evaluation-topic" repeat.for="topic of localParent.questions.topicRatings.topics">
 					<div>${topic.name}</div>
-					<radio-button type="stars" value.bind="topic.rating"
+					<radio-button type="stars" name.bind="topic.rating"
 						options.bind="topic.options" on-change.call="getPhrase(topic)">
 					</radio-button>
 					<div class="topic-phrase">${topic.phrase}</div>
@@ -23,7 +23,7 @@
 
 			<div class="summary-with-icon ludus-summary-icon" repeat.for="lesson of localParent.questions.lessonRatings">
 				<div class="ludus-lesson-rating">
-					<span class="icon ${(i + 1) == lesson.rating ? '' : 'ludus-active-rating'}" repeat.for="i of 3">star</span>
+					<span class="icon ${(i + 1) == lesson.rating ? 'ludus-active-rating' : ''}" repeat.for="i of 3">star</span>
 				</div>
 				<div class="summary-text">
 					<div class="summary-heading">${lesson.name}</div>

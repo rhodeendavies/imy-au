@@ -400,15 +400,16 @@ export class ComponentHelper {
 
 	static CreateTopics(topicRatings: TopicRating[], topicNames: QuestionTopic[], ratingOptions: RadioOption[]): QuestionTopic[] {
 		return topicNames.map(x => {
+			const rating = topicRatings?.find(y => y.id == x.id)?.rating;
 			return {
 				id: x.id,
 				name: x.name,
-				rating: topicRatings?.find(y => y.id == x.id)?.rating,
+				rating: rating,
 				options: ratingOptions.map(y => {
 					return {
-						name: "",
-						value: y.value,
-						selected: y.value == x.rating
+						name: y.name,
+						value: "",
+						selected: y.name == rating
 					}
 				})
 			}
