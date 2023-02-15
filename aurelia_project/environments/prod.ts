@@ -2,7 +2,7 @@ export default {
 	debug: false,
 	testing: false,
 	api: {
-		baseUrl: "https://api.flipquest.co.za",
+		baseUrl: "127.0.0.1/",
 		apiUrl: "/",
 		giphyUrl: "https://api.giphy.com/v1/gifs",
 		giphyApiKey: "u5Mj5yK4O9eGeYNYn2nolaFQahnwPnYt",
