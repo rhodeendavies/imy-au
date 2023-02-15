@@ -54,6 +54,10 @@ export class ComponentHelper {
 		return !(/[{}]/.test(value));
 	}
 
+	static PromptInputValid(value: string, max: number = 15, min: number = 3): boolean {
+		return !(/[{}]/.test(value)) && value.length <= max && value.length >= min;
+	}
+
 	static LoremIpsum(): string {
 		return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fringilla sem dolor, et varius lorem egestas quis. Aenean auctor quam quam, ac porta leo suscipit ac. Donec malesuada dignissim feugiat. Aenean lobortis ex eu ante mollis dictum. Fusce dictum dignissim tristique. Vestibulum blandit rutrum elit vel bibendum. Aliquam vestibulum diam sit amet laoreet molestie. Maecenas et commodo dui, nec tempor libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In varius turpis at tortor ultrices, et porta erat blandit. Vestibulum aliquet nibh nisi, nec accumsan sapien efficitur ut. Mauris tristique nec eros at semper. Ut eget dui diam. ";
 	}

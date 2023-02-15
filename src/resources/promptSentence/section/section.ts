@@ -13,7 +13,7 @@ export class Section {
 		ShuffleWordAnimation.colourChange,
 		ShuffleWordAnimation.shadow,
 		ShuffleWordAnimation.wiggle
-	]
+	];
 
 	constructor(private localParent: PromptSentence) {}
 
@@ -29,9 +29,9 @@ export class Section {
 		}, 2000);
 	}
 
-	getNextWord(section: PromptSection) {
-		this.localParent.triggerIncreaseInteraction(section.wordIndicator);
-		section.value = ComponentHelper.GetWord(section);
+	getNextWord() {
+		this.localParent.triggerIncreaseInteraction(this.section.wordIndicator);
+		this.section.value = ComponentHelper.GetWord(this.section);
 	}
 
 	@computedFrom("section.type")

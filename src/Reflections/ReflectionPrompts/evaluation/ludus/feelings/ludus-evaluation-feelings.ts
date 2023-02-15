@@ -32,7 +32,7 @@ export class LudusEvaluationFeelings extends ReflectionStep {
 			this.getNextPrompt();
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.feelingsLearningEffect.response);
-			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.value));
+			this.promptSections.forEach(x => x.valid = ComponentHelper.PromptInputValid(x.value));
 		}
 		this.createChart();
 	}

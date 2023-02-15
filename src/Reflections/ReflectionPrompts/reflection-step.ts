@@ -15,17 +15,13 @@ export abstract class ReflectionStep {
 
 	nextStep() {
 		if (!this.AllowNext) return;
-		if (this.saveOnStep) {
-			this.saveStep();
-		}
+		this.saveStep();
 		this.stepParent.nextStep(this.saveOnStep);
 	}
 
 	previousStep() {
 		if (!this.AllowNext) return;
-		if (this.saveOnStep) {
-			this.saveStep();
-		}
+		this.saveStep();
 		this.stepParent.previousStep(this.saveOnStep);
 	}
 

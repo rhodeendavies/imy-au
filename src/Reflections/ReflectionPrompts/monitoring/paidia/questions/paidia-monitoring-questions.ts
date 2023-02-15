@@ -21,7 +21,7 @@ export class PaidiaMonitoringQuestions extends ReflectionStep {
 			this.promptSections = this.appState.paidiaPrompts.monitoringPrompts[0];
 		} else {
 			this.promptSections = ComponentHelper.GeneratePromptSections(this.localParent.model.contentConfusion.response);
-			this.promptSections.forEach(x => x.valid = ComponentHelper.InputValid(x.value));
+			this.promptSections.forEach(x => x.valid = ComponentHelper.PromptInputValid(x.value));
 		}
 	}
 
