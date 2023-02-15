@@ -48,7 +48,10 @@
 	</check-mark>
 
 	<div class="btn-row">
-		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowSubmit">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowNext">
 			Finish
 		</button>
 	</div>

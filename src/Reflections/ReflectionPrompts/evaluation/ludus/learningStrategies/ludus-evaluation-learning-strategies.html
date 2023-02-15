@@ -40,8 +40,11 @@
 		</div>
 	</div>
 
-	<div class="mt-30">
-		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowSubmit">
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
 			Next
 		</button>
 	</div>

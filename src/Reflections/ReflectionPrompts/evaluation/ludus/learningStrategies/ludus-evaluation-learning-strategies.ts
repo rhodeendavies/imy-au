@@ -8,11 +8,12 @@ import { log } from "utils/log";
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
 import { StrategyCategories } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
 @autoinject
-export class LudusEvaluationLearningStrategies {
+export class LudusEvaluationLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -24,7 +25,10 @@ export class LudusEvaluationLearningStrategies {
 	chart: Chart;
 	finalScore: number;
 
-	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		try {
@@ -64,8 +68,7 @@ export class LudusEvaluationLearningStrategies {
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
 	}
 
-	nextStep() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.localParent.model.strategyRating = {
 			learningRating: this.learningStrategy.rating,
 			reviewingRating: this.reviewingStrategy.rating,
@@ -73,7 +76,6 @@ export class LudusEvaluationLearningStrategies {
 			extendingRating: this.extendingStrategy.rating
 		}
 		this.localParent.model.components.calculated = this.components;
-		this.localParent.nextStep();
 	}
 
 	updateComponents() {
@@ -148,7 +150,7 @@ export class LudusEvaluationLearningStrategies {
 	}
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		this.updateComponents();
 		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}

@@ -5,16 +5,20 @@ import { ComponentHelper } from "utils/componentHelper";
 import { PromptType } from "utils/enums";
 import { PaidiaEvaluation } from "../paidia-evaluation";
 import { PaidiaFeelingsSummary } from "models/reflectionsResponses";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaEvaluationFeelings {
+export class PaidiaEvaluationFeelings extends ReflectionStep {
 
 	valid: boolean = true;
 	emoji;
 	promptSections: PromptSection[];
 	feelingsSummary: PaidiaFeelingsSummary[];
 
-	constructor(private localParent: PaidiaEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: PaidiaEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	async attached() {
 		this.feelingsSummary = ComponentHelper.GetPaidiaFeelingsSummary(this.localParent.questions.courseFeelings)
@@ -29,11 +33,9 @@ export class PaidiaEvaluationFeelings {
 		}
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.courseFeelings.emoji = ComponentHelper.EmojiToString(this.emoji);
 		this.localParent.model.feelingsLearningEffect.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
-		this.localParent.nextStep();
 	}
 
 	increaseInteraction(identifier: string) {

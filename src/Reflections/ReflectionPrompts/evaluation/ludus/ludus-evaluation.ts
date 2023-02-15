@@ -1,5 +1,5 @@
 import { ApplicationState } from "applicationState";
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { LudusEvaluatingApiModel } from "models/reflectionsApiModels";
 import { LudusEvaluatingQuestions } from "models/reflectionsResponses";
 import { AuthenticationService } from "services/authenticationService";
@@ -7,9 +7,10 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { EvaluationPrompts } from "../evaluation-prompts";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusEvaluation {
+export class LudusEvaluation extends ReflectionStepParent {
 	model: LudusEvaluatingApiModel;
 	questions: LudusEvaluatingQuestions;
 
@@ -17,24 +18,12 @@ export class LudusEvaluation {
 		private localParent: EvaluationPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService) { }
-
-	attached() {
-		this.localParent.modelLoaded = false;
-		this.getEvaluating();
+		private reflectionsApi: ReflectionsService) {
+		super();
+		this.mainParent = localParent;
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-		this.submitEvaluation(false);
-	}
-
-	submitEvaluation(completed: boolean = true) {
-		this.model.completed = completed;
-		this.localParent.submitEvaluation(this.model, completed);
-	}
-
-	async getEvaluating() {
+	async getModel() {
 		try {
 			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSection();
@@ -58,10 +47,5 @@ export class LudusEvaluation {
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	@computedFrom("localParent.Course")
-	get Course(): string {
-		return this.localParent.Course;
 	}
 }

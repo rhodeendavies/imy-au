@@ -4,9 +4,10 @@ import { RadioOption } from "resources/radioButton/radio-button";
 import { LudusEvaluation } from "../ludus-evaluation";
 import { ComponentHelper } from "utils/componentHelper";
 import { QuestionTopic } from "models/reflectionsResponses";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusEvaluationTopics {
+export class LudusEvaluationTopics extends ReflectionStep {
 
 	ratingOptions: RadioOption[] = [
 		{ name: "", value: 1 },
@@ -17,7 +18,10 @@ export class LudusEvaluationTopics {
 	twoIndex: number = 0;
 	threeIndex: number = 0;
 
-	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -66,15 +70,13 @@ export class LudusEvaluationTopics {
 		topic.phrase = phrase;
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.topicRatings.ratings = this.localParent.questions.topicRatings.topics.map(x => {
 			return {
 				id: x.id,
 				rating: x.rating
 			};
 		})
-		this.localParent.nextStep();
 	}
 
 	get AllowNext(): boolean {

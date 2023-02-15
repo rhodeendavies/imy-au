@@ -6,9 +6,10 @@ import { PaidiaEvaluation } from "../paidia-evaluation";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import { StrategyCategories } from "utils/enums";
 import environment from "environment";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaEvaluationLearningStrategies {
+export class PaidiaEvaluationLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -19,7 +20,10 @@ export class PaidiaEvaluationLearningStrategies {
 	canvasModel: PaidiaCanvasModel;
 	interactions: number = 0;
 
-	constructor(private localParent: PaidiaEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: PaidiaEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -47,7 +51,7 @@ export class PaidiaEvaluationLearningStrategies {
 			this.localParent.model.strategyRating.extendingRating
 		);
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
-		
+
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strategyRating.canvas)) {
 			this.canvasModel = JSON.parse(this.localParent.questions.strategyPlanning[1].canvas);
 		} else {
@@ -128,8 +132,7 @@ export class PaidiaEvaluationLearningStrategies {
 		}, 500);
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.canvasModel.canvas = this.canvas.saveCanvas();
 		this.localParent.model.strategyRating = {
 			learningRating: ComponentHelper.EmojiToString(this.learningStrategy.emoji),
@@ -139,7 +142,6 @@ export class PaidiaEvaluationLearningStrategies {
 			canvas: JSON.stringify(this.canvasModel),
 			interactions: this.interactions
 		}
-		this.localParent.nextStep();
 	}
 
 	@computedFrom("learningStrategy.emoji", "reviewingStrategy.emoji", "practicingStrategy.emoji", "extendingStrategy.emoji")

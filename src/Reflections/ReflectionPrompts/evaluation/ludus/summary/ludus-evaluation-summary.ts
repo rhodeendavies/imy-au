@@ -3,9 +3,10 @@ import { LudusEvaluation } from "../ludus-evaluation";
 import { ApplicationState } from "applicationState";
 import { Emotion, EmotionModifier } from "models/prompts";
 import { LudusStrategy } from "models/reflectionsApiModels";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusEvaluationSummary {
+export class LudusEvaluationSummary extends ReflectionStep {
 
 	radius: number = 90;
 	textRadius: number = 75;
@@ -20,7 +21,10 @@ export class LudusEvaluationSummary {
 	currentSegment: Segment;
 	selectedModifiers: EmotionModifier[];
 
-	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	async attached() {
 		this.currentRotation = 0;
@@ -65,8 +69,7 @@ export class LudusEvaluationSummary {
 
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.localParent.model.learningExperience.enjoyment = this.getEmotionForModel(this.appState.emotionsStrings.enjoyment);
 		this.localParent.model.learningExperience.hope = this.getEmotionForModel(this.appState.emotionsStrings.hope);
 		this.localParent.model.learningExperience.pride = this.getEmotionForModel(this.appState.emotionsStrings.pride);
@@ -75,7 +78,6 @@ export class LudusEvaluationSummary {
 		this.localParent.model.learningExperience.shame = this.getEmotionForModel(this.appState.emotionsStrings.shame);
 		this.localParent.model.learningExperience.hopelessness = this.getEmotionForModel(this.appState.emotionsStrings.hopelessness);
 		this.localParent.model.learningExperience.boredom = this.getEmotionForModel(this.appState.emotionsStrings.boredom);
-		this.localParent.submitEvaluation();
 	}
 
 	getEmotionForModel(emotion: Emotion): LudusStrategy {
@@ -161,7 +163,7 @@ export class LudusEvaluationSummary {
 	}
 
 	@computedFrom("selectedModifiers.length")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.selectedModifiers != null && this.selectedModifiers.length > 0 && this.selectedModifiers.length <= 4;
 	}
 }

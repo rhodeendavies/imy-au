@@ -70,8 +70,11 @@
 		</div>
 	</div>
 
-	<div class="btn-row mt-0">
-		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowSubmit">
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowNext">
 			Finish
 		</button>
 		<div if.bind="selectedModifiers.length > 4" class="body-small ml-20">

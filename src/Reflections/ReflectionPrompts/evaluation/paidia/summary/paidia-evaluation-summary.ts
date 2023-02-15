@@ -5,9 +5,10 @@ import data from "emoji-picker-element-data/en/emojibase/data.json";
 import { PaidiaSummaryType } from "utils/enums";
 import { Colours, Events } from "utils/constants";
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaEvaluationSummary {
+export class PaidiaEvaluationSummary extends ReflectionStep {
 
 	emojis: EmojiDropdown[];
 	types: PaidiaSummaryType[] = [
@@ -29,6 +30,8 @@ export class PaidiaEvaluationSummary {
 	scrollSub: Subscription;
 
 	constructor(private localParent: PaidiaEvaluation, private ea: EventAggregator) {
+		super();
+		this.stepParent = localParent;
 		this.id = ComponentHelper.CreateId("summaryPicker");
 		this.pickerId = ComponentHelper.CreateId("summaryPickerBox");
 	}
@@ -118,13 +121,11 @@ export class PaidiaEvaluationSummary {
 		this.localParent.model.chosenEmojis = this.chosenEmojis;
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.localParent.model.learningExperience.emoji = ComponentHelper.EmojiToString(this.localParent.model.learningExperience.emoji);
-		this.localParent.submitEvaluation();
 	}
 
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.chosenEmojis != null && this.chosenEmojis.length > 0 &&
 			(!this.chosenEmojis.some(x => x.type == PaidiaSummaryType.colour)
 				|| (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.color)

@@ -1,53 +1,25 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseEvaluatingApiModel, LudusEvaluatingApiModel, PaidiaEvaluatingApiModel } from "models/reflectionsApiModels";
-import { Busy } from "resources/busy/busy";
-import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
-import { Events } from "utils/constants";
-import { ReflectionTypes, Systems } from "utils/enums";
+import { ReflectionTypes } from "utils/enums";
+import { ReflectionPrompt } from "../reflection-step";
 
 @autoinject
-export class EvaluationPrompts extends SectionTrackerParent {
-
-	reflectionId: number;
-	busy: Busy = new Busy();
-	evaluationOpen: boolean = false;
-	modelLoaded: boolean = false;
-	triggerSub: Subscription;
+export class EvaluationPrompts extends ReflectionPrompt {
 
 	constructor(
 		private appState: ApplicationState,
-		private authService: AuthenticationService,
+		authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator
+		ea: EventAggregator
 	) {
-		super();
+		super(authService, ea);
 	}
 
-	attached() {
-		this.init();
-		this.triggerSub = this.ea.subscribe(Events.EvaluationTriggered, () => this.init());
-	}
-
-	init() {
-		this.modelLoaded = false;
-		this.activeSection = EvaluationSections.Overview;
-		this.tracker.resetTracker();
-	}
-
-	detached() {
-		this.triggerSub.dispose();
-	}
-
-	nextStep() {
-		this.tracker.moveForward();
-		this.evaluationOpen = true;
-	}
-
-	async submitEvaluation(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel | PaidiaEvaluatingApiModel, completed: boolean) {
+	async submit(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel | PaidiaEvaluatingApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Evaluating, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
@@ -55,13 +27,8 @@ export class EvaluationPrompts extends SectionTrackerParent {
 		}
 		if (completed) {
 			this.appState.closeEvaluation();
-			this.evaluationOpen = false;
+			this.isOpen = false;
 		}
-	}
-
-	@computedFrom("activeSection")
-	get ShowOverview(): boolean {
-		return this.activeSection == EvaluationSections.Overview;
 	}
 
 	@computedFrom("activeSection", "busy.active", "modelLoaded")
@@ -82,27 +49,6 @@ export class EvaluationPrompts extends SectionTrackerParent {
 	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowSummary(): boolean {
 		return this.activeSection == EvaluationSections.Summary && !this.busy.active && this.modelLoaded;
-	}
-
-	@computedFrom("authService.System", "evaluationOpen")
-	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base && this.evaluationOpen;
-	}
-
-	@computedFrom("authService.System", "evaluationOpen")
-	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus && this.evaluationOpen;
-	}
-
-	@computedFrom("authService.System", "evaluationOpen")
-	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia && this.evaluationOpen;
-	}
-
-	
-	@computedFrom("authService.Course")
-	get Course(): string {
-		return this.authService.Course;
 	}
 }
 

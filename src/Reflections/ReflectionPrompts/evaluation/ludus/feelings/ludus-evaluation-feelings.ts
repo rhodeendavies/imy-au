@@ -7,18 +7,22 @@ import { CategoryScale, Chart, ChartType, LineController, LineElement, LinearSca
 import { Colours } from "utils/constants";
 import { DateHelper } from "utils/dateHelper";
 import { PromptType } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 Chart.register(LineController, Tooltip, CategoryScale, LinearScale, PointElement, LineElement);
 
 @autoinject
-export class LudusEvaluationFeelings {
+export class LudusEvaluationFeelings extends ReflectionStep {
 
 	currentIndex: number;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 	chart: Chart;
 
-	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: LudusEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	async attached() {
 		this.currentIndex = -1;
@@ -33,10 +37,8 @@ export class LudusEvaluationFeelings {
 		this.createChart();
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.feelingsLearningEffect.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
-		this.localParent.nextStep();
 	}
 
 	getNewPrompt() {

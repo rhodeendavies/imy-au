@@ -7,9 +7,10 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { BaseEvaluatingQuestions } from "models/reflectionsResponses";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseEvaluation {
+export class BaseEvaluation extends ReflectionStepParent {
 	model: BaseEvaluatingApiModel;
 	questions: BaseEvaluatingQuestions;
 
@@ -17,24 +18,12 @@ export class BaseEvaluation {
 		private localParent: EvaluationPrompts,
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
-		private reflectionsApi: ReflectionsService) { }
-
-	attached() {
-		this.localParent.modelLoaded = false;
-		this.getEvaluating();
+		private reflectionsApi: ReflectionsService) {
+		super();
+		this.mainParent = localParent;
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-		this.submitEvaluation(false);
-	}
-
-	submitEvaluation(completed: boolean = true) {
-		this.model.completed = completed;
-		this.localParent.submitEvaluation(this.model, completed);
-	}
-
-	async getEvaluating() {
+	async getModel() {
 		try {
 			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSection();
@@ -58,10 +47,5 @@ export class BaseEvaluation {
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	@computedFrom("localParent.Course")
-	get Course(): string {
-		return this.localParent.Course;
 	}
 }

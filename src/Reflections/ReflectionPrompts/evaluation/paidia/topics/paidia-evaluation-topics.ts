@@ -1,16 +1,19 @@
-import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
 import { PaidiaEvaluation } from "../paidia-evaluation";
 import { PaidiaTopic } from "models/reflectionsResponses";
 import { Colours } from "utils/constants";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaEvaluationTopics {
+export class PaidiaEvaluationTopics extends ReflectionStep {
 
 	topics: PaidiaTopic[];
 
-	constructor(private localParent: PaidiaEvaluation) { }
+	constructor(private localParent: PaidiaEvaluation) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -24,15 +27,13 @@ export class PaidiaEvaluationTopics {
 		this.topics = ComponentHelper.CreatePaidiaTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics)
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.topicRatings.ratings = this.topics.map(x => {
 			return {
 				id: x.id,
 				color: x.colour
 			};
 		});
-		this.localParent.nextStep();
 	}
 
 	get AllowNext(): boolean {

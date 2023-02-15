@@ -12,8 +12,11 @@
 		</check-mark>
 	</div>
 
-	<div class="mt-30">
-		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!valid">
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowNext">
 			Finish
 		</button>
 	</div>

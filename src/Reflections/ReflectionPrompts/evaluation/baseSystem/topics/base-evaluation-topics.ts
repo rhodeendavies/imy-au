@@ -4,9 +4,10 @@ import { RadioOption } from "resources/radioButton/radio-button";
 import { BaseTopicRating } from "utils/enums";
 import { BaseEvaluation } from "../base-evaluation";
 import { ComponentHelper } from "utils/componentHelper";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseEvaluationTopics {
+export class BaseEvaluationTopics extends ReflectionStep {
 
 	ratingOptions: RadioOption[] = [
 		{ name: "", value: BaseTopicRating.Mastered },
@@ -14,7 +15,10 @@ export class BaseEvaluationTopics {
 		{ name: "", value: BaseTopicRating.NotYetMastered }
 	];
 
-	constructor(private localParent: BaseEvaluation, private appState: ApplicationState) { }
+	constructor(private localParent: BaseEvaluation, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -28,15 +32,13 @@ export class BaseEvaluationTopics {
 		this.localParent.questions.topicRatings.topics = ComponentHelper.CreateTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics, this.ratingOptions)
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.topicRatings.ratings = this.localParent.questions.topicRatings.topics.map(x => {
 			return {
 				id: x.id,
 				rating: x.rating
 			};
 		})
-		this.localParent.nextStep();
 	}
 
 	get AllowNext(): boolean {
