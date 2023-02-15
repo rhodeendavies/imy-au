@@ -14,23 +14,12 @@
 				width: 250px;
 				display: flex;
 				align-items: center;
-				cursor: pointer;
-
-				&.section-disabled-true {
-					pointer-events: none;
-				}
-
-				&:hover {
-					.tracker-section {
-						background-color: $SeaGreen60;
-						height: 10px;
-					}
-				}
 
 				.tracker-section {
 					height: 8px;
 					min-width: 250px;
 					border-radius: 0;
+					pointer-events: none;
 				}
 			}
 		}
