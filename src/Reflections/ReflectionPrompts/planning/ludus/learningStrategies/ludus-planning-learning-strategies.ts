@@ -8,11 +8,12 @@ import { Chart, DoughnutController, ArcElement, Tooltip, Legend, ChartType } fro
 import { ApplicationState } from "applicationState";
 import { Colours } from "utils/constants";
 import { StrategyCategories } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
 @autoinject
-export class LudusPlanningLearningStrategies {
+export class LudusPlanningLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -24,7 +25,10 @@ export class LudusPlanningLearningStrategies {
 	chartUpdated: boolean = false;
 	strategies: Strategy[];
 
-	constructor(private localParent: LudusPlanning, private appState: ApplicationState) { }
+	constructor(private localParent: LudusPlanning, private appState: ApplicationState) { 
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		try {
@@ -76,8 +80,7 @@ export class LudusPlanningLearningStrategies {
 		}
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.localParent.model.strategyPlanning = {
 			learningStrategy: ComponentHelper.CreateLudusModifier(this.learningStrategy),
 			reviewingStrategy: ComponentHelper.CreateLudusModifier(this.reviewingStrategy),
@@ -85,7 +88,6 @@ export class LudusPlanningLearningStrategies {
 			extendingStrategy: ComponentHelper.CreateLudusModifier(this.extendingStrategy),
 		}
 		this.localParent.model.components.calculated = this.components;
-		this.localParent.submitPlanning();
 	}
 
 	createData(emptyChart: boolean) {
@@ -171,7 +173,7 @@ export class LudusPlanningLearningStrategies {
 	}
 
 	@computedFrom("learningStrategy.strategy", "reviewingStrategy.strategy", "practicingStrategy.strategy", "extendingStrategy.strategy")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
 	}
 }

@@ -4,15 +4,19 @@ import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
 import { PromptSection } from "models/prompts";
 import { PromptType } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusPlanningStrengths {
+export class LudusPlanningStrengths extends ReflectionStep {
 
 	currentIndex: number;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 
-	constructor(private localParent: LudusPlanning, private appState: ApplicationState) { }
+	constructor(private localParent: LudusPlanning, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	async attached() {
 		this.currentIndex = -1;
@@ -26,10 +30,8 @@ export class LudusPlanningStrengths {
 		}
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.strengthOptimization.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
-		this.localParent.nextStep();
 	}
 
 	getNewPrompt() {
@@ -48,7 +50,7 @@ export class LudusPlanningStrengths {
 	}
 
 	get AllowNext() {
-		return this.promptSections != null && 
+		return this.promptSections != null &&
 			this.promptSections.every(x => x?.type == PromptType.Text || (x?.value?.length >= 3 && x?.valid));
 	}
 }

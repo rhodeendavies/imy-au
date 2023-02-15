@@ -1,15 +1,23 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { BasePlanning } from "../base-planning";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BasePlanningStrengths {
+export class BasePlanningStrengths extends ReflectionStep {
 
 	valid: boolean;
 
-	constructor(private localParent: BasePlanning) {}
+	constructor(private localParent: BasePlanning) {
+		super();
+		this.stepParent = localParent;
+	}
 
-	nextStep() {
-		if (!this.valid) return;
-		this.localParent.nextStep();
+	saveStep() {
+		
+	}
+
+	@computedFrom("valid")
+	get AllowNext(): boolean {
+		return this.valid;
 	}
 }

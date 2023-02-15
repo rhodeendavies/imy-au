@@ -4,13 +4,17 @@ import { PromptSection } from "models/prompts";
 import { ComponentHelper } from "utils/componentHelper";
 import { ApplicationState } from "applicationState";
 import { PromptType } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaPlanningStrengths {
+export class PaidiaPlanningStrengths extends ReflectionStep {
 	
 	promptSections: PromptSection[];
 
-	constructor(private localParent: PaidiaPlanning, private appState: ApplicationState) {}
+	constructor(private localParent: PaidiaPlanning, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.strengthOptimization.response)) {
@@ -21,10 +25,8 @@ export class PaidiaPlanningStrengths {
 		}
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.strengthOptimization.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
-		this.localParent.nextStep();
 	}
 
 	increaseInteraction(identifier: string) {

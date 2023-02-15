@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { AuthenticationService } from "services/authenticationService";
 import { PlanningPrompts } from "../planning-prompts";
 import { BasePlanningApiModel } from "models/reflectionsApiModels";
@@ -6,9 +6,10 @@ import { ReflectionTypes } from "utils/enums";
 import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BasePlanning {
+export class BasePlanning extends ReflectionStepParent {
 
 	model: BasePlanningApiModel;
 
@@ -17,24 +18,12 @@ export class BasePlanning {
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
-	) { }
-
-	attached() {
-		this.localParent.modelLoaded = false;
-		this.getPlanning();
+	) { 
+		super();
+		this.mainParent = localParent;
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-		this.submitPlanning(false);
-	}
-
-	submitPlanning(completed: boolean = true) {
-		this.model.completed = completed;
-		this.localParent.submitPlanning(this.model, completed);
-	}
-
-	async getPlanning() {
+	async getModel() {
 		try {
 			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSection();
@@ -57,10 +46,5 @@ export class BasePlanning {
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	@computedFrom("localParent.Course")
-	get Course(): string {
-		return this.localParent.Course;
 	}
 }

@@ -6,10 +6,10 @@ import environment from "environment";
 import { StrategyCategories } from "utils/enums";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import { ApplicationState } from "applicationState";
-import { log } from "utils/log";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaPlanningLearningStrategies {
+export class PaidiaPlanningLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -20,7 +20,10 @@ export class PaidiaPlanningLearningStrategies {
 	canvasModel: PaidiaCanvasModel;
 	interactions: number = 0;
 
-	constructor(private localParent: PaidiaPlanning, private appState: ApplicationState) { }
+	constructor(private localParent: PaidiaPlanning, private appState: ApplicationState) { 
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -149,8 +152,7 @@ export class PaidiaPlanningLearningStrategies {
 		return ComponentHelper.RandomWholeNumber(1, environment.numOfCutOutImages);
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.canvasModel.canvas = this.canvas.saveCanvas();
 		this.localParent.model.strategyPlanning = {
 			learningStrategy: this.learningStrategy.strategy,
@@ -160,13 +162,10 @@ export class PaidiaPlanningLearningStrategies {
 			canvas: JSON.stringify(this.canvasModel),
 			interactions: this.interactions
 		}
-		this.localParent.submitPlanning();
 	}
 
-
-
 	@computedFrom("learningStrategy.strategy", "reviewingStrategy.strategy", "practicingStrategy.strategy", "extendingStrategy.strategy")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
 	}
 }

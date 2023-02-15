@@ -1,54 +1,27 @@
 import { ApplicationState } from "applicationState";
-import { Subscription, EventAggregator } from "aurelia-event-aggregator";
+import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { BasePlanningApiModel, LudusPlanningApiModel, PaidiaPlanningApiModel } from "models/reflectionsApiModels";
-import { Busy } from "resources/busy/busy";
-import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
+import { ReflectionApiModel } from "models/reflectionsApiModels";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
-import { ReflectionTypes, Systems } from "utils/enums";
+import { ReflectionTypes } from "utils/enums";
+import { ReflectionPrompt } from "../reflection-step";
 
 @autoinject
-export class PlanningPrompts extends SectionTrackerParent {
-
-	weekTopic: string = "";
-	reflectionId: number;
-	busy: Busy = new Busy();
-	planningOpen: boolean = false;
-	modelLoaded: boolean = false;
-	triggerSub: Subscription;
+export class PlanningPrompts extends ReflectionPrompt {
 
 	constructor(
 		private appState: ApplicationState,
-		private authService: AuthenticationService,
 		private reflectionsApi: ReflectionsService,
-		private ea: EventAggregator
+		authService: AuthenticationService,
+		ea: EventAggregator
 	) {
-		super();
-	}
-
-	attached() {
-		this.init();
-		this.triggerSub = this.ea.subscribe(Events.PlanningTriggered, () => this.init());
+		super(authService, ea);
+		this.event = Events.PlanningTriggered;
 	}
 	
-	init() {
-		this.modelLoaded = false;
-		this.activeSection = PlanningSections.Overview;
-		this.tracker.resetTracker();
-	}
-
-	detached() {
-		this.triggerSub.dispose();
-	}
-
-	nextStep(): void {
-		this.tracker.moveForward();
-		this.planningOpen = true;
-	}
-
-	async submitPlanning(model: BasePlanningApiModel | LudusPlanningApiModel | PaidiaPlanningApiModel, completed: boolean) {
+	async submit(model: ReflectionApiModel, completed: boolean) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Planning, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
@@ -56,13 +29,8 @@ export class PlanningPrompts extends SectionTrackerParent {
 		}
 		if (completed) {
 			this.appState.closePlanning();
-			this.planningOpen = false;
+			this.isOpen = false;
 		}
-	}
-
-	@computedFrom("activeSection")
-	get ShowOverview(): boolean {
-		return this.activeSection == PlanningSections.Overview;
 	}
 
 	@computedFrom("activeSection", "busy.active", "modelLoaded")
@@ -78,26 +46,6 @@ export class PlanningPrompts extends SectionTrackerParent {
 	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
 		return this.activeSection == PlanningSections.LearningStrategies && !this.busy.active && this.modelLoaded;
-	}
-
-	@computedFrom("authService.System", "planningOpen")
-	get ShowBaseSystem(): boolean {
-		return this.authService.System == Systems.Base && this.planningOpen;
-	}
-
-	@computedFrom("authService.System", "planningOpen")
-	get ShowLudus(): boolean {
-		return this.authService.System == Systems.Ludus && this.planningOpen;
-	}
-
-	@computedFrom("authService.System", "planningOpen")
-	get ShowPaidia(): boolean {
-		return this.authService.System == Systems.Paidia && this.planningOpen;
-	}
-
-	@computedFrom("authService.Course")
-	get Course(): string {
-		return this.authService.Course;
 	}
 }
 
