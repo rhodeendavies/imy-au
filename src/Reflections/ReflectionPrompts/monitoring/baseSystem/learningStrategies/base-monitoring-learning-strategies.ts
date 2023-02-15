@@ -4,9 +4,10 @@ import { Strategy } from "models/reflections";
 import { ComponentHelper } from "utils/componentHelper";
 import { ApplicationState } from "applicationState";
 import { StrategyCategories } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseMonitoringLearningStrategies {
+export class BaseMonitoringLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -14,7 +15,10 @@ export class BaseMonitoringLearningStrategies {
 	extendingStrategy: Strategy;
 	strategies: Strategy[];
 
-	constructor(private localParent: BaseMonitoring, private appState: ApplicationState) { }
+	constructor(private localParent: BaseMonitoring, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -61,18 +65,16 @@ export class BaseMonitoringLearningStrategies {
 		}
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.localParent.model.strategyRating = {
 			learningRating: this.learningStrategy.rating,
 			reviewingRating: this.reviewingStrategy.rating,
 			practicingRating: this.practicingStrategy.rating,
 			extendingRating: this.extendingStrategy.rating
 		}
-		this.localParent.submitMonitoring();
 	}
 
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => x?.rating != null && x?.valid);
 	}
 }

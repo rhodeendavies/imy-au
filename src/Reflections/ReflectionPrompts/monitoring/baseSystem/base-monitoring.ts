@@ -1,4 +1,4 @@
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { AuthenticationService } from "services/authenticationService";
 import { MonitoringPrompts } from "../monitoring-prompts";
 import { ReflectionTypes } from "utils/enums";
@@ -6,9 +6,10 @@ import { ApplicationState } from "applicationState";
 import { ReflectionsService } from "services/reflectionsService";
 import { BaseMonitoringApiModel, StrategyPlanning } from "models/reflectionsApiModels";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseMonitoring {
+export class BaseMonitoring extends ReflectionStepParent {
 
 	model: BaseMonitoringApiModel;
 	questions: StrategyPlanning;
@@ -18,24 +19,12 @@ export class BaseMonitoring {
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
-	) { }
-
-	attached() {
-		this.localParent.modelLoaded = false;
-		this.getMonitoring();
+	) {
+		super();
+		this.mainParent = localParent;
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-		this.submitMonitoring(false);
-	}
-
-	submitMonitoring(completed: boolean = true) {
-		this.model.completed = completed;
-		this.localParent.submitMonitoring(this.model, completed);
-	}
-
-	async getMonitoring() {
+	async getModel() {
 		try {
 			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSection();
@@ -59,10 +48,5 @@ export class BaseMonitoring {
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	@computedFrom("localParent.Course")
-	get Course(): string {
-		return this.localParent.Course;
 	}
 }

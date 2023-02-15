@@ -1,5 +1,5 @@
 import { ApplicationState } from "applicationState";
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { PaidiaMonitoringApiModel } from "models/reflectionsApiModels";
 import { PaidiaMonitoringQuestions } from "models/reflectionsResponses";
 import { AuthenticationService } from "services/authenticationService";
@@ -7,9 +7,10 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { MonitoringPrompts } from "../monitoring-prompts";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaMonitoring {
+export class PaidiaMonitoring extends ReflectionStepParent {
 	model: PaidiaMonitoringApiModel;
 	questions: PaidiaMonitoringQuestions;
 
@@ -18,24 +19,12 @@ export class PaidiaMonitoring {
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
-	) { }
-
-	attached() {
-		this.localParent.modelLoaded = false;
-		this.getMonitoring();
+	) { 
+		super();
+		this.mainParent = localParent;
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-		this.submitMonitoring(false);
-	}
-
-	submitMonitoring(completed: boolean = true) {
-		this.model.completed = completed;
-		this.localParent.submitMonitoring(this.model, completed);
-	}
-
-	async getMonitoring() {
+	async getModel() {
 		try {
 			this.localParent.busy.on();
 			const currentSection = await this.appState.getCurrentSection();
@@ -60,10 +49,5 @@ export class PaidiaMonitoring {
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-
-	@computedFrom("localParent.Course")
-	get Course(): string {
-		return this.localParent.Course;
 	}
 }

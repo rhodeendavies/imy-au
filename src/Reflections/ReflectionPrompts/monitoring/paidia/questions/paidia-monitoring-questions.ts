@@ -4,13 +4,17 @@ import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
 import { PromptType } from "utils/enums";
 import { PaidiaMonitoring } from "../paidia-monitoring";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaMonitoringQuestions {
+export class PaidiaMonitoringQuestions extends ReflectionStep {
 
 	promptSections: PromptSection[];
 
-	constructor(private localParent: PaidiaMonitoring, private appState: ApplicationState) {}
+	constructor(private localParent: PaidiaMonitoring, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		if (ComponentHelper.NullOrEmpty(this.localParent.model.contentConfusion.response)) {
@@ -21,10 +25,8 @@ export class PaidiaMonitoringQuestions {
 		}
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.contentConfusion.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
-		this.localParent.nextStep();
 	}
 
 	increaseInteraction(identifier: string) {
@@ -43,8 +45,8 @@ export class PaidiaMonitoringQuestions {
 	}
 
 	get AllowNext() {
-		return this.promptSections != null && 
-			this.promptSections.every(x => 
+		return this.promptSections != null &&
+			this.promptSections.every(x =>
 				x?.type == PromptType.Text ||
 				x?.type == PromptType.ShuffleWord ||
 				(x?.value?.length >= 3 && x?.valid));

@@ -6,10 +6,10 @@ import { PaidiaMonitoring } from "../paidia-monitoring";
 import { PaidiaCanvas, PaidiaImages } from "resources/paidiaCanvas/paidia-canvas";
 import environment from "environment";
 import { StrategyCategories } from "utils/enums";
-import { log } from "utils/log";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class PaidiaMonitoringLearningStrategies {
+export class PaidiaMonitoringLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -20,7 +20,10 @@ export class PaidiaMonitoringLearningStrategies {
 	canvasModel: PaidiaCanvasModel;
 	interactions: number = 0;
 
-	constructor(private localParent: PaidiaMonitoring, private appState: ApplicationState) { }
+	constructor(private localParent: PaidiaMonitoring, private appState: ApplicationState) { 
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -129,8 +132,7 @@ export class PaidiaMonitoringLearningStrategies {
 		}, 500);
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.canvasModel.canvas = this.canvas.saveCanvas();
 		this.localParent.model.strategyRating = {
 			learningRating: ComponentHelper.EmojiToString(this.learningStrategy.emoji),
@@ -140,11 +142,10 @@ export class PaidiaMonitoringLearningStrategies {
 			canvas: JSON.stringify(this.canvasModel),
 			interactions: this.interactions
 		}
-		this.localParent.submitMonitoring();
 	}
 
 	@computedFrom("learningStrategy.emoji", "reviewingStrategy.emoji", "practicingStrategy.emoji", "extendingStrategy.emoji")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.emoji));
 	}
 }

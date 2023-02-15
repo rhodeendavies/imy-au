@@ -4,15 +4,19 @@ import { PromptSection } from "models/prompts";
 import { ApplicationState } from "applicationState";
 import { ComponentHelper } from "utils/componentHelper";
 import { PromptType } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusMonitoringQuestions {
+export class LudusMonitoringQuestions extends ReflectionStep {
 
 	currentIndex: number;
 	numOfPrompts: number = 0;
 	promptSections: PromptSection[];
 
-	constructor(private localParent: LudusMonitoring, private appState: ApplicationState) { }
+	constructor(private localParent: LudusMonitoring, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	async attached() {
 		this.currentIndex = -1;
@@ -26,10 +30,8 @@ export class LudusMonitoringQuestions {
 		}
 	}
 
-	nextStep() {
-		if (!this.AllowNext) return;
+	saveStep() {
 		this.localParent.model.contentConfusion.response = ComponentHelper.CreateResponseFromPrompt(this.promptSections);
-		this.localParent.nextStep();
 	}
 
 	getNewPrompt() {
@@ -48,7 +50,7 @@ export class LudusMonitoringQuestions {
 	}
 
 	get AllowNext() {
-		return this.promptSections != null && 
+		return this.promptSections != null &&
 			this.promptSections.every(x => x?.type == PromptType.Text || (x?.value?.length >= 3 && x?.valid));
 	}
 }

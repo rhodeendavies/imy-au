@@ -1,13 +1,21 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { LudusMonitoring } from "../ludus-monitoring";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusMonitoringFeelings {
-	
-	constructor(private localParent: LudusMonitoring) {}
+export class LudusMonitoringFeelings extends ReflectionStep {
 
-	nextStep() {
-		if (this.localParent.model.courseFeelings.rating == null) return;
-		this.localParent.nextStep();
+	constructor(private localParent: LudusMonitoring) {
+		super();
+		this.stepParent = localParent;
+	}
+
+	saveStep() {
+
+	}
+
+	@computedFrom("localParent.model.courseFeelings.rating")
+	get AllowNext(): boolean {
+		return this.localParent.model.courseFeelings.rating != null;
 	}
 }
