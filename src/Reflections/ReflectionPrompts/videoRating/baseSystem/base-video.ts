@@ -41,9 +41,7 @@ export class BaseVideo {
 		this.localParent.submit(this.model);
 	}
 	
-	
-	@computedFrom("model.lessonRating.rating")
 	get AllowSubmit(): boolean {
-		return this.model.lessonRating.rating != null;
+		return this.model?.lessonRating?.rating != null;
 	}
 }

@@ -4,6 +4,7 @@ export class Events {
 	static readonly AccordionToggle: string = "AccordionToggle";
 	static readonly Login: string = "Login";
 	static readonly Logout: string = "Logout";
+	static readonly LessonRatingTriggered: string = "LessonRatingTriggered";
 	static readonly DailyTriggered: string = "DailyTriggered";
 	static readonly PlanningTriggered: string = "PlanningTriggered";
 	static readonly MonitoringTriggered: string = "MonitoringTriggered";

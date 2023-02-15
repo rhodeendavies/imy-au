@@ -24,6 +24,10 @@ export class RadioButton {
 		this.options?.forEach(x => x.selected = newValue == x.value);
 	}
 
+	nameChanged(newValue) {
+		this.options?.forEach(x => x.selected = newValue == x.name);
+	}
+
 	optionSelected(option: RadioOption) {
 		if (option.disabled) return;
 

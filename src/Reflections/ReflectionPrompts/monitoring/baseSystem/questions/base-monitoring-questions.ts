@@ -18,6 +18,6 @@ export class BaseMonitoringQuestions extends ReflectionStep {
 
 	@computedFrom("valid")
 	get AllowNext(): boolean {
-		return !this.valid;
+		return this.valid;
 	}
 }

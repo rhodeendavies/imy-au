@@ -39,7 +39,7 @@ export class LudusDaily extends ReflectionStepParent {
 			}
 			
 			const reflection = await this.reflectionsApi.getLudusDailyReflection(this.localParent.reflectionId);
-			this.model = reflection.answers;
+			this.model = new LudusDailyApiModel();
 			this.questions = reflection.questions;
 			this.localParent.modelLoaded = true;
 		} catch (error) {

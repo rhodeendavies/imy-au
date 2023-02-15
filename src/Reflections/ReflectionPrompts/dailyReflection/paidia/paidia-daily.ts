@@ -37,7 +37,7 @@ export class PaidiaDaily extends ReflectionStepParent {
 			}
 
 			const reflection = await this.reflectionsApi.getPaidiaDailyReflection(this.localParent.reflectionId);
-			this.model = reflection.answers;
+			this.model = new PaidiaDailyApiModel();
 			this.questions = reflection.questions.strategyPlanning;
 			this.localParent.modelLoaded = true;
 		} catch (error) {

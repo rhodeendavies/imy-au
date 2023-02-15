@@ -7,6 +7,7 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { ReflectionPrompt } from "../reflection-step";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { Events } from "utils/constants";
 
 @autoinject
 export class VideoRating extends ReflectionPrompt {
@@ -19,6 +20,11 @@ export class VideoRating extends ReflectionPrompt {
 		ea: EventAggregator
 	) {
 		super(authService, ea);
+		this.event = Events.LessonRatingTriggered;
+	}
+
+	init() {
+		this.isOpen = true;
 	}
 
 	async submit(model: BaseLessonApiModel | LudusLessonApiModel | PaidiaVideoRatingApiModel) {
@@ -34,5 +40,6 @@ export class VideoRating extends ReflectionPrompt {
 			return;
 		}
 		this.appState.closeRating();
+		this.isOpen = false;
 	}
 }

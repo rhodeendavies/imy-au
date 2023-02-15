@@ -97,6 +97,7 @@ export class ApplicationState {
 		if (!this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
+		this.ea.publish(Events.LessonRatingTriggered);
 	}
 
 	closeRating() {
