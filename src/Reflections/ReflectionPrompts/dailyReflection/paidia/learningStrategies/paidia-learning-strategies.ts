@@ -145,11 +145,6 @@ export class PaidiaLearningStrategies extends ReflectionStep {
 		}
 	}
 
-	submit() {
-		this.saveStep();
-		this.localParent.submitDaily();
-	}
-
 	@computedFrom("learningStrategy.emoji", "reviewingStrategy.emoji", "practicingStrategy.emoji", "extendingStrategy.emoji")
 	get AllowNext(): boolean {
 		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.emoji));

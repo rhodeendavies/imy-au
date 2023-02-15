@@ -6,9 +6,10 @@ import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { AuthenticationService } from "services/authenticationService";
 import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseDaily {
+export class BaseDaily extends ReflectionStepParent {
 
 	model: BaseDailyApiModel;
 	questions: StrategyPlanning;
@@ -18,18 +19,17 @@ export class BaseDaily {
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
-	) { }
+	) {
+		super();
+		this.mainParent = localParent;
+	}
 
 	attached() {
 		this.localParent.modelLoaded = false;
 		this.getDaily();
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-	}
-
-	async submitDaily() {
+	async submit() {
 		this.model.completed = true;
 		this.localParent.submitDaily(this.model);
 	}

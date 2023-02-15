@@ -28,7 +28,7 @@ export class PaidiaDaily extends ReflectionStepParent {
 		this.getDaily();
 	}
 
-	async submitDaily() {
+	async submit() {
 		this.model.completed = true;
 		this.localParent.submitDaily(this.model);
 	}

@@ -1,13 +1,21 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseDaily } from "../base-daily";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseFeelings {
+export class BaseFeelings extends ReflectionStep {
 
-	constructor(private localParent: BaseDaily) {}
+	constructor(private localParent: BaseDaily) {
+		super();
+		this.stepParent = localParent;
+	}
 
-	nextStep() {
-		if (this.localParent.model.courseFeelings.rating == null) return;
-		this.localParent.nextStep();
+	saveStep() {
+		
+	}
+
+	@computedFrom("localParent.model.courseFeelings.rating")
+	get AllowNext(): boolean {
+		return this.localParent.model.courseFeelings.rating == null;
 	}
 }

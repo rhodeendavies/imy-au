@@ -20,6 +20,11 @@ export abstract class ReflectionStep {
 		this.stepParent.previousStep();
 	}
 
+	submit() {
+		this.saveStep();
+		this.stepParent.submit();
+	}
+
 	abstract get AllowNext(): boolean;
 }
 
@@ -35,4 +40,6 @@ export abstract class ReflectionStepParent {
 	previousStep() {
 		this.mainParent.previousStep();
 	}
+
+	abstract submit();
 }
