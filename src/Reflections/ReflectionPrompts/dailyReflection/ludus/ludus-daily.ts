@@ -1,15 +1,16 @@
 import { ApplicationState } from "applicationState";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { LudusDailyApiModel, LudusPlanningApiModel, LudusPreviousComponents, LudusStrategyPlanning } from "models/reflectionsApiModels";
+import { LudusDailyApiModel, LudusPreviousComponents } from "models/reflectionsApiModels";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { ReflectionTypes } from "utils/enums";
 import { DailyPrompts } from "../daily-prompts";
 import { log } from "utils/log";
 import { LudusMonitoringQuestions } from "models/reflectionsResponses";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusDaily {
+export class LudusDaily extends ReflectionStepParent {
 	model: LudusDailyApiModel;
 	questions: LudusMonitoringQuestions;
 	previousComponents: LudusPreviousComponents;
@@ -19,18 +20,17 @@ export class LudusDaily {
 		private authService: AuthenticationService,
 		private appState: ApplicationState,
 		private reflectionsApi: ReflectionsService
-	) { }
+	) { 
+		super();
+		this.mainParent = localParent;
+	}
 
 	attached() {
 		this.localParent.modelLoaded = false;
 		this.getDaily();
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-	}
-
-	async submitDaily() {
+	async submit() {
 		this.model.completed = true;
 		this.localParent.submitDaily(this.model);
 	}

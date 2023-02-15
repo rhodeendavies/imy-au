@@ -4,9 +4,10 @@ import { ComponentHelper } from "utils/componentHelper";
 import { LudusDaily } from "../ludus-daily";
 import { ApplicationState } from "applicationState";
 import { StrategyCategories } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class LudusLearningStrategies {
+export class LudusLearningStrategies extends ReflectionStep {
 
 	learningStrategy: Strategy;
 	reviewingStrategy: Strategy;
@@ -15,7 +16,10 @@ export class LudusLearningStrategies {
 	strategies: Strategy[];
 	components: LudusComponent[];
 
-	constructor(private localParent: LudusDaily, private appState: ApplicationState) { }
+	constructor(private localParent: LudusDaily, private appState: ApplicationState) { 
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
 		this.initData();
@@ -72,8 +76,7 @@ export class LudusLearningStrategies {
 		}
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
+	saveStep() {
 		this.localParent.model.strategyRating = {
 			learningRating: this.learningStrategy.rating,
 			reviewingRating: this.reviewingStrategy.rating,
@@ -81,11 +84,10 @@ export class LudusLearningStrategies {
 			extendingRating: this.extendingStrategy.rating
 		}
 		this.localParent.model.components.calculated = this.components;
-		this.localParent.submitDaily();
 	}
 
 	@computedFrom("learningStrategy.rating", "reviewingStrategy.rating", "practicingStrategy.rating", "extendingStrategy.rating")
-	get AllowSubmit(): boolean {
+	get AllowNext(): boolean {
 		this.updateComponents();
 		return this.strategies != null && this.strategies.every(x => x?.rating != null);
 	}
