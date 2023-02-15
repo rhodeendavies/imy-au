@@ -8,6 +8,7 @@ export class BaseFeelings extends ReflectionStep {
 	constructor(private localParent: BaseDaily) {
 		super();
 		this.stepParent = localParent;
+		this.saveOnStep = false;
 	}
 
 	saveStep() {
@@ -16,6 +17,6 @@ export class BaseFeelings extends ReflectionStep {
 
 	@computedFrom("localParent.model.courseFeelings.rating")
 	get AllowNext(): boolean {
-		return this.localParent.model.courseFeelings.rating == null;
+		return this.localParent.model.courseFeelings.rating != null;
 	}
 }

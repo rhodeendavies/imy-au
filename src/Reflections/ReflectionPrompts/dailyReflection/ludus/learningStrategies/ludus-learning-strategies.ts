@@ -19,6 +19,7 @@ export class LudusLearningStrategies extends ReflectionStep {
 	constructor(private localParent: LudusDaily, private appState: ApplicationState) { 
 		super();
 		this.stepParent = localParent;
+		this.saveOnStep = false;
 	}
 
 	attached() {

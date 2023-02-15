@@ -18,6 +18,7 @@ export class BaseLearningStrategies extends ReflectionStep {
 	constructor(private localParent: BaseDaily, private appState: ApplicationState) {
 		super();
 		this.stepParent = localParent;
+		this.saveOnStep = false;
 	}
 
 	attached() {

@@ -23,6 +23,7 @@ export class PaidiaLearningStrategies extends ReflectionStep {
 	constructor(private localParent: PaidiaDaily, private appState: ApplicationState) {
 		super();
 		this.stepParent = localParent;
+		this.saveOnStep = false;
 	}
 
 	attached() {

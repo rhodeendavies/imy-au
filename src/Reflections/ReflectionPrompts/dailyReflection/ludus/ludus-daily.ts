@@ -25,17 +25,7 @@ export class LudusDaily extends ReflectionStepParent {
 		this.mainParent = localParent;
 	}
 
-	attached() {
-		this.localParent.modelLoaded = false;
-		this.getDaily();
-	}
-
-	async submit() {
-		this.model.completed = true;
-		this.localParent.submitDaily(this.model);
-	}
-
-	async getDaily() {
+	async getModel() {
 		try {
 			this.localParent.busy.on();
 			if (this.localParent.reflectionId == null) {
@@ -57,10 +47,5 @@ export class LudusDaily extends ReflectionStepParent {
 		} finally {
 			this.localParent.busy.off();
 		}
-	}
-	
-	@computedFrom("localParent.Course")
-	get Course(): string {
-		return this.localParent.Course;
 	}
 }

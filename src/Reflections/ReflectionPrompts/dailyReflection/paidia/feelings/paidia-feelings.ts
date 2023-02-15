@@ -12,6 +12,7 @@ export class PaidiaFeelings extends ReflectionStep {
 	constructor(private localParent: PaidiaDaily) {
 		super();
 		this.stepParent = localParent;
+		this.saveOnStep = false;
 	}
 
 	attached() {

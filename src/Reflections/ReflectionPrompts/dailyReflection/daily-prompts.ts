@@ -5,33 +5,30 @@ import { DateTime, Duration, Interval } from "luxon";
 import { BaseDailyApiModel, LudusDailyApiModel, PaidiaDailyApiModel } from "models/reflectionsApiModels";
 import { Availability } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
-import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
 import { AuthenticationService } from "services/authenticationService";
 import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
-import { ReflectionTypes, Systems } from "utils/enums";
+import { ReflectionTypes } from "utils/enums";
 import { log } from "utils/log";
+import { ReflectionPrompt } from "../reflection-step";
 
 @autoinject
-export class DailyPrompts extends SectionTrackerParent {
+export class DailyPrompts extends ReflectionPrompt {
 
 	availability: Availability;
 	timeTillNextReflection: string;
 	timer: NodeJS.Timer;
 	triggerSub: Subscription;
-	busy: Busy = new Busy();
 	availabilityBusy: Busy = new Busy();
 	startDailyBusy: Busy = new Busy();
 	evaluatingDone: boolean = false;
-	reflectionId: number;
-	modelLoaded: boolean = false;
 
 	constructor(
 		private appState: ApplicationState,
-		private authService: AuthenticationService,
-		private ea: EventAggregator,
+		authService: AuthenticationService,
+		ea: EventAggregator,
 		private reflectionsApi: ReflectionsService) {
-		super();
+		super(authService, ea);
 	}
 
 	attached() {
@@ -79,7 +76,7 @@ export class DailyPrompts extends SectionTrackerParent {
 
 		const duration = Duration.fromObject({ hours: 23, minutes: 59 })
 			.minus(interval.toDuration(['hours', 'minutes']));
-		
+
 		this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
 	}
 
@@ -106,18 +103,13 @@ export class DailyPrompts extends SectionTrackerParent {
 		this.appState.closeDaily();
 	}
 
-	async submitDaily(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel) {
+	async submit(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel) {
 		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, this.reflectionId, model);
 		if (!result) {
 			this.appState.triggerToast("Failed to save reflection...");
 			return;
 		}
 		this.appState.closeDaily();
-	}
-
-	@computedFrom("activeSection")
-	get ShowOverview(): boolean {
-		return this.activeSection == DailySections.Overview;
 	}
 
 	@computedFrom("busy.active", "availabilityBusy.active", "startDailyBusy.active")
@@ -138,29 +130,6 @@ export class DailyPrompts extends SectionTrackerParent {
 	@computedFrom("evaluatingDone")
 	get EvaluatingDone(): boolean {
 		return this.evaluatingDone;
-	}
-
-	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
-	get ShowBaseSystem(): boolean {
-		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
-			this.appState.dailyOpen;
-	}
-
-	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
-	get ShowLudus(): boolean {
-		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
-			this.appState.dailyOpen;
-	}
-
-	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
-	get ShowPaidia(): boolean {
-		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
-			this.appState.dailyOpen;
-	}
-
-	@computedFrom("authService.Course")
-	get Course(): string {
-		return this.authService.Course;
 	}
 }
 
