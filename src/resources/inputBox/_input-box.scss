@@ -94,7 +94,6 @@
 			position: relative;
 			transition: all 0.3s ease;
 			outline: 2px solid $SeaGreen;
-			font-family: $Roboto;
 
 			input,
 			textarea {
@@ -106,6 +105,7 @@
 				font-size: 20px;
 				resize: none;
 				outline: none;
+				font-family: $Roboto;
 
 				&:hover {
 					background-color: $LightGrey;
