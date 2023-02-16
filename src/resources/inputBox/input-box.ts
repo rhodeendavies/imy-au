@@ -79,13 +79,23 @@ export class InputBox {
 				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
 			} else if (this.ShowTextarea) {
 				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
-			} else if (this.ShowSmall) {
+			} else if (this.ShowSmall || this.ShowWord) {
 				this.valid = ComponentHelper.PromptInputValid(this.value, this.max, this.min);
+
 				if (!this.valid) {
 					if (this.value.length > this.max) {
 						this.error = `Maximum ${this.max} characters`;
 					} else if (this.value.length < this.min) {
 						this.error = `Minimum ${this.min} characters`;
+					}
+				}
+
+				if (this.ShowWord) {
+					this.value = this.value.trim();
+					const isSingleWord = ComponentHelper.ValueIsSingleWord(this.value);
+					if (!isSingleWord) {
+						this.error = "Must be a single word";
+						this.valid = false;
 					}
 				}
 			} else {
@@ -154,7 +164,7 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge || this.ShowSmall;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge || this.ShowSmall || this.ShowWord;
 	}
 
 	@computedFrom("type")
@@ -176,6 +186,11 @@ export class InputBox {
 	@computedFrom("type")
 	get ShowSmall(): boolean {
 		return this.type == InputTypes.small;
+	}
+
+	@computedFrom("type")
+	get ShowWord(): boolean {
+		return this.type == InputTypes.word;
 	}
 
 	@computedFrom("value.length")
@@ -215,5 +230,6 @@ enum InputTypes {
 	textarea = "textarea",
 	large = "large",
 	password = "password",
-	small = "small"
+	small = "small",
+	word= "word"
 }
