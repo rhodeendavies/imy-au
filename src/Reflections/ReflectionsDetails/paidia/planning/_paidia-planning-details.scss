@@ -17,7 +17,7 @@
 
 .paidia-topics-summary {
 	display: flex;
-	align-items: center;
+	flex-wrap: wrap;
 	gap: 5px;
 
 	.paidia-topic-summary {
