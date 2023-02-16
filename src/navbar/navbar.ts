@@ -1,3 +1,4 @@
+import { ApplicationState } from 'applicationState';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router, NavModel } from 'aurelia-router';
@@ -14,7 +15,12 @@ export class Navbar {
 	logoutModal: Modal;
 	showNavBar: boolean = false;
 
-	constructor(private router: Router, private authService: AuthenticationService, private ea: EventAggregator) {
+	constructor(
+		private router: Router,
+		private authService: AuthenticationService,
+		private ea: EventAggregator,
+		private appState: ApplicationState
+	) {
 
 	}
 
@@ -53,11 +59,13 @@ export class Navbar {
 	}
 
 	navigate(row: NavModel) {
+		this.appState.hideHomeActive = false;
 		this.router.navigate(row.href);
 	}
 
 	navigateHome() {
-		this.router.navigate(Routes.Dashboard, {replace: true, trigger: true});
+		this.appState.hideHomeActive = false;
+		this.router.navigate(Routes.Dashboard, { replace: true, trigger: true });
 	}
 
 	@computedFrom("router.currentInstruction.config.nav", "showNavBar")

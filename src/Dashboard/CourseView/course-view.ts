@@ -118,6 +118,7 @@ export class CourseView {
 		}
 		this.lessonSelected = lesson;
 		this.localParent.lessonOpen = true;
+		this.appState.hideHomeActive = true;
 		this.localParent.navigate(`${Routes.CourseContent}/${lesson.id}`);
 		const video = document.getElementById("lessonVideo") as HTMLVideoElement;
 		if (video != null) {

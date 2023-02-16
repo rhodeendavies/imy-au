@@ -44,6 +44,7 @@ export class ApplicationState {
 	showAreYouSure: boolean = false;
 	dailyOpen: boolean = false;
 	loginScreenType: LoginScreens = LoginScreens.login;
+	hideHomeActive: boolean = false;
 
 	constructor(
 		private ea: EventAggregator,

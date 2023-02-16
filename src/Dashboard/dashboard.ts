@@ -27,6 +27,11 @@ export class Dashboard {
 		private ea: EventAggregator
 	) { }
 
+	activate(params, routeConfig, navigationInstruction) {
+		this.lessonOpen = false;
+		this.appState.hideHomeActive = false;
+	}
+
 	attached() {
 		this.initData();
 		this.refreshSub = this.ea.subscribe(Events.RefreshApp, () => this.initData());
@@ -60,7 +65,6 @@ export class Dashboard {
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
 		config.map(StudentRoutes.getDashboardSubRoutes());
-
 		this.router = router;
 	}
 
@@ -73,6 +77,7 @@ export class Dashboard {
 	}
 
 	navigateToReflection() {
+		this.appState.hideHomeActive = false;
 		this.navigateToRoute(`${Routes.Reflections}`)
 	}
 
