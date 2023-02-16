@@ -66,6 +66,8 @@ export class LudusEvaluationLearningStrategies extends ReflectionStep {
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
+		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.questions.previousComponents);
+		this.components = ComponentHelper.GetComponentScores(this.components, this.strategies);
 	}
 
 	saveStep() {
@@ -79,7 +81,9 @@ export class LudusEvaluationLearningStrategies extends ReflectionStep {
 	}
 
 	updateComponents() {
-		this.components = ComponentHelper.GetComponentScores(this.components, this.strategies);
+		if (this.strategies == null || this.strategies.every(x => x?.rating == null)) return;
+		this.components?.forEach(x => x.originalScore = 0);
+		this.components = ComponentHelper.GetEvaluatingComponentScores(this.components, this.strategies);
 		this.finalScore = ComponentHelper.GetFinalScore(this.components);
 	}
 
@@ -111,7 +115,7 @@ export class LudusEvaluationLearningStrategies extends ReflectionStep {
 			datasets: [{
 				label: "",
 				data: data.map(x => {
-					return x / total * 100;
+					return Math.round(x / total * 100);
 				}),
 				backgroundColor: colours,
 				borderColor: colours

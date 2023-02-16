@@ -51,7 +51,7 @@ export class LudusLearningStrategies extends ReflectionStep {
 		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 
 		this.components = ComponentHelper.GetUniqueComponents([], ComponentHelper.GetAllModifiers(this.strategies));
-		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.previousComponents);
+		this.components = ComponentHelper.FindLatestScore(this.components, this.localParent.questions.previousComponents);
 	}
 
 	updateComponents() {

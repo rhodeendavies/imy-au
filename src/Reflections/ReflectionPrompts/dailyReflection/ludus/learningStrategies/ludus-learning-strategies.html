@@ -26,8 +26,13 @@
 				throughout the week to gain a more accurate assessment.
 			</div>
 			<div class="ludus-gauges">
-				<gauge repeat.for="component of components" value.bind="component.score" label.bind="component.name">
-				</gauge>
+				<popup repeat.for="component of components">
+					<div slot="item">
+						<gauge value.bind="component.score" label.bind="component.name">
+						</gauge>
+					</div>
+					<div slot="popup">${component.description}</div>
+				</popup>
 			</div>
 		</div>
 	</div>

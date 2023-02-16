@@ -13,7 +13,6 @@ import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-s
 export class LudusDaily extends ReflectionStepParent {
 	model: LudusDailyApiModel;
 	questions: LudusMonitoringQuestions;
-	previousComponents: LudusPreviousComponents;
 
 	constructor(
 		private localParent: DailyPrompts,

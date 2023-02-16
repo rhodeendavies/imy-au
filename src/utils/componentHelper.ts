@@ -313,6 +313,25 @@ export class ComponentHelper {
 		return components;
 	}
 
+	static GetEvaluatingComponentScores(components: LudusComponent[], strategyRatings: Strategy[]): LudusComponent[] {
+		if (components == null || strategyRatings == null) return [];
+		components.forEach(component => {
+			let rawValue = 0;
+			const inStrat = strategyRatings.find(x => x.modifiers.some(y => y.name == component.name));
+			if (inStrat != null && inStrat.rating != null) {
+				strategyRatings.forEach(strategy => {
+					const componentInStrategy = strategy.modifiers.find(x => x.name == component.name);
+					if (componentInStrategy != null) {
+						rawValue += componentInStrategy.amount * strategy.rating / 100;
+					}
+				});
+				component.originalScore = 0;
+				component.score = component.originalScore + (rawValue / component.total * 100);
+			}
+		});
+		return components;
+	}
+
 	static GetFinalScore(components: LudusComponent[]): number {
 		if (components == null) return 0;
 		const sumOfScores = components.reduce((prev, curr) => { return prev + (curr.score * curr.total) }, 0);
@@ -368,7 +387,8 @@ export class ComponentHelper {
 				name: x.name,
 				originalScore: x.score,
 				total: x.total,
-				score: 0
+				score: 0,
+				description: x.description
 			}
 		});
 	}
