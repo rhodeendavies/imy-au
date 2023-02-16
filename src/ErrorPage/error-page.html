@@ -2,15 +2,17 @@
 	<div class="page">
 		<div class="error-page-container">
 			<img src="images/content/error404.png" title.bind="human" click.delegate="navigateToAttribution()"/>
-			<button class="btn btn-default" if.bind="authenticated && student" click.delegate="home()">
-				Back to home
-			</button>
-			<button class="btn btn-default" if.bind="authenticated && !student" click.delegate="logout()">
-				Logout
-			</button>
-			<button class="btn btn-default" if.bind="!authenticated" click.delegate="login()">
-				Back to home
-			</button>
+			<div class="btn-row">
+				<button class="btn btn-default" if.bind="authenticated && student" click.delegate="home()">
+					Back to home
+				</button>
+				<button class="btn btn-default" if.bind="authenticated" click.delegate="logout()">
+					Logout
+				</button>
+				<button class="btn btn-default" if.bind="!authenticated" click.delegate="login()">
+					Back to home
+				</button>
+			</div>
 		</div>
 	</div>
 </template>

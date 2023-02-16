@@ -1,5 +1,5 @@
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { Router, NavModel } from 'aurelia-router';
 import { Modal } from 'resources/modal/modal';
 import { AuthenticationService } from 'services/authenticationService';
@@ -58,5 +58,10 @@ export class Navbar {
 
 	navigateHome() {
 		this.router.navigate(Routes.Dashboard, {replace: true, trigger: true});
+	}
+
+	@computedFrom("router.currentInstruction.config.nav", "showNavBar")
+	get ShowNavBar(): boolean {
+		return this.showNavBar && this.router.currentInstruction.config.nav == true;
 	}
 }
