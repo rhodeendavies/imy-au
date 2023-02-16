@@ -1,3 +1,4 @@
+@use "./src/styles/variables"as *;
 
 .canvas-as-image {
 	.canvas-container {
@@ -9,6 +10,38 @@
 	z-index: 9999;
 }
 
+.paidia-canvas-wrapper {
+	position: relative;
+	top: 20px;
+	left: 20px;
+}
+
+.canvas-hover {
+	height: 450px;
+	width: 700px;
+	position: absolute;
+	left: -0;
+	top: -0;
+	animation: pulse 2s infinite;
+}
+
 .paidia-canvas-image {
 	height: 250px;
+}
+
+@keyframes pulse {
+	0% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0.8);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0.8);
+	}
+
+	70% {
+		-moz-box-shadow: 0 0 0 20px rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 20px rgba($color: $Orange, $alpha: 0);
+	}
+
+	100% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+	}
 }
