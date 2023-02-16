@@ -43,6 +43,7 @@ export class AttributionLinks {
 
 export class StatusCodes {
 	static readonly Unauthorized: number = 401;
+	static readonly BadRequest: number = 400;
 	static readonly NotFound: number = 404;
 	static readonly Forbidden: number = 403;
 	static readonly InternalServerError: number = 500;

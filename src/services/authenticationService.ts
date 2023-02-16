@@ -36,10 +36,10 @@ export class AuthenticationService {
 			log.error(error);
 			if (error instanceof Response) {
 				switch (error.status) {
-					case StatusCodes.Unauthorized:
-						return new ApiResponse(false, "Incorrect password");
-					case StatusCodes.InternalServerError:
-						return new ApiResponse(false, "Invalid student number");
+					case StatusCodes.Forbidden:
+						return new ApiResponse(false, "Account not registered. Go to register.");
+					case StatusCodes.BadRequest:
+						return new ApiResponse(false, "Incorrect login details");
 					default:
 						return new ApiResponse(false, "An error occurred");
 				}
