@@ -1,5 +1,7 @@
 <template>
-	<div class="${showCanvasAsImage ? 'canvas-as-image' : ''}">
+	<loader if.bind="!canvasLoaded"></loader>
+
+	<div class="${showCanvasAsImage ? 'canvas-as-image' : ''}" show.bind="canvasLoaded">
 		<canvas show.bind="!showCanvasAsImage"
 			id.bind="id" height="450" width="700"></canvas>
 		<img class="paidia-canvas-image" if.bind="showCanvasAsImage" src.bind="canvasImage"/>
