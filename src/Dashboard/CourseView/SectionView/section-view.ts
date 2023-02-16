@@ -3,17 +3,31 @@ import { ApplicationState } from "applicationState";
 import { Lesson, Section } from "models/course";
 import { CourseView } from "../course-view";
 import { LessonsService } from "services/lessonsService";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { Events } from "utils/constants";
 
 @autoinject
 export class SectionView {
 	@bindable section: Section;
 	currentId: number;
+	lessonCompleteSub: Subscription;
 
 	constructor(
 		private localParent: CourseView,
 		private appState: ApplicationState,
-		private lessonApi: LessonsService
-	) { }
+		private lessonApi: LessonsService,
+		private ea: EventAggregator
+		) { }
+
+	attached() {
+		this.lessonCompleteSub = this.ea.subscribe(Events.LessonCompleted, () => {
+			++this.section.watchedVideos;
+		});
+	}
+
+	detached() {
+		this.lessonCompleteSub.dispose();
+	}
 
 
 	selectLesson(lesson: Lesson) {
