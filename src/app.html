@@ -44,7 +44,7 @@
 					New daily reflection
 				</span>
 				<span class="modal-close" click.delegate="appState.closeDaily(false)"
-					if.bind="!appState.showAreYouSure">
+					if.bind="!appState.showAreYouSure && appState.allowDailyClose">
 					<span class="icon">close</span>
 				</span>
 			</div>

@@ -42,6 +42,7 @@ export class ApplicationState {
 	watchedLesson: Lesson;
 	reflectionSection: string;
 	showAreYouSure: boolean = false;
+	allowDailyClose: boolean = true;
 	dailyOpen: boolean = false;
 	loginScreenType: LoginScreens = LoginScreens.login;
 	hideHomeActive: boolean = false;

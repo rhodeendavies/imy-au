@@ -131,8 +131,10 @@ export class DailyPrompts extends ReflectionPrompt {
 		return this.evaluatingDone;
 	}
 
-	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available", "activeSection")
 	get ShowBaseSystem(): boolean {
+		this.appState.allowDailyClose = this.activeSection == DailySections.Feelings ||
+			this.activeSection == DailySections.LearningStrategies && !this.Busy && this.modelLoaded;
 		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
 			this.appState.dailyOpen;
 	}
