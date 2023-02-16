@@ -5,10 +5,15 @@
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 20px 5px;
+	margin-top: 15px;
 
-	input-box {
-		width: 400px;
-		margin: 0 15px;
+	section {
+		&:not(:first-child) {
+			input-box {
+				margin: 0 10px;
+				display: block;
+			}
+		}
 	}
 
 	.shuffle-word {

@@ -101,7 +101,7 @@ export class ApiWrapper {
 			}
 		} catch (error) {
 			if (error instanceof Response) {
-				apiLog.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
+				apiLog.error(`[ApiWrapper] An error ocurred while doing PATCH to url '${url}'`, error);
 				this.logError(`${error.status}`, error.statusText, error);
 			} else {
 				this.logError("000", "Unknown error", error);
