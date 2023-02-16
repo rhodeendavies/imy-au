@@ -44,8 +44,12 @@
 
 	.prompt-refresh {
 		cursor: pointer;
-
+		
 		> span {
+			&.spin {
+				animation: spin 2s;
+			}
+
 			font-size: 50px;
 			font-weight: $semi-bold;
 		}
@@ -76,6 +80,27 @@
 	0% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
 	60% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 1);}
 	100% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
+}
+
+@keyframes spin{
+	0% {
+		transform:  rotate(0deg);
+	}
+	60% {
+		transform:  rotate(-60deg);
+	}
+	80% {
+		transform:  rotate(420deg);
+	}
+	90% {
+		transform:  rotate(330deg);
+	}
+	95% {
+		transform:  rotate(360deg);
+	}
+	100% {
+		transform:  rotate(360deg);
+	}
 }
 
 .final-prompt {
