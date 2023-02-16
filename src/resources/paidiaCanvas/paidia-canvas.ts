@@ -16,12 +16,16 @@ export class PaidiaCanvas {
 	id: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) interactions: number = 0;
 	@bindable onChange;
+	canvasLoaded: boolean = false;
+	pulse: boolean = false;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("paidiaCanvas");
 	}
 
 	attached() {
+		this.pulse = false;
+		this.canvasLoaded = false;
 		this.initCanvas();
 	}
 
@@ -45,6 +49,9 @@ export class PaidiaCanvas {
 		}
 
 		this.addBackgroundImage(`images/backgrounds/${backgroundImageNo}.png`);
+		setTimeout(() => {
+			this.canvasLoaded = true;
+		}, 100);
 	}
 
 	addBackgroundImage(src: string) {
@@ -158,6 +165,14 @@ export class PaidiaCanvas {
 		});
 
 		this.canvas.add(img);
+		this.canvas.setActiveObject(img);
+
+		if (!this.showCanvasAsImage) {
+			this.pulse = true;
+		}
+		setTimeout(() => {
+			this.pulse = false;
+		}, 2000);
 		return oldImage;
 	}
 
@@ -196,7 +211,11 @@ export class PaidiaCanvas {
 		}, (o, object) => {
 			const type = object.name;
 			this.addImageObject(object, type);
-		})
+		});
+
+		setTimeout(() => {
+			this.canvasLoaded = true;
+		}, 100);
 	}
 
 	loadCanvasAsImage(canvasDataJson: string) {
@@ -207,6 +226,9 @@ export class PaidiaCanvas {
 			this.canvasImage = this.canvas.toDataURL({
 				format: 'jpeg',
 			});
+			setTimeout(() => {
+				this.canvasLoaded = true;
+			}, 100);
 		}, 500);
 	}
 

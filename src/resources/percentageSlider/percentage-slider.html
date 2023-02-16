@@ -6,7 +6,8 @@
 					<div class="percentage-text">
 						${percentage}%
 					</div>
-					<div class="percentage-fill" css="height: ${percentage}%"></div>
+					<div class="percentage-fill"
+						css="height: ${percentage == null || percentage == '' ? 0 : percentage}%"></div>
 				</div>
 			</div>
 		</div>

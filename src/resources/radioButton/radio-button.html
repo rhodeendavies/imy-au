@@ -14,7 +14,7 @@
 				<span if.bind="!Stars" class="radio-circle">
 					<span class="radio-inner-circle"></span>
 				</span>
-				<popup position.bind="position" if.bind="!Stars">
+				<popup position.bind="position" if.bind="!Stars && !Inline">
 					<div slot="item">
 						<span if.bind="option.name != ''" innerhtml.bind="option.name"></span>
 					</div>

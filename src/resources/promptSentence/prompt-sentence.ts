@@ -9,6 +9,7 @@ export class PromptSentence {
 	@bindable allowRefresh: boolean = true;
 	@bindable increaseInteraction;
 	@bindable getNewPrompt;
+	spinRefresh: boolean = false;
 
 	triggerGetNewPrompt() {
 		if (!this.allowRefresh) return;
@@ -19,8 +20,20 @@ export class PromptSentence {
 
 	triggerIncreaseInteraction(wordIndicator: string) {
 		if (this.increaseInteraction != null) {
-			this.increaseInteraction({identifier: wordIndicator});
+			this.increaseInteraction({ identifier: wordIndicator });
 		}
+	}
+
+	attached() {
+		this.spin();
+	}
+
+	spin() {
+		this.spinRefresh = false;
+		setTimeout(() => {
+			this.spinRefresh = true;
+			setTimeout(() => this.spin(), 10000);
+		}, 2000);
 	}
 
 	get FinalSentence(): string {

@@ -223,6 +223,34 @@ export class InputBox {
 		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
 	}
+
+	@computedFrom("value", "max", "min")
+	get Valid(): boolean {
+		if (this.validate) {
+			if (this.value == null) return false;
+
+			if (this.ShowLarge) {
+				// test if its a number between 0 and 5
+				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+			} else if (this.ShowTextarea) {
+				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+			} else if (this.ShowSmall || this.ShowWord) {
+				this.valid = ComponentHelper.PromptInputValid(this.value, this.max, this.min);
+				if (this.ShowWord) {
+					this.value = this.value.trim();
+					this.valid = this.valid && ComponentHelper.ValueIsSingleWord(this.value);
+				}
+			} else {
+				// no validation
+				this.valid = true;
+			}
+	
+			// check for funky characters
+			this.valid = this.valid && ComponentHelper.InputValid(this.value);
+		}
+
+		return this.valid;
+	}
 }
 
 enum InputTypes {
