@@ -11,9 +11,9 @@ import { VideoRating } from "../video-rating";
 export class LudusVideo {
 	model: LudusLessonApiModel;
 	videoRatingOptions: RadioOption[] = [
-		{ name: "", value: 1 },
-		{ name: "", value: 2 },
-		{ name: "", value: 3 }
+		{ name: 1, value: "" },
+		{ name: 2, value: "" },
+		{ name: 3, value: "" }
 	];
 
 	constructor(

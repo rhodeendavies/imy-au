@@ -30,7 +30,7 @@
 		<rating-box repeat.for="option of options" click.delegate="optionSelected(option)" active.bind="option.selected"
 			disabled.bind="option.disabled" clickable.bind="true">
 			<div slot="header">${option.subText}</div>
-			<div slot="body">${option.name}</div>
+			<div slot="body">${option.value}</div>
 		</rating-box>
 	</div>
 </template>
