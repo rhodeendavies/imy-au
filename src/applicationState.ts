@@ -210,6 +210,11 @@ export class ApplicationState {
 
 	async determineReflectionToShow() {
 		try {
+			if (this.determineReflectionBusy.active) {
+				await ComponentHelper.Sleep(500);
+				return this.determineReflectionToShow();
+			}
+
 			this.determineReflectionBusy.on();
 			const section = await this.getCurrentSection();
 			// lessons
