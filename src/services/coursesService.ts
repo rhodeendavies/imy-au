@@ -1,7 +1,6 @@
 import { ApiWrapper } from "api";
 import { autoinject } from "aurelia-framework";
 import { Course, Section } from "models/course";
-import { log } from "utils/log";
 
 @autoinject
 export class CoursesService {
@@ -12,7 +11,6 @@ export class CoursesService {
 		try {
 			return await this.api.get(`courses/${courseId}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -21,7 +19,6 @@ export class CoursesService {
 		try {
 			return await this.api.get(`courses/${courseId}/sections`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}

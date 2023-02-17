@@ -38,15 +38,13 @@ export class ApiWrapper {
 			return JSON.parse(text, this.dateTimeReceiver);
 		} catch (error) {
 			if (logError) {
-				apiLog.error(`[ApiWrapper] An error ocurred while doing GET to url '${url}'`, error);
 				if (error instanceof Response) {
-					this.logError(`${error.status}`, error.statusText, error);
+					this.logError(`${error.status}`, `[GET] error '${url}' with status ${error.statusText}`, error);
 				} else {
-					this.logError("000", "Unknown error", error);
+					this.logError("000", "[GET] Unknown error", error);
 				}
-			} else {
-				console.log("error", error);
 			}
+			console.error("error", error);
 			throw error;
 		}
 	}
@@ -69,15 +67,13 @@ export class ApiWrapper {
 			}
 		} catch (error) {
 			if (logError) {
-				apiLog.error(`[ApiWrapper] An error ocurred while doing POST to url '${url}'`, error);
 				if (error instanceof Response) {
-					this.logError(`${error.status}`, error.statusText, error);
+					this.logError(`${error.status}`, `[POST] error '${url}' with status ${error.statusText}`, error);
 				} else {
-					this.logError("000", "Unknown error", error);
+					this.logError("000", "[POST] Unknown error", error);
 				}
-			} else {
-				console.log("error", error);
 			}
+			console.error("error", error);
 			throw error;
 		}
 	}
@@ -101,11 +97,11 @@ export class ApiWrapper {
 			}
 		} catch (error) {
 			if (error instanceof Response) {
-				apiLog.error(`[ApiWrapper] An error ocurred while doing PATCH to url '${url}'`, error);
-				this.logError(`${error.status}`, error.statusText, error);
+				this.logError(`${error.status}`, `[PATCH] error '${url}' with status ${error.statusText}`, error);
 			} else {
-				this.logError("000", "Unknown error", error);
+				this.logError("000", "[PATCH] Unknown  error", error);
 			}
+			console.error("error", error);
 			throw error;
 		}
 	}
@@ -131,13 +127,20 @@ export class ApiWrapper {
 		try {
 			const authenticated = await this.get("users/current", false) != null;
 			if (!authenticated) return;
+			
+			if (trace instanceof Response) {
+				trace = JSON.stringify(await trace.text());
+			} else {
+				trace = JSON.stringify(trace);
+			}
+
 			await this.post("errors/client", {
 				statusCode: statusCode,
 				message: message,
-				trace: JSON.stringify(trace)
+				trace: trace
 			}, false, false);
 		} catch (error) {
-			apiLog.warn(`[ApiWrapper] An error ocurred while logging an error'`, error);
+			console.error(`[ERROR]'`, error);
 		}
 	}
 }

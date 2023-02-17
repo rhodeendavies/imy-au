@@ -3,7 +3,6 @@ import { autoinject } from "aurelia-framework";
 import { ApiResponse } from "models/apiResponse";
 import { PasswordResetModel, UserDetails, UserLogin, UserRegister } from "models/userDetails";
 import { StatusCodes } from "utils/constants";
-import { log } from "utils/log";
 
 @autoinject
 export class UsersService {
@@ -14,7 +13,6 @@ export class UsersService {
 		try {
 			return await this.api.post("users/login", userLogin, true, false);
 		} catch (error) {
-			log.error(error);
 			if (error instanceof Response) {
 				throw error;
 			} else {
@@ -27,7 +25,6 @@ export class UsersService {
 		try {
 			return await this.api.post(`users/logout`, {}, false);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -36,7 +33,6 @@ export class UsersService {
 		try {
 			return await this.api.get("users/current", false);
 		} catch (error) {
-			log.error(error);
 			const unAuth = new UserDetails();
 			unAuth.activated = false;
 			return unAuth;
@@ -49,7 +45,6 @@ export class UsersService {
 				studentNumber: studentNumber
 			}, true, false);
 		} catch (error) {
-			log.error(error);
 			if (error instanceof Response) {
 				switch (error.status) {
 					case StatusCodes.NotFound:
@@ -67,7 +62,6 @@ export class UsersService {
 		try {
 			return await this.api.post("users/reset_password", model, true, false);
 		} catch (error) {
-			log.error(error);
 			if (error instanceof Response) {
 				switch (error.status) {
 					case StatusCodes.InternalServerError:
@@ -85,7 +79,6 @@ export class UsersService {
 		try {
 			return await this.api.post("users/activate", model, true, false);
 		} catch (error) {
-			log.error(error);
 			if (error instanceof Response) {
 				throw error;
 			} else {

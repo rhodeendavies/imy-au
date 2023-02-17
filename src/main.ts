@@ -48,6 +48,6 @@ export class ServerLogAppender {
 	}
 
 	sendToServer(message, ...rest) {
-		this.api.logError("999", message, rest);
+		this.api.logError("999", `[JS] ${message}`, rest);
 	}
 }

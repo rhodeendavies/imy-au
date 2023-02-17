@@ -4,7 +4,6 @@ import { LudusLearningExperience, PaidiaLearningExperience, ReflectionApiModel }
 import { BaseDailyResponse, BaseEvaluatingResponse, BaseLessonResponse, BaseMonitoringResponse, BasePlanningResponse, CreateReflectionResponse, LudusDailyResponse, LudusEvaluatingResponse, LudusLessonResponse, LudusMonitoringResponse, LudusPlanningResponse, PaidiaDailyResponse, PaidiaEvaluatingResponse, PaidiaMonitoringResponse, PaidiaPlanningResponse } from "models/reflectionsResponses";
 import { Availability } from "models/userDetails";
 import { ReflectionTypes, Systems } from "utils/enums";
-import { log } from "utils/log";
 
 @autoinject
 export class ReflectionsService {
@@ -15,7 +14,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/availability?system=${system}&category=${category}&subjectId=${id}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -25,7 +23,6 @@ export class ReflectionsService {
 			const response: CreateReflectionResponse = await this.api.post(`reflections?system=${system}&category=${category}&subjectId=${id}`, null);
 			return response.id;
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -35,7 +32,6 @@ export class ReflectionsService {
 			const response: Response = await this.api.patch(`reflections/${reflectionId}?system=${system}&category=${category}`, model, false);
 			return response.ok;
 		} catch (error) {
-			log.error(error);
 			return false;
 		}
 	}
@@ -45,7 +41,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Lesson}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -54,7 +49,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Daily}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -63,7 +57,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Planning}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -72,7 +65,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Monitoring}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -81,7 +73,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Base}&category=${ReflectionTypes.Evaluating}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -90,7 +81,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/public?system=${Systems.Base}&subjectId=${id}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -101,7 +91,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Ludus}&category=${ReflectionTypes.Lesson}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -110,7 +99,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Ludus}&category=${ReflectionTypes.Daily}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -119,7 +107,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Ludus}&category=${ReflectionTypes.Planning}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -128,7 +115,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Ludus}&category=${ReflectionTypes.Monitoring}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -137,7 +123,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Ludus}&category=${ReflectionTypes.Evaluating}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -146,7 +131,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/public?system=${Systems.Ludus}&subjectId=${id}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -157,7 +141,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Paidia}&category=${ReflectionTypes.Lesson}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -166,7 +149,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Paidia}&category=${ReflectionTypes.Daily}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -175,7 +157,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Paidia}&category=${ReflectionTypes.Planning}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -184,7 +165,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Paidia}&category=${ReflectionTypes.Monitoring}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -193,7 +173,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/${id}?system=${Systems.Paidia}&category=${ReflectionTypes.Evaluating}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
@@ -202,7 +181,6 @@ export class ReflectionsService {
 		try {
 			return await this.api.get(`reflections/public?system=${Systems.Paidia}&subjectId=${id}`);
 		} catch (error) {
-			log.error(error);
 			return null;
 		}
 	}
