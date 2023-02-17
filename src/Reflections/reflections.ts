@@ -53,7 +53,7 @@ export class Reflections {
 				section.dateString = interval.toFormat("d LLL");
 			}
 		});
-		this.evaluatingDone = this.sectionSelected.evaluatingReflectionId != null;
+		this.evaluatingDone = this.sectionSelected?.evaluatingReflectionId != null;
 	}
 
 	navigate(fragment: string) {
