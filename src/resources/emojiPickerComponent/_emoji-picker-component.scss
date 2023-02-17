@@ -1,4 +1,13 @@
-@use "./src/styles/variables" as *;
+@use "./src/styles/variables"as *;
+
+@font-face {
+	font-family: "MozillaTwemojiColr";
+	src: url("https://cdn.jsdelivr.net/npm/twemoji-colr-font@^14/twemoji.woff2") format("woff2");
+}
+
+emoji-picker {
+	--emoji-font-family: MozillaTwemojiColr;
+}
 
 .emoji-picker-wrapper {
 	position: relative;
@@ -24,9 +33,15 @@
 			background-color: $LightGrey;
 		}
 
-		.emoji-icon {
+		.emoji-icon-placeholder {
+			font-variation-settings: "FILL"0;
 			font-size: 50px;
-			font-variation-settings: "FILL" 0;
+			user-select: none;
+		}
+
+		.emoji-icon {
+			font-family: MozillaTwemojiColr;
+			font-size: 50px;
 			user-select: none;
 		}
 
