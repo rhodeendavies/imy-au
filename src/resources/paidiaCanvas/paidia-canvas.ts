@@ -1,3 +1,4 @@
+import { ApplicationState } from "applicationState";
 import { autoinject, bindable, bindingMode } from "aurelia-framework";
 import fabric from "fabric";
 import { ComponentHelper } from "utils/componentHelper";
@@ -19,7 +20,7 @@ export class PaidiaCanvas {
 	canvasLoaded: boolean = false;
 	pulse: boolean = false;
 
-	constructor() {
+	constructor(private appState: ApplicationState) {
 		this.id = ComponentHelper.CreateId("paidiaCanvas");
 	}
 
@@ -165,7 +166,10 @@ export class PaidiaCanvas {
 		});
 
 		this.canvas.add(img);
-		this.canvas.setActiveObject(img);
+		if (!this.showCanvasAsImage) {
+			this.canvas.setActiveObject(img);
+			img.selectable = true;
+		}
 
 		if (!this.showCanvasAsImage) {
 			this.pulse = true;
@@ -197,25 +201,57 @@ export class PaidiaCanvas {
 		}
 	}
 
-	loadCanvas(canvasDataJson: string) {
+	async loadCanvas(canvasDataJson: string) {
 		if (this.canvas == null) {
 			const canvasValid = this.initCanvas();
 			if (!canvasValid) return;
 		}
 
 		const canvasData = JSON.parse(canvasDataJson);
-		this.canvas.loadFromJSON(canvasData, () => {
-			this.addBackgroundImage(canvasData.backgroundImage.src)
-			this.canvas.renderAll.bind(this.canvas);
 
-		}, (o, object) => {
-			const type = object.name;
-			this.addImageObject(object, type);
-		});
+		try {
+			await this.canvas.loadFromJSON(canvasData, () => {
+				if (canvasData.backgroundImage != null) {
+					this.addBackgroundImage(canvasData.backgroundImage.src)
+				}
+				this.canvas.renderAll.bind(this.canvas);
+			}, (o, object) => {
+				const type = object.name;
+				this.addImageObject(object, type);
+			});
 
-		setTimeout(() => {
-			this.canvasLoaded = true;
-		}, 100);
+			if (!this.showCanvasAsImage) {
+				const helperObj = new fabric.Object({});    //abstract invisible object
+				helperObj.set("selectable", false);         //so the user is not able to select and modify it manually
+				this.canvas.add(helperObj);
+
+				this.canvas.on("object:added", () => {
+					//workaround - selecting all objects to enable object controls
+
+					const objects = this.canvas.getObjects();
+					const selection = new fabric.ActiveSelection(objects, {
+						canvas: this.canvas,
+					});
+					this.canvas.setActiveObject(selection);   //selecting all objects...
+					this.canvas.discardActiveObject();        //...and deselecting them
+					this.canvas.requestRenderAll();
+
+					if (this.learningImage != null) {
+						this.canvas.setActiveObject(this.learningImage);
+					}
+				});
+
+				this.canvas.remove(helperObj);
+			}
+
+			setTimeout(() => {
+				this.canvasLoaded = true;
+			}, 100);
+		} catch (error) {
+			this.appState.triggerToast("Failed to load image, refresh to try again. Your progress will be saved.", 0, true);
+			log.error("[CANVAS]", error.message);
+			this.canvasLoaded = false;
+		}
 	}
 
 	loadCanvasAsImage(canvasDataJson: string) {

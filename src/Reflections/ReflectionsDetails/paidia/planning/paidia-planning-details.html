@@ -21,14 +21,14 @@
 			You haven't completed this reflection yet. The week needs to start first
 		</div>
 	
-		<div class="reflection-body" show.bind="PlanningReflection != null">
+		<div class="reflection-body" show.bind="planningReflection != null">
 			<!-- feeling -->
 			<div class="reflection-divider" if.bind="localParent.FullReflection">
 				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
 				<div class="paidia-feeling-summary">
 					<div class="paidia-feeling">
-						<div class="paidia-feeling-emoji">${PlanningReflection.courseFeelings.emoji}</div>
-						<div class="paidia-feeling-word">${PlanningReflection.courseFeelings.word}</div>
+						<div class="paidia-feeling-emoji">${planningReflection.courseFeelings.emoji}</div>
+						<div class="paidia-feeling-word">${planningReflection.courseFeelings.word}</div>
 					</div>
 				</div>
 			</div>
