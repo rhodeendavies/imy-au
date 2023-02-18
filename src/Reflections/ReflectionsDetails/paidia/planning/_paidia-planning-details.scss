@@ -5,6 +5,15 @@
 	grid-template-columns: 1fr 1fr;
 	gap: 20px;
 
+	@include for-laptop {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		
+		.paidia-reflection-canvas {
+			grid-row: 1;
+		}
+	}
+
 	&.paidia-reflection-details-canvas-stacked {
 		grid-template-columns: 1fr;
 		grid-template-rows: auto auto;

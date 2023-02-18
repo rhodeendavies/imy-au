@@ -28,7 +28,8 @@
 
 	.slider-bar-wrapper {
 		position: relative;
-		width: 550px;
+		max-width: 550px;
+		min-width: 400px;
 		height: 30px;
 		display: flex;
 		align-items: center;

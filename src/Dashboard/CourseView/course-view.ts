@@ -42,6 +42,7 @@ export class CourseView {
 	videoCurrentTimeStamp: number;
 	playbackSpeed: number = 1;
 	refreshSub: Subscription;
+	courseOpen: boolean = true;
 
 	constructor(
 		private localParent: Dashboard,
@@ -117,6 +118,10 @@ export class CourseView {
 			this.endTimer();
 		}
 		this.lessonSelected = lesson;
+		if (this.appState.IsLaptop) {
+			this.courseOpen = false;
+		}
+
 		this.localParent.lessonOpen = true;
 		this.appState.hideHomeActive = true;
 		this.localParent.navigate(`${Routes.CourseContent}/${lesson.id}`);
@@ -149,6 +154,10 @@ export class CourseView {
 		const endTime = DateHelper.NowDateTime().toSeconds();
 		const elapsedTime = endTime - this.lessonWatchStartTime;
 		this.lessonApi.logLessonWatchTime(this.lessonSelected.id, this.videoCurrentTimeStamp, elapsedTime);
+	}
+
+	toggleCourse() {
+		this.courseOpen = !this.courseOpen;
 	}
 
 	@computedFrom("localParent.lessonOpen")

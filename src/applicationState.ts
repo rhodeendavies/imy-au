@@ -526,4 +526,12 @@ export class ApplicationState {
 		return Promise.all([paidiaWordsPromise, strategies110Promise, strategies310Promise, ludusPromptsPromise,
 			ludusEmotionsPromise, ludusModifiersPromise, ludusTopicPhrasesPromise]);
 	}
+
+	get IsLaptop(): boolean {
+		return window.innerWidth <= 1200 && window.innerWidth >= 770;
+	}
+
+	get IsMobile(): boolean {
+		return window.innerWidth < 770;
+	}
 }

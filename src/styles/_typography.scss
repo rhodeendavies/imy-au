@@ -21,16 +21,14 @@ a {
 	}
 }
 
-.top-heading {
-	font-family: $Poppins;
-	font-size: 48px;
-	font-weight: $bold;
-}
-
 .main-heading {
 	font-family: $Poppins;
 	font-size: 36px;
 	font-weight: $semi-bold;
+	
+	@include for-laptop {
+		font-size: 30px;
+	}
 }
 
 .section-heading {

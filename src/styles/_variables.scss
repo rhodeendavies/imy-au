@@ -43,9 +43,21 @@ $BoxShadowTop: 0px 3px 6px rgba(0, 0, 0, 0.16);
 	@for $i from 0 through 100 {
 		.saturate-#{$i} {
 			$i: calc($i / 100);
-			background-color: rgb(13 * $i,  127 * $i, 119 * $i);
+			background-color: rgb(13 * $i, 127 * $i, 119 * $i);
 		}
 	}
 }
 
 @include saturate-x;
+
+@mixin for-laptop {
+	@media (min-width: 770px) and (max-width: 1200px) {
+		@content;
+	}
+}
+
+@mixin for-desktop {
+	@media (min-width: 1201px) {
+		@content;
+	}
+}

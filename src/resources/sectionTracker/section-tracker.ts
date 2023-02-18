@@ -1,5 +1,4 @@
 import { autoinject, bindable, bindingMode, computedFrom } from "aurelia-framework";
-import { ReflectionApiModel } from "models/reflectionsApiModels";
 
 @autoinject
 export class SectionTracker {

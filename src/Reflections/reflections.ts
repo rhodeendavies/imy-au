@@ -17,6 +17,7 @@ export class Reflections {
 	sectionSelected: Section;
 	showPublicReflections: boolean = false;
 	busy: Busy = new Busy();
+	reflectionOpen: boolean = false;
 
 	constructor(
 		private router: Router,
@@ -94,5 +95,9 @@ export class Reflections {
 
 	togglePublicReflections() {
 		this.showPublicReflections = !this.showPublicReflections;
+	}
+
+	toggleReflections() {
+		this.reflectionOpen = !this.reflectionOpen;
 	}
 }

@@ -7,7 +7,7 @@ import { Toast } from 'resources/toast/toast';
 import { ApplicationState } from 'applicationState';
 import { Modal } from 'resources/modal/modal';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { Events } from 'utils/constants';
+import { Events, Routes } from 'utils/constants';
 
 @autoinject
 export class App {
@@ -34,6 +34,8 @@ export class App {
 	}
 
 	attached() {
+		this.checkForMobile();
+
 		this.appState.setToast(this.toast);
 		this.appState.setRatingModal(this.ratingModal);
 		this.appState.setDailyModal(this.dailyReflectionModal);
@@ -43,7 +45,17 @@ export class App {
 
 		window.addEventListener("scroll", () => {
 			this.ea.publish(Events.Scrolled);
-		}, true)
+		}, true);
+
+		window.addEventListener("resize", () => {
+			this.checkForMobile();
+		}, true);
+	}
+
+	checkForMobile() {
+		if (this.appState.IsMobile) {
+			this.router.navigateToRoute(Routes.Error);
+		}
 	}
 
 	clickBody(event: Event) {

@@ -14,6 +14,10 @@
 		color: $SeaGreen;
 		font-family: $Poppins;
 		font-weight: $bold;
+		
+		@include for-laptop {
+			font-size: 30px;
+		}
 	}
 
 	.nav-item {
@@ -23,6 +27,10 @@
 		transition: all 0.3s;
 		position: relative;
 		cursor: pointer;
+		
+		@include for-laptop {
+			font-size: 25px;
+		}
 
 		&:hover {
 			color: $Orange;

@@ -12,7 +12,8 @@
 
 	&.app-wrapper-grid {
 		display: grid;
-		grid-template-rows: 100px minmax(0, 1fr);
+		grid-template-rows: 75px minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.app-body {

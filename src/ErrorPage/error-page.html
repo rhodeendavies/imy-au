@@ -9,7 +9,7 @@
 				</popup>
 			</div>
 
-			<div class="btn-row">
+			<div class="btn-row" if.bind="!appState.IsMobile">
 				<button class="btn btn-default" if.bind="authenticated && student" click.delegate="home()">
 					Back to home
 				</button>

@@ -22,7 +22,8 @@
 				</div>
 
 				<radio-button options.bind="strategy.options" name.bind="strategy.strategy"
-					value.bind="strategy.modifiers" on-change.call="updateChart(strategy)" position="right">
+					value.bind="strategy.modifiers" on-change.call="updateChart(strategy)"
+					position.bind="appState.IsLaptop ? 'bottom' : 'right'">
 				</radio-button>
 			</div>
 		</div>

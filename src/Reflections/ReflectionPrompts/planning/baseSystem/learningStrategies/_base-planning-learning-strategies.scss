@@ -5,9 +5,18 @@
 	grid-template-columns: repeat(4, 1fr);
 	gap: 20px;
 
+	@include for-laptop {
+		grid-template-columns: auto;
+	}
+
 	>div:not(:last-child) {
 		border-right: 1px solid $DarkGrey40;
 		padding-right: 20px;
+
+		@include for-laptop {
+			border-right: none;
+			padding-right: p;
+		}
 	}
 
 	.base-strategy-option-heading {

@@ -1,15 +1,20 @@
 import { autoinject } from "aurelia-framework";
-import { NavigationInstruction, Next, Redirect } from "aurelia-router";
+import { NavigationInstruction, Next, Redirect, RedirectToRoute } from "aurelia-router";
 import { Routes } from "utils/constants";
 import { Roles } from "utils/enums";
 import { log } from "utils/log";
 import { AuthenticationService } from "./authenticationService";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class AuthorizeStep {
-	constructor(private authService: AuthenticationService) { }
+	constructor(private authService: AuthenticationService, private appState: ApplicationState) { }
 
 	async run(navigationInstruction: NavigationInstruction, next: Next) {
+		if (this.appState.IsMobile && navigationInstruction.fragment.indexOf("not-found") == -1) {
+			return next.cancel(new RedirectToRoute(Routes.Error));
+		}
+
 		log.debug("navigating...");
 		const role = await this.authService.Role();
 		if (!(await this.validateRoute(navigationInstruction, role))) {

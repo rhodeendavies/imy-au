@@ -14,25 +14,28 @@
 			<div slot="body">
 				<lesson-view repeat.for="lesson of section.lessons" click.delegate="selectLesson(lesson)"
 					active.bind="SelectedId == lesson.id" available.bind="lesson.available">
-					<check-mark checked.bind="lesson.complete" on-change.call="completeLesson(lesson)"
-						disabled.bind="lesson.complete">
-					</check-mark>
-					
-					<div class="section-name">
-						<div class="body-large">
+					<div class="section-section">
+						<check-mark checked.bind="lesson.complete" on-change.call="completeLesson(lesson)"
+							disabled.bind="lesson.complete">
+						</check-mark>
+						
+						<div class="section-name">
 							${lesson.order}. ${lesson.name}
 						</div>
+					</div>
+					
+					<div class="section-section">
 						<div class="section-runtime">
 							<span class="icon">play_circle</span>
 							<span>${lesson.videoLength | seconds}</span>
 						</div>
-					</div>
-					
-					<div class="lessons-btn">
-						<button class="btn btn-default" click.delegate="downloadLesson(lesson, $event)">
-							<span class="far fa-folder"></span>
-							Resources
-						</button>
+						
+						<div class="lessons-btn">
+							<button class="btn btn-default" click.delegate="downloadLesson(lesson, $event)">
+								<span class="far fa-folder"></span>
+								Resources
+							</button>
+						</div>
 					</div>
 				</lesson-view>
 			</div>

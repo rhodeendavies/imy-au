@@ -1,3 +1,4 @@
+import { ApplicationState } from "applicationState";
 import { autoinject } from "aurelia-dependency-injection";
 import { Router } from "aurelia-router";
 import { AuthenticationService } from "services/authenticationService";
@@ -11,7 +12,11 @@ export class ErrorPage {
 	student: boolean;
 	human: string = AttributionLinks.human;
 
-	constructor(private authService: AuthenticationService, private router: Router) {}
+	constructor(
+		private authService: AuthenticationService,
+		private router: Router,
+		private appState: ApplicationState
+	) { }
 
 	async attached() {
 		this.authenticated = await this.authService.Authenticated();
