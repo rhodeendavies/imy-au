@@ -34,7 +34,7 @@
 					<div if.bind="showPublicReflections" class="mt-10">Browse the reflections of your classmates.</div>
 				</div>
 				<div>
-					<button class="btn btn-primary" click.delegate="togglePublicReflections()" disabled.bind="!evaluatingDone">
+					<button class="btn btn-primary" click.delegate="togglePublicReflections()">
 						<span if.bind="!showPublicReflections">Public reflections</span>
 						<span if.bind="showPublicReflections">Private reflections</span>
 					</button>

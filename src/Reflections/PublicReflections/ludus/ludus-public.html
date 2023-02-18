@@ -1,5 +1,16 @@
 <template>
-	<div class="ludus-public-wrapper">
+	<div class="reflections-details-wrapper public-reflections-details-wrapper"
+		if.bind="reflections == null || reflections.length == 0">
+		<div class="reflections-details">
+			<div class="reflection-header-wrapper"></div>
+			<div class="reflection-body">
+				There are no public reflections yet. They will appear when your classmates finish the week's
+				content
+			</div>
+		</div>
+	</div>
+
+	<div class="ludus-public-wrapper" show.bind="reflections != null && reflections.length > 0">
 		<div class="reflections-details-wrapper">
 			<div class="reflections-details">
 				<div class="reflection-header-wrapper">
@@ -7,26 +18,9 @@
 						Summary of emotions this week
 					</div>
 				</div>
-	
+
 				<div class="reflection-body">
-					<!-- <div class="reflection-divider"> -->
-						<canvas id="ludusPublicSummary"></canvas>
-					<!-- </div> -->
-					<!-- <div class="reflection-sub-heading">Most popular sentiments</div>
-					<div class="ludus-summary-list">
-						<div class="ludus-summary-list-item">
-							<div class="ludus-summary-list-icon">1</div>
-							<div>${firstSentiment}</div>
-						</div>
-						<div class="ludus-summary-list-item">
-							<div class="ludus-summary-list-icon">2</div>
-							<div>${secondSentiment}</div>
-						</div>
-						<div class="ludus-summary-list-item">
-							<div class="ludus-summary-list-icon">3</div>
-							<div>${thirdSentiment}</div>
-						</div>
-					</div> -->
+					<canvas id="ludusPublicSummary"></canvas>
 				</div>
 			</div>
 		</div>
@@ -35,7 +29,6 @@
 				repeat.for="reflection of reflections">
 				<div class="reflections-details">
 					<div class="reflection-header-wrapper"></div>
-		
 					<div class="reflection-body">
 						<div class="ludus-summary-wrapper">
 							<div class="ludus-summary" repeat.for="modifier of reflection">
