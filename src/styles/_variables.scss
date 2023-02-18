@@ -50,6 +50,12 @@ $BoxShadowTop: 0px 3px 6px rgba(0, 0, 0, 0.16);
 
 @include saturate-x;
 
+@mixin for-mobile {
+	@media (max-width: 769px) {
+		@content;
+	}
+}
+
 @mixin for-laptop {
 	@media (min-width: 770px) and (max-width: 1200px) {
 		@content;
