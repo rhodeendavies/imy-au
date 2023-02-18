@@ -22,9 +22,18 @@
 
 		<div class="strategy-visual">
 			<div class="strategy-heading">Summary of the components of your strategies</div>
-			<div class="ludus-chart">
+			<div class="ludus-chart ludus-chart-review">
 				<canvas id="evaluationComponentsChart"></canvas>
+				
+				<div class="ludus-evaluation-score-wrapper">
+					<div class="ludus-evaluation-score-text">SCORE:</div>
+					<div class="ludus-evaluation-score">
+						${finalScore} %
+					</div>
+				</div>
 			</div>
+
+
 			<div class="ludus-gauges">
 				<popup repeat.for="component of components">
 					<div slot="item">
@@ -33,13 +42,6 @@
 					</div>
 					<div slot="popup">${component.description}</div>
 				</popup>
-			</div>
-
-			<div class="ludus-evaluation-score-wrapper">
-				<div class="ludus-evaluation-score-text">SCORE:</div>
-				<div class="ludus-evaluation-score">
-					${finalScore} %
-				</div>
 			</div>
 		</div>
 	</div>

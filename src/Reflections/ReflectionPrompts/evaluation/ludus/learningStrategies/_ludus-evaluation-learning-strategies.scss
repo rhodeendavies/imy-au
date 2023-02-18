@@ -4,12 +4,19 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-top: 50px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+
+	&.ludus-evaluation-score-wrapper-final {
+		position: initial;
+		margin: 20px 0 0 30px;
+	}
 
 	.ludus-evaluation-score-text {
 		text-transform: uppercase;
-		font-weight: $bold;
-		font-style: $Poppins;
+		font-weight: $semi-bold;
+		font-family: $Poppins;
 		color: $SeaGreen;
 		font-size: 22px;
 	}
