@@ -31,7 +31,13 @@ export class BaseVideo {
 
 	async submitRating() {
 		if (!this.AllowSubmit) return;
-		const id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
+		let id = null;
+		if (this.appState.watchedLesson.incompleteReflectionId != null) {
+			id = this.appState.watchedLesson.incompleteReflectionId;
+		} else {
+			id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Lesson, this.appState.watchedLesson.id)
+		}
+
 		if (id == null) {
 			this.appState.triggerToast("Failed to create rating...");
 			return;

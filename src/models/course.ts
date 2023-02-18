@@ -69,6 +69,7 @@ export class Lesson {
 	videoLength: number;
 	complete: boolean;
 	available: boolean;
+	incompleteReflectionId: number;
 
 	// for frontend
 	sectionId?: number;

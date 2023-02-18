@@ -108,10 +108,10 @@ export class ApplicationState {
 		}
 		if (this.watchedLesson.sectionId == this.currentSection.id) {
 			this.determineReflectionToShow();
-			this.refreshSections();
 		} else {
 			this.ea.publish(Events.LessonCompleted);
 		}
+		this.refreshSections();
 		this.watchedLesson = null;
 	}
 
