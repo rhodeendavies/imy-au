@@ -32,6 +32,7 @@ export class LudusEvaluationLearningStrategies extends ReflectionStep {
 
 	attached() {
 		try {
+			this.finalScore = null;
 			this.busy.on();
 			this.initData();
 			this.createChart();

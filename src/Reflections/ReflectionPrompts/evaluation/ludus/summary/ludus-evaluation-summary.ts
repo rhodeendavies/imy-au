@@ -27,7 +27,9 @@ export class LudusEvaluationSummary extends ReflectionStep {
 	}
 
 	async attached() {
+		this.currentSegment = null;
 		this.currentRotation = 0;
+		this.rotation = null;
 
 		this.numOfSegments = this.appState.emotions.length;
 		this.segments = [];
