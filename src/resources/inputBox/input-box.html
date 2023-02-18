@@ -11,6 +11,10 @@
 
 		<div class="input-box-wrapper">
 			<div class="input-box">
+				<div class="student-number-prepend" if.bind="studentNumber">
+					u
+				</div>
+
 				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
 					blur.trigger="onBlurTrigger()" if.bind="ShowText" value.bind="value"
 					placeholder.bind="placeholder"

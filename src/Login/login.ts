@@ -6,7 +6,7 @@ import environment from '../environment'
 import { UsersService } from "services/usersService";
 import { Busy } from "resources/busy/busy";
 import { Router } from "aurelia-router";
-import { AttributionLinks, Routes } from "utils/constants";
+import { AttributionLinks, Routes, StatusCodes } from "utils/constants";
 import { ComponentHelper } from "utils/componentHelper";
 import { LoginScreens } from "utils/enums";
 import { ApplicationState } from "applicationState";
@@ -42,7 +42,10 @@ export class Login {
 			this.passwordValid = !ComponentHelper.NullOrEmpty(this.loginModel.password);
 			if (!this.studentNumberValid || !this.passwordValid) return;
 
-			this.response = await this.authService.login(this.loginModel);
+			this.response = await this.authService.login({
+				studentNumber: ComponentHelper.PrependStudentNumber(this.loginModel.studentNumber),
+				password: this.loginModel.password
+			});
 		} catch (error) {
 			this.response = new ApiResponse(false, "Failed to login");
 		} finally {
@@ -56,10 +59,19 @@ export class Login {
 			this.studentNumberValid = !ComponentHelper.NullOrEmpty(this.loginModel.studentNumber);
 			if (!this.studentNumberValid) return;
 
-			this.response = await this.userService.sendPasswordResetEmail(this.loginModel.studentNumber);
-			this.resetPasswordSent = this.response != null && this.response.result;
+			const result = await this.userService.sendPasswordResetEmail(ComponentHelper.PrependStudentNumber(this.loginModel.studentNumber));
+			this.resetPasswordSent = result != null;
 		} catch (error) {
-			this.response = new ApiResponse(false, "Failed to reset password");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.NotFound:
+						return new ApiResponse(false, "Account does not exist");
+					default:
+						return new ApiResponse(false, "An error occurred");
+				}
+			} else {
+				return new ApiResponse(false, "An error occurred");
+			}
 		} finally {
 			this.busy.off();
 		}

@@ -17,6 +17,7 @@ export class InputBox {
 	@bindable showInfo: boolean = false;
 	@bindable error: string = "";
 	@bindable validate: boolean = true;
+	@bindable studentNumber: boolean = false;
 
 	@bindable onFocus;
 	@bindable onBlur;

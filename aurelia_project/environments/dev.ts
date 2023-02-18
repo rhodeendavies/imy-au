@@ -10,7 +10,7 @@ export default {
 		giphyRating: "g"
 	},
 	loginModel: {
-		studentNumber: "u00000011",
+		studentNumber: "00000011",
 		password: "1234"
 	},
 	inputIndicator: "Z",

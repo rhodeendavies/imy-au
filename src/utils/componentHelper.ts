@@ -501,6 +501,9 @@ export class ComponentHelper {
 		result.hasDigit = /\d/.test(password);
 		result.hasSymbol = /\W/.test(password);
 		return result;
+	}
 
+	static PrependStudentNumber(studentNumber: string): string {
+		return `u${studentNumber}`;
 	}
 }

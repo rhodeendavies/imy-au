@@ -15,7 +15,7 @@
 
 			<div class="login-box" if.bind="!registerSuccess && !busy.active">
 				<div class="login-inputs">
-					<input-box value.bind="registerModel.studentNumber" label="Student number"
+					<input-box value.bind="registerModel.studentNumber" label="Student number" student-number.bind="true"
 						valid.bind="studentNumberValid" error="*Required"  validate.bind="false">
 					</input-box>
 					<input-box value.bind="registerModel.password" label="Password" type="password"

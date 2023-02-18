@@ -46,7 +46,11 @@ export class Register {
 			this.passwordsMatch = this.registerModel.password == this.registerModel.passwordConfirmation;
 			if (!this.passwordsMatch) return;
 
-			const user = await this.userService.activate(this.registerModel);
+			const user = await this.userService.activate({
+				studentNumber: ComponentHelper.PrependStudentNumber(this.registerModel.studentNumber),
+				password: this.registerModel.password,
+				passwordConfirmation: this.registerModel.passwordConfirmation
+			});
 			this.registerSuccess = user != null && user.activated;
 			if (!this.registerSuccess) {
 				this.response = new ApiResponse(false, "An error occurred");
