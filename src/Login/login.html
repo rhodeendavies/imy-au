@@ -1,6 +1,10 @@
 <template>
 	<div class="page login-page">
-		<div class="login-image" title.bind="onlineEducation" click.delegate="navigateToAttribution()"></div>
+		<div class="login-image">
+			<popup class="login-popup" position="right" click.delegate="navigateToAttribution()">
+				<div slot="popup">Image by: ${onlineEducation}</div>
+			</popup>
+		</div>
 
 		<div class="login-center">
 			<div class="login-heading-wrapper" if.bind="ShowLogin">

@@ -23,7 +23,17 @@
 		background-size: 100%;
 		background-repeat: no-repeat;
 		background-position-y: bottom;
-		cursor: pointer;
+		position: relative;
+
+		.login-popup {
+			position: absolute;
+			bottom: 40px;
+			left: 20px;
+
+			.popup-circle {
+				cursor: pointer;
+			}
+		}
 	}
 
 	.login-center {
