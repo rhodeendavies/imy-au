@@ -252,7 +252,7 @@ export class ComponentHelper {
 	static GetWord(section: PromptSection): string {
 		const paidiaWord = this.PaidiaWords.find(x => x.wordIndicator == section.wordIndicator);
 		if (paidiaWord == null) return "";
-		if (paidiaWord.currentIndex > paidiaWord.words.length) {
+		if (paidiaWord.currentIndex > paidiaWord.words.length - 1) {
 			paidiaWord.currentIndex = 0;
 		}
 		const index = paidiaWord.currentIndex++;
@@ -501,6 +501,9 @@ export class ComponentHelper {
 		result.hasDigit = /\d/.test(password);
 		result.hasSymbol = /\W/.test(password);
 		return result;
+	}
 
+	static PrependStudentNumber(studentNumber: string): string {
+		return `u${studentNumber}`;
 	}
 }

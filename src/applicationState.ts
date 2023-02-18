@@ -89,8 +89,8 @@ export class ApplicationState {
 		this.evaluationModal = _modal;
 	}
 
-	triggerToast(message: string, seconds: number = 3) {
-		this.toast.trigger(message, seconds);
+	triggerToast(message: string, seconds: number = 3, permanent: boolean = false) {
+		this.toast.trigger(message, seconds, permanent);
 	}
 
 	triggerRatingModal(lesson: Lesson, sectionId: number) {
@@ -108,10 +108,10 @@ export class ApplicationState {
 		}
 		if (this.watchedLesson.sectionId == this.currentSection.id) {
 			this.determineReflectionToShow();
-			this.refreshSections();
 		} else {
 			this.ea.publish(Events.LessonCompleted);
 		}
+		this.refreshSections();
 		this.watchedLesson = null;
 	}
 
@@ -210,6 +210,11 @@ export class ApplicationState {
 
 	async determineReflectionToShow() {
 		try {
+			if (this.determineReflectionBusy.active) {
+				await ComponentHelper.Sleep(500);
+				return this.determineReflectionToShow();
+			}
+
 			this.determineReflectionBusy.on();
 			const section = await this.getCurrentSection();
 			// lessons

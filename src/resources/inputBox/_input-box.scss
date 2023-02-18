@@ -95,6 +95,17 @@
 			transition: all 0.3s ease;
 			outline: 2px solid $SeaGreen;
 
+			.student-number-prepend {
+				height: 100%;
+				border-right: 2px solid $SeaGreen;
+				border-radius: $BorderRadius 0 0 $BorderRadius;
+				width: 50px;
+				background-color: $LightGrey;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
 			input,
 			textarea {
 				transition: all 0.3s ease;

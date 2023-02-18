@@ -2,7 +2,11 @@
 
 .ludus-chart {
 	max-height: 200px;
-	margin: 20px 0;
+	position: relative;
+	
+	&.ludus-chart-review {
+		max-height: 175px;
+	}
 }
 
 .ludus-info {

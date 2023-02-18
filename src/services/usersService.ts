@@ -39,23 +39,10 @@ export class UsersService {
 		}
 	}
 
-	async sendPasswordResetEmail(studentNumber: string): Promise<ApiResponse> {
-		try {
-			return await this.api.post("users/send_password_reset_email", {
-				studentNumber: studentNumber
-			}, true, false);
-		} catch (error) {
-			if (error instanceof Response) {
-				switch (error.status) {
-					case StatusCodes.NotFound:
-						return new ApiResponse(false, "Account does not exist");
-					default:
-						return new ApiResponse(false, "An error occurred");
-				}
-			} else {
-				return new ApiResponse(false, "An error occurred");
-			}
-		}
+	async sendPasswordResetEmail(studentNumber: string): Promise<boolean> {
+		return await this.api.post("users/send_password_reset_email", {
+			studentNumber: studentNumber
+		}, false, false) != null;
 	}
 
 	async resetPassword(model: PasswordResetModel): Promise<ApiResponse> {

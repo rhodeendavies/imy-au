@@ -19,23 +19,32 @@ $Good: #62b58f;
 		border-radius: $width $width 0 0;
 		overflow: hidden;
 		position: relative;
-		
-		.gauge-green {
+
+		.gauge-quarter {
 			position: absolute;
+			bottom: 0;
 			z-index: 1;
 			height: 100%;
 			width: 100%;
-			border-right: $border solid $Good;
-			border-top: $border solid transparent;
-			border-left: $border solid transparent;
 			border-radius: $width $width 0 0;
+			border-top: $border solid transparent;
+
+			&.gauge-green {
+				border-right: $border solid $Good;
+				border-left: $border solid transparent;
+			}
+
+			&.gauge-red {
+				border-left: $border solid $Bad;
+				border-right: $border solid transparent;
+			}
 		}
 	
 		.gauge-background {
 			position: relative;
 			height: 100%;
 			width: 100%;
-			background: linear-gradient(90deg, $Bad 0%, $Bad 50%, $Medium 50%, $Medium 100%);
+			background: $Medium;
 			display: flex;
 			align-items: flex-end;
 			justify-content: center;

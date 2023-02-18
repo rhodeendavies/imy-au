@@ -5,11 +5,13 @@ export class Toast {
 	private show: boolean = false;
 	private message: string = "";
 
-	trigger(_message: string, seconds: number) {
+	trigger(_message: string, seconds: number, permanent: boolean = false) {
 		this.message = _message;
 		this.show = true;
-		setTimeout(() => {
-			this.show = false
-		}, seconds * 1000);
+		if (!permanent) {
+			setTimeout(() => {
+				this.show = false
+			}, seconds * 1000);
+		}
 	}
 }

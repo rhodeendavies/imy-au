@@ -57,7 +57,30 @@ export class PaidiaEvaluationSummary extends ReflectionStep {
 			});
 			this.emojis = ComponentHelper.ShuffleArray(this.emojis);
 
+			if (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.color)) {
+				const colorEmoji = this.emojis.findIndex(x => x.type == PaidiaSummaryType.colour);
+				this.chosenEmojis.push(this.emojis[colorEmoji]);
+				this.emojis.splice(colorEmoji, 1);
+			}
+			if (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.emoji)) {
+				this.localParent.model.learningExperience.emoji = ComponentHelper.EmojiFromString(this.localParent.model.learningExperience.emoji);
+				const emojiEmoji = this.emojis.findIndex(x => x.type == PaidiaSummaryType.emoji);
+				this.chosenEmojis.push(this.emojis[emojiEmoji]);
+				this.emojis.splice(emojiEmoji, 1);
+			}
+			if (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.gif)) {
+				const gifEmoji = this.emojis.findIndex(x => x.type == PaidiaSummaryType.gif);
+				this.chosenEmojis.push(this.emojis[gifEmoji]);
+				this.emojis.splice(gifEmoji, 1);
+			}
+			if (!ComponentHelper.NullOrEmpty(this.localParent.model.learningExperience.text)) {
+				const textEmoji = this.emojis.findIndex(x => x.type == PaidiaSummaryType.text);
+				this.chosenEmojis.push(this.emojis[textEmoji]);
+				this.emojis.splice(textEmoji, 1);
+			}
+
 			this.localParent.model.emojis = this.emojis;
+			this.localParent.model.chosenEmojis = this.chosenEmojis;
 		} else {
 			this.chosenEmojis = this.localParent.model.chosenEmojis;
 			this.emojis = this.localParent.model.emojis;
