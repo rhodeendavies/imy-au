@@ -8,6 +8,11 @@
 	</input-box>
 
 	<p class="shuffle-word ${animation}" if.bind="ShuffleWord" click.delegate="getNextWord()">
-		${section.value}
+		<span>
+			${section.value}
+		</span>
+		<span class="cursor-element">
+			<span class="icon">arrow_selector_tool</span>
+		</span>
 	</p>
 </template>

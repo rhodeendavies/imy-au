@@ -12,20 +12,24 @@ export class Section {
 		ShuffleWordAnimation.blink,
 		ShuffleWordAnimation.colourChange,
 		ShuffleWordAnimation.shadow,
-		ShuffleWordAnimation.wiggle
+		ShuffleWordAnimation.wiggle,
+		ShuffleWordAnimation.slot,
+		ShuffleWordAnimation.cursor
 	];
 
 	constructor(private localParent: PromptSentence) {}
 
 	attached() {
-		this.getRandomAnimation();
+		setTimeout(() => {
+			this.getRandomAnimation();
+		}, ComponentHelper.RandomWholeNumber(0, 3000));
 	}
 
 	getRandomAnimation() {
-		this.animation = this.animations[ComponentHelper.RandomWholeNumber(0, 3)];
+		this.animation = this.animations[ComponentHelper.RandomWholeNumber(0, 5)];
 		setTimeout(() => {
 			this.animation = "";
-			setTimeout(() => this.getRandomAnimation(), ComponentHelper.RandomWholeNumber(4000, 10000));
+			setTimeout(() => this.getRandomAnimation(), ComponentHelper.RandomWholeNumber(4000, 8000));
 		}, 2000);
 	}
 
@@ -54,5 +58,7 @@ enum ShuffleWordAnimation {
 	blink = "blink",
 	colourChange = "colour-change",
 	wiggle = "wiggle",
-	shadow = "shadow"
+	shadow = "shadow",
+	slot = "slot",
+	cursor = "cursor"
 }

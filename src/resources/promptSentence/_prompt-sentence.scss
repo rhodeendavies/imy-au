@@ -20,6 +20,7 @@
 		cursor: pointer;
 		user-select: none;
 		transition: all 0.3s;
+		position: relative;
 
 		&.blink {
 			animation: blinkAnimation 1s infinite;
@@ -36,10 +37,46 @@
 		&.colour-change {
 			animation: colourAnimation 2s infinite;
 		}
+
+		&.slot {
+			overflow: hidden;
+
+			span {
+				position: relative;
+				animation: slotAnimation 2s infinite;
+			}
+		}
+
+		&.cursor {
+			.cursor-element {
+				display: block;
+				position: absolute;
+				bottom: -20px;
+				right: 0;
+				animation: cursorAnimation 2s infinite;
+
+				&::before {
+					content: '';
+					box-shadow: 0 0 0 rgba($color: $Orange, $alpha: 0);
+					animation: pulse 2s infinite;
+					width: 22px;
+					height: 22px;
+					border-radius: 50%;
+					display: block;
+					position: relative;
+					right: 5px;
+					top: 14px;
+				}
+			}
+		}
+
+		.cursor-element {
+			display: none;
+		}
 	}
 
 	.word, .shuffle-word {
-		padding: 10px 0;
+		margin: 10px 0;
 	}
 
 	.prompt-refresh {
@@ -82,6 +119,49 @@
 	100% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
 }
 
+@keyframes slotAnimation {
+	0% {top: 0px;}
+	55% {top: -3px;}
+	60% {top: 20px;}
+	61% {top: -20px;}
+	70% {top: 20px;}
+	71% {top: -20px;}
+	80% {top: 20px;}
+	81% {top: -20px;}
+	90% {top: 0px;}
+	99% {top: 3px;}
+	100% {top: 0px;}
+}
+
+@keyframes cursorAnimation {
+	0% {
+		bottom: -30px;
+		opacity: 0;
+	}
+	10% {
+		bottom: -30px;
+		opacity: 1;
+	}
+	55% {
+		bottom: -15px;
+	}
+	60% {
+		transform: scale(1);
+	}
+	70% {
+		transform: scale(0.8);
+	}
+	75% {
+		transform: scale(0.8);
+		opacity: 1;
+	}
+	100% {
+		bottom: -15px;
+		transform: scale(1);
+		opacity: 0;
+	}
+}
+
 @keyframes spin{
 	0% {
 		transform:  rotate(0deg);
@@ -100,6 +180,25 @@
 	}
 	100% {
 		transform:  rotate(360deg);
+	}
+}
+
+@keyframes pulse {
+	0% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+	}
+	70% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 1);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 1);
+	}
+	95% {
+		-moz-box-shadow: 0 0 0 10px rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 10px rgba($color: $Orange, $alpha: 0);
+	}
+	100% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
 	}
 }
 

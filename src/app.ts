@@ -50,6 +50,10 @@ export class App {
 		window.addEventListener("resize", () => {
 			this.checkForMobile();
 		}, true);
+
+		setTimeout(() => {
+			this.appState.appLoaded = true;
+		}, 50);
 	}
 
 	checkForMobile() {

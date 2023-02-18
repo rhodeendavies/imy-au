@@ -46,6 +46,7 @@ export class ApplicationState {
 	dailyOpen: boolean = false;
 	loginScreenType: LoginScreens = LoginScreens.login;
 	hideHomeActive: boolean = false;
+	appLoaded: boolean = false;
 
 	constructor(
 		private ea: EventAggregator,
@@ -210,7 +211,7 @@ export class ApplicationState {
 
 	async determineReflectionToShow() {
 		try {
-			if (this.determineReflectionBusy.active) {
+			if (this.determineReflectionBusy.active || !this.appLoaded) {
 				await ComponentHelper.Sleep(500);
 				return this.determineReflectionToShow();
 			}
@@ -219,7 +220,7 @@ export class ApplicationState {
 			const section = await this.getCurrentSection();
 			// lessons
 			const lessons = section.lessons;
-			for (let index = 0; index < lessons.length; index++) {
+			for (let index = 0; index < lessons?.length; index++) {
 				const lesson = lessons[index];
 				if (lesson.complete) {
 					const lessonAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Lesson, lesson.id);
