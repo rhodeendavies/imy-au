@@ -3,10 +3,10 @@ import { Router } from "aurelia-router";
 import { ApiResponse } from "models/apiResponse";
 import { PasswordRequirements, PasswordResetModel, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
+import { AuthenticationService } from "services/authenticationService";
 import { UsersService } from "services/usersService";
 import { ComponentHelper } from "utils/componentHelper";
-import { AttributionLinks, Routes } from "utils/constants";
-import { log } from "utils/log";
+import { AttributionLinks, Routes, StatusCodes } from "utils/constants";
 
 @autoinject
 export class PasswordReset {
@@ -19,7 +19,11 @@ export class PasswordReset {
 	success: boolean = false;
 	onlineEducation: string = AttributionLinks.onlineEducation;
 
-	constructor(private usersService: UsersService, private router: Router) { }
+	constructor(
+		private usersService: UsersService,
+		private authService: AuthenticationService,
+		private router: Router
+	) { }
 
 	activate(params, routeConfig, navigationInstruction) {
 		this.resetToken = params.resetToken
@@ -35,11 +39,27 @@ export class PasswordReset {
 			if (!this.passwordsMatch) return;
 
 			this.model.resetToken = this.resetToken;
-			this.response = await this.usersService.resetPassword(this.model);
-			this.success = this.response != null && this.response.result;
+			const result = await this.usersService.resetPassword(this.model);
+			this.success = result != null;
+			if (!this.success) {
+				this.response = new ApiResponse(false, "An error occurred");
+				return;
+			}
+
+			this.authService.Authenticated(true);
 		} catch (error) {
-			log.error(error);
-			this.response = new ApiResponse(false, "Failed to login");
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.Unauthorized:
+						this.response = new ApiResponse(false, "Reset link expired");
+						break;
+					default:
+						this.response = new ApiResponse(false, "An error occurred");
+						break;
+				}
+			} else {
+				this.response = new ApiResponse(false, "An error occurred");
+			}
 		} finally {
 			this.busy.off();
 		}

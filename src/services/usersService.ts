@@ -45,21 +45,8 @@ export class UsersService {
 		}, false, false) != null;
 	}
 
-	async resetPassword(model: PasswordResetModel): Promise<ApiResponse> {
-		try {
-			return await this.api.post("users/reset_password", model, true, false);
-		} catch (error) {
-			if (error instanceof Response) {
-				switch (error.status) {
-					case StatusCodes.InternalServerError:
-						return new ApiResponse(false, "Reset link not valid");
-					default:
-						return new ApiResponse(false, "An error occurred");
-				}
-			} else {
-				return new ApiResponse(false, "An error occurred");
-			}
-		}
+	async resetPassword(model: PasswordResetModel): Promise<boolean> {
+		return await this.api.post("users/reset_password", model, false, false) != null;
 	}
 
 	async activate(model: UserRegister): Promise<UserDetails> {
