@@ -17,7 +17,7 @@
 	<div class="app-wrapper ${authService.Authenticated && !Loading ? 'app-wrapper-grid' : ''}">
 		<page-loader if.bind="Loading"></page-loader>
 
-		<div class="app-nav ${ReflectionOpen ? 'disable-app' : ''}" click.trigger="clickBody($event)">
+		<div show.bind="!appState.IsMobile" class="app-nav ${ReflectionOpen ? 'disable-app' : ''}" click.trigger="clickBody($event)">
 			<navbar></navbar>
 		</div>
 		<div class="app-body ${ReflectionOpen ? 'disable-app' : ''}" click.trigger="clickBody($event)">
@@ -26,7 +26,7 @@
 
 		<toast view-model.ref="toast"></toast>
 
-		<modal view-model.ref="ratingModal">
+		<modal show.bind="!appState.IsMobile" view-model.ref="ratingModal">
 			<div slot="header">
 				Rate the video
 			</div>
@@ -35,7 +35,7 @@
 			</div>
 		</modal>
 
-		<modal view-model.ref="dailyReflectionModal">
+		<modal show.bind="!appState.IsMobile" view-model.ref="dailyReflectionModal">
 			<div slot="header" class="flex-gap-lg">
 				<span class="square-icon">
 					<span class="icon">edit</span>
@@ -66,7 +66,7 @@
 			</div>
 		</modal>
 
-		<modal view-model.ref="planningModal">
+		<modal show.bind="!appState.IsMobile" view-model.ref="planningModal">
 			<div slot="header" class="flex-gap-lg">
 				<span class="square-icon">
 					<span class="icon">edit</span>
@@ -78,7 +78,7 @@
 			</div>
 		</modal>
 
-		<modal view-model.ref="monitoringModal">
+		<modal show.bind="!appState.IsMobile" view-model.ref="monitoringModal">
 			<div slot="header" class="flex-gap-lg">
 				<span class="square-icon">
 					<span class="icon">bar_chart</span>
@@ -90,7 +90,7 @@
 			</div>
 		</modal>
 
-		<modal view-model.ref="evaluationModal">
+		<modal show.bind="!appState.IsMobile" view-model.ref="evaluationModal">
 			<div slot="header" class="flex-gap-lg">
 				<span class="square-icon">
 					<span class="icon">rate_review</span>
