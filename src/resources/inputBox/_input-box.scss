@@ -172,10 +172,21 @@
 			justify-content: center;
 			z-index: 9;
 
+			@include for-laptop {
+				left: unset;
+				right: -5px;
+				bottom: 85px;
+				flex-direction: column;
+			}
+
 			.triangle {
 				position: relative;
 				height: 10px;
 				width: 10px;
+
+				@include for-laptop {
+					transform: rotate(90deg);
+				}
 
 				>div {
 					position: absolute;

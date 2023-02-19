@@ -14,6 +14,11 @@
 	position: relative;
 	top: 20px;
 	left: 20px;
+
+	@include for-laptop {
+		top: 0;
+		left: 0;
+	}
 }
 
 .canvas-hover {

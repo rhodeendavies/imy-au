@@ -71,7 +71,8 @@ $OppositeSeaGreen: #F27F87;
 }
 
 .percentage-slider-wrapper {
-	width: 550px;
+	max-width: 550px;
+	min-width: 450px;
 
 	.percentage-wrapper {
 		width: 100%;

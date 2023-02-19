@@ -54,7 +54,7 @@ export class ComponentHelper {
 		return !(/[{}]/.test(value));
 	}
 
-	static PromptInputValid(value: string, max: number = 15, min: number = 3): boolean {
+	static PromptInputValid(value: string, max: number = 25, min: number = 3): boolean {
 		return !(/[{}]/.test(value)) && value.length <= max && value.length >= min;
 	}
 

@@ -4,7 +4,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 20px 5px;
+	gap: 5px;
 	margin-top: 15px;
 
 	section {
@@ -73,10 +73,6 @@
 		.cursor-element {
 			display: none;
 		}
-	}
-
-	.word, .shuffle-word {
-		margin: 10px 0;
 	}
 
 	.prompt-refresh {
