@@ -7,7 +7,7 @@ export default {
 		giphyUrl: "https://api.giphy.com/v1/gifs",
 		giphyApiKey: "u5Mj5yK4O9eGeYNYn2nolaFQahnwPnYt",
 		giphylimit: 25,
-		giphyRating: "g"
+		giphyRating: "pg"
 	},
 	loginModel: {
 		studentNumber: "00000011",
