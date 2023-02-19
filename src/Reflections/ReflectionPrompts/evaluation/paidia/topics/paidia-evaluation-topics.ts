@@ -24,6 +24,8 @@ export class PaidiaEvaluationTopics extends ReflectionStep {
 			x.rating = ComponentHelper.EmojiFromString(x.rating);
 			x.topicsString = x.topics.join(", ");
 		});
+		this.localParent.questions.lessonRatings.sort((a, b) => a.order < b.order ? -1 : 1);
+		
 		this.topics = ComponentHelper.CreatePaidiaTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics)
 	}
 

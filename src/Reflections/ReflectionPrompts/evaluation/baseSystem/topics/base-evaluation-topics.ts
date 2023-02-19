@@ -29,6 +29,8 @@ export class BaseEvaluationTopics extends ReflectionStep {
 			x.ratingPercentage = ComponentHelper.GetRatingPercentages(x.rating, 3);
 			x.topicsString = x.topics.join(", ");
 		});
+		this.localParent.questions.lessonRatings.sort((a, b) => a.order < b.order ? -1 : 1);
+		
 		this.localParent.questions.topicRatings.topics = ComponentHelper.CreateTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics, this.ratingOptions)
 	}
 

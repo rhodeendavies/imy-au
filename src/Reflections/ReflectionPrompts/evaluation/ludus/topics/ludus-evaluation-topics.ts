@@ -34,6 +34,8 @@ export class LudusEvaluationTopics extends ReflectionStep {
 			}
 			x.topicsString = x.topics.join(", ");
 		});
+		this.localParent.questions.lessonRatings.sort((a, b) => a.order < b.order ? -1 : 1);
+
 		this.localParent.questions.topicRatings.topics = ComponentHelper.CreateTopics(this.localParent.model.topicRatings.ratings, this.localParent.questions.topicRatings.topics, this.ratingOptions)
 		this.localParent.questions.topicRatings.topics.forEach(x => {
 			if (x.rating != null && x.rating > 0) {
