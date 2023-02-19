@@ -4,6 +4,12 @@ $regular: 400;
 $semi-bold: 600;
 $bold: 700;
 
+@font-face {
+	font-family: "MozillaTwemojiColr";
+	src: url("https://cdn.jsdelivr.net/npm/twemoji-colr-font@^14/twemoji.woff2") format("woff2");
+}
+
+$emojiFont: MozillaTwemojiColr;
 $Poppins: 'Poppins', sans-serif;
 $Roboto: 'Roboto', sans-serif;
 

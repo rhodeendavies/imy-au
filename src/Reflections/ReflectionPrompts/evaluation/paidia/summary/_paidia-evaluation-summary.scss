@@ -84,6 +84,7 @@
 			justify-content: center;
 			transition: all 0.3s;
 			cursor: pointer;
+			font-family: $emojiFont;
 
 			&:hover {
 				background-color: $LightGrey;
