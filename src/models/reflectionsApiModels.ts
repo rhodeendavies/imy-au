@@ -240,7 +240,11 @@ export class PaidiaStrategyPlanning {
 	practicingStrategy: string;
 	extendingStrategy: string;
 	canvas: string;
-	interactions: number;
+	interactions: PaidiaPlanningInteractions;
+}
+
+export class PaidiaPlanningInteractions {
+	value: number;
 }
 
 export class TopicRatings {

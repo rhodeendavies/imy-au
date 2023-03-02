@@ -58,10 +58,10 @@ export class PaidiaPlanningLearningStrategies extends ReflectionStep {
 			this.canvas.loadCanvas(this.canvasModel.canvas);
 		}
 		
-		if (this.localParent.model.strategyPlanning.interactions == null) {
+		if (this.localParent.model.strategyPlanning.interactions?.value == null) {
 			this.interactions = 0;
 		} else {
-			this.interactions = this.localParent.model.strategyPlanning.interactions;
+			this.interactions = this.localParent.model.strategyPlanning.interactions.value;
 		}
 	}
 
@@ -160,7 +160,9 @@ export class PaidiaPlanningLearningStrategies extends ReflectionStep {
 			practicingStrategy: this.practicingStrategy.strategy,
 			extendingStrategy: this.extendingStrategy.strategy,
 			canvas: JSON.stringify(this.canvasModel),
-			interactions: this.interactions
+			interactions: {
+				value: this.interactions
+			}
 		}
 	}
 
