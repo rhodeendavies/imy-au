@@ -272,7 +272,9 @@ export class ApplicationState {
 			this.sections.sort((a, b) => a.order < b.order ? -1 : 1);
 			this.currentSection = this.sections.find(x => x.active);
 			this.reflectionsEnabled = this.currentSection?.name != "End of Content";
-
+			if (!this.reflectionsEnabled) {
+				this.ea.publish(Events.Login);
+			}
 			const index = this.sections.findIndex(x => x?.name == "End of Content")
 			// remove end of content section
 			if (index != -1) {

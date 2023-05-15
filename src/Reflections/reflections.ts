@@ -29,6 +29,11 @@ export class Reflections {
 	async attached() {
 		try {
 			this.busy.on();
+			if (!this.appState.reflectionsEnabled) {
+				this.router.navigateBack();
+				return;
+			}
+
 			this.sections = await this.appState.getSections();
 			this.sections = this.sections.filter(x => x.system == this.authService.System)
 			const currentSection = await this.appState.getCurrentSectionId();
