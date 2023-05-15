@@ -15,7 +15,8 @@
 				</div>
 		
 				<div class="wrap-gap">
-					<button class="btn btn-primary" click.delegate="triggerDailyReflection()">
+					<button class="btn btn-primary" click.delegate="triggerDailyReflection()"
+						if.bind="appState.reflectionsEnabled">
 						New daily reflection
 					</button>
 					<button class="btn btn-primary" click.delegate="navigateToReflection()">
@@ -23,13 +24,17 @@
 					</button>
 				</div>
 			</div>
+
+			<div if.bind="!appState.reflectionsEnabled" class="text-center">
+				There are no reflections for this week
+			</div>
 			
 			<reflections-details 
 				base-reflection.bind="baseReflection"
 				ludus-reflection.bind="ludusReflection"
 				paidia-reflection.bind="paidiaReflection"
 				dashboard-version.bind="true"
-				if.bind="baseReflection != null || ludusReflection != null || paidiaReflection != null">
+				if.bind="appState.reflectionsEnabled && (baseReflection != null || ludusReflection != null || paidiaReflection != null)">
 			</reflections-details>
 		</div>
 	</div>

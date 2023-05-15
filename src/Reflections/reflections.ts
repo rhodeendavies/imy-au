@@ -66,7 +66,7 @@ export class Reflections {
 	async selectSection(section: Section) {
 		try {
 			this.busy.on();
-			if (!section.available) return;
+			if (section == null || !section.available) return;
 			if (this.sectionSelected != null) {
 				this.sectionSelected.open = false;
 			}
