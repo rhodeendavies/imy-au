@@ -17,7 +17,7 @@ export class SectionView {
 		private appState: ApplicationState,
 		private lessonApi: LessonsService,
 		private ea: EventAggregator
-		) { }
+	) { }
 
 	attached() {
 		this.lessonCompleteSub = this.ea.subscribe(Events.LessonCompleted, () => {
@@ -36,7 +36,15 @@ export class SectionView {
 	}
 
 	completeLesson(lesson: Lesson) {
-		if (!lesson.complete) return
+		if (!lesson.complete) return;
+		if (!this.appState.reflectionsEnabled) {
+			const completed = this.lessonApi.completeLesson(lesson.id);
+			if (!completed) {
+				this.appState.triggerToast("Failed to complete lesson...");
+			}
+			return;
+		}
+
 		this.appState.triggerRatingModal(lesson, this.section.id);
 	}
 

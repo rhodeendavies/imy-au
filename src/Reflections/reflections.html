@@ -29,7 +29,11 @@
 			</div>
 		</div>
 
-		<div class="reflections-section">
+		<div if.bind="sectionSelected == null" class="no-reflection-selected">
+			Select a week to view its reflections.
+		</div>
+
+		<div class="reflections-section" if.bind="sectionSelected != null">
 			<div class="reflection-section-heading">
 				<div>
 					<div class="main-heading">

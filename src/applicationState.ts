@@ -30,6 +30,7 @@ export class ApplicationState {
 	private loginSub: Subscription;
 	private logoutSub: Subscription;
 
+	reflectionsEnabled: boolean = true;
 	determineReflectionBusy = new Busy();
 	ludusPrompts: Prompts;
 	paidiaPrompts: Prompts;
@@ -210,6 +211,8 @@ export class ApplicationState {
 	}
 
 	async determineReflectionToShow() {
+		if (!this.reflectionsEnabled) return;
+
 		try {
 			if (this.determineReflectionBusy.active || !this.appLoaded) {
 				await ComponentHelper.Sleep(500);
@@ -268,6 +271,15 @@ export class ApplicationState {
 			this.sections = await this.courseApi.getCourseSections(this.authService.CourseId);
 			this.sections.sort((a, b) => a.order < b.order ? -1 : 1);
 			this.currentSection = this.sections.find(x => x.active);
+			this.reflectionsEnabled = this.currentSection?.name != "End of Content";
+			if (!this.reflectionsEnabled) {
+				this.ea.publish(Events.Login);
+			}
+			const index = this.sections.findIndex(x => x?.name == "End of Content")
+			// remove end of content section
+			if (index != -1) {
+				this.sections.splice(index, 1);
+			}
 			for (let i = 0; i < this.sections.length; i++) {
 				const section = this.sections[i];
 				section.lessons = await this.sectionApi.getSectionLessons(section.id);

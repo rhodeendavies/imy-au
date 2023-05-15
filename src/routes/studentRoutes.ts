@@ -16,7 +16,8 @@ export class StudentRoutes {
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
-				authenticated: true
+				authenticated: true,
+				enabled: true
 			} as RouterSettings
 		}, {
 			route: 'reflections',
@@ -27,7 +28,8 @@ export class StudentRoutes {
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
-				authenticated: true
+				authenticated: true,
+				enabled: true
 			} as RouterSettings
 		}]
 	}

@@ -18,4 +18,5 @@ export class RouterSettings {
 	roles: string[];
 	navbar: boolean;
 	authenticated: boolean;
+	enabled: boolean;
 }

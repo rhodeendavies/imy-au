@@ -5,6 +5,7 @@ import { Router, NavModel } from 'aurelia-router';
 import { Modal } from 'resources/modal/modal';
 import { AuthenticationService } from 'services/authenticationService';
 import { Events, Routes } from 'utils/constants';
+import { Roles } from 'utils/enums';
 
 @autoinject
 export class Navbar {
@@ -41,7 +42,14 @@ export class Navbar {
 		this.showNavBar = this.router.navigation != null && (await this.authService.Authenticated());
 		if (!this.showNavBar) return [];
 		const role = await this.authService.Role();
-		this.routes = this.router.navigation.filter(x => x.settings.navbar && x.settings.roles.includes(role));
+		if (role == Roles.Student) {
+			this.router.navigation.forEach(x => {
+				if (x.title == "Reflections") {
+					x.settings.enabled = this.appState.reflectionsEnabled;
+				}
+			});
+		}
+		this.routes = this.router.navigation.filter(x => x.settings.navbar && x.settings.enabled && x.settings.roles.includes(role));
 	}
 
 	destroyRoutes() {
