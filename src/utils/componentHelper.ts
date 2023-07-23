@@ -20,10 +20,10 @@ export class ComponentHelper {
 	}
 
 	static SetStrategies() {
-		if (this.ModuleName == "IMY 110") {
-			ComponentHelper.StrategyOptions = this.StrategyOptions110;
-		} else if (this.ModuleName == "IMY 310") {
+		if (this.ModuleName == "IMY 310") {
 			ComponentHelper.StrategyOptions = this.StrategyOptions310;
+		} else {
+			ComponentHelper.StrategyOptions = this.StrategyOptions110;
 		}
 	}
 
