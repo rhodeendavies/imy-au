@@ -1,1 +1,85 @@
 @use "./src/styles/variables"as *;
+
+.paidia-reflection-details-canvas {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+
+	@include for-laptop {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		
+		.paidia-reflection-canvas {
+			grid-row: 1;
+		}
+	}
+
+	&.paidia-reflection-details-canvas-stacked {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		
+		.paidia-reflection-canvas {
+			grid-row: 1;
+		}
+	}
+}
+
+.paidia-topics-summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+
+	.paidia-topic-summary {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 20px 10px;
+
+		div {
+			filter: grayscale(100) contrast(100) invert(100);
+		}
+	}
+}
+
+.paidia-summary-reflection {
+	.paidia-summary-heading {
+		border-radius: $BorderRadiusTop;
+		height: 50px;
+		width: 100%;
+	}
+
+	.paidia-summary-body {
+		padding: 20px 10px;
+		border-radius: $BorderRadiusBottom;
+		box-shadow: $BoxShadow;
+		display: flex;
+		gap: 10px;
+		justify-content: space-around;
+		align-items: center;
+
+		.emoji {
+			font-size: 70px;
+			font-family: $emojiFont;
+		}
+
+		.gif {
+			height: 250px;
+			min-width: 400px;
+			width: 400px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			&.gif-on-dash {
+				height: 150px;
+				min-width: 150px;
+				width: 150px;
+			}
+
+			img {
+				max-height: 100%;
+				max-width: 100%;
+			}
+		}
+	}
+}

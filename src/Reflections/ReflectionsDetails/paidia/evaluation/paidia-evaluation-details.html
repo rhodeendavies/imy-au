@@ -1,3 +1,115 @@
 <template>
+	<require from="resources/paidiaCanvas/paidia-canvas"></require>
 	
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">rate_review</span>
+			</div>
+			<div class="reflection-header">
+				EVALUATING: End of the content
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="EvaluatingReflection == null">
+			You haven't completed this reflection yet. You need to finish watching this
+			week's videos to do so.
+		</div>
+
+		<div class="reflection-body" show.bind="evaluatingReflection != null">
+			<div show.bind="localParent.FullReflection">
+				<!-- feelings throughout week -->
+				<div>
+					<div class="reflection-sub-heading">Summary of your feelings about ${localParent.Course} this week</div>
+					<div class="paidia-feeling-summary">
+						<div class="paidia-feeling" repeat.for="feeling of feelingsSummary">
+							<div class="paidia-feeling-emoji">${feeling.emoji}</div>
+							<div class="paidia-feeling-word">${feeling.word}</div>
+							<div class="paidia-feeling-date">${feeling.createdAt | dateFormat}</div>
+						</div>
+					</div>
+				</div>
+				<!-- feelings affected -->
+				<div class="reflection-text reflection-divider mt-20">
+					${Experience}
+				</div>
+			</div>
+
+			<!-- topics -->
+			<div class="reflection-divider" if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Mastery of topics</div>
+				<div class="paidia-topics-summary">
+					<div class="paidia-topic-summary" css="background-color: ${topic.colour}"
+						repeat.for="topic of topics">
+						<div css="color: ${topic.colour}">
+							${topic.name}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- summary on dashboard -->
+			<div class="reflection-divider" if.bind="!localParent.FullReflection">
+				<div class="reflection-sub-heading">Your summary of the learning this week</div>
+				<div class="paidia-summary-reflection">
+					<div if.bind="HasColour && showColour" class="paidia-summary-heading" style.bind="Colour"></div>
+					<div class="paidia-summary-body" style.bind="ShadowColour">
+						<div class="emoji" if.bind="HasEmoji && showEmoji">
+							${evaluatingReflection.learningExperience.emoji}
+						</div>
+						<div class="gif gif-on-dash" if.bind="HasGif && showGif">
+							<img src.bind="evaluatingReflection.learningExperience.gif"/>
+						</div>
+						<div class="text" if.bind="HasText && showText">
+							${evaluatingReflection.learningExperience.text}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- strategy ratings -->
+			<div class="paidia-reflection-details-canvas ${localParent.FullReflection ? '' : 'paidia-reflection-details-canvas-stacked'}">
+				<div>
+					<div class="reflection-sub-heading">Rating your strategies this week</div>
+					<div class="summary-with-icon paidia-summary-icon" repeat.for="category of strategies">
+						<div class="paidia-lesson-rating">
+							${category.emoji}
+						</div>
+						<div class="summary-text">
+							<div class="summary-heading">${category.title}</div>
+							<div class="summary-body" innerhtml.bind="category.strategy"></div>
+						</div>
+					</div>
+				</div>
+				<div class="paidia-reflection-canvas" show.bind="localParent.FullReflection">
+					<paidia-canvas view-model.ref="canvas"></paidia-canvas>
+				</div>
+			</div>
+
+			<!-- summary on reflections page -->
+			<div if.bind="localParent.FullReflection">
+				<div class="reflection-divider"></div>
+				<div class="reflection-sub-heading">Your summary of the learning this week</div>
+				<div class="paidia-summary-reflection">
+					<div if.bind="HasColour" class="paidia-summary-heading" style.bind="Colour"></div>
+					<div class="paidia-summary-body" style.bind="ShadowColour">
+						<div class="emoji" if.bind="HasEmoji">
+							${evaluatingReflection.learningExperience.emoji}
+						</div>
+						<div class="gif" if.bind="HasGif">
+							<img src.bind="evaluatingReflection.learningExperience.gif"/>
+						</div>
+						<div class="text" if.bind="HasText">
+							${evaluatingReflection.learningExperience.text}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

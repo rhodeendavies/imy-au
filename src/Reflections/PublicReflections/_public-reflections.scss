@@ -1,0 +1,10 @@
+@use "./src/styles/variables"as *;
+
+.public-wrapper {
+	height: 100%;
+	display: block;
+}
+
+.paidia-public-summary {
+	padding: 20px 10px;
+}

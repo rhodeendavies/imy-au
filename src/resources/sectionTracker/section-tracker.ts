@@ -44,6 +44,10 @@ export class SectionTracker {
 		this.setActiveSection(this.sections.find(x => x.sectionNumber == this.section));
 	}
 
+	resetTracker() {
+		this.attached();
+	}
+
 	private setActiveSection(newActive: SectionTrackerItem) {
 		if (this.activeSection != null) {
 			this.activeSection.active = false;
@@ -86,7 +90,6 @@ class SectionTrackerItem {
 export abstract class SectionTrackerParent {
 	tracker: SectionTracker;
 	activeSection: number;
-
 
 	nextStep() {
 		this.tracker.moveForward();

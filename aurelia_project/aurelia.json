@@ -81,7 +81,19 @@
 						"name": "aurelia-testing",
 						"env": "dev"
 					},
-					"text"
+					"text",
+					{
+						"name": "chart.js",
+						"path": "../node_modules/chart.js/dist",
+						"main": "chart.js"
+					},
+					{
+						"name": "jquery",
+						"path": "../node_modules/jquery/dist",
+						"main": "jquery.min.js",
+						"exports": "$",
+						"map": "jquery.min.map"
+					}
 				]
 			}
 		],
@@ -89,7 +101,7 @@
 			"node_modules/@fortawesome/fontawesome-free/webfonts/*": "wwwroot/@fortawesome/fontawesome-free/webfonts",
 			"favicon.ico": "wwwroot",
 			"images/**/*": "wwwroot/images",
-			"src/config/*.json": "wwwroot/config"
+			"prompts/**/*": "wwwroot/prompts"
 		},
 		"loader": {
 			"type": "require",

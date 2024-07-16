@@ -2,12 +2,26 @@
 
 .dashboard-page {
 	display: grid;
-	grid-template-columns: 1fr 35%;
 	grid-template-rows: minmax(0, 1fr);
 	padding-top: 20px;
+	position: relative;
+
+	@include for-desktop {
+		grid-template-columns: 2fr minmax(600px, 1fr);
+	}
+	
+	@include for-laptop {
+		grid-template-columns: 100%;
+		grid-template-rows: auto auto;
+		padding-top: 10px;
+	}
 
 	&.dashboard-page-wide {
 		grid-template-columns: 1fr 0;
+
+		@include for-laptop {
+			grid-template-rows: minmax(0, 1fr);
+		}
 
 		.dash-section:first-child {
 			border-right: none;
@@ -17,11 +31,20 @@
 	.dash-section {
 		padding: 20px 40px;
 		max-height: 100%;
+		
+		@include for-laptop {
+			padding: 10px 20px;
+		}
 
 		&.reflection-section {
 			display: grid;
 			grid-template-rows: auto minmax(0, 1fr);
-			gap: 50px;
+			grid-template-columns: minmax(0, 1fr);
+			gap: 20px;
+
+			@include for-laptop {
+				grid-row: 1;
+			}
 		}
 
 		&:first-child {
@@ -32,6 +55,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			flex-wrap: wrap;
 		}
 	}
 }

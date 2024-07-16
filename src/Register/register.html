@@ -1,0 +1,98 @@
+<template>
+	<div class="page login-page register-page">
+		<div class="login-image">
+			<popup class="login-popup" position="right" click.delegate="navigateToAttribution()">
+				<div slot="popup">Image by: ${onlineEducation}</div>
+			</popup>
+		</div>
+		
+		<div class="login-center">
+			<div class="login-heading-wrapper">
+				<div class="login-heading">
+					Register
+				</div>
+			</div>
+			
+			<div class="login-box" if.bind="busy.active">
+				<loader></loader>
+			</div>
+
+			<div class="login-box" if.bind="!registerSuccess && !busy.active">
+				<div class="login-inputs">
+					<input-box value.bind="registerModel.studentNumber" label="Student number" student-number.bind="true"
+						valid.bind="studentNumberValid" error="*Required"  validate.bind="false">
+					</input-box>
+					<input-box value.bind="registerModel.password" label="Password" type="password"
+						valid.bind="passwordValid" show-info.bind="true" error="Password too weak"
+						validate.bind="false">
+						<ul class="password-requirements">
+							<li>
+								At least 8 characters
+								<span class="icon" if.bind="PasswordRequirements.hasMoreThanEightCharacters">
+									check
+								</span>
+							</li>
+							<li>
+								At least 1 lowercase character [a-z]
+								<span class="icon" if.bind="PasswordRequirements.hasLowercase">
+									check
+								</span>
+							</li>
+							<li>
+								At least 1 uppercase character [A-Z]
+								<span class="icon" if.bind="PasswordRequirements.hasUppercase">
+									check
+								</span>
+							</li>
+							<li>
+								At least 1 digit [0-9]
+								<span class="icon" if.bind="PasswordRequirements.hasDigit">
+									check
+								</span>
+							</li>
+							<li>
+								At least 1 symbol [*$%#@]
+								<span class="icon" if.bind="PasswordRequirements.hasSymbol">
+									check
+								</span>
+							</li>
+						</ul>
+					</input-box>
+					<input-box value.bind="registerModel.passwordConfirmation" label="Confirm Password"
+						type="password" on-enter.call="register()" valid.bind="passwordsMatch"
+						error="Passwords don't match" validate.bind="false">
+					</input-box>
+				</div>
+	
+				<message if.bind="ShowError">
+					${response.message}
+				</message>
+
+				<div class="login-action">
+					<button class="btn btn-primary" click.delegate="register()">
+						Register
+					</button>
+				</div>
+
+				<div class="login-links">
+					<a class="hyper-link" click.delegate="navigateToLogin()">
+						Log in
+					</a>
+					<a class="hyper-link" click.delegate="navigateToForgotPassword()">
+						Forgot/ reset your password
+					</a>
+				</div>
+			</div>
+
+			<div class="login-box" if.bind="registerSuccess && !busy.active">
+				<div class="login-success">
+					<div class="login-box-icon icon text-center">verified</div>
+					<span class="text-center">
+						Registration successful! <br/>
+						Redirecting...
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

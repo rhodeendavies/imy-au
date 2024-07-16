@@ -1,0 +1,23 @@
+{
+	"planningPrompts": [
+		"This week, I {A} {B} that I can use my {C} {D} skills of {Z} and {Z} to achieve {Y} {E} result.",
+		"My {E} strengths of {Z} and {Z} are {C} {D} and will help me to {A} {F} my learning this week.",
+		"I am {C} {D} at {Z} and {Z} and I {A} {B} that this is going to make this week’s learning {C} {E}.",
+		"My {D} {Z} and {D} {Z} will come in handy as I {A} {F} the learning tasks in {X} this week.",
+		"What is really needed this week is {D} {Z} and also a little bit of {D} {Z}. With these, I am sure to {F} my goals {C}."
+	],
+	"monitoringPrompts": [
+		"At the moment, I am {C} {G} about {Z} which is {H}. So, I will {I} {J} by {Z} to address this.",
+		"I am feeling {G} about {Z}, but I {A} {B} that I can {J} by {Z} in {Y} {E} way.",		
+		"{Z} is {H} at the moment because it makes me feel {C} {G}. My solution will be to {Z} {K}.",
+		"I need to {J} by {Z} because I am currently {G} about {Z} and this is {C} {H}.",
+		"{L} {Z}? I am {A} {G} about it. I should {I} {Z} to address this."
+	],
+	"evaluatingPrompts": [
+		"My {D} feelings towards {X} were {M} at {Z} which resulted in {C} {M} {Z}.",
+		"I felt {C} {N} about {X} this week and this made my learning {A} {Z}.",
+		"Overall, my feelings about {X} were {C} {M} this week. This meant that my learning was {C} {Z}.",
+		"This week in {X} was {C} {O}. I {P} my learning and that meant that {Z}.",
+		"In general, this week was {M} and as a result my learning in {X} was {C} {D}."
+	]
+}

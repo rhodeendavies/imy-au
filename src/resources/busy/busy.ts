@@ -1,5 +1,5 @@
 export class Busy {
-	private active: boolean = false;
+	active: boolean = false;
 
 	on() {
 		this.active = true;
@@ -7,9 +7,5 @@ export class Busy {
 
 	off() {
 		this.active = false;
-	}
-
-	get Active(): boolean {
-		return this.active;
 	}
 }

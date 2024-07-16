@@ -1,0 +1,12 @@
+<template>
+	<loader if.bind="!canvasLoaded"></loader>
+
+	<div class="paidia-canvas-wrapper ${showCanvasAsImage ? 'canvas-as-image' : ''}" show.bind="canvasLoaded">
+		<canvas show.bind="!showCanvasAsImage"
+			id.bind="id" height="450" width="700"></canvas>
+
+		<div if.bind="pulse" class="canvas-hover"></div>
+
+		<img class="paidia-canvas-image" if.bind="showCanvasAsImage" src.bind="canvasImage"/>
+	</div>
+</template>

@@ -1,7 +1,10 @@
 <template>
 	<require from="./SectionView/section-view"></require>
+
+	<loader if.bind="busy.active || !initDone"></loader>
 	
-	<div class="course-wrapper ${IsLessonSelected ? 'lesson-open' : ''}">
+	<div class="course-wrapper ${IsLessonSelected ? 'lesson-open' : ''} ${courseOpen ? 'open-course' : ''}"
+		if.bind="!busy.active && initDone">
 		<div class="dash-section-heading">
 			<div class="main-heading">
 				${courseHeading}
@@ -26,17 +29,30 @@
 			<div class="accordion-sections">
 				<section-view repeat.for="section of sections" section.bind="section"></section-view>
 			</div>
+
+			<div class="course-content-slider" click.delegate="toggleCourse()" if.bind="IsLessonSelected">
+				<span class="icon">arrow_right</span>
+			</div>
 		</div>
 
-		<div class="lesson-wrapper" if.bind="IsLessonSelected">
+		<div class="lesson-wrapper" show.bind="IsLessonSelected">
 			<div class="lesson-heading">${lessonSelected.order}. ${lessonSelected.name}</div>
 			<div class="lesson-video-wrapper">
 				<div class="lesson-video">
-
+					<video class="lesson-video-component" controls id="lessonVideo" play.trigger="startTimer()"
+						pause.trigger="endTimer()" controlsList="nodownload" oncontextmenu="return false;"
+						current-time.from-view="videoCurrentTimeStamp" playback-rate.bind="playbackSpeed">
+					</video>
 				</div>
 			</div>
 			<div class="lesson-action">
-				<button class="btn btn-default">
+				<div class="lesson-speed-settings">
+					<div repeat.for="speedSetting of speedSettings" class="lesson-speed ${speedSetting.active ? 'current-speed' : ''}"
+						click.delegate="adjustSpeed(speedSetting)">
+						${speedSetting.name}
+					</div>
+				</div>
+				<button class="btn btn-default" click.delegate="downloadLesson(lessonSelected)">
 					<span class="far fa-folder"></span>
 					Resources
 				</button>

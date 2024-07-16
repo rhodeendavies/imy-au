@@ -1,0 +1,11 @@
+<template>
+	<require from="./baseSystem/base-video"></require>
+	<require from="./ludus/ludus-video"></require>
+	<require from="./paidia/paidia-video"></require>
+
+	<div class="prompt-wrapper">
+		<base-video class="prompt-body" if.bind="ShowBaseSystem"></base-video>
+		<ludus-video class="prompt-body" if.bind="ShowLudus"></ludus-video>
+		<paidia-video class="prompt-body" if.bind="ShowPaidia"></paidia-video>
+	</div>
+</template>

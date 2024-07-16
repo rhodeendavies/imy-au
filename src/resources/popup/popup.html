@@ -1,14 +1,19 @@
 <template>
-	<div class="popup-wrapper">
-		<slot name="item">
-			<div class="popup-circle">
-				<span class="icon">${icon}</span>
-			</div>
-		</slot>
-		<div class="popup-box-wrapper">
-			<slot class="popup-box">
-
+	<div class="popup-wrapper ${position}">
+		<div class="popup-item-wrapper" id.bind="id" mouseenter.trigger="open()"
+			mouseleave.trigger="close()">
+			<slot name="item">
+				<div class="popup-circle">
+					<span class="icon">${icon}</span>
+				</div>
 			</slot>
+		</div>
+		<div class="popup-box-wrapper" show.bind="showPopUp" id.bind="popupBoxId">
+			<div class="triangle">
+			</div>
+			<div class="popup-box">
+				<slot name="popup"></slot>
+			</div>
 		</div>
 	</div>
 </template>

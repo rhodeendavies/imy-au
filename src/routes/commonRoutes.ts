@@ -10,8 +10,37 @@ export class CommonRoutes {
 			route: ['', 'login'],
 			name: Routes.Login,
 			moduleId: 'Login/login',
-			nav: true,
 			title: 'Login',
+			settings: {
+				roles: [""],
+				navbar: false,
+				authenticated: false
+			} as RouterSettings
+		}, {
+			route: ['register'],
+			name: Routes.Register,
+			moduleId: 'Register/register',
+			title: 'Register',
+			settings: {
+				roles: [""],
+				navbar: false,
+				authenticated: false
+			} as RouterSettings
+		},  {
+			route: ['reset_password/:resetToken'],
+			name: Routes.Login,
+			moduleId: 'PasswordReset/password-reset',
+			title: 'Reset Password',
+			settings: {
+				roles: [""],
+				navbar: false,
+				authenticated: false
+			} as RouterSettings
+		}, {
+			route: ['not-found'],
+			name: Routes.Error,
+			moduleId: 'ErrorPage/error-page',
+			title: 'Page Not Found',
 			settings: {
 				roles: [""],
 				navbar: false,

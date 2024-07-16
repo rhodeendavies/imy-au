@@ -5,7 +5,7 @@
 		<div class="base-evaluation-feelings">
 			<div>
 				<p class="reflection-question">How do you feel about ${localParent.Course} right now?</p>
-				<slider value.bind="localParent.model.feeling"></slider>
+				<slider value.bind="localParent.model.courseFeelings.rating"></slider>
 			</div>
 
 			<div>
@@ -13,23 +13,27 @@
 					How did your feelings towards ${localParent.Course} affect your learning this week?
 				</p>
 
-				<input-box type="textarea" value.bind="localParent.model.feelingsAffect" valid.bind="valid"></input-box>
+				<input-box type="textarea" value.bind="localParent.model.feelingsLearningEffect.response"
+					valid.bind="valid"></input-box>
 			</div>
 		</div>
 
 		<div>
-			<p class="reflection-question">Here's a summary of your feelings about ${localParent.Course} this week</p>
+			<p class="reflection-question">Here's a summary of your feelings about ${localParent.Course} this week.</p>
 
 			<div class="evaluation-feelings">
-				<rating-box repeat.for="feeling of localParent.model.feelings">
-					<div slot="header">${feeling.feelingRating}/5</div>
-					<div slot="body">${feeling.feelingDate | dateFormat}</div>
+				<rating-box repeat.for="feeling of feelingsSummary">
+					<div slot="header">${feeling.rating}/5</div>
+					<div slot="body">${feeling.createdAt | dateFormat}</div>
 				</rating-box>
 			</div>
 		</div>
 	</div>
 
-	<div class="mt-30">
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
 		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
 			Next
 		</button>

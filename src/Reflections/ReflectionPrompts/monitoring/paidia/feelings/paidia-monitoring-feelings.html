@@ -1,0 +1,21 @@
+<template>
+	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
+
+	<p class="reflection-question mb-30">How do you feel about ${localParent.Course} right now?</p>
+
+	<div class="paidia-emoji-word">
+		<emoji-picker-component emoji.bind="emoji"></emoji-picker-component>
+		<input-box value.bind="localParent.model.courseFeelings.word" min="2" max="15"
+			valid.bind="valid" type="word">
+		</input-box>
+	</div>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
+			Next
+		</button>
+	</div>
+</template>

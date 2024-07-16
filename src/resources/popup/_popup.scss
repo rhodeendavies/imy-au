@@ -2,8 +2,56 @@
 
 .popup-wrapper {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
+	position: relative;
+
+	&.right {
+		.popup-box-wrapper {
+			flex-direction: row;
+
+			.triangle {
+				border-right-color: $SeaGreen;
+				border-left: none;
+			}
+		}
+	}
+
+	&.left {
+		.popup-box-wrapper {
+			flex-direction: row-reverse;
+
+			.triangle {
+				border-left-color: $SeaGreen;
+				border-right: none;
+			}
+		}
+	}
+
+	&.bottom {
+		flex-direction: column;
+
+		.popup-box-wrapper {
+			flex-direction: column;
+
+			.triangle {
+				border-bottom-color: $SeaGreen;
+				border-top: none;
+			}
+		}
+	}
+
+	&.top {
+		flex-direction: column;
+
+		.popup-box-wrapper {
+			flex-direction: column-reverse;
+
+			.triangle {
+				border-top-color: $SeaGreen;
+				border-bottom: none;
+			}
+		}
+	}
 
 	.popup-circle {
 		height: 20px;
@@ -12,20 +60,40 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 20px;
-		background-color: $Black;
+		color: $DarkGrey;
+		cursor: default;
 	}
-
+	
 	.popup-box-wrapper {
-		position: relative;
-		z-index: 1;
+		position: fixed;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 99999;
+
+		.triangle {
+			width: 0;
+			height: 0;
+			border: 12px solid transparent;
+		}
 
 		.popup-box {
-			background-color: $DarkGrey;
+			background-color: white;
+			border: 2px solid $SeaGreen;
 			padding: 20px;
 			border-radius: $BorderRadius;
-			border: 1px solid $Black;
-			position: absolute;
-			z-index: 2;
+			box-shadow: $BoxShadow;
+			width: 320px;
+			font-size: 15px;
+			color: $DarkGrey;
+			text-transform: none;
+			font-family: $Roboto;
+			font-weight: $regular;
 		}
 	}
+}
+
+@keyframes show {
+	0% { opacity: 0 };
+	100% { opacity: 1 };
 }

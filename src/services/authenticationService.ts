@@ -1,76 +1,89 @@
-import { ApiWrapper } from "api";
-import { ApplicationState } from "applicationState";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
-import { DateTime } from "luxon";
 import { ApiResponse } from "models/apiResponse";
+import { Course } from "models/course";
 import { UserDetails, UserLogin } from "models/userDetails";
 import { Busy } from "resources/busy/busy";
-import { ComponentHelper } from "utils/componentHelper";
-import { Events, Routes } from "utils/constants";
+import { Events, Routes, StatusCodes } from "utils/constants";
 import { Roles, Systems } from "utils/enums";
 import { log } from "utils/log";
+import { CoursesService } from "./coursesService";
+import { UsersService } from "./usersService";
+import { ComponentHelper } from "utils/componentHelper";
 
 @autoinject
 export class AuthenticationService {
 
-	busy: Busy = new Busy();
 	private user: UserDetails;
+	private busy: Busy = new Busy();
+	homeRoute: string = Routes.Login;
 
 	constructor(
 		private router: Router,
-		private appState: ApplicationState,
 		private ea: EventAggregator,
-		private api: ApiWrapper
+		private usersApi: UsersService,
+		private courseApi: CoursesService
 	) { }
 
 	async login(userLogin: UserLogin): Promise<ApiResponse> {
 		try {
 			this.busy.on();
-
-			// DEMO
-			await ComponentHelper.Sleep(100);
-			this.user = new UserDetails();
-			this.user.authenticated = true;
-			this.user.course = "IMY 110";
-			this.user.lastDailyReflection = DateTime.fromObject({ day: 11, month: 11 }).toJSDate();
-			// END OF DATA
-			
-			// const response = await this.api.post("users/login", userLogin);
-
-			switch (this.Role) {
-				case Roles.Admin:
-					this.router.navigate(Routes.AdminDash);
-					break;
-				case Roles.Student:
-					this.router.navigate(Routes.Dashboard);
-					break
-				default:
-					throw "Invalid login";
-			}
-
-			this.ea.publish(Events.Login);
-			this.appState.determineReflectionToShow();
+			this.user = await this.usersApi.login(userLogin);
+			await this.initUser();
 			return new ApiResponse(true, "");
 		} catch (error) {
-			return new ApiResponse(false, "An error occurred");
+			log.error(error);
+			if (error instanceof Response) {
+				switch (error.status) {
+					case StatusCodes.Forbidden:
+						return new ApiResponse(false, "Account not registered. Go to register.");
+					case StatusCodes.BadRequest:
+						return new ApiResponse(false, "Incorrect login details");
+					default:
+						return new ApiResponse(false, "An error occurred");
+				}
+			} else {
+				return new ApiResponse(false, "An error occurred");
+			}
 		} finally {
 			this.busy.off();
 		}
 	}
 
+	async initUser() {
+		let course: Course = null;
+		switch (this.user.role) {
+			case Roles.Lecturer:
+			case Roles.Developer:
+				this.homeRoute = Routes.AdminDash;
+				break;
+			case Roles.Student:
+				course = await this.courseApi.getCourse(this.user.courseId);
+				this.user.course = course.name;
+				ComponentHelper.SetModule(course.name);
+				ComponentHelper.SetStrategies();
+				this.homeRoute = Routes.Dashboard;
+				this.ea.publish(Events.Login);
+				break;
+			default:
+				this.homeRoute = Routes.Login;
+				throw "Invalid login";
+		}
+		this.router.navigate(this.homeRoute);
+	}
+
 	async logout(): Promise<void> {
 		try {
 			this.busy.on();
-
-			// DEMO
-			await ComponentHelper.Sleep(100);
-			// END OF DATA
-
-			this.user = null;
-			this.ea.publish(Events.Logout);
+			this.homeRoute = Routes.Login;
 			this.redirectToLogin();
+			this.usersApi.logout();
+			setTimeout(() => {
+				this.user = null;
+				ComponentHelper.SetModule("");
+				this.ea.publish(Events.Logout);
+			}, 500);
 		} catch (error) {
 			log.debug(error);
 		} finally {
@@ -78,38 +91,48 @@ export class AuthenticationService {
 		}
 	}
 
-	get Authenticated(): boolean {
-		return this.user !== null && this.user !== undefined && this.user.authenticated;
+	async Authenticated(retry: boolean = false): Promise<boolean> {
+		if (this.user == null || this.user == undefined || retry) {
+			this.user = await this.usersApi.authenticate();
+			if (this.user == null || this.user == undefined || !this.user.activated) {
+				return false;
+			}
+			await this.initUser();
+		}
+		return this.user !== null && this.user !== undefined && this.user.activated;
 	}
 
 	get System(): Systems {
-		return this.user !== null && this.user !== undefined && this.user.system;
+		return this.user !== null && this.user !== undefined && this.user.currentSystem;
 	}
 
 	get Course(): string {
 		return this.user !== null && this.user !== undefined && this.user.course;
 	}
 
-	get LastDailyReflection(): Date {
-		return this.user !== null && this.user !== undefined && this.user.lastDailyReflection;
+	get CourseId(): number {
+		return this.user !== null && this.user !== undefined && this.user.courseId;
 	}
 
-	@computedFrom("busy.Active")
+	@computedFrom("busy.active")
 	get Busy(): boolean {
-		return this.busy.Active;
+		return this.busy.active;
 	}
 
 	redirectToLogin() {
-		this.router.navigateToRoute(Routes.Login);
+		if (this.router.currentInstruction?.config.name != Routes.Login) {
+			this.router.navigateToRoute(Routes.Login);
+		}
 	}
 
-	get Role(): Roles {
+	async Role(): Promise<Roles> {
 		if (this.user == null || this.user == undefined) {
-			this.logout();
-			this.redirectToLogin();
-			return Roles.Unauthenticated;
+			this.user = await this.usersApi.authenticate();
+			if (this.user == null || this.user == undefined || !this.user.activated) {
+				return Roles.Unauthenticated;
+			}
+			await this.initUser();
 		}
-
 		return this.user.role;
 	}
 }

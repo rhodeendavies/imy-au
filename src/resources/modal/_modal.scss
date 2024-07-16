@@ -32,26 +32,38 @@
 		width: 90%;
 		height: 90%;
 		display: grid;
-		grid-template-rows: minmax(90px, auto) 1fr;
+		grid-template-rows: minmax(50px, auto) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr);
+
+		@include for-laptop {
+			width: 98%;
+			height: 98%;
+		}
 
 		.modal-header {
 			background-color: $SeaGreen;
 			color: $White;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
 			padding: 20px 40px;
 			font-size: 40px;
 			font-family: $Poppins;
 			font-weight: $semi-bold;
 			border-radius: $BorderRadiusTop;
+			
+			@include for-laptop {
+				padding: 20px 30px;
+				font-size: 30px;
+			}
 		}
 
 		.modal-body {
-			padding: 40px;
 			background-color: $White;
 			border-radius: $BorderRadiusBottom;
-			font-size: 24px;
+			font-size: 18px;
+			padding: 40px;
+			
+			@include for-laptop {
+				padding: 30px;
+			}
 		}
 	}
 }
@@ -63,7 +75,7 @@
 	top: -150vh;
 	left: 0;
 	z-index: 9;
-	background-color: $White;
+	background-color: $MediumGrey;
 	transition: opacity 0.3s, top 0s 0.5s;
 	opacity: 0;
 

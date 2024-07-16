@@ -1,0 +1,48 @@
+<template>
+	<require from="resources/percentageSlider/percentage-slider"></require>
+	<require from="resources/gauge/gauge"></require>
+
+	<p class="reflection-question mb-30">
+		Review your chosen learning strategies from this week. Rate yourself for how well you are applying each one.
+	</p>
+
+	<div class="strategy-grid">
+		<div class="strategy-option-wrapper" if.bind="!busy.active">
+			<div repeat.for="strategy of strategies" class="strategy-option">
+				<div class="strategy-heading-wrapper">
+					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
+				</div>
+
+				<percentage-slider percentage.bind="strategy.rating" on-change.call="saveStrategy(strategy)"
+					show-circle.bind="false" low-text="Not going so well" high-text="I'm acing it">
+				</percentage-slider>
+			</div>
+		</div>
+
+		<div class="strategy-visual">
+			<div class="ludus-info">
+				Attributes from your strategies are scored according to your ratings of yourself. You can rate yourself
+				throughout the week to gain a more accurate assessment.
+			</div>
+			<div class="ludus-gauges">
+				<popup repeat.for="component of components">
+					<div slot="item">
+						<gauge value.bind="component.score" label.bind="component.name">
+						</gauge>
+					</div>
+					<div slot="popup">${component.description}</div>
+				</popup>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowNext">
+			Finish
+		</button>
+	</div>
+</template>

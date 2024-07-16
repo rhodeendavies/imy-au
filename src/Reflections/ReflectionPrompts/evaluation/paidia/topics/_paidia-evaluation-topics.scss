@@ -1,0 +1,19 @@
+@use "./src/styles/variables"as *;
+
+.paidia-evaluation-topics {
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 35px;
+}
+
+.paidia-lesson-rating {
+	font-size: 30px;
+	text-align: center;
+	font-family: $emojiFont;
+}
+
+.paidia-summary-icon {
+	display: grid;
+	grid-template-columns: 50px 1fr;
+}

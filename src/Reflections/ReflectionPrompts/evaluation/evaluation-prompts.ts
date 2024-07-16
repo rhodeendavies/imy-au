@@ -1,77 +1,56 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
-import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
+import { BaseEvaluatingApiModel, LudusEvaluatingApiModel, PaidiaEvaluatingApiModel } from "models/reflectionsApiModels";
 import { AuthenticationService } from "services/authenticationService";
+import { ReflectionsService } from "services/reflectionsService";
+import { ReflectionTypes } from "utils/enums";
+import { ReflectionPrompt } from "../reflection-step";
 import { Events } from "utils/constants";
-import { Systems } from "utils/enums";
-import { log } from "utils/log";
 
 @autoinject
-export class EvaluationPrompts extends SectionTrackerParent {
-	
-	triggerSub: Subscription;
-	weekTopic: string = ""
+export class EvaluationPrompts extends ReflectionPrompt {
 
 	constructor(
 		private appState: ApplicationState,
-		private authService: AuthenticationService,
-		private ea: EventAggregator) {
-		super();
+		authService: AuthenticationService,
+		private reflectionsApi: ReflectionsService,
+		ea: EventAggregator
+	) {
+		super(authService, ea);
+		this.event = Events.EvaluationTriggered;
 	}
 
-	attached() {
-		this.triggerSub = this.ea.subscribe(Events.EvaluationTriggered, () => {
-			this.activeSection = EvaluationSections.Overview;
-		});
+	async submit(model: BaseEvaluatingApiModel | LudusEvaluatingApiModel | PaidiaEvaluatingApiModel, completed: boolean) {
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Evaluating, this.reflectionId, model);
+		if (!result) {
+			this.appState.triggerToast("Failed to save reflection...");
+			return;
+		}
+		if (completed) {
+			this.appState.closeEvaluation();
+			this.isOpen = false;
+		}
 	}
 
-	detached() {
-		this.triggerSub.dispose();
-	}
-
-	submitEvaluation() {
-		this.appState.submitEvaluation(false);
-	}
-
-	@computedFrom("activeSection")
-	get ShowOverview(): boolean {
-		return this.activeSection == EvaluationSections.Overview;
-	}
-
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == EvaluationSections.Feelings;
+		return this.activeSection == EvaluationSections.Feelings && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowTopics(): boolean {
-		return this.activeSection == EvaluationSections.Topics;
+		return this.activeSection == EvaluationSections.Topics && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == EvaluationSections.LearningStrategies;
+		return this.activeSection == EvaluationSections.LearningStrategies && !this.busy.active && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "busy.active", "modelLoaded")
 	get ShowSummary(): boolean {
-		return this.activeSection == EvaluationSections.Summary;
-	}
-
-	@computedFrom("authService.System", "ShowOverview")
-	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.BaseSystem;
-	}
-
-	@computedFrom("authService.System", "ShowOverview")
-	get ShowLudus(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Ludus;
-	}
-
-	@computedFrom("authService.System", "ShowOverview")
-	get ShowPaidia(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Paidia;
+		return this.activeSection == EvaluationSections.Summary && !this.busy.active && this.modelLoaded;
 	}
 }
 

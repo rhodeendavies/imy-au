@@ -6,9 +6,19 @@
 	grid-template-rows: 1fr;
 	gap: 50px;
 
+	@include for-laptop {
+		display: block;
+	}
+
 	> div:first-child {
 		padding-right: 50px;
 		border-right: 1px solid $DarkGrey60;
+
+		@include for-laptop {
+			padding-right: 0;
+			border-right: none;
+			margin-bottom: 20px;
+		}
 	}
 
 	.base-evaluation-feelings {

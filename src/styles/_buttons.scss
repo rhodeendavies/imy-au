@@ -18,6 +18,7 @@
 	height: 40px;
 	padding: 0 20px;
 	min-width: 150px;
+	transition: all 0.3s;
 
 	&:hover {
 		cursor: pointer;
@@ -58,8 +59,8 @@
 }
 
 .circle-icon {
-	height: 40px;
-	width: 40px;
+	min-height: 40px;
+	min-width: 40px;
 	border-radius: 40px;
 	background-color: $Orange;
 	color: $White;
@@ -70,8 +71,8 @@
 }
 
 .square-icon {
-	height: 40px;
-	width: 40px;
+	min-height: 40px;
+	min-width: 40px;
 	border-radius: 10px;
 	background-color: $Orange;
 	color: $White;
@@ -79,4 +80,20 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.modal-close {
+	height: 40px;
+	width: 40px;
+	color: $White;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	cursor: pointer;
+	
+	.icon {
+		font-size: 50px;
+		font-weight: $bold;
+	}
 }

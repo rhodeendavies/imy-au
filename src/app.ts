@@ -1,12 +1,13 @@
 import { RouteManager } from './routes/routeManager';
 import { Router, RouterConfiguration } from 'aurelia-router';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { AuthenticationService } from 'services/authenticationService';
 import { AuthorizeStep } from 'services/authorizeStep';
 import { Toast } from 'resources/toast/toast';
 import { ApplicationState } from 'applicationState';
 import { Modal } from 'resources/modal/modal';
-import { RadioOption } from 'resources/radioButton/radio-button';
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { Events, Routes } from 'utils/constants';
 
 @autoinject
 export class App {
@@ -19,44 +20,72 @@ export class App {
 	private planningModal: Modal;
 	private monitoringModal: Modal;
 	private evaluationModal: Modal;
-	videoRatingOptions: RadioOption[] = [
-		{ name: "I understand fully", subText: "3/3", value: 3 },
-		{ name: "I understand partially", subText: "2/3", value: 2 },
-		{ name: "I mostly don't understand", subText: "1/3", value: 1 },
-		{ name: "I don't understand", subText: "0/3", value: 0 }
-	];
 	// END OF MODALS
 
 	constructor(
 		private router: Router,
 		private authService: AuthenticationService,
-		private appState: ApplicationState
+		private appState: ApplicationState,
+		private ea: EventAggregator
 	) { }
 
+	activate(params, routeConfig, navigationInstruction) {
+		this.appState.init();
+	}
+
 	attached() {
+		this.checkForMobile();
+
 		this.appState.setToast(this.toast);
 		this.appState.setRatingModal(this.ratingModal);
 		this.appState.setDailyModal(this.dailyReflectionModal);
 		this.appState.setPlanningModal(this.planningModal);
 		this.appState.setMonitoringModal(this.monitoringModal);
 		this.appState.setEvaluationModal(this.evaluationModal);
+
+		window.addEventListener("scroll", () => {
+			this.ea.publish(Events.Scrolled);
+		}, true);
+
+		window.addEventListener("resize", () => {
+			this.checkForMobile();
+		}, true);
+
+		setTimeout(() => {
+			this.appState.appLoaded = true;
+		}, 50);
+	}
+
+	checkForMobile() {
+		if (this.appState.IsMobile) {
+			this.router.navigateToRoute(Routes.Error);
+		}
+	}
+
+	clickBody(event: Event) {
+		if (this.ReflectionOpen) {
+			event.stopImmediatePropagation();
+			event.stopPropagation();
+			event.preventDefault();
+		}
 	}
 
 	public configureRouter(config: RouterConfiguration, router: Router): Promise<void> | PromiseLike<void> | void {
-		config.title = 'Aurelia';
+		config.title = 'FlipQuest';
 		config.addPipelineStep('authorize', AuthorizeStep);
 		config.map(RouteManager.CreateRoutes());
+		config.fallbackRoute('not-found');
 
 		this.router = router;
 	}
 
-	// MODAL FUNCTIONS
-	submitRating() {
-		this.appState.submitRating();
-	}
-
 	// GETS
 	get Loading(): boolean {
-		return this.authService.Busy;
+		return this.authService.Busy || this.appState.determineReflectionBusy.active;
+	}
+
+	@computedFrom("appState.RatingOpen", "appState.DailyOpen", "appState.PlanningOpen", "appState.MonitoringOpen", "appState.EvaluationOpen")
+	get ReflectionOpen(): boolean {
+		return this.appState.RatingOpen || this.appState.DailyOpen || this.appState.PlanningOpen || this.appState.MonitoringOpen || this.appState.EvaluationOpen
 	}
 }

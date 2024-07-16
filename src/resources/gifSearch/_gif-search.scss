@@ -1,0 +1,140 @@
+@use "./src/styles/variables"as *;
+
+.gif-search-wrapper {
+	position: relative;
+
+	&.gif-search-open {
+		.gif-search-dropdown {
+			display: flex;
+		}
+	}
+
+	.gif-search-input {
+		width: 300px;
+		display: grid;
+		grid-template-columns: 250px auto;
+		gap: 20px;
+
+		.search-btn {
+			background: $White;
+			border-radius: $BorderRadius;
+			height: 60px;
+			width: 60px;
+			font-size: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+			outline: 2px solid $SeaGreen;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $PaleBlue;
+				outline-color: $PaleBlue;
+			}
+		}
+	}
+
+	.gif-search-dropdown {
+		position: fixed;
+		z-index: 9;
+		padding: 10px;
+		background-color: $Black;
+		box-shadow: $BoxShadow;
+		border-radius: $BorderRadius;
+
+		.gif-search-header {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 10px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			
+			.giphy-logo {
+				img {
+					height: 35px;
+				}
+			}
+	
+			.gif-search-close {
+				color: white;
+				padding: 5px;
+				font-size: 30px;
+				display: flex;
+				cursor: pointer;
+			}
+		}
+
+		.gif-search-results {
+			max-width: 750px;
+			max-height: 400px;
+			overflow: auto;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			gap: 10px;
+
+			.giphy-result {
+				transition: all 0.3s;
+				cursor: pointer;
+				max-height: 150px;
+			}
+	
+			.gif-empty-search {
+				color: $LightGrey;
+				display: flex;
+				align-items: flex-end;
+				padding-bottom: 10px;
+				justify-content: center;
+				gap: 10px;
+				width: 280px;
+				height: 75px;
+			}
+	
+			.gif-load-more {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				transition: all 0.3s;
+				cursor: pointer;
+				background-color: $DarkGrey;
+				color: white;
+	
+				&:hover {
+					background-color: darken($color: $DarkGrey, $amount: 1.1);
+				}
+	
+				.icon {
+					font-size: 30px;
+				}
+			}
+		}
+	}
+
+	.chosen-gif {
+		height: 300px;
+		width: 500px;
+		margin-top: 10px;
+		position: relative;
+
+		.giphy-logo-on-chosen {
+			position: absolute;
+			left: 0;
+			top: 0;
+	
+			img {
+				height: 35px;
+			}
+		}
+
+		> img {
+			max-height: 100%;
+			max-width: 100%;
+		}
+	}
+}

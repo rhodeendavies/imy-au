@@ -1,36 +1,49 @@
 import { ApplicationState } from "applicationState";
-import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { DateTime, Duration, Interval } from "luxon";
-import { SectionTrackerParent } from "resources/sectionTracker/section-tracker";
+import { BaseDailyApiModel, LudusDailyApiModel, PaidiaDailyApiModel } from "models/reflectionsApiModels";
+import { Availability } from "models/userDetails";
+import { Busy } from "resources/busy/busy";
 import { AuthenticationService } from "services/authenticationService";
+import { ReflectionsService } from "services/reflectionsService";
 import { Events } from "utils/constants";
-import { Systems } from "utils/enums";
+import { ReflectionTypes, Systems } from "utils/enums";
+import { log } from "utils/log";
+import { ReflectionPrompt } from "../reflection-step";
 
 @autoinject
-export class DailyPrompts extends SectionTrackerParent {
+export class DailyPrompts extends ReflectionPrompt {
 
-	dailyReflectionAvailable: boolean;
+	availability: Availability;
 	timeTillNextReflection: string;
 	timer: NodeJS.Timer;
-	triggerSub: Subscription;
+	availabilityBusy: Busy = new Busy();
+	startDailyBusy: Busy = new Busy();
+	evaluatingDone: boolean = false;
 
 	constructor(
 		private appState: ApplicationState,
-		private authService: AuthenticationService,
-		private ea: EventAggregator) {
-		super();
+		authService: AuthenticationService,
+		ea: EventAggregator,
+		private reflectionsApi: ReflectionsService) {
+		super(authService, ea);
 	}
 
 	attached() {
-		this.activeSection = DailySections.Overview;
-		this.determineDailyAvailable();
-
-		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
-			this.determineDailyAvailable();
-			this.activeSection = DailySections.Overview;
-		});
 		this.timer = setInterval(() => this.determineDailyAvailable(), 60 * 1000);
+		this.triggerSub = this.ea.subscribe(Events.DailyTriggered, () => {
+			this.init();
+		});
+	}
+
+	async init() {
+		this.reflectionId = null;
+		this.modelLoaded = false;
+		this.activeSection = DailySections.Overview;
+		this.tracker.resetTracker();
+		await this.getAvailability();
+		this.determineDailyAvailable();
 	}
 
 	detached() {
@@ -38,58 +51,104 @@ export class DailyPrompts extends SectionTrackerParent {
 		clearInterval(this.timer);
 	}
 
-	determineDailyAvailable(): boolean {
-		if (this.authService.LastDailyReflection == null) return false;
+	async getAvailability() {
+		try {
+			this.availabilityBusy.on();
+			this.availability = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Daily, await this.appState.getCurrentSectionId());
+			if (this.availability != null) {
+				this.reflectionId = this.availability.incompleteDailyReflectionId;
+			}
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.availabilityBusy.off();
+		}
+	}
+
+	async determineDailyAvailable() {
+		if (this.availability == null || this.availability.available) return;
 
 		const now = DateTime.now();
-		const lastReflection = DateTime.fromJSDate(this.authService.LastDailyReflection);
+		const lastReflection = DateTime.fromJSDate(this.availability.lastCompletedAt);
 		const interval = Interval.fromDateTimes(lastReflection, now);
-		this.dailyReflectionAvailable = interval.length("hours") > 24;
+		if (!interval.isValid) return;
 
-		if (!interval.isValid) return false;
-		const duration = Duration.fromObject({ hours: 24, minutes: 60 }).minus(interval.toDuration(['hours', 'minutes']));
+		const duration = Duration.fromObject({ hours: 23, minutes: 59 })
+			.minus(interval.toDuration(['hours', 'minutes']));
+
 		this.timeTillNextReflection = duration.toHuman({ listStyle: "long", maximumFractionDigits: 0 });
-
-		return this.dailyReflectionAvailable;
 	}
 
-	startDaily() {
-		if (!this.determineDailyAvailable()) return;
-		this.nextStep();
+	async startDaily() {
+		try {
+			this.startDailyBusy.on();
+			if (!this.availability.available) return;
+			this.evaluatingDone = (await this.appState.getCurrentSection()).evaluatingReflectionId != null;
+			this.nextStep();
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.startDailyBusy.off();
+		}
 	}
 
-	submitDaily() {
-		this.appState.submitDaily(true);
+	nextStep() {
+		this.tracker.moveForward();
+		this.appState.dailyOpen = true;
 	}
 
-	@computedFrom("activeSection")
-	get ShowOverview(): boolean {
-		return this.activeSection == DailySections.Overview;
+	closeDaily() {
+		this.availability = null;
+		this.appState.closeDaily();
 	}
 
-	@computedFrom("activeSection")
+	async submit(model: BaseDailyApiModel | PaidiaDailyApiModel | LudusDailyApiModel) {
+		const result = await this.reflectionsApi.submitReflection(this.authService.System, ReflectionTypes.Daily, this.reflectionId, model);
+		if (!result) {
+			this.appState.triggerToast("Failed to save reflection...");
+			return;
+		}
+		this.appState.closeDaily();
+	}
+
+	@computedFrom("busy.active", "availabilityBusy.active", "startDailyBusy.active")
+	get Busy(): boolean {
+		return this.busy.active || this.availabilityBusy.active || this.startDailyBusy.active;
+	}
+
+	@computedFrom("activeSection", "Busy", "modelLoaded")
 	get ShowFeelings(): boolean {
-		return this.activeSection == DailySections.Feelings;
+		return this.activeSection == DailySections.Feelings && !this.Busy && this.modelLoaded;
 	}
 
-	@computedFrom("activeSection")
+	@computedFrom("activeSection", "Busy", "modelLoaded")
 	get ShowLearningStrategies(): boolean {
-		return this.activeSection == DailySections.LearningStrategies;
+		return this.activeSection == DailySections.LearningStrategies && !this.Busy && this.modelLoaded;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("evaluatingDone")
+	get EvaluatingDone(): boolean {
+		return this.evaluatingDone;
+	}
+
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available", "activeSection")
 	get ShowBaseSystem(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.BaseSystem;
+		this.appState.allowDailyClose = this.activeSection == DailySections.Feelings ||
+			this.activeSection == DailySections.LearningStrategies && !this.Busy && this.modelLoaded;
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Base &&
+			this.appState.dailyOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
 	get ShowLudus(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Ludus;
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Ludus &&
+			this.appState.dailyOpen;
 	}
 
-	@computedFrom("authService.System", "ShowOverview")
+	@computedFrom("authService.System", "appState.dailyOpen", "availability.available")
 	get ShowPaidia(): boolean {
-		return !this.ShowOverview && this.authService.System == Systems.Paidia;
+		return this.availability != null && this.availability.available && this.authService.System == Systems.Paidia &&
+			this.appState.dailyOpen;
 	}
 }
 

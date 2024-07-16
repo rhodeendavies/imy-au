@@ -1,0 +1,91 @@
+@use "./src/styles/variables"as *;
+
+$width: 150px;
+$border: 50px;
+
+$Bad: #f2726f;
+$Medium: #ffc532;
+$Good: #62b58f;
+
+.gauge-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+
+	.gauge {
+		height: calc($width / 2);
+		width: $width;
+		border-radius: $width $width 0 0;
+		overflow: hidden;
+		position: relative;
+
+		.gauge-quarter {
+			position: absolute;
+			bottom: 0;
+			z-index: 1;
+			height: 100%;
+			width: 100%;
+			border-radius: $width $width 0 0;
+			border-top: $border solid transparent;
+
+			&.gauge-green {
+				border-right: $border solid $Good;
+				border-left: $border solid transparent;
+			}
+
+			&.gauge-red {
+				border-left: $border solid $Bad;
+				border-right: $border solid transparent;
+			}
+		}
+	
+		.gauge-background {
+			position: relative;
+			height: 100%;
+			width: 100%;
+			background: $Medium;
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+	
+	
+			.gauge-percentage {
+				position: absolute;
+				z-index: 3;
+				left: 5%;
+				bottom: 0;
+				width: 45%;
+				height: 4px;
+				background-color: $DarkGrey;
+				border-radius: 5px;
+				transform-origin: right center;
+			}
+	
+			.gauge-center {
+				position: relative;
+				top: 3px;
+				z-index: 3;
+				height: 10px;
+				width: 10px;
+				border-radius: 10px;
+				background-color: $DarkGrey;
+			}
+	
+			.gauge-mask {
+				position: absolute;
+				bottom: 0;
+				z-index: 2;
+				height: calc(($width / 2) - ($border / 2));
+				width: calc($width - ($border));
+				background-color: white;
+				border-radius: $width $width 0 0;
+			}
+		}
+	}
+
+	.gauge-label {
+		color: $DarkGrey60;
+		font-size: 18px;
+	}
+}

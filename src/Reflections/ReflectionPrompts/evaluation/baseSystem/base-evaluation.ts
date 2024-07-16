@@ -1,54 +1,51 @@
 import { autoinject, computedFrom } from "aurelia-framework";
-import { DateTime } from "luxon";
-import { BaseSystemEvaluating } from "models/reflections";
 import { AuthenticationService } from "services/authenticationService";
 import { EvaluationPrompts } from "../evaluation-prompts";
+import { BaseEvaluatingApiModel } from "models/reflectionsApiModels";
+import { ApplicationState } from "applicationState";
+import { ReflectionsService } from "services/reflectionsService";
+import { ReflectionTypes } from "utils/enums";
+import { BaseEvaluatingQuestions } from "models/reflectionsResponses";
+import { log } from "utils/log";
+import { ReflectionStepParent } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseEvaluation {
-	model: BaseSystemEvaluating;
+export class BaseEvaluation extends ReflectionStepParent {
+	model: BaseEvaluatingApiModel;
+	questions: BaseEvaluatingQuestions;
 
-	constructor(private localParent: EvaluationPrompts, private authService: AuthenticationService) {}
-
-	attached() {
-		this.model = new BaseSystemEvaluating();
-		// TODO: fetch feelings
-		this.model.feelings = [{
-			feelingRating: 3,
-			feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 2,
-			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}];
-
-		this.model.topics = [
-			{ title: "Topic #1", rating: null },
-			{ title: "Topic #2", rating: null },
-			{ title: "Topic #3", rating: null },
-			{ title: "Topic #4", rating: null },
-			{ title: "Topic #5", rating: null }
-		];
+	constructor(
+		private localParent: EvaluationPrompts,
+		private authService: AuthenticationService,
+		private appState: ApplicationState,
+		private reflectionsApi: ReflectionsService) {
+		super();
+		this.mainParent = localParent;
 	}
 
-	nextStep() {
-		this.localParent.nextStep();
-	}
+	async getModel() {
+		try {
+			this.localParent.busy.on();
+			const currentSection = await this.appState.getCurrentSection();
+			let id = currentSection.evaluatingReflectionId;
+			if (id == null) {
+				id = await this.reflectionsApi.createReflection(this.authService.System, ReflectionTypes.Evaluating, currentSection.id)
+			}
+			if (id == null) {
+				this.appState.triggerToast("Failed to load evaluation...");
+				this.localParent.init();
+				return;
+			}
 
-	submitEvaluation() {
-		this.localParent.submitEvaluation();
-	}
-
-	@computedFrom("authService.Course")
-	get Course(): string {
-		return this.authService.Course;
+			const reflection = await this.reflectionsApi.getBaseEvaluatingReflection(id);
+			this.localParent.reflectionId = id;
+			this.model = reflection.answers;
+			this.questions = reflection.questions;
+			this.localParent.modelLoaded = true;
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.localParent.busy.off();
+		}
 	}
 }

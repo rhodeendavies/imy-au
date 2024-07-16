@@ -1,0 +1,38 @@
+<template>
+	<div class="percentage-slider-wrapper">
+		<div class="percentage-wrapper" if.bind="showCircle">
+			<div class="outer-border">
+				<div class="inner-circle">
+					<div class="percentage-text">
+						${percentage}%
+					</div>
+					<div class="percentage-fill"
+						css="height: ${percentage == null || percentage == '' ? 0 : percentage}%"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="percentage-input-wrapper" if.bind="loaded">
+			<div class="percentage-text">
+				<div if.bind="showValues">0%</div>
+				<div class="percentage-sub-text">${lowText}</div>
+			</div>
+
+			<div class="percentage-bar-wrapper">
+				<input type="range" min="0" max="100" value.bind="percentage" class="percentage-slider"
+					change.delegate="onChangeTrigger()" />
+				<div class="slider-bar">
+					<div class="hover-percentage" css="left: ${percentage}%"
+						if.bind="!showCircle && percentage != null">
+						${percentage}%
+					</div>
+				</div>
+			</div>
+
+			<div class="percentage-text">
+				<div if.bind="showValues">100%</div>
+				<div class="percentage-sub-text">${highText}</div>
+			</div>
+		</div>
+	</div>
+</template>

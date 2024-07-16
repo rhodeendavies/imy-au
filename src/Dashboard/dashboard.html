@@ -6,24 +6,36 @@
 			<router-view></router-view>
 		</div>
 
-		<div class="dash-section reflection-section" if.bind="!lessonOpen">
+		<loader if.bind="busy.active"></loader>
+
+		<div class="dash-section reflection-section" if.bind="!lessonOpen && !busy.active">
 			<div class="dash-section-heading">
 				<div class="main-heading">
 					Reflections
 				</div>
-		
+
 				<div class="wrap-gap">
-					<button class="btn btn-primary" click.delegate="triggerDailyReflection()">
+					<button class="btn btn-primary" click.delegate="triggerDailyReflection()"
+						if.bind="appState.reflectionsEnabled">
 						New daily reflection
 					</button>
-					<button class="btn btn-primary" click.delegate="navigateToReflection()">
+					<button class="btn btn-primary" click.delegate="navigateToReflection()"
+						if.bind="appState.reflectionsEnabled">
 						View all
 					</button>
 				</div>
 			</div>
-			
-			<reflections-details reflection.bind="currentReflection" dashboard-version.bind="true"
-				if.bind="currentReflection != null">
+
+			<div if.bind="!appState.reflectionsEnabled" class="text-center">
+				There are no reflections for this week
+			</div>
+
+			<reflections-details 
+				base-reflection.bind="baseReflection"
+				ludus-reflection.bind="ludusReflection"
+				paidia-reflection.bind="paidiaReflection"
+				dashboard-version.bind="true"
+				if.bind="appState.reflectionsEnabled && (baseReflection != null || ludusReflection != null || paidiaReflection != null)">
 			</reflections-details>
 		</div>
 	</div>

@@ -1,28 +1,25 @@
 <template>
 	<div class="section-tracker-wrapper ${Classes}">
+		<!-- circles -->
 		<div class="tracker-arrow ${activeSection.prev == null ? 'tracker-arrow-disabled' : ''}"
 			click.delegate="moveBackward()" if.bind="!bars">
 			<span class="icon">chevron_left</span>
 		</div>
-
-		<!-- circles -->
 		<div if.bind="!bars" class="tracker-sections">
 			<div class="tracker-section section-active-${section.active} section-disabled-${linear && !section.visited}"
 				repeat.for="section of sections" click.delegate="clickSection(section)">
 			</div>
 		</div>
-
-		<!-- bars -->
-		<div if.bind="bars" class="tracker-sections">
-			<div class="tracker-section-bar section-disabled-${linear && !section.visited}" repeat.for="section of sections"
-				click.delegate="clickSection(section)">
-				<div class="tracker-section section-active-${section.active}"></div>
-			</div>
-		</div>
-
 		<div class="tracker-arrow ${activeSection.next == null ? 'tracker-arrow-disabled' : ''}"
 			click.delegate="moveForward()" if.bind="!bars">
 			<span class="icon">chevron_right</span>
+		</div>
+
+		<!-- bars -->
+		<div if.bind="bars" class="tracker-sections">
+			<div class="tracker-section-bar" repeat.for="section of sections">
+				<div class="tracker-section section-active-${section.active}"></div>
+			</div>
 		</div>
 	</div>
 </template>

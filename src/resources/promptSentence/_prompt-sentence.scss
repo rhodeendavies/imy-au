@@ -1,0 +1,205 @@
+@use "./src/styles/variables"as *;
+
+.prompt-input {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 5px;
+	margin-top: 15px;
+
+	section {
+		&:not(:first-child) {
+			input-box {
+				margin: 0 10px;
+				display: block;
+			}
+		}
+	}
+
+	.shuffle-word {
+		cursor: pointer;
+		user-select: none;
+		transition: all 0.3s;
+		position: relative;
+
+		&.blink {
+			animation: blinkAnimation 1s infinite;
+		}
+
+		&.wiggle {
+			animation: wiggleAnimation 2s infinite;
+		}
+
+		&.shadow {
+			animation: shadowAnimation 2s infinite;
+		}
+
+		&.colour-change {
+			animation: colourAnimation 2s infinite;
+		}
+
+		&.slot {
+			overflow: hidden;
+
+			span {
+				position: relative;
+				animation: slotAnimation 2s infinite;
+			}
+		}
+
+		&.cursor {
+			.cursor-element {
+				display: block;
+				position: absolute;
+				bottom: -20px;
+				right: 0;
+				animation: cursorAnimation 2s infinite;
+
+				&::before {
+					content: '';
+					box-shadow: 0 0 0 rgba($color: $Orange, $alpha: 0);
+					animation: pulse 2s infinite;
+					width: 22px;
+					height: 22px;
+					border-radius: 50%;
+					display: block;
+					position: relative;
+					right: 5px;
+					top: 14px;
+				}
+			}
+		}
+
+		.cursor-element {
+			display: none;
+		}
+	}
+
+	.prompt-refresh {
+		cursor: pointer;
+		
+		> span {
+			&.spin {
+				animation: spin 2s;
+			}
+
+			font-size: 50px;
+			font-weight: $semi-bold;
+		}
+	}
+}
+
+@keyframes blinkAnimation {
+	0% {opacity: 1;}
+	30% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes wiggleAnimation {
+	0% {transform: rotate(0deg);}
+	30% {transform: rotate(-5deg);}
+	40% {transform: rotate(5deg);}
+	50% {transform: rotate(-5deg);}
+	100% {transform: rotate(0deg);}
+}
+
+@keyframes colourAnimation {
+	0% {color: $Black;}
+	60% {color: $Orange;}
+	100% {color: $Black;}
+}
+
+@keyframes shadowAnimation {
+	0% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
+	60% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 1);}
+	100% {text-shadow: 0px 3px 6px rgba($color: $Orange, $alpha: 0);}
+}
+
+@keyframes slotAnimation {
+	0% {top: 0px;}
+	55% {top: -3px;}
+	60% {top: 20px;}
+	61% {top: -20px;}
+	70% {top: 20px;}
+	71% {top: -20px;}
+	80% {top: 20px;}
+	81% {top: -20px;}
+	90% {top: 0px;}
+	99% {top: 3px;}
+	100% {top: 0px;}
+}
+
+@keyframes cursorAnimation {
+	0% {
+		bottom: -30px;
+		opacity: 0;
+	}
+	10% {
+		bottom: -30px;
+		opacity: 1;
+	}
+	55% {
+		bottom: -15px;
+	}
+	60% {
+		transform: scale(1);
+	}
+	70% {
+		transform: scale(0.8);
+	}
+	75% {
+		transform: scale(0.8);
+		opacity: 1;
+	}
+	100% {
+		bottom: -15px;
+		transform: scale(1);
+		opacity: 0;
+	}
+}
+
+@keyframes spin{
+	0% {
+		transform:  rotate(0deg);
+	}
+	60% {
+		transform:  rotate(-60deg);
+	}
+	80% {
+		transform:  rotate(420deg);
+	}
+	90% {
+		transform:  rotate(330deg);
+	}
+	95% {
+		transform:  rotate(360deg);
+	}
+	100% {
+		transform:  rotate(360deg);
+	}
+}
+
+@keyframes pulse {
+	0% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+	}
+	70% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 1);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 1);
+	}
+	95% {
+		-moz-box-shadow: 0 0 0 10px rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 10px rgba($color: $Orange, $alpha: 0);
+	}
+	100% {
+		-moz-box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+		box-shadow: 0 0 0 0 rgba($color: $Orange, $alpha: 0);
+	}
+}
+
+.final-prompt {
+	margin-left: 15px;
+	font-weight: $semi-bold;
+	margin-top: 30px;
+}

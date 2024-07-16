@@ -1,3 +1,13 @@
 <template>
-	
+	<require from="./feelings/paidia-evaluation-feelings"></require>
+	<require from="./topics/paidia-evaluation-topics"></require>
+	<require from="./learningStrategies/paidia-evaluation-learning-strategies"></require>
+	<require from="./summary/paidia-evaluation-summary"></require>
+
+	<loader if.bind="localParent.busy.active"></loader>
+
+	<paidia-evaluation-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></paidia-evaluation-feelings>
+	<paidia-evaluation-topics class="prompt-section" if.bind="localParent.ShowTopics"></paidia-evaluation-topics>
+	<paidia-evaluation-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></paidia-evaluation-learning-strategies>
+	<paidia-evaluation-summary class="prompt-section-wide" if.bind="localParent.ShowSummary"></paidia-evaluation-summary>
 </template>

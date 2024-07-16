@@ -1,0 +1,45 @@
+<template>
+	<require from="resources/paidiaCanvas/paidia-canvas"></require>
+
+	<p class="reflection-question mb-30">
+		Plan your learning approach for the week by selecting one strategy from each category. Think about how the
+		strategy will fit into your schedule this week.
+	</p>
+
+	<div class="strategy-grid">
+		<div class="strategy-option-wrapper">
+			<div repeat.for="strategy of strategies" class="strategy-option">
+				<div class="strategy-heading-wrapper">
+					<div class="strategy-heading">
+						<span>${strategy.title}</span>
+						<popup position="right">
+							<div slot="popup">
+								${strategy.description}
+							</div>
+						</popup>
+					</div>
+					<div class="strategy-sub-text">Choose 1</div>
+				</div>
+	
+				<radio-button options.bind="strategy.options" name.bind="strategy.strategy"
+					on-change.call="updateStrategy(strategy)" value.bind="strategy.index"
+					position.bind="appState.IsLaptop ? 'bottom' : 'right'">
+				</radio-button>
+			</div>
+		</div>
+		<div class="strategy-visual">
+			<paidia-canvas view-model.ref="canvas" interactions.bind="interactions"
+				on-change.call="saveCanvas()">
+			</paidia-canvas>
+		</div>
+	</div>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowNext">
+			Finish
+		</button>
+	</div>
+</template>

@@ -1,0 +1,58 @@
+<template>
+	<require from="resources/colourPicker/colour-picker"></require>
+	<require from="resources/emojiPickerComponent/emoji-picker-component"></require>
+	<require from="resources/gifSearch/gif-search"></require>
+
+	<p class="reflection-question mb-30">
+		Summarise your experience of your learning in ${localParent.Course} this week.
+	</p>
+	
+	<div class="paidia-summary-wrapper">
+		<div class="paidia-summary" repeat.for="emoji of chosenEmojis">
+			<div class="paidia-summary-delete" click.delegate="removeEmoji(emoji, $index)">
+				<div class="icon">delete</div>
+			</div>
+			<div class="paidia-summary-item" if.bind="emoji.type == gifType">
+				<gif-search gif.bind="localParent.model.learningExperience.gif"></gif-search>
+			</div>
+			<div class="paidia-summary-item" if.bind="emoji.type == textType">
+				<input-box type="textarea" value.bind="localParent.model.learningExperience.text"
+					valid.bind="textValid" min.bind="10" max.bind="250">
+				</input-box>
+			</div>
+			<div class="paidia-summary-item" if.bind="emoji.type == colourType">
+				<colour-picker label="Colour" colour.bind="localParent.model.learningExperience.color">
+				</colour-picker>
+			</div>
+			<div class="paidia-summary-item" if.bind="emoji.type == emojiType">
+				<emoji-picker-component emoji.bind="localParent.model.learningExperience.emoji"></emoji-picker-component>
+			</div>
+		</div>
+
+		<div class="paidia-summary-dropdown-wrapper ${pickerOpen ? 'paidia-summary-dropdown-open' : ''}"
+			if.bind="emojis.length > 0" tabindex="0" blur.trigger="closePicker()">
+			<div class="paidia-summary-dropdown-btn" click.delegate="togglePicker()" id.bind="id">
+				<div class="icon">add</div>
+			</div>
+			<div class="paidia-summary-dropdown" id.bind="pickerId" show.bind="pickerOpen">
+				<div class="paidia-summary-dropdown-item" repeat.for="emoji of emojis"
+					click.delegate="selectEmoji(emoji, $index)">
+					${emoji.emoji}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<check-mark checked.bind="localParent.model.learningExperience.postPublicly">
+		<p class="body-small">Allow this summary to be posted <strong>anonymously</strong> on the public forum</p>
+	</check-mark>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="submit()" disabled.bind="!AllowNext">
+			Finish
+		</button>
+	</div>
+</template>

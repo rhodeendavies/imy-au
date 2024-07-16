@@ -1,117 +1,101 @@
 import { RadioOption } from "resources/radioButton/radio-button";
 import { StrategyCategories } from "utils/enums";
+import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LessonRatings, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse, PaidiaEvaluatingResponse, PaidiaMonitoringResponse, PaidiaPlanningResponse } from "./reflectionsResponses";
+import { LudusModifier } from "./reflectionsApiModels";
+import { Section } from "./course";
 
-export class BaseSystemDaily {
-	feeling: number;
-	strategies: Strategy[];
-
-	constructor() {
-		this.feeling = null;
-		this.strategies = [];
-	}
-}
-
-export class BaseSystemReflection {
+export class BaseReflection {
 	id: number;
-	planningReflection: BaseSystemPlanning;
-	monitoringReflection: BaseSystemMonitoring;
-	evaluatingReflection: BaseSystemEvaluating;
-
-	constructor() {
-		this.id = 0;
-		this.planningReflection = new BaseSystemPlanning();
-		this.monitoringReflection = new BaseSystemMonitoring();
-		this.evaluatingReflection = new BaseSystemEvaluating();
-	}
+	planningReflection: BasePlanningResponse;
+	monitoringReflection: BaseMonitoringResponse;
+	evaluatingReflection: BaseEvaluatingResponse;
 }
 
-export class BaseSystemPlanning {
-	feeling: number;
-	strengths: string;
-	strategies: Strategy[];
-	dateRecorded: Date;
-
-	constructor() {
-		this.feeling = null;
-		this.strengths = "";
-		this.strategies = [];
-		this.dateRecorded = null;
-	}
+export class LudusReflection {
+	id: number;
+	section: Section;
+	planningReflection: LudusPlanningResponse;
+	monitoringReflection: LudusMonitoringResponse;
+	evaluatingReflection: LudusEvaluatingResponse;
 }
 
-export class BaseSystemMonitoring {
-	feeling: number;
-	currentQuestions: string;
-	strategies: Strategy[];
-	dateRecorded: Date;
-
-	constructor() {
-		this.feeling = null;
-		this.currentQuestions = "";
-		this.strategies = [];
-		this.dateRecorded = null;
-	}
+export class PaidiaReflection {
+	id: number;
+	planningReflection: PaidiaPlanningResponse;
+	monitoringReflection: PaidiaMonitoringResponse;
+	evaluatingReflection: PaidiaEvaluatingResponse;
 }
 
-export class BaseSystemEvaluating {
-	feeling: number;
-	feelingsAffect: string;
-	feelings: BaseSystemFeeling[];
-	topics: Topic[];
-	summary: string;
-	strategies: Strategy[];
-	dateRecorded: Date;
-	postToPublic: boolean;
-
-	constructor() {
-		this.feeling = null;
-		this.feelingsAffect = "";
-		this.feelings = [];
-		this.topics = [];
-		this.summary = "";
-		this.strategies = [];
-		this.dateRecorded = null;
-		this.postToPublic = false;
-	}
-}
-
-export class BaseSystemFeeling {
-	feelingRating: number;
-	feelingDate: Date;
-
-	constructor() {
-		this.feelingRating = null;
-		this.feelingDate = null;
-	}
-}
-
-export class Strategy {
+export class Strategy extends LessonRatings {
 	title: StrategyCategories;
 	strategy: string;
 	rating: number;
 	
 	// frontend only
-	ratingPercentage?: number;
 	icon?: string;
 	options?: RadioOption[];
+	modifiers?: LudusModifier[];
 	valid?: boolean;
+	index?: number;
+	emoji?: string;
+	description?: string;
 
 	constructor() {
+		super();
 		this.title = null;
 		this.strategy = "";
 		this.rating = 0;
-		this.ratingPercentage = 0;
 		this.icon = "";
 		this.options = [];
 	}
 }
 
 export class Topic {
-	title: string;
+	name: string;
+	id: number;
 	rating: number;
 
 	constructor() {
-		this.title = null;
-		this.rating = 0;
+		this.name = null;
+		this.rating = null;
+	}
+}
+
+export class LudusComponent {
+	name: string;
+	total?: number;
+	score: number;
+	originalScore?: number;
+	description?: string;
+}
+
+export class PaidiaCanvasModel {
+	learningImages: number[];
+	learningStyles: number[];
+	learningImage: number;
+	learningStyle: number;
+	reviewingImages: number[];
+	reviewingStyles: number[];
+	reviewingImage: number;
+	reviewingStyle: number;
+	practicingImages: number[];
+	practicingStyles: number[];
+	practicingImage: number;
+	practicingStyle: number;
+	extendingImages: number[];
+	extendingStyles: number[];
+	extendingImage: number;
+	extendingStyle: number;
+	canvas: string;
+
+	constructor() {
+		this.learningImages = [];
+		this.learningStyles = [];
+		this.reviewingImages = [];
+		this.reviewingStyles = [];
+		this.practicingImages = [];
+		this.practicingStyles = [];
+		this.extendingImages = [];
+		this.extendingStyles = [];
 	}
 }

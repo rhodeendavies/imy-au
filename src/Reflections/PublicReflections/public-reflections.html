@@ -1,17 +1,9 @@
 <template>
-	<div class="reflections-details-wrapper public-reflections-details-wrapper" repeat.for="reflection of Reflections">
-		<div class="reflections-details">
-			<div class="reflection-header-wrapper">
-				<div class="reflection-date" if.bind="reflection.dateRecorded != null">
-					<span>${reflection.dateRecorded | dateFormat:'d LLLL'}</span>
-					<div class="reflection-date-separator"></div>
-					<span>${reflection.dateRecorded | dateFormat:'HH:mm'}</span>
-				</div>
-			</div>
-	
-			<div class="reflection-body">
-				${reflection.summary}
-			</div>
-		</div>
-	</div>
+	<require from="./baseSystem/base-public"></require>
+	<require from="./ludus/ludus-public"></require>
+	<require from="./paidia/paidia-public"></require>
+
+	<base-public if.bind="ShowBaseSystem"></base-public>
+	<ludus-public class="public-wrapper" if.bind="ShowLudus"></ludus-public>
+	<paidia-public if.bind="ShowPaidia"></paidia-public>
 </template>

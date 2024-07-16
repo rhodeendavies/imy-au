@@ -1,74 +1,76 @@
 import { autoinject } from "aurelia-framework";
 import { ComponentHelper } from "utils/componentHelper";
-import { ExtendingStrategies, LearningStrategies, PracticingStrategies, ReviewingStrategies, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
 import { BasePlanning } from "../base-planning";
+import { Strategy } from "models/reflections";
+import { ApplicationState } from "applicationState";
+import { StrategyCategories } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BasePlanningLearningStrategies {
+export class BasePlanningLearningStrategies extends ReflectionStep {
 
-	constructor(private localParent: BasePlanning) { }
+	learningStrategy: Strategy;
+	reviewingStrategy: Strategy;
+	practicingStrategy: Strategy;
+	extendingStrategy: Strategy;
+	strategies: Strategy[];
 
+	constructor(private localParent: BasePlanning, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
-		if (ComponentHelper.ListNullOrEmpty(this.localParent.model.strategies)) {
-			this.initData();
-		}
+		this.initData();
 	}
 
 	initData() {
-		this.localParent.model.strategies = [{
-			title: StrategyCategories.Learning,
-			icon: StrategyCategoryIcons.Learning,
-			options: [
-				{ name: LearningStrategies.One, value: LearningStrategies.One },
-				{ name: LearningStrategies.Two, value: LearningStrategies.Two },
-				{ name: LearningStrategies.Three, value: LearningStrategies.Three },
-				{ name: LearningStrategies.Four, value: LearningStrategies.Four }
-			],
-			strategy: "",
-			rating: null
-		}, {
-			title: StrategyCategories.Reviewing,
-			icon: StrategyCategoryIcons.Reviewing,
-			options: [
-				{ name: ReviewingStrategies.One, value: ReviewingStrategies.One },
-				{ name: ReviewingStrategies.Two, value: ReviewingStrategies.Two },
-				{ name: ReviewingStrategies.Three, value: ReviewingStrategies.Three },
-				{ name: ReviewingStrategies.Four, value: ReviewingStrategies.Four }
-			],
-			strategy: "",
-			rating: null
-		}, {
-			title: StrategyCategories.Practicing,
-			icon: StrategyCategoryIcons.Practicing,
-			options: [
-				{ name: PracticingStrategies.One, value: PracticingStrategies.One },
-				{ name: PracticingStrategies.Two, value: PracticingStrategies.Two },
-				{ name: PracticingStrategies.Three, value: PracticingStrategies.Three },
-				{ name: PracticingStrategies.Four, value: PracticingStrategies.Four }
-			],
-			strategy: "",
-			rating: null
-		}, {
-			title: StrategyCategories.Extending,
-			icon: StrategyCategoryIcons.Extending,
-			options: [
-				{ name: ExtendingStrategies.One, value: ExtendingStrategies.One },
-				{ name: ExtendingStrategies.Two, value: ExtendingStrategies.Two },
-				{ name: ExtendingStrategies.Three, value: ExtendingStrategies.Three },
-				{ name: ExtendingStrategies.Four, value: ExtendingStrategies.Four }
-			],
-			strategy: "",
-			rating: null
-		}];
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.learningStrategy,
+			ComponentHelper.StrategyOptions.LearningStrategies
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.reviewingStrategy,
+			ComponentHelper.StrategyOptions.ReviewingStrategies
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.practicingStrategy,
+			ComponentHelper.StrategyOptions.PracticingStrategies
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.model.strategyPlanning.extendingStrategy,
+			ComponentHelper.StrategyOptions.ExtendingStrategies
+		);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
-		this.localParent.submitPlanning();
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyPlanning.learningStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyPlanning.extendingStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyPlanning.reviewingStrategy = strategy.strategy;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyPlanning.practicingStrategy = strategy.strategy;
+				break;
+		}
 	}
 
-	get AllowSubmit(): boolean {
-		return this.localParent.model.strategies != null && this.localParent.model.strategies.every(x => !ComponentHelper.NullOrEmpty(x.strategy));
+	saveStep() {
+		this.localParent.model.strategyPlanning = {
+			learningStrategy: this.learningStrategy.strategy,
+			reviewingStrategy: this.reviewingStrategy.strategy,
+			practicingStrategy: this.practicingStrategy.strategy,
+			extendingStrategy: this.extendingStrategy.strategy,
+		}
+	}
+
+	get AllowNext(): boolean {
+		return this.strategies != null && this.strategies.every(x => !ComponentHelper.NullOrEmpty(x?.strategy));
 	}
 }

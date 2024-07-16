@@ -1,35 +1,33 @@
 import { autoinject } from "aurelia-framework";
-import { NavigationInstruction, Next, Redirect } from "aurelia-router";
+import { NavigationInstruction, Next, Redirect, RedirectToRoute } from "aurelia-router";
 import { Routes } from "utils/constants";
 import { Roles } from "utils/enums";
 import { log } from "utils/log";
 import { AuthenticationService } from "./authenticationService";
+import { ApplicationState } from "applicationState";
 
 @autoinject
 export class AuthorizeStep {
-	constructor(private authService: AuthenticationService) {}
+	constructor(private authService: AuthenticationService, private appState: ApplicationState) { }
 
-	run(navigationInstruction: NavigationInstruction, next: Next) {
-		log.debug("navigating...");
-		
-		const roles = [Roles.Admin, Roles.Student];
-		const rolesLength = roles.length;
-
-		for (let i = 0; i < rolesLength; i++) {
-			const x = roles[i];
-			if (!this.validateRoute(navigationInstruction, x)) {
-				log.debug(`not authorized; redirecting`);
-				return next.cancel(new Redirect(Routes.Login));
-			}
+	async run(navigationInstruction: NavigationInstruction, next: Next) {
+		if (this.appState.IsMobile && navigationInstruction.fragment.indexOf("not-found") == -1) {
+			return next.cancel(new RedirectToRoute(Routes.Error));
 		}
 
-		log.debug("navigation successful");
+		log.debug("navigating...");
+		const role = await this.authService.Role();
+		if (!(await this.validateRoute(navigationInstruction, role))) {
+			log.debug(`not authorized; redirecting`);
+			return next.cancel(new Redirect(this.authService.homeRoute));
+		}
 		return next();
 	}
 
-	validateRoute(navigationInstruction: NavigationInstruction, role: Roles) {
+	async validateRoute(navigationInstruction: NavigationInstruction, role: Roles): Promise<boolean> {
 		const routeRole = navigationInstruction.getAllInstructions().some(x => x.config.settings.roles.includes(role));
 		const requiresAuthentication = navigationInstruction.getAllInstructions().some(x => x.config.settings.authenticated);
-		return (!routeRole || this.authService.Role == role) && (!requiresAuthentication || this.authService.Authenticated)
+		const authenticated = await this.authService.Authenticated();
+		return !requiresAuthentication || (authenticated && routeRole); 
 	}
 }

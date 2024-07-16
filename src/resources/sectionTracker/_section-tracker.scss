@@ -9,28 +9,18 @@
 		justify-content: center;
 
 		.tracker-sections {
+			width: 100%;
+			justify-content: center;
+
 			.tracker-section-bar {
-				height: 20px;
-				width: 250px;
-				display: flex;
-				align-items: center;
-				cursor: pointer;
-
-				&.section-disabled-true {
-					pointer-events: none;
-				}
-
-				&:hover {
-					.tracker-section {
-						background-color: $SeaGreen60;
-						height: 10px;
-					}
-				}
+				max-width: 250px;
+				flex: 1;
 
 				.tracker-section {
 					height: 8px;
-					min-width: 250px;
+					width: 100%;
 					border-radius: 0;
+					pointer-events: none;
 				}
 			}
 		}

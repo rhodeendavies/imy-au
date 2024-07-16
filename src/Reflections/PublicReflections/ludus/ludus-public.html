@@ -1,0 +1,48 @@
+<template>
+	<div class="reflections-details-wrapper public-reflections-details-wrapper"
+		if.bind="reflections == null || reflections.length == 0">
+		<div class="reflections-details">
+			<div class="reflection-header-wrapper"></div>
+			<div class="reflection-body">
+				There are no public reflections yet. They will appear when your classmates finish the week's
+				content
+			</div>
+		</div>
+	</div>
+
+	<div class="ludus-public-wrapper" show.bind="reflections != null && reflections.length > 0">
+		<div class="reflections-details-wrapper">
+			<div class="reflections-details">
+				<div class="reflection-header-wrapper">
+					<div class="reflection-header">
+						Summary of emotions this week
+					</div>
+				</div>
+
+				<div class="reflection-body">
+					<canvas id="ludusPublicSummary"></canvas>
+				</div>
+			</div>
+		</div>
+		<div class="ludus-public-details">
+			<div class="reflections-details-wrapper public-reflections-details-wrapper"
+				repeat.for="reflection of reflections">
+				<div class="reflections-details">
+					<div class="reflection-header-wrapper"></div>
+					<div class="reflection-body">
+						<div class="ludus-summary-wrapper">
+							<div class="ludus-summary" repeat.for="modifier of reflection">
+								<div>
+									<div>${modifier.text}</div>
+									<div class="ludus-summary-modifier">
+										${modifier.emotion} +${modifier.amount}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

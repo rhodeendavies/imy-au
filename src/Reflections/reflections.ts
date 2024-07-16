@@ -3,6 +3,12 @@ import { Router } from "aurelia-router";
 import { Section } from "models/course";
 import { DateTime, Interval } from "luxon";
 import { ApplicationState } from "applicationState";
+import { AuthenticationService } from "services/authenticationService";
+import { Systems } from "utils/enums";
+import { Busy } from "resources/busy/busy";
+import { log } from "utils/log";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { Events } from "utils/constants";
 
 @autoinject
 export class Reflections {
@@ -10,15 +16,34 @@ export class Reflections {
 	sections: Section[];
 	sectionSelected: Section;
 	showPublicReflections: boolean = false;
-	
-	constructor(private router: Router, private appState: ApplicationState) { }
+	busy: Busy = new Busy();
+	reflectionOpen: boolean = false;
 
-	attached() {
-		// TODO: replace with call to fetch data
-		this.sections = this.appState.getSections();
-		this.sectionSelected = this.appState.getCurrentSection();
+	constructor(
+		private router: Router,
+		private appState: ApplicationState,
+		private authService: AuthenticationService,
+		private ea: EventAggregator
+	) { }
 
-		this.initData();
+	async attached() {
+		try {
+			this.busy.on();
+			if (!this.appState.reflectionsEnabled) {
+				this.router.navigateBack();
+				return;
+			}
+
+			this.sections = await this.appState.getSections();
+			this.sections = this.sections.filter(x => x.system == this.authService.System)
+			const currentSection = await this.appState.getCurrentSectionId();
+			this.selectSection(this.sections.find(x => x.id == currentSection))
+			this.initData();
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.busy.off();
+		}
 	}
 
 	initData() {
@@ -43,16 +68,41 @@ export class Reflections {
 		this.router.navigateToRoute(route);
 	}
 
-	selectSection(section: Section) {
-		if (!section.available) return;
-		if (this.sectionSelected != null) {
-			this.sectionSelected.open = false;
+	async selectSection(section: Section) {
+		try {
+			this.busy.on();
+			if (section == null || !section.available) return;
+			if (this.sectionSelected != null) {
+				this.sectionSelected.open = false;
+			}
+			this.sectionSelected = section;
+			this.sectionSelected.open = true;
+
+			switch (this.authService.System) {
+				case Systems.Base:
+					this.sectionSelected.baseReflection = await this.appState.getSectionBaseReflection(this.sectionSelected);
+					break;
+				case Systems.Ludus:
+					this.sectionSelected.ludusReflection = await this.appState.getSectionLudusReflection(this.sectionSelected);
+					break;
+				case Systems.Paidia:
+					this.sectionSelected.paidiaReflection = await this.appState.getSectionPaidiaReflection(this.sectionSelected);
+					break;
+			}
+
+			this.ea.publish(Events.ReflectionDetailsChanged);
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.busy.off();
 		}
-		this.sectionSelected = section;
-		this.sectionSelected.open = true;
 	}
 
 	togglePublicReflections() {
 		this.showPublicReflections = !this.showPublicReflections;
+	}
+
+	toggleReflections() {
+		this.reflectionOpen = !this.reflectionOpen;
 	}
 }

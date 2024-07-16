@@ -1,23 +1,36 @@
 <template>
-	<div class="label radio-label" if.bind="label != ''">
-		${label}
+	<div class="label radio-label" if.bind="label != ''" innerhtml.bind="label">
 	</div>
 
-	<div if.bind="options.length > 0 && !Blocks" class="radio-options-wrapper ${Inline ? 'radio-options-inline' : ''}">
-		<p repeat.for="option of options" click.delegate="optionSelected(option)"
-			class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''}">
-			<span class="radio-circle">
-				<span class="radio-inner-circle"></span>
-			</span>
-			<span innerhtml.bind="option.name"></span>
-		</p>
+	<div if.bind="options.length > 0 && Normal" class="radio-options-wrapper ${Styles}">
+		<div repeat.for="option of options"
+			class="radio-option ${option.disabled ? 'disabled-radio-option' : ''} ${option.selected ? 'selected-radio-option' : ''} ${option.hovered ? 'hovered-radio-option' : ''}">
+			<div click.delegate="optionSelected(option)" class="radio-circle-wrapper">
+				<!-- star -->
+				<span if.bind="Stars" class="icon radio-star" mouseenter.trigger="enableHover(option)" mouseleave.trigger="disableHover(option)">
+					star
+				</span>
+				<!-- circle -->
+				<span if.bind="!Stars" class="radio-circle">
+					<span class="radio-inner-circle"></span>
+				</span>
+				<popup position.bind="position" if.bind="!Stars && !Inline">
+					<div slot="item">
+						<span if.bind="option.name != ''" innerhtml.bind="option.name"></span>
+					</div>
+					<div slot="popup">${option.description}</div>
+				</popup>
+			</div>
+
+			<div class="radio-option-subtext" if.bind="option.subText != ''">${option.subText}</div>
+		</div>
 	</div>
 
 	<div if.bind="options.length > 0 && Blocks" class="radio-blocks-wrapper">
 		<rating-box repeat.for="option of options" click.delegate="optionSelected(option)" active.bind="option.selected"
 			disabled.bind="option.disabled" clickable.bind="true">
 			<div slot="header">${option.subText}</div>
-			<div slot="body">${option.name}</div>
+			<div slot="body">${option.value}</div>
 		</rating-box>
 	</div>
 </template>

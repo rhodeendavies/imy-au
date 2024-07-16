@@ -2,17 +2,47 @@
 
 .prompt-modal-body {
 	height: 100%;
+
+	@include for-laptop {
+		overflow: auto;
+	}
 }
 
 .prompt-wrapper {
 	display: grid;
 	grid-template-rows: minmax(0, 1fr) auto;
+	grid-template-columns: minmax(0, 1fr);
 	gap: 20px;
 	height: 100%;
 
 	.prompt-body {
 		display: grid;
-		grid-template-rows: 1fr;
+		grid-template-rows: minmax(0, 1fr);
+
+		@include for-laptop {
+			height: 100%;
+			overflow: auto;
+			padding: 5px;
+		}
+
+		.prompt-section {
+			display: grid;
+			grid-template-rows: minmax(0, min-content);
+			grid-auto-rows: minmax(0, min-content);
+
+			@include for-laptop {
+				display: block;
+			}
+		}
+
+		.prompt-section-wide {
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr) auto;
+
+			@include for-laptop {
+				display: block;
+			}
+		}
 	}
 }
 
@@ -20,14 +50,23 @@
 	font-family: $Poppins;
 	font-weight: $semi-bold;
 	color: $SeaGreen;
+	font-size: 20px;
+}
+
+.reflection-sub-question {
+	font-family: $Poppins;
+	color: $SeaGreen;
+	font-size: 20px;
 }
 
 .base-strategy-rating-wrapper {
 	display: grid;
-	grid-template-columns: 40px minmax(250px, min-content) 100px;
+	grid-template-columns: 40px minmax(250px, 700px) 100px;
 	align-items: center;
 	padding: 10px 0;
+	padding-right: 10px;
 	gap: 25px;
+	overflow: auto;
 
 	.base-strategy-rating {
 		display: flex;
@@ -41,10 +80,70 @@
 	}
 }
 
-.base-strategy-heading {
+.strategy-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	overflow: auto;
+
+	@include for-laptop {
+		grid-template-columns: auto;
+	}
+	
+	.strategy-option-wrapper {
+		border-right: 1px solid $DarkGrey40;
+		padding-right: 20px;
+		overflow: auto;
+		position: relative;
+		z-index: 99999;
+
+		@include for-laptop {
+			border-right: none;
+			padding-right: 0;
+		}
+
+		.strategy-option {
+			max-width: 80%;
+			padding-bottom: 20px;
+			border-bottom: 1px solid $DarkGrey40;
+			margin-bottom: 20px;
+
+			@include for-laptop {
+				max-width: 100%;
+			}
+
+			&:first-child {
+				padding-top: 20px;
+				border-top: 1px solid $DarkGrey40;
+			}
+		}
+	}
+
+	.strategy-visual {
+		overflow: hidden auto;
+	}
+}
+
+.strategy-heading-wrapper {
+	margin-bottom: 20px;
+}
+
+.strategy-heading {
 	color: $SeaGreen;
 	font-family: $Poppins;
 	font-size: 20px;
 	font-weight: $semi-bold;
 	text-transform: uppercase;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.strategy-text {
+	font-size: 18px;
+}
+
+.strategy-sub-text {
+	color: $DarkGrey60;
+	font-size: 18px;
 }

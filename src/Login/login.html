@@ -1,17 +1,35 @@
 <template>
 	<div class="page login-page">
-		<div class="login-image"></div>
-		
+		<div class="login-image">
+			<popup class="login-popup" position="right" click.delegate="navigateToAttribution()">
+				<div slot="popup">Image by: ${onlineEducation}</div>
+			</popup>
+		</div>
+
 		<div class="login-center">
-			<div class="top-heading login-heading">
-				Log in
-			</div>
-			<div class="login-box">
-				<div class="login-input">
-					<input-box value.bind="studentNumber" label="Student number"></input-box>
+			<div class="login-heading-wrapper" if.bind="ShowLogin">
+				<div class="login-heading">
+					Log in
 				</div>
-				<div class="login-input">
-					<input-box value.bind="password" label="Password" type="password"></input-box>
+			</div>
+			<div class="login-heading-wrapper" if.bind="ShowForgotPassword">
+				<div class="login-heading login-heading-clickable" click.delegate="showLogin()">
+					<span class="icon">arrow_back_ios_new</span>
+					Reset Password
+				</div>
+			</div>
+
+			<div class="login-box" if.bind="busy.active">
+				<loader></loader>
+			</div>
+			<div class="login-box" if.bind="ShowLogin">
+				<div class="login-inputs">
+					<input-box value.bind="loginModel.studentNumber" label="Student number" on-enter.call="login()"
+						valid.bind="studentNumberValid" error="*Required" validate.bind="false" student-number.bind="true">
+					</input-box>
+					<input-box value.bind="loginModel.password" label="Password" type="password" on-enter.call="login()"
+						valid.bind="passwordValid" error="*Required" validate.bind="false">
+					</input-box>
 				</div>
 
 				<message if.bind="ShowError">
@@ -23,11 +41,42 @@
 						Log in
 					</button>
 				</div>
-				
-				<div class="text-center">
-					<a class="hyper-link" disabled click.delegate="register()">
+
+				<div class="login-links">
+					<a class="hyper-link" click.delegate="navigateToRegister()">
+						Register
+					</a>
+					<a class="hyper-link" click.delegate="showForgotPassword()">
 						Forgot/ reset your password
 					</a>
+				</div>
+			</div>
+
+			<div class="login-box" if.bind="ShowForgotPassword && !resetPasswordSent">
+				<div class="login-inputs">
+					<input-box value.bind="loginModel.studentNumber" label="Student number" student-number.bind="true"
+						valid.bind="studentNumberValid" error="*Required" validate.bind="false">
+					</input-box>
+				</div>
+
+				<message if.bind="ShowError">
+					${response.message}
+				</message>
+
+				<div class="login-action">
+					<button class="btn btn-primary" click.delegate="resetPassword()">
+						Reset password
+					</button>
+				</div>
+			</div>
+
+			<div class="login-box" if.bind="ShowForgotPassword && resetPasswordSent">
+				<div class="login-success">
+					<div class="login-box-icon icon text-center">mark_email_unread</div>
+					<span>
+						Reset password email successfully sent <br/>
+						Check your inbox for further instructions.
+					</span>
 				</div>
 			</div>
 		</div>

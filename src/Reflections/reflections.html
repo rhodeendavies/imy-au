@@ -2,7 +2,7 @@
 	<require from="./ReflectionsDetails/reflections-details"></require>
 	<require from="./PublicReflections/public-reflections"></require>
 
-	<div class="page dashboard-page reflections-page">
+	<div class="page dashboard-page reflections-page ${reflectionOpen ? 'open-reflection' : ''}">
 		<div class="reflections-section accordion-content">
 			<div class="accordion-content-header">
 				Reflections
@@ -23,12 +23,23 @@
 					</accordion>
 				</div>
 			</div>
+
+			<div class="course-content-slider" click.delegate="toggleReflections()" if.bind="appState.IsLaptop">
+				<span class="icon">arrow_right</span>
+			</div>
 		</div>
 
-		<div class="reflections-section">
+		<div if.bind="sectionSelected == null" class="no-reflection-selected">
+			Select a week to view its reflections.
+		</div>
+
+		<div class="reflections-section" if.bind="sectionSelected != null">
 			<div class="reflection-section-heading">
-				<div class="main-heading">
-					Week ${sectionSelected.order} <span if.bind="showPublicReflections">public</span> reflections
+				<div>
+					<div class="main-heading">
+						Week ${sectionSelected.order} <span if.bind="showPublicReflections">public</span> reflections
+					</div>
+					<div if.bind="showPublicReflections" class="mt-10">Browse the reflections of your classmates.</div>
 				</div>
 				<div>
 					<button class="btn btn-primary" click.delegate="togglePublicReflections()">
@@ -37,14 +48,19 @@
 					</button>
 				</div>
 			</div>
+
+			<loader if.bind="busy.active"></loader>
+
 			<public-reflections class="public-reflections"
-				if.bind="showPublicReflections && sectionSelected.baseReflection != null">
+				if.bind="!busy.active && showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</public-reflections>
 
-			<reflections-details reflection.bind="sectionSelected.baseReflection"
-				if.bind="!showPublicReflections && sectionSelected.baseReflection != null">
+			<reflections-details 
+				base-reflection.bind="sectionSelected.baseReflection"
+				ludus-reflection.bind="sectionSelected.ludusReflection"
+				paidia-reflection.bind="sectionSelected.paidiaReflection"
+				if.bind="!busy.active && !showPublicReflections && (sectionSelected.baseReflection != null || sectionSelected.ludusReflection != null || sectionSelected.paidiaReflection != null)">
 			</reflections-details>
 		</div>
 	</div>
-
 </template>

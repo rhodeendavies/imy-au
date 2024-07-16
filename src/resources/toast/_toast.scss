@@ -1,20 +1,27 @@
 @use "./src/styles/variables" as *;
 
 .toast {
-	padding: 20px 40px;
-	background-color: $White;
-	border-radius: $BorderRadius;
-	box-shadow: $BoxShadow;
 	position: fixed;
+	z-index: 99;
 	bottom: -10px;
-	left: 20px;
+	left: 0;
 	transition: all 0.3s;
-	border: 1px solid $LightGrey;
-	color: $SeaGreen;
 	opacity: 0;
+	display: flex;
+	justify-content: center;
+	width: 100vw;
 
 	&.toast-visible {
 		bottom: 20px;
 		opacity: 1;
+	}
+
+	> div {
+		padding: 10px 20px;
+		background-color: $Orange;
+		border-radius: $BorderRadius;
+		box-shadow: $BoxShadow;
+		color: $White;
+		font-size: 15px;
 	}
 }

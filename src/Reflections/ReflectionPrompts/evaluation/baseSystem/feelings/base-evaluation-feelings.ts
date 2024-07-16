@@ -1,21 +1,29 @@
 import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseEvaluation } from "../base-evaluation";
+import { FeelingsSummary } from "models/reflectionsResponses";
+import { ComponentHelper } from "utils/componentHelper";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseEvaluationFeelings {
+export class BaseEvaluationFeelings extends ReflectionStep {
 
 	valid: boolean;
+	feelingsSummary: FeelingsSummary[];
 	
-	constructor(private localParent: BaseEvaluation) {}
-
-	nextStep() {
-		if (!this.AllowNext) return;
-
-		this.localParent.nextStep();
+	constructor(private localParent: BaseEvaluation) {
+		super();
+		this.stepParent = localParent;
 	}
 
-	@computedFrom("valid", "localParent.model.feeling")
+	attached() {
+		this.feelingsSummary = ComponentHelper.GetFeelingsSummary(this.localParent.questions.courseFeelings)
+	}
+
+	saveStep() {
+	}
+
+	@computedFrom("valid", "localParent.model.courseFeelings.rating")
 	get AllowNext() {
-		return this.valid && this.localParent.model.feeling != null;
+		return this.valid && this.localParent.model.courseFeelings.rating != null;
 	}
 }

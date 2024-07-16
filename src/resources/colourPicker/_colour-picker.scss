@@ -1,0 +1,45 @@
+@use "./src/styles/variables"as *;
+
+.colour-picker-wrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	width: min-content;
+
+	&.colour-picker-open {
+		.colour-picker-colour {
+			border-color: $DarkGrey;
+		}
+	}
+
+	.colour-picker-label-wrapper {
+		width: 200px;
+		padding: 10px 20px;
+		text-align: center;
+		background-color: $LightGrey;
+		transition: all 0.3s;
+
+		.colour-picker-label {
+			filter: grayscale(100) contrast(100) invert(100);
+			transition: all 0.3s;
+		}
+	}
+
+	.colour-picker-colour {
+		height: 50px;
+		width: 50px;
+		border: 5px solid $LightGrey;
+		background-color: $LightGrey;
+		transition: all 0.3s;
+		cursor: pointer;
+	}
+
+	.colour-picker {
+		position: fixed;
+		z-index: 9;
+		padding: 10px;
+		background: $LightGrey;
+		box-shadow: $BoxShadow;
+	}
+}

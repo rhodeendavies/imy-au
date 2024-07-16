@@ -1,4 +1,5 @@
-import { BaseSystemEvaluating, BaseSystemReflection } from "./reflections";
+import { Systems } from "utils/enums";
+import { BaseReflection, LudusReflection, PaidiaReflection } from "./reflections";
 
 export class Course {
 	id: number;
@@ -24,21 +25,24 @@ export class Section {
 	order: number;
 	startDate: Date;
 	endDate: Date;
-	course: Course;
-	lessons: Lesson[];
 	totalRunTime: number;
-	planningDone: boolean;
-	monitoringDone: boolean;
-	evaluationDone: boolean;
-	baseReflection: BaseSystemReflection;
-	publicBaseReflections: BaseSystemEvaluating[];
-
+	system: Systems;
+	active: boolean;
+	planningReflectionId: number;
+	monitoringReflectionId: number;
+	evaluatingReflectionId: number;
+	dailyReflectionIds: number[];
+	
 	// frontend only
+	lessons: Lesson[];
 	totalVideos?: number;
 	watchedVideos?: number;
 	dateString?: string;
 	open?: boolean;
-	available?: boolean;
+	available: boolean;
+	baseReflection: BaseReflection;
+	ludusReflection: LudusReflection;
+	paidiaReflection: PaidiaReflection;
 
 	constructor() {
 		this.id = 0;
@@ -46,20 +50,13 @@ export class Section {
 		this.order = 0;
 		this.startDate = null;
 		this.endDate = null;
-		this.course = null;
-		this.lessons = [];
 		this.totalRunTime = 0;
-		this.planningDone = false;
-		this.monitoringDone = false;
-		this.evaluationDone = false;
-		this.baseReflection = null;
-		this.publicBaseReflections = null;
-
+		
+		this.lessons = [];
 		this.totalVideos = 0;
 		this.watchedVideos = 0;
 		this.dateString = "";
 		this.open = false;
-		this.available = false;
 	}
 }
 
@@ -67,29 +64,23 @@ export class Lesson {
 	id: number;
 	name: string;
 	order: number;
-	section: Section;
-	video: string;
-	resources: string;
-	topics: string[];
-	runTime: number;
-	rating: number;
-	watched: boolean;
+	resourcesUrl: string;
+	videoUrl: string;
+	videoLength: number;
+	complete: boolean;
+	available: boolean;
+	incompleteReflectionId: number;
 
-	// frontend only
-	ratingPercentage?: number;
-	available?: boolean;
-	topicsString?: string;
+	// for frontend
+	sectionId?: number;
 
 	constructor() {
 		this.id = 0;
 		this.name = "";
 		this.order = 0;
-		this.section = null;
-		this.video = "";
-		this.resources = "";
-		this.topics = [];
-		this.watched = false;
-		this.rating = null;
+		this.videoUrl = "";
+		this.resourcesUrl = "";
+		this.complete = false;
 		this.available = false;
 	}
 }

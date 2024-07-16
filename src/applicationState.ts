@@ -1,14 +1,20 @@
-import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject } from "aurelia-framework";
-import { DateTime } from "luxon";
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { Lesson, Section } from "models/course";
-import { BaseSystemEvaluating, BaseSystemReflection, Strategy } from "models/reflections";
+import { BasicLudusModifier, BasicPrompts, BasicStrategyOptions, Emotion, Emotions, PaidiaWord, Prompts, StrategyOptions } from "models/prompts";
+import { BaseReflection, LudusReflection, PaidiaReflection } from "models/reflections";
+import { BaseEvaluatingResponse, BaseMonitoringResponse, BasePlanningResponse, LudusEvaluatingResponse, LudusMonitoringResponse, LudusPlanningResponse, PaidiaEvaluatingResponse, PaidiaMonitoringResponse, PaidiaPlanningResponse } from "models/reflectionsResponses";
+import { Busy } from "resources/busy/busy";
 import { Modal } from "resources/modal/modal";
 import { Toast } from "resources/toast/toast";
+import { AuthenticationService } from "services/authenticationService";
+import { CoursesService } from "services/coursesService";
+import { ReflectionsService } from "services/reflectionsService";
+import { SectionsService } from "services/sectionsService";
 import { ComponentHelper } from "utils/componentHelper";
 import { Events } from "utils/constants";
-import { StrategyCategories } from "utils/enums";
-import { LessonRatedEvent } from "utils/eventModels";
+import { LoginScreens, ReflectionTypes, StrategyCategories, StrategyCategoryIcons } from "utils/enums";
+import { log } from "utils/log";
 
 @autoinject
 export class ApplicationState {
@@ -19,16 +25,47 @@ export class ApplicationState {
 	private monitoringModal: Modal;
 	private evaluationModal: Modal;
 	private sections: Section[];
+	private sectionsBusy: Busy = new Busy();
 	private currentSection: Section;
-	private lessonCompleted: Lesson;
-	private sectionReflecting: Section;
+	private loginSub: Subscription;
+	private logoutSub: Subscription;
 
-	ratingSelected: number = null;
-
-	watchedLesson: string;
+	reflectionsEnabled: boolean = true;
+	determineReflectionBusy = new Busy();
+	ludusPrompts: Prompts;
+	paidiaPrompts: Prompts;
+	paidiaWords: PaidiaWord[];
+	emotions: Emotion[];
+	oneStarTopicPhrases: string[];
+	twoStarTopicPhrases: string[];
+	threeStarTopicPhrases: string[];
+	emotionsStrings: Emotions;
+	watchedLesson: Lesson;
 	reflectionSection: string;
+	showAreYouSure: boolean = false;
+	allowDailyClose: boolean = true;
+	dailyOpen: boolean = false;
+	loginScreenType: LoginScreens = LoginScreens.login;
+	hideHomeActive: boolean = false;
+	appLoaded: boolean = false;
 
-	constructor(private ea: EventAggregator) { }
+	constructor(
+		private ea: EventAggregator,
+		private courseApi: CoursesService,
+		private sectionApi: SectionsService,
+		private authService: AuthenticationService,
+		private reflectionsApi: ReflectionsService
+	) {
+		this.loginSub = this.ea.subscribe(Events.Login, () => {
+			this.init();
+			this.determineReflectionToShow();
+		});
+		this.logoutSub = this.ea.subscribe(Events.Logout, () => this.refreshSections());
+	}
+
+	init() {
+		this.initFromJson().then(() => this.shufflePrompts());
+	}
 
 	setToast(_toast: Toast) {
 		this.toast = _toast;
@@ -54,342 +91,460 @@ export class ApplicationState {
 		this.evaluationModal = _modal;
 	}
 
-	triggerToast(message: string, seconds: number = 3) {
-		this.toast.trigger(message, seconds);
+	triggerToast(message: string, seconds: number = 3, permanent: boolean = false) {
+		this.toast.trigger(message, seconds, permanent);
 	}
 
-	triggerRatingModal(lesson: Lesson, section: Section) {
-		this.lessonCompleted = lesson;
-		this.lessonCompleted.section = section;
-		this.watchedLesson = this.lessonCompleted.name;
-		this.ratingSelected = null;
-		this.ratingModal.toggle();
+	triggerRatingModal(lesson: Lesson, sectionId: number) {
+		this.watchedLesson = lesson;
+		this.watchedLesson.sectionId = sectionId;
+		if (!this.ratingModal.Open) {
+			this.ratingModal.toggle();
+		}
+		this.ea.publish(Events.LessonRatingTriggered);
 	}
 
-	submitRating() {
-		this.lessonCompleted.rating = this.ratingSelected;
-
-		// TODO: make call to set rating as complete -> on success do following
+	closeRating() {
 		if (this.ratingModal.Open) {
 			this.ratingModal.toggle();
 		}
-		this.ea.publish(Events.LessonRated, {
-			sectionId: this.lessonCompleted.section.id,
-			lessonOrder: this.lessonCompleted.order
-		} as LessonRatedEvent);
-		this.lessonCompleted = null;
+		if (this.watchedLesson.sectionId == this.currentSection.id) {
+			this.determineReflectionToShow();
+		} else {
+			this.ea.publish(Events.LessonCompleted);
+		}
+		this.refreshSections();
+		this.watchedLesson = null;
+	}
 
-		this.determineReflectionToShow();
+	@computedFrom("ratingModal.Open")
+	get RatingOpen(): boolean {
+		return this.ratingModal?.Open;
 	}
 
 	triggerDailyModal() {
-		this.dailyModal.toggle();
+		if (!this.dailyModal.Open) {
+			this.dailyModal.toggle();
+			this.showAreYouSure = false;
+		}
 		this.ea.publish(Events.DailyTriggered);
 	}
 
-	submitDaily(daily: any) {
-		// TODO: make call to set daily reflection as complete -> on success do following
-		if (this.dailyModal.Open) {
-			this.dailyModal.toggle();
+	closeDaily(areYouSure: boolean = true) {
+		if (areYouSure) {
+			if (this.dailyModal.Open) {
+				this.dailyModal.toggle();
+				this.dailyOpen = false;
+			}
+			this.refreshSections();
+		} else {
+			this.showAreYouSure = !this.showAreYouSure;
 		}
 	}
 
-	triggerPlanningModal(section: Section) {
-		this.sectionReflecting = section;
-		this.reflectionSection = this.sectionReflecting.name;
-		this.planningModal.toggle();
+	@computedFrom("dailyModal.Open")
+	get DailyOpen(): boolean {
+		return this.dailyModal?.Open;
+	}
+
+	triggerPlanningModal(sectionName: string) {
+		this.reflectionSection = sectionName;
+		if (!this.planningModal.Open) {
+			this.planningModal.toggle();
+		}
 		this.ea.publish(Events.PlanningTriggered);
 	}
 
-	submitPlanning(planning: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+	closePlanning() {
 		if (this.planningModal.Open) {
 			this.planningModal.toggle();
 		}
-		this.sectionReflecting.planningDone = true;
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
-	triggerMonitoringModal(section: Section) {
-		this.sectionReflecting = section;
-		this.reflectionSection = this.sectionReflecting.name;
-		this.monitoringModal.toggle();
+	@computedFrom("planningModal.Open")
+	get PlanningOpen(): boolean {
+		return this.planningModal?.Open;
+	}
+
+	triggerMonitoringModal(sectionName: string) {
+		this.reflectionSection = sectionName;
+		if (!this.monitoringModal.Open) {
+			this.monitoringModal.toggle();
+		}
 		this.ea.publish(Events.MonitoringTriggered);
 	}
 
-	submitMonitoring(monitoring: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+	closeMonitoring() {
 		if (this.monitoringModal.Open) {
 			this.monitoringModal.toggle();
 		}
-		this.sectionReflecting.monitoringDone = true;
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
-	triggerEvaluationModal(section: Section) {
-		this.sectionReflecting = section;
-		this.reflectionSection = this.sectionReflecting.name;
-		this.evaluationModal.toggle();
+	@computedFrom("monitoringModal.Open")
+	get MonitoringOpen(): boolean {
+		return this.monitoringModal?.Open;
+	}
+
+	triggerEvaluationModal(sectionName: string) {
+		this.reflectionSection = sectionName;
+		if (!this.evaluationModal.Open) {
+			this.evaluationModal.toggle();
+		}
 		this.ea.publish(Events.EvaluationTriggered);
 	}
 
-	submitEvaluation(evaluation: any) {
-		// TODO: make call to set reflection as complete -> on success do following
+	closeEvaluation() {
 		if (this.evaluationModal.Open) {
 			this.evaluationModal.toggle();
 		}
-		this.sectionReflecting.evaluationDone = true;
 		this.determineReflectionToShow();
+		this.refreshSections();
 	}
 
-	determineReflectionToShow() {
-		if (this.sections == null || this.sections.length == 0) {
-			this.getSections();
-			if (this.sections == null || this.sections.length == 0 || this.currentSection == null) return;
-		}
+	@computedFrom("evaluationModal.Open")
+	get EvaluationOpen(): boolean {
+		return this.evaluationModal?.Open;
+	}
 
-		const numOfSections = this.sections.length;
-		for (let sectionIndex = 0; sectionIndex < numOfSections; sectionIndex++) {
-			const section = this.sections[sectionIndex];
+	async determineReflectionToShow() {
+		if (!this.reflectionsEnabled) return;
 
-			const numOfLessons = section.lessons?.length;
-			for (let lessonIndex = 0; lessonIndex < numOfLessons; lessonIndex++) {
-				const lesson = section.lessons[lessonIndex];
+		try {
+			if (this.determineReflectionBusy.active || !this.appLoaded) {
+				await ComponentHelper.Sleep(500);
+				return this.determineReflectionToShow();
+			}
 
-				if (lesson.watched && lesson.rating == null) {
-					this.triggerRatingModal(lesson, section);
-					return;
-				}
-
-				if (section.id == this.currentSection.id) {
-					switch (lessonIndex) {
-						case 0:
-							if (!section.planningDone) {
-								this.triggerPlanningModal(section);
-								return;
-							}
-							break;
-						case Math.ceil(numOfLessons / 2) - 1:
-							if (!section.monitoringDone && lesson.watched) {
-								this.triggerMonitoringModal(section);
-								return;
-							}
-							break;
-						case (numOfLessons - 1):
-							if (!section.evaluationDone && lesson.watched) {
-								this.triggerEvaluationModal(section);
-								return;
-							}
-							break;
-						default:
-							break;
+			this.determineReflectionBusy.on();
+			const section = await this.getCurrentSection();
+			// lessons
+			const lessons = section.lessons;
+			for (let index = 0; index < lessons?.length; index++) {
+				const lesson = lessons[index];
+				if (lesson.complete) {
+					const lessonAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Lesson, lesson.id);
+					if (lessonAvailable.available) {
+						this.triggerRatingModal(lesson, section.id);
+						return;
 					}
 				}
 			}
+			// planning
+			const planningAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Planning, section.id);
+			if (planningAvailable.available) {
+				this.triggerPlanningModal(section.name);
+				return;
+			}
+			// monitoring
+			const monitoringAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Monitoring, section.id);
+			if (monitoringAvailable.available) {
+				this.triggerMonitoringModal(section.name);
+				return;
+			}
+			// evaluating
+			const evaluatingAvailable = await this.reflectionsApi.reflectionAvailable(this.authService.System, ReflectionTypes.Evaluating, section.id);
+			if (evaluatingAvailable.available) {
+				this.triggerEvaluationModal(section.name);
+				return;
+			}
+		} catch (error) {
+			log.error(error);
+		} finally {
+			this.determineReflectionBusy.off();
 		}
 	}
 
-	getSections(): Section[] {
+	async getSections(): Promise<Section[]> {
+		if (!(await this.authService.Authenticated())) return null;
+
+		if (this.sectionsBusy.active) {
+			await ComponentHelper.Sleep(500);
+			return this.getSections();
+		}
+
 		if (this.sections == null || this.sections.length == 0) {
-			// TODO: replace with call
-			[this.sections, this.currentSection] = this.createDemoData();
+			this.sectionsBusy.on();
+			this.sections = await this.courseApi.getCourseSections(this.authService.CourseId);
+			this.sections.sort((a, b) => a.order < b.order ? -1 : 1);
+			this.currentSection = this.sections.find(x => x.active);
+			this.reflectionsEnabled = this.currentSection?.name != "End of Content";
+			if (!this.reflectionsEnabled) {
+				this.ea.publish(Events.Login);
+			}
+			const index = this.sections.findIndex(x => x?.name == "End of Content")
+			// remove end of content section
+			if (index != -1) {
+				this.sections.splice(index, 1);
+			}
+			for (let i = 0; i < this.sections.length; i++) {
+				const section = this.sections[i];
+				section.lessons = await this.sectionApi.getSectionLessons(section.id);
+				section.lessons.sort((a, b) => a.order < b.order ? -1 : 1);
+			}
+			this.sectionsBusy.off();
 		}
 		return this.sections;
 	}
 
-	getCurrentSection(): Section {
+	async getCurrentSection(): Promise<Section> {
 		if (this.currentSection == null) {
-			this.getSections();
+			await this.getSections();
 		}
 		return this.currentSection;
 	}
 
-	getCurrentReflection(): BaseSystemReflection {
+	async getCurrentSectionId(): Promise<number> {
 		if (this.currentSection == null) {
-			this.getSections();
+			await this.getSections();
 		}
-		return this.currentSection.baseReflection;
+		return this.currentSection.id;
 	}
 
-
-	// DEMO DATA
-	lessonOrder: number = 1;
-	reflectionId: number = 1;
-
-	private createDemoData(): [Section[], Section] {
-		const sections: Section[] = [{
-			id: 0,
-			name: "Introduction to web",
-			order: 1,
-			startDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate(),
-			endDate: DateTime.fromObject({ day: 16, month: 10 }).toJSDate(),
-			course: null,
-			totalRunTime: 120,
-			planningDone: true,
-			monitoringDone: false,
-			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(),
-			publicBaseReflections: [
-				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
-				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
-				this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation()
-			],
-			lessons: [
-				this.createDemoLesson("Block and inline elements", true),
-				this.createDemoLesson("Images - part 1", true),
-				this.createDemoLesson("Images - part 2", true),
-				this.createDemoLesson("Images - examples"),
-				this.createDemoLesson("Video and audio")
-			]
-		}, {
-			id: 1,
-			name: "Introduction to HTML",
-			order: 2,
-			startDate: DateTime.fromObject({ day: 17, month: 10 }).toJSDate(),
-			endDate: DateTime.fromObject({ day: 30, month: 10 }).toJSDate(),
-			course: null,
-			totalRunTime: 120,
-			planningDone: true,
-			monitoringDone: false,
-			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(true, false, false),
-			publicBaseReflections: [
-				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(), this.createDemoBaseEvaluation(),
-				this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(false), this.createDemoBaseEvaluation(false),
-				this.createDemoBaseEvaluation()
-			],
-			lessons: [
-				this.createDemoLesson("Block and inline elements", true),
-				this.createDemoLesson("Images - part 1", true),
-				this.createDemoLesson("Images - part 2", true),
-				this.createDemoLesson("Images - examples", true),
-				this.createDemoLesson("Video and audio", true)
-			]
-		}, {
-			id: 2,
-			name: "HTML images, video & audio",
-			order: 3,
-			startDate: DateTime.fromObject({ day: 31, month: 10 }).toJSDate(),
-			endDate: DateTime.fromObject({ day: 13, month: 11 }).toJSDate(),
-			course: null,
-			totalRunTime: 120,
-			planningDone: false,
-			monitoringDone: false,
-			evaluationDone: false,
-			baseReflection: this.createDemoReflectionData(false, false, false),
-			publicBaseReflections: [],
-			lessons: [
-				this.createDemoLesson("Block and inline elements"),
-				this.createDemoLesson("Images - part 1"),
-				this.createDemoLesson("Images - part 2"),
-				this.createDemoLesson("Images - examples"),
-				this.createDemoLesson("Video and audio")
-			]
-		}];
-
-		return [sections, sections[1]]
-	}
-
-	createDemoLesson(name: string, watched: boolean = false, rating: number = 1): Lesson {
+	async getSectionBaseReflection(section: Section): Promise<BaseReflection> {
+		let planningResponse: BasePlanningResponse;
+		if (section.planningReflectionId != null) {
+			planningResponse = await this.reflectionsApi.getBasePlanningReflection(section.planningReflectionId);
+		}
+		let monitoringResponse: BaseMonitoringResponse;
+		if (section.monitoringReflectionId != null) {
+			monitoringResponse = await this.reflectionsApi.getBaseMonitoringReflection(section.monitoringReflectionId);
+		}
+		let evaluatingResponse: BaseEvaluatingResponse;
+		if (section.evaluatingReflectionId != null) {
+			evaluatingResponse = await this.reflectionsApi.getBaseEvaluatingReflection(section.evaluatingReflectionId);
+		}
 		return {
-			id: this.lessonOrder,
-			name: name,
-			order: this.lessonOrder++,
-			section: null,
-			video: "",
-			resources: "",
-			topics: [""],
-			watched: watched,
-			runTime: 120,
-			rating: watched ? rating : null
-		}
+			id: section.id,
+			planningReflection: planningResponse,
+			monitoringReflection: monitoringResponse,
+			evaluatingReflection: evaluatingResponse
+		};
 	}
 
-	private createDemoReflectionData(planning: boolean = true, monitoring: boolean = true, evaluating: boolean = true): BaseSystemReflection {
-		const strategies: Strategy[] = [{
-			title: StrategyCategories.Learning,
-			strategy: "a test",
-			rating: 1
-		}, {
-			title: StrategyCategories.Reviewing,
-			strategy: "a test",
-			rating: 2
-		}, {
-			title: StrategyCategories.Practicing,
-			strategy: "a test",
-			rating: 3
-		}, {
-			title: StrategyCategories.Extending,
-			strategy: "a test",
-			rating: 0
-		}];
-		const reflection = new BaseSystemReflection();
-		reflection.id = this.reflectionId++;
-		if (planning) {
-			reflection.planningReflection.feeling = 3;
-			reflection.planningReflection.strengths = ComponentHelper.LoremIpsum();
-			reflection.planningReflection.strategies = strategies;
-			reflection.planningReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
-		} else {
-			reflection.planningReflection = null;
+	async getSectionLudusReflection(section: Section): Promise<LudusReflection> {
+		let planningResponse: LudusPlanningResponse;
+		if (section.planningReflectionId != null) {
+			planningResponse = await this.reflectionsApi.getLudusPlanningReflection(section.planningReflectionId);
 		}
-
-		if (monitoring) {
-			reflection.monitoringReflection.feeling = 2;
-			reflection.monitoringReflection.currentQuestions = ComponentHelper.LoremIpsum();
-			reflection.monitoringReflection.strategies = strategies;
-			reflection.monitoringReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
-		} else {
-			reflection.monitoringReflection = null;
+		let monitoringResponse: LudusMonitoringResponse;
+		if (section.monitoringReflectionId != null) {
+			monitoringResponse = await this.reflectionsApi.getLudusMonitoringReflection(section.monitoringReflectionId);
 		}
-
-		if (evaluating) {
-			reflection.evaluatingReflection = this.createDemoBaseEvaluation();
-		} else {
-			reflection.evaluatingReflection = null;
+		let evaluatingResponse: LudusEvaluatingResponse;
+		if (section.evaluatingReflectionId != null) {
+			evaluatingResponse = await this.reflectionsApi.getLudusEvaluatingReflection(section.evaluatingReflectionId);
 		}
-
-		return reflection;
+		return {
+			id: section.id,
+			section: section,
+			planningReflection: planningResponse,
+			monitoringReflection: monitoringResponse,
+			evaluatingReflection: evaluatingResponse
+		};
 	}
 
-	createDemoBaseEvaluation(loremIpsum: boolean = true): BaseSystemEvaluating {
-		const evaluatingReflection = new BaseSystemEvaluating();
-		evaluatingReflection.feelings = [{
-			feelingRating: 3,
-			feelingDate: DateTime.fromObject({ day: 3, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 2,
-			feelingDate: DateTime.fromObject({ day: 5, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}, {
-			feelingRating: 4,
-			feelingDate: DateTime.fromObject({ day: 7, month: 10 }).toJSDate()
-		}];
-		evaluatingReflection.summary = loremIpsum ? ComponentHelper.LoremIpsum() : ComponentHelper.DonecInterdum();
-		evaluatingReflection.strategies = [{
-			title: StrategyCategories.Learning,
-			strategy: "a test",
-			rating: 1
-		}, {
-			title: StrategyCategories.Reviewing,
-			strategy: "a test",
-			rating: 2
-		}, {
-			title: StrategyCategories.Practicing,
-			strategy: "a test",
-			rating: 3
-		}, {
-			title: StrategyCategories.Extending,
-			strategy: "a test",
-			rating: 0
-		}];
-		evaluatingReflection.dateRecorded = DateTime.fromObject({ day: 31, month: 10 }).toJSDate();
-		return evaluatingReflection;
+	async getSectionPaidiaReflection(section: Section): Promise<PaidiaReflection> {
+		let planningResponse: PaidiaPlanningResponse;
+		if (section.planningReflectionId != null) {
+			planningResponse = await this.reflectionsApi.getPaidiaPlanningReflection(section.planningReflectionId);
+		}
+		let monitoringResponse: PaidiaMonitoringResponse;
+		if (section.monitoringReflectionId != null) {
+			monitoringResponse = await this.reflectionsApi.getPaidiaMonitoringReflection(section.monitoringReflectionId);
+		}
+		let evaluatingResponse: PaidiaEvaluatingResponse;
+		if (section.evaluatingReflectionId != null) {
+			evaluatingResponse = await this.reflectionsApi.getPaidiaEvaluatingReflection(section.evaluatingReflectionId);
+		}
+		return {
+			id: section.id,
+			planningReflection: planningResponse,
+			monitoringReflection: monitoringResponse,
+			evaluatingReflection: evaluatingResponse
+		};
 	}
-	// END OF DEMO DATA
+
+	refreshSections() {
+		this.sections = null;
+		this.currentSection = null;
+		this.shufflePrompts();
+		this.ea.publish(Events.RefreshApp);
+	}
+
+	shufflePrompts() {
+		this.paidiaWords.forEach(x => x.words = ComponentHelper.ShuffleArray(x.words));
+		ComponentHelper.PaidiaWords = this.paidiaWords;
+
+		this.ludusPrompts.planningPrompts = ComponentHelper.ShuffleArray(this.ludusPrompts.planningPrompts);
+		this.ludusPrompts.monitoringPrompts = ComponentHelper.ShuffleArray(this.ludusPrompts.monitoringPrompts);
+		this.ludusPrompts.evaluatingPrompts = ComponentHelper.ShuffleArray(this.ludusPrompts.evaluatingPrompts);
+
+		this.paidiaPrompts.planningPrompts = ComponentHelper.ShuffleArray(this.paidiaPrompts.planningPrompts);
+		this.paidiaPrompts.monitoringPrompts = ComponentHelper.ShuffleArray(this.paidiaPrompts.monitoringPrompts);
+		this.paidiaPrompts.evaluatingPrompts = ComponentHelper.ShuffleArray(this.paidiaPrompts.evaluatingPrompts);
+
+		this.emotions.forEach(emotion => {
+			emotion.modifiers = ComponentHelper.ShuffleArray(emotion.modifiers);
+		});
+
+		this.oneStarTopicPhrases = ComponentHelper.ShuffleArray(this.oneStarTopicPhrases)
+		this.twoStarTopicPhrases = ComponentHelper.ShuffleArray(this.twoStarTopicPhrases)
+		this.threeStarTopicPhrases = ComponentHelper.ShuffleArray(this.threeStarTopicPhrases)
+	}
+
+	initFromJson(): Promise<[void, void, void, void, void, void, void]> {
+		const paidiaWordsPromise = fetch("prompts/paidia-words.json")
+			.then(response => response.json())
+			.then((words: PaidiaWord[]) => {
+				words.forEach(x => {
+					x.currentIndex = 0;
+				});
+				this.paidiaWords = words;
+				this.paidiaWords.forEach(x => x.words = ComponentHelper.ShuffleArray(x.words));
+				ComponentHelper.PaidiaWords = this.paidiaWords;
+			})
+			.then(() => fetch("prompts/paidia-prompts.json"))
+			.then(response => response.json())
+			.then((prompt: BasicPrompts) => {
+				this.paidiaPrompts = {
+					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x))
+				}
+			});
+
+		const strategies110Promise = fetch("prompts/strategies-110.json")
+			.then(response => response.json())
+			.then((output: BasicStrategyOptions) => {
+				output.learning.strategies.forEach((x, i) => x.index = i);
+				output.reviewing.strategies.forEach((x, i) => x.index = i);
+				output.practicing.strategies.forEach((x, i) => x.index = i);
+				output.extending.strategies.forEach((x, i) => x.index = i);
+
+				ComponentHelper.StrategyOptions110 = {
+					LearningStrategies: {
+						title: StrategyCategories.Learning,
+						icon: StrategyCategoryIcons.Learning,
+						description: output.learning.description,
+						strategies: output.learning.strategies
+					},
+					ReviewingStrategies: {
+						title: StrategyCategories.Reviewing,
+						icon: StrategyCategoryIcons.Reviewing,
+						description: output.reviewing.description,
+						strategies: output.reviewing.strategies
+					},
+					PracticingStrategies: {
+						title: StrategyCategories.Practicing,
+						icon: StrategyCategoryIcons.Practicing,
+						description: output.practicing.description,
+						strategies: output.practicing.strategies
+					},
+					ExtendingStrategies: {
+						title: StrategyCategories.Extending,
+						icon: StrategyCategoryIcons.Extending,
+						description: output.extending.description,
+						strategies: output.extending.strategies
+					}
+				}
+			});
+
+		const strategies310Promise = fetch("prompts/strategies-310.json")
+			.then(response => response.json())
+			.then((output: BasicStrategyOptions) => {
+				output.learning.strategies.forEach((x, i) => x.index = i);
+				output.reviewing.strategies.forEach((x, i) => x.index = i);
+				output.practicing.strategies.forEach((x, i) => x.index = i);
+				output.extending.strategies.forEach((x, i) => x.index = i);
+
+				ComponentHelper.StrategyOptions310 = {
+					LearningStrategies: {
+						title: StrategyCategories.Learning,
+						icon: StrategyCategoryIcons.Learning,
+						description: output.learning.description,
+						strategies: output.learning.strategies
+					},
+					ReviewingStrategies: {
+						title: StrategyCategories.Reviewing,
+						icon: StrategyCategoryIcons.Reviewing,
+						description: output.reviewing.description,
+						strategies: output.reviewing.strategies
+					},
+					PracticingStrategies: {
+						title: StrategyCategories.Practicing,
+						icon: StrategyCategoryIcons.Practicing,
+						description: output.practicing.description,
+						strategies: output.practicing.strategies
+					},
+					ExtendingStrategies: {
+						title: StrategyCategories.Extending,
+						icon: StrategyCategoryIcons.Extending,
+						description: output.extending.description,
+						strategies: output.extending.strategies
+					}
+				}
+			});
+
+		const ludusPromptsPromise = fetch("prompts/ludus-prompts.json")
+			.then(response => response.json())
+			.then((prompt: BasicPrompts) => {
+				this.ludusPrompts = {
+					planningPrompts: prompt.planningPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					monitoringPrompts: prompt.monitoringPrompts.map(x => ComponentHelper.GeneratePromptSections(x)),
+					evaluatingPrompts: prompt.evaluatingPrompts.map(x => ComponentHelper.GeneratePromptSections(x))
+				}
+			});
+
+		const ludusEmotionsPromise = fetch("prompts/ludus-emotions.json")
+			.then(response => response.json())
+			.then((emotionsStrings: Emotions) => {
+				this.emotionsStrings = emotionsStrings;
+				this.emotions = [
+					emotionsStrings.enjoyment,
+					emotionsStrings.hope,
+					emotionsStrings.pride,
+					emotionsStrings.anger,
+					emotionsStrings.anxiety,
+					emotionsStrings.shame,
+					emotionsStrings.hopelessness,
+					emotionsStrings.boredom,
+				];
+				this.emotions.forEach(emotion => {
+					emotion.modifiers.forEach(x => {
+						x.emotion = emotion.text;
+						x.active = false;
+						x.text = ComponentHelper.CleanPrompt(x.text)
+					});
+				});
+			});
+
+		const ludusModifiersPromise = fetch("prompts/ludus-modifier-descriptions.json")
+			.then(response => response.json())
+			.then((output: BasicLudusModifier[]) => {
+				ComponentHelper.LudusModifiers = output;
+			});
+
+		const ludusTopicPhrasesPromise = fetch("prompts/ludus-topic-phrases.json")
+			.then(response => response.json())
+			.then((output) => {
+				this.oneStarTopicPhrases = output.one;
+				this.twoStarTopicPhrases = output.two;
+				this.threeStarTopicPhrases = output.three;
+			});
+
+		return Promise.all([paidiaWordsPromise, strategies110Promise, strategies310Promise, ludusPromptsPromise,
+			ludusEmotionsPromise, ludusModifiersPromise, ludusTopicPhrasesPromise]);
+	}
+
+	get IsLaptop(): boolean {
+		return window.innerWidth <= 1200 && window.innerWidth >= 770;
+	}
+
+	get IsMobile(): boolean {
+		return window.innerWidth < 770;
+	}
 }

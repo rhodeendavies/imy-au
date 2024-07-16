@@ -16,11 +16,12 @@
 		</div>
 	</modal>
 
-	<div class="navbar-wrapper" if.bind="authService.Authenticated">
-		<a class="navbar-name">
-			FancyName
+	<div class="navbar-wrapper" if.bind="ShowNavBar">
+		<a class="navbar-name" click.delegate="navigateHome()">
+			FlipQuest
 		</a>
-		<a href.bind="row.href" repeat.for="row of routes" class="nav-item ${row.isActive ? 'active-nav-item' : ''}">
+		<a href.bind="row.href" repeat.for="row of routes" click.delegate="navigate(row)"
+			class="nav-item ${row.isActive && !appState.hideHomeActive ? 'active-nav-item' : ''}">
 			${row.title}
 		</a>
 

@@ -12,6 +12,8 @@
 
 	&.public-reflections-details-wrapper {
 		height: initial;
+		display: block;
+		max-height: initial;
 	}
 
 	>*:not(.reflection-section-tracker) {
@@ -33,7 +35,6 @@
 			padding: 0 10px;
 			min-height: 60px;
 			background-color: $PaleBlue;
-
 
 			.reflection-header {
 				font-family: $Poppins;
@@ -63,12 +64,53 @@
 			max-height: 100%;
 
 			.reflection-text {
-				padding-bottom: 25px;
-				border-bottom: 1px solid $LightGrey;
-				margin-bottom: 25px;
 				font-weight: $light;
 				font-size: 16px;
+				overflow-wrap: break-word;
 			}
 		}
+	}
+}
+
+.reflection-sub-heading {
+	font-family: $Poppins;
+	font-size: 18px;
+	font-weight: $semi-bold;
+	margin-bottom: 10px;
+}
+
+.reflection-divider {
+	padding-bottom: 25px;
+	border-bottom: 1px solid $LightGrey;
+	margin-bottom: 25px;
+}
+
+.ludus-reflection-details-container {
+	display: grid;
+	grid-template-rows: auto auto;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 20px;
+	max-height: 100%;
+	overflow: auto;
+	padding: 5px;
+	border-bottom: 1px solid $LightGrey;
+
+	.reflections-details-wrapper {
+		height: initial;
+
+		.reflection-details {
+			height: initial;
+			overflow: initial;
+			display: block;
+
+			.reflection-body {
+				overflow: initial;
+				max-height: initial;
+			}
+		}
+	}
+
+	.gauges-details-wrapper {
+		overflow: visible;
 	}
 }

@@ -4,8 +4,10 @@
 	<require from="./learningStrategies/base-evaluation-learning-strategies"></require>
 	<require from="./summary/base-evaluation-summary"></require>
 
-	<base-evaluation-feelings if.bind="localParent.ShowFeelings"></base-evaluation-feelings>
-	<base-evaluation-topics if.bind="localParent.ShowTopics"></base-evaluation-topics>
-	<base-evaluation-learning-strategies if.bind="localParent.ShowLearningStrategies"></base-evaluation-learning-strategies>
-	<base-evaluation-summary if.bind="localParent.ShowSummary"></base-evaluation-summary>
+	<loader if.bind="localParent.busy.active"></loader>
+
+	<base-evaluation-feelings class="prompt-section" if.bind="localParent.ShowFeelings"></base-evaluation-feelings>
+	<base-evaluation-topics class="prompt-section" if.bind="localParent.ShowTopics"></base-evaluation-topics>
+	<base-evaluation-learning-strategies class="prompt-section" if.bind="localParent.ShowLearningStrategies"></base-evaluation-learning-strategies>
+	<base-evaluation-summary class="prompt-section" if.bind="localParent.ShowSummary"></base-evaluation-summary>
 </template>

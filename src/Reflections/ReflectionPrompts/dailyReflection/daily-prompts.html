@@ -5,7 +5,9 @@
 	<require from="./paidia/paidia-daily"></require>
 
 	<div class="prompt-wrapper">
-		<div class="prompt-body-overview" if.bind="ShowOverview">
+		<loader if.bind="Busy"></loader>
+
+		<div class="prompt-body-overview" if.bind="ShowOverview && !Busy">
 			<p>
 				Daily reflections are optional, quick reflections that can be done once every 24 hours. They allow you
 				to keep a closer eye on your feelings about the module and your progress towards your learning
@@ -16,18 +18,23 @@
 				Summaries of your reflections are shown once you've watched all the videos for the week.
 			</p>
 
-			<button class="btn btn-primary mt-30" click.delegate="startDaily()"
-				disabled.bind="!dailyReflectionAvailable">
-				Let's go
-			</button>
-			<div class="body-small mt-10" if.bind="!dailyReflectionAvailable">
+			<div class="btn-row">
+				<button class="btn btn-default" click.delegate="closeDaily()">
+					Close
+				</button>
+				<button class="btn btn-primary" click.delegate="startDaily()"
+					disabled.bind="!availability.available">
+					Let's go
+				</button>
+			</div>
+			<div class="body-small mt-10" if.bind="!availability.available">
 				${timeTillNextReflection} until next reflection opportunity
 			</div>
 		</div>
 
-		<base-daily class="prompt-body" show.bind="ShowBaseSystem"></base-daily>
-		<ludus-daily class="prompt-body" show.bind="ShowLudus"></ludus-daily>
-		<paidia-daily class="prompt-body" show.bind="ShowPaidia"></paidia-daily>
+		<base-daily class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-daily>
+		<ludus-daily class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-daily>
+		<paidia-daily class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-daily>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="3" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

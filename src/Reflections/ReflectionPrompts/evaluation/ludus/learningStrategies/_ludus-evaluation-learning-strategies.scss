@@ -1,0 +1,33 @@
+@use "./src/styles/variables"as *;
+
+.ludus-evaluation-score-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+
+	&.ludus-evaluation-score-wrapper-final {
+		position: initial;
+		margin: 20px 0 0 30px;
+	}
+
+	.ludus-evaluation-score-text {
+		text-transform: uppercase;
+		font-weight: $semi-bold;
+		font-family: $Poppins;
+		color: $SeaGreen;
+		font-size: 22px;
+	}
+
+	.ludus-evaluation-score {
+		font-size: 22px;
+		font-weight: $bold;
+		font-style: $Poppins;
+		background-color: $Orange;
+		color: white;
+		padding: 5px 15px;
+		border-radius: 20px;
+	}
+}

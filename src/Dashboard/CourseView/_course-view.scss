@@ -4,21 +4,88 @@
 	display: grid;
 	grid-template-columns: minmax(300px, 1fr);
 	grid-template-rows: auto minmax(0, 1fr);
-	gap: 50px;
+	justify-content: flex-end;
+	gap: 20px;
 	height: 100%;
 	
 	&.lesson-open {
-		grid-template-columns: minmax(300px, 1fr) 60%;
+		position: relative;
+		transition: all 0.3s;
 
-		.dash-section-heading {
-			grid-column: 2;
+		&.open-course {
+			@include for-desktop {
+				grid-template-columns: 60%;
+			}
+
+			.course-content {
+				left: 0;
+			}
+
+			.course-content-slider {
+				span {
+					transform: rotate(180deg);
+				}
+			}
+		}
+
+		@include for-desktop {
+			grid-template-columns: 100%;
+			padding-left: 40px;
+		}
+		
+		@include for-laptop {
+			grid-template-columns: minmax(0, 1fr);
+			width: 100%;
+			padding-left: 30px;
 		}
 
 		.course-content {
-			grid-row: 1/ span 2;
-			border-right: 1px solid $DarkGrey40;
-			padding-right: 40px;
+			padding-right: 50px;
+			position: absolute;
+			top: 0;
+			box-shadow: $BoxShadow;
+			max-height: 100%;
+			overflow: hidden auto;
+
+			@include for-desktop {
+				left: -40%;
+				width: 40%;
+			}
+
+			@include for-laptop {
+				left: calc(-80% + (20px));
+				width: 80%;
+			}
+
+			.course-content-slider {
+				position: absolute;
+				right: 0;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				background-color: $LighterGrey;
+				cursor: pointer;
+				transition: all 0.3s;
+
+				&:hover {
+					background-color: $LightGrey;
+				}
+
+				span {
+					font-size: 60px;
+					transition: all 0.3s;
+				}
+			}
 		}
+	}
+
+	.course-content {
+		transition: all 0.3s;
+		position: relative;
+		left: 0;
+		background-color: white;
 	}
 
 	.dash-section-heading {
@@ -29,6 +96,10 @@
 			font-family: $Poppins;
 			font-size: 30px;
 			font-weight: $regular;
+			
+			@include for-laptop {
+				font-size: 25px;
+			}
 
 			.section-dates-divider {
 				height: 15px;
@@ -47,22 +118,62 @@
 			font-family: $Poppins;
 			font-size: 40px;
 			font-weight: $semi-bold;
+			
+			@include for-laptop {
+				font-size: 20px;
+			}
 		}
 
 		.lesson-video-wrapper {
-			padding: 40px 0;
+			padding-top: 40px;
 			
 			.lesson-video {
 				min-width: 300px;
 				height: 100%;
 				width: 100%;
 				background-color: $LightGrey;
+
+				.lesson-video-component {
+					height: 100%;
+					width: 100%;
+					display: flex;
+					margin: auto;
+				}
 			}
 		}
 
 		.lesson-action {
 			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
 			justify-content: flex-end;
+
+			.lesson-speed-settings {
+				padding: 10px 0;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+
+				.lesson-speed {
+					padding: 5px 10px;
+					font-size: 13px;
+					border: 1px solid $SeaGreen;
+					border-radius: $BorderRadius;
+					transition: all 0.3s;
+					cursor: pointer;
+
+					&:hover {
+						background-color: $PaleBlue;
+						border-color: $PaleBlue;
+					}
+
+					&.current-speed {
+						background-color: $SeaGreen;
+						border-color: $SeaGreen;
+						color: white;
+					}
+				}
+			}
 		}
 	}
 }

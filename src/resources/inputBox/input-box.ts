@@ -12,8 +12,12 @@ export class InputBox {
 	@bindable placeholder: string = "";
 	@bindable({ defaultBindingMode: bindingMode.twoWay }) valid: boolean = true;
 	@bindable disabled: boolean = false;
-	@bindable min: number = 50;
-	@bindable max: number = 500;
+	@bindable min: number = null;
+	@bindable max: number = null;
+	@bindable showInfo: boolean = false;
+	@bindable error: string = "";
+	@bindable validate: boolean = true;
+	@bindable studentNumber: boolean = false;
 
 	@bindable onFocus;
 	@bindable onBlur;
@@ -26,6 +30,7 @@ export class InputBox {
 	showPasswordToggle: boolean = false;
 	initDone: boolean = false;
 	heightTest: string = "";
+	focussed: boolean = false;
 
 	constructor() {
 		this.id = ComponentHelper.CreateId("inputBox");
@@ -35,6 +40,20 @@ export class InputBox {
 		this.initDone = false;
 		this.setInputElement();
 		this.heightTest = new Array(Math.ceil(this.max / 2)).join("# ");
+
+		if (this.ShowTextarea) {
+			// check the length between 50 and 250
+			if (this.min == null) {
+				this.min = 50;
+			}
+			if (this.max == null) {
+				this.max = 250;
+			}
+		}
+
+		if (!ComponentHelper.NullOrEmpty(this.value)) {
+			this.validateValue();
+		}
 
 		setTimeout(() => {
 			this.initDone = true;
@@ -52,7 +71,46 @@ export class InputBox {
 		this.showPasswordToggle = !this.showPasswordToggle;
 	}
 
+	validateValue() {
+		if (this.validate) {
+			if (this.value == null) return false;
+
+			if (this.ShowLarge) {
+				// test if its a number between 0 and 5
+				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+			} else if (this.ShowTextarea) {
+				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+			} else if (this.ShowSmall || this.ShowWord) {
+				this.valid = ComponentHelper.PromptInputValid(this.value, this.max, this.min);
+
+				if (!this.valid) {
+					if (this.value.length > this.max) {
+						this.error = `Maximum ${this.max} characters`;
+					} else if (this.value.length < this.min) {
+						this.error = `Minimum ${this.min} characters`;
+					}
+				}
+
+				if (this.ShowWord) {
+					this.value = this.value.trim();
+					const isSingleWord = ComponentHelper.ValueIsSingleWord(this.value);
+					if (!isSingleWord) {
+						this.error = "Must be a single word";
+						this.valid = false;
+					}
+				}
+			} else {
+				// no validation
+				this.valid = true;
+			}
+	
+			// check for funky characters
+			this.valid = this.valid && ComponentHelper.InputValid(this.value);
+		}
+	}
+
 	onFocusTrigger() {
+		this.focussed = true;
 		if (this.onFocus != null) {
 			setTimeout(() => {
 				this.onFocus();
@@ -61,6 +119,7 @@ export class InputBox {
 	}
 
 	onBlurTrigger() {
+		this.focussed = false;
 		if (this.onBlur != null) {
 			setTimeout(() => {
 				this.onBlur();
@@ -69,10 +128,8 @@ export class InputBox {
 	}
 
 	onChangeTrigger() {
-		if (this.type == InputTypes.large) {
-			this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
-		}
-		
+		this.validateValue();
+
 		if (this.onChange != null) {
 			setTimeout(() => {
 				this.onChange();
@@ -108,7 +165,13 @@ export class InputBox {
 	@computedFrom("type", "showPasswordToggle")
 	get ShowText(): boolean {
 		this.setInputElement();
-		return this.type == InputTypes.text || this.showPasswordToggle || this.type == InputTypes.large;
+		return this.type == InputTypes.text || this.showPasswordToggle || this.ShowLarge || this.ShowSmall || this.ShowWord;
+	}
+
+	@computedFrom("type")
+	get ShowLarge(): boolean {
+		this.setInputElement();
+		return this.type == InputTypes.large;
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -121,10 +184,23 @@ export class InputBox {
 		return this.type == InputTypes.textarea;
 	}
 
+	@computedFrom("type")
+	get ShowSmall(): boolean {
+		return this.type == InputTypes.small;
+	}
+
+	@computedFrom("type")
+	get ShowWord(): boolean {
+		return this.type == InputTypes.word;
+	}
+
 	@computedFrom("value.length")
-	get Valid(): boolean {
-		this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
-		return this.valid;
+	get LargeTextValid(): boolean {
+		if (this.value == null) return false;
+
+		// check for funky characters
+		return this.value != null && this.value.length >= this.min && this.value.length <= this.max
+			&& ComponentHelper.InputValid(this.value);
 	}
 
 	@computedFrom("type", "showPasswordToggle")
@@ -133,15 +209,48 @@ export class InputBox {
 		return this.type == InputTypes.password && !this.showPasswordToggle;
 	}
 
+	@computedFrom("type", "min", "max")
+	get ShowMinMax(): boolean {
+		return (this.min != null || this.max != null) && !this.ShowTextarea;
+	}
+
 	@computedFrom("disabled", "type", "showPasswordToggle", "valid")
 	get InputClasses(): string {
 		let classes = "";
+		if (this.valid != null && !this.valid) classes += " input-invalid";
 		if (this.disabled) classes += " disable-input";
 		if (this.ShowPassword) classes += " password-input";
-		if (this.type == InputTypes.large) classes += " large-input";
-		if (this.type == InputTypes.large && !this.valid) classes += " large-input-invalid";
+		if (this.ShowLarge) classes += " large-input";
 		if (this.type == InputTypes.textarea) classes += " textarea-input";
 		return classes;
+	}
+
+	@computedFrom("value", "max", "min")
+	get Valid(): boolean {
+		if (this.validate) {
+			if (this.value == null) return false;
+
+			if (this.ShowLarge) {
+				// test if its a number between 0 and 5
+				this.valid = /^\d+$/.test(this.value) && +this.value <= 5 && +this.value >= 0;
+			} else if (this.ShowTextarea) {
+				this.valid = this.value != null && this.value.length >= this.min && this.value.length <= this.max;
+			} else if (this.ShowSmall || this.ShowWord) {
+				this.valid = ComponentHelper.PromptInputValid(this.value, this.max, this.min);
+				if (this.ShowWord) {
+					this.value = this.value.trim();
+					this.valid = this.valid && ComponentHelper.ValueIsSingleWord(this.value);
+				}
+			} else {
+				// no validation
+				this.valid = true;
+			}
+	
+			// check for funky characters
+			this.valid = this.valid && ComponentHelper.InputValid(this.value);
+		}
+
+		return this.valid;
 	}
 }
 
@@ -149,5 +258,7 @@ enum InputTypes {
 	text = "text",
 	textarea = "textarea",
 	large = "large",
-	password = "password"
+	password = "password",
+	small = "small",
+	word= "word"
 }

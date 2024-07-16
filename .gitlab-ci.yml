@@ -1,13 +1,27 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test
-sast:
-  stage: test
-include:
-- template: Security/SAST.gitlab-ci.yml
+  - deploy
+
+deploy:
+  image: node:16
+  stage: deploy
+  script:
+    - echo "Removing package-lock.json"
+    - rm package-lock.json
+    - echo "Installing Aurelia"
+    - npm install -g aurelia-cli
+    - echo "Performing npm install"
+    - npm install
+    - echo "Building Aurelia Project"
+    - npm run build
+    - echo "Configuring SSH"
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SSH_IP_ADDRESS >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - echo "Copying files to remote server"
+    - scp -r wwwroot $SSH_USERNAME@$SSH_IP_ADDRESS:/var/www/imy-au
+  only:
+    - release

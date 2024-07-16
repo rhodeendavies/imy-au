@@ -1,0 +1,49 @@
+@use "./src/styles/variables"as *;
+
+.error-page-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+
+	.img-wrapper {
+		max-width: 80%;
+		max-height: 80%;
+		position: relative;
+		display: flex;
+		justify-content: center;
+
+		@include for-mobile {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+		img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+		.login-popup {
+			position: fixed;
+			bottom: 40px;
+			left: 40px;
+
+			.popup-circle {
+				cursor: pointer;
+			}
+		}
+	}
+
+	.error-text {
+		max-width: 80%;
+		font-family: $Roboto;
+		font-weight: $light;
+		font-size: 35px;
+		text-align: center;
+		line-height: 1;
+	}
+}

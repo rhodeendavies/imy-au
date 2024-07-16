@@ -4,6 +4,25 @@
 	display: grid;
 	grid-template-columns: 30% 1fr;
 	padding-top: 20px;
+	position: relative;
+
+	@include for-laptop {
+		grid-template-columns: minmax(0, 1fr);
+		width: 100%;
+		padding-left: 30px;
+	}
+
+	&.open-reflection {
+		.reflections-section.accordion-content {
+			left: 0;
+		}
+
+		.course-content-slider {
+			span {
+				transform: rotate(180deg);
+			}
+		}
+	}
 
 	.reflections-section {
 		padding: 20px 40px;
@@ -11,8 +30,51 @@
 		display: grid;
 		grid-template-rows: auto minmax(0, 1fr);
 
+		&.accordion-content {
+			@include for-laptop {
+				left: calc(-80% + (40px));
+				width: 80%;
+				padding-right: 50px;
+				position: fixed;
+				z-index: 9;
+				top: 75px;
+				box-shadow: $BoxShadow;
+				max-height: 100%;
+				overflow: hidden auto;
+				background-color: white;
+				transition: all 0.3s;
+			}
+
+			.course-content-slider {
+				position: absolute;
+				right: 0;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				background-color: $LighterGrey;
+				cursor: pointer;
+				transition: all 0.3s;
+	
+				&:hover {
+					background-color: $LightGrey;
+				}
+	
+				span {
+					font-size: 60px;
+					transition: all 0.3s;
+				}
+			}
+		}
+
+
 		&:first-child {
 			border-right: 1px solid $DarkGrey40;
+
+			@include for-laptop {
+				border-right: none;
+			}
 		}
 
 		.reflection-section-heading {
@@ -31,4 +93,10 @@
 			overflow: auto;
 		}
 	}
+}
+
+.no-reflection-selected {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

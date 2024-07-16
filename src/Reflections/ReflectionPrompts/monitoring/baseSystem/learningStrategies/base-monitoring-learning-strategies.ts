@@ -1,52 +1,80 @@
 import { autoinject } from "aurelia-framework";
-import { ComponentHelper } from "utils/componentHelper";
-import { EnumHelper } from "utils/enumHelper";
-import { StrategyCategories } from "utils/enums";
 import { BaseMonitoring } from "../base-monitoring";
+import { Strategy } from "models/reflections";
+import { ComponentHelper } from "utils/componentHelper";
+import { ApplicationState } from "applicationState";
+import { StrategyCategories } from "utils/enums";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseMonitoringLearningStrategies {
+export class BaseMonitoringLearningStrategies extends ReflectionStep {
 
-	constructor(private localParent: BaseMonitoring) { }
+	learningStrategy: Strategy;
+	reviewingStrategy: Strategy;
+	practicingStrategy: Strategy;
+	extendingStrategy: Strategy;
+	strategies: Strategy[];
 
+	constructor(private localParent: BaseMonitoring, private appState: ApplicationState) {
+		super();
+		this.stepParent = localParent;
+	}
 
 	attached() {
-		if (ComponentHelper.ListNullOrEmpty(this.localParent.model.strategies)) {
-			// TODO: update with call to fetch chosen strategies
-			this.localParent.model.strategies = [{
-				title: StrategyCategories.Learning,
-				strategy: "a test",
-				rating: null
-			}, {
-				title: StrategyCategories.Reviewing,
-				strategy: "a test",
-				rating: null
-			}, {
-				title: StrategyCategories.Practicing,
-				strategy: "a test",
-				rating: null
-			}, {
-				title: StrategyCategories.Extending,
-				strategy: "a test",
-				rating: null
-			}];
-			this.initData();
-		}
+		this.initData();
 	}
 
 	initData() {
-		if (this.localParent.model.strategies == null) return;
-		this.localParent.model.strategies.forEach(x => {
-			x.icon = EnumHelper.GetCategoryIcon(x.title);
-		});
+		this.learningStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.learningStrategy,
+			ComponentHelper.StrategyOptions.LearningStrategies,
+			this.localParent.model.strategyRating.learningRating
+		);
+		this.reviewingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.reviewingStrategy,
+			ComponentHelper.StrategyOptions.ReviewingStrategies,
+			this.localParent.model.strategyRating.reviewingRating
+		);
+		this.practicingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.practicingStrategy,
+			ComponentHelper.StrategyOptions.PracticingStrategies,
+			this.localParent.model.strategyRating.practicingRating
+		);
+		this.extendingStrategy = ComponentHelper.CreateStrategyFromString(
+			this.localParent.questions.extendingStrategy,
+			ComponentHelper.StrategyOptions.ExtendingStrategies,
+			this.localParent.model.strategyRating.extendingRating
+		);
+		this.strategies = [this.learningStrategy, this.reviewingStrategy, this.practicingStrategy, this.extendingStrategy];
 	}
 
-	submit() {
-		if (!this.AllowSubmit) return;
-		this.localParent.submitMonitoring();
+	saveStrategy(strategy: Strategy) {
+		switch (strategy.title) {
+			case StrategyCategories.Learning:
+				this.localParent.model.strategyRating.learningRating = strategy.rating;
+				break;
+			case StrategyCategories.Extending:
+				this.localParent.model.strategyRating.extendingRating = strategy.rating;
+				break;
+			case StrategyCategories.Reviewing:
+				this.localParent.model.strategyRating.reviewingRating = strategy.rating;
+				break;
+			case StrategyCategories.Practicing:
+				this.localParent.model.strategyRating.practicingRating = strategy.rating;
+				break;
+		}
 	}
 
-	get AllowSubmit(): boolean {
-		return this.localParent.model.strategies != null && this.localParent.model.strategies.every(x => x.rating != null && x.valid);
+	saveStep() {
+		this.localParent.model.strategyRating = {
+			learningRating: this.learningStrategy.rating,
+			reviewingRating: this.reviewingStrategy.rating,
+			practicingRating: this.practicingStrategy.rating,
+			extendingRating: this.extendingStrategy.rating
+		}
+	}
+
+	get AllowNext(): boolean {
+		return this.strategies != null && this.strategies.every(x => x?.rating != null && x?.valid);
 	}
 }

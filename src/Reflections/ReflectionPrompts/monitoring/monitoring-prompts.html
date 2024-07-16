@@ -7,7 +7,7 @@
 	<div class="prompt-wrapper">
 		<div class="prompt-body-overview" if.bind="ShowOverview">
 			<p>
-				You're halfway through this week's videos. Spend a view minutes thinking about how it's going.
+				You're halfway through this week's videos. Spend a few minutes thinking about how it's going.
 			</p>
 
 			<button class="btn btn-primary mt-30" click.delegate="nextStep()">
@@ -15,9 +15,9 @@
 			</button>
 		</div>
 
-		<base-monitoring class="prompt-body" show.bind="ShowBaseSystem"></base-monitoring>
-		<ludus-monitoring class="prompt-body" show.bind="ShowLudus"></ludus-monitoring>
-		<paidia-monitoring class="prompt-body" show.bind="ShowPaidia"></paidia-monitoring>
+		<base-monitoring class="prompt-body" if.bind="ShowBaseSystem" show.bind="!ShowOverview"></base-monitoring>
+		<ludus-monitoring class="prompt-body" if.bind="ShowLudus" show.bind="!ShowOverview"></ludus-monitoring>
+		<paidia-monitoring class="prompt-body" if.bind="ShowPaidia" show.bind="!ShowOverview"></paidia-monitoring>
 
 		<section-tracker class="prompt-section-tracker" num-of-sections.bind="4" section.bind="activeSection"
 			bars.bind="true" view-model.ref="tracker" linear.bind="true">

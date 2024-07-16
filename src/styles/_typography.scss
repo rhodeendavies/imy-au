@@ -13,6 +13,7 @@ a {
 .hyper-link {
 	color: $Black;
 	text-decoration: underline;
+	cursor: pointer;
 
 	&:hover {
 		color: $SeaGreen;
@@ -20,16 +21,14 @@ a {
 	}
 }
 
-.top-heading {
-	font-family: $Poppins;
-	font-size: 48px;
-	font-weight: $bold;
-}
-
 .main-heading {
 	font-family: $Poppins;
 	font-size: 36px;
 	font-weight: $semi-bold;
+	
+	@include for-laptop {
+		font-size: 30px;
+	}
 }
 
 .section-heading {
@@ -78,6 +77,10 @@ strong {
 	font-weight: $bold;
 }
 
+em {
+	font-style: italic;
+}
+
 .sea-green {
 	color: $SeaGreen;
 }
@@ -108,7 +111,7 @@ strong {
 		
 		&.rating-icon {
 			height: 40px;
-			width: 40px;
+			min-width: 40px;
 			border-radius: 40px;
 			display: flex;
 			align-items: center;
@@ -116,7 +119,7 @@ strong {
 			font-family: $Poppins;
 			font-weight: $bold;
 			color: $White;
-			font-size: 18px;
+			font-size: 15px;
 		}
 	
 		.icon {
@@ -137,6 +140,22 @@ strong {
 		.summary-body {
 			font-weight: $light;
 			font-size: 16px;
+		}
+
+		.summary-modifiers {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			align-items: center;
+			margin-top: 5px;
+
+			.summary-modifier {
+				background-color: $Orange;
+				color: white;
+				padding: 5px 15px;
+				border-radius: 20px;
+				font-size: 12px;
+			}
 		}
 	}
 }

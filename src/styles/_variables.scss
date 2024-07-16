@@ -4,6 +4,12 @@ $regular: 400;
 $semi-bold: 600;
 $bold: 700;
 
+@font-face {
+	font-family: "MozillaTwemojiColr";
+	src: url("https://cdn.jsdelivr.net/npm/twemoji-colr-font@^14/twemoji.woff2") format("woff2");
+}
+
+$emojiFont: MozillaTwemojiColr;
 $Poppins: 'Poppins', sans-serif;
 $Roboto: 'Roboto', sans-serif;
 
@@ -18,6 +24,7 @@ $PaleBlue: #D7ECEF;
 $LighterGrey: #F5F5F5;
 $LightGrey: #E2E2E2;
 $DarkGrey: #505050;
+$MediumGrey: #999999;
 $Orange: #F26430;
 
 $SeaGreen60: rgba($SeaGreen, 0.6);
@@ -42,9 +49,27 @@ $BoxShadowTop: 0px 3px 6px rgba(0, 0, 0, 0.16);
 	@for $i from 0 through 100 {
 		.saturate-#{$i} {
 			$i: calc($i / 100);
-			background-color: rgb(13 * $i,  127 * $i, 119 * $i);
+			background-color: rgb(13 * $i, 127 * $i, 119 * $i);
 		}
 	}
 }
 
 @include saturate-x;
+
+@mixin for-mobile {
+	@media (max-width: 769px) {
+		@content;
+	}
+}
+
+@mixin for-laptop {
+	@media (min-width: 770px) and (max-width: 1200px) {
+		@content;
+	}
+}
+
+@mixin for-desktop {
+	@media (min-width: 1201px) {
+		@content;
+	}
+}

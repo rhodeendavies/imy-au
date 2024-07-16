@@ -1,3 +1,64 @@
 <template>
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">edit</span>
+			</div>
+			<div class="reflection-header">
+				PLANNING: Start of the week
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="PlanningReflection == null">
+			<!-- should realistically never show -->
+			You haven't completed this reflection yet. The week needs to start first
+		</div>
 	
+		<div class="reflection-body" if.bind="PlanningReflection != null">
+			<!-- feeling -->
+			<div class="reflection-divider" if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
+				<div class="percentage-wrapper">
+					<div class="outer-border">
+						<div class="inner-circle">
+							<div class="percentage-text">
+								${PlanningReflection.courseFeelings.rating}%
+							</div>
+							<div class="percentage-fill" css="height: ${PlanningReflection.courseFeelings.rating}%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- strength -->
+			<div class="reflection-sub-heading" if.bind="localParent.FullReflection">
+				Reflecting on how to use your strengths this week
+			</div>
+			<div class="reflection-divider reflection-text">
+				${Strength}
+			</div>
+
+			<!-- strategies -->
+			<div class="reflection-sub-heading">Your chosen strategies for this week</div>
+			<div class="summary-with-icon" repeat.for="category of strategies">
+				<div class="summary-icon">
+					<span class="icon">${category.icon}</span>
+				</div>
+				<div class="summary-text">
+					<div class="summary-heading">${category.title}</div>
+					<div class="summary-body">${category.strategy}</div>
+					<div class="summary-modifiers">
+						<div repeat.for="modifier of category.modifiers" class="summary-modifier">
+							${modifier.name} +${modifier.amount}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

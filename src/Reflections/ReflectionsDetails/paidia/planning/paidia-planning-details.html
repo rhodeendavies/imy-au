@@ -1,3 +1,69 @@
 <template>
+	<require from="resources/paidiaCanvas/paidia-canvas"></require>
+
+	<div class="reflections-details">
+		<div class="reflection-header-wrapper">
+			<div class="circle-icon">
+				<span class="icon">edit</span>
+			</div>
+			<div class="reflection-header">
+				PLANNING: Start of the week
+			</div>
+			<div class="reflection-date" if.bind="localParent.FullReflection && DateRecorded != null">
+				<span>${DateRecorded | dateFormat:'d LLLL'}</span>
+				<div class="reflection-date-separator"></div>
+				<span>${DateRecorded | dateFormat:'HH:mm'}</span>
+			</div>
+		</div>
+
+		<div class="reflection-body" if.bind="PlanningReflection == null">
+			<!-- should realistically never show -->
+			You haven't completed this reflection yet. The week needs to start first
+		</div>
 	
+		<div class="reflection-body" show.bind="planningReflection != null">
+			<!-- feeling -->
+			<div class="reflection-divider" if.bind="localParent.FullReflection">
+				<div class="reflection-sub-heading">Feelings about ${localParent.Course} right now</div>
+				<div class="paidia-feeling-summary">
+					<div class="paidia-feeling">
+						<div class="paidia-feeling-emoji">${planningReflection.courseFeelings.emoji}</div>
+						<div class="paidia-feeling-word">${planningReflection.courseFeelings.word}</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- strength -->
+			<div class="reflection-sub-heading" if.bind="localParent.FullReflection">
+				Reflecting on how to use your strengths this week
+			</div>
+			<div class="reflection-divider reflection-text">
+				${Strength}
+			</div>
+
+			<!-- strategies -->
+			<div class="paidia-reflection-details-canvas ${localParent.FullReflection ? '' : 'paidia-reflection-details-canvas-stacked'}">
+				<div>
+					<div class="reflection-sub-heading">Your chosen strategies for this week</div>
+					<div class="summary-with-icon paidia-summary-icon" repeat.for="category of strategies">
+						<div class="summary-icon">
+							<span class="icon">${category.icon}</span>
+						</div>
+						<div class="summary-text">
+							<div class="summary-heading">${category.title}</div>
+							<div class="summary-body">${category.strategy}</div>
+							<div class="summary-modifiers">
+								<div repeat.for="modifier of category.modifiers" class="summary-modifier">
+									${modifier.name} +${modifier.amount}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="paidia-reflection-canvas">
+					<paidia-canvas view-model.ref="canvas"></paidia-canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

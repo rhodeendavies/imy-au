@@ -1,0 +1,13 @@
+<template>
+	<div class="emoji-picker-wrapper ${pickerOpen ? 'emoji-picker-open' : ''}">
+		<div class="emoji-picker-input" click.delegate="togglePicker()" id.bind="id">
+			<div if.bind="!EmojiPicked" class="emoji-icon-placeholder icon">mood</div>
+			<div if.bind="EmojiPicked" class="emoji-icon">${emoji}</div>
+			<div class="emoji-dropdown-arrow icon">arrow_drop_down</div>
+		</div>
+		<div class="emoji-picker-dropdown" id.bind="pickerId" show.bind="pickerOpen">
+			<emoji-picker emoji-click.trigger="emojiSelected($event)" emoji-version="14.0">
+			</emoji-picker>
+		</div>
+	</div>
+</template>

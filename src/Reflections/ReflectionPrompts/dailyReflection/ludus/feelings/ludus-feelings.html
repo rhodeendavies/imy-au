@@ -1,0 +1,15 @@
+<template>
+	<require from="resources/percentageSlider/percentage-slider"></require>
+
+	<p class="reflection-question">How do you feel about ${localParent.Course} right now?</p>
+	<percentage-slider percentage.bind="localParent.model.courseFeelings.rating"></percentage-slider>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
+			Next
+		</button>
+	</div>
+</template>

@@ -1,0 +1,28 @@
+<template>
+	<div class="paidia-public-summary" if.bind="reflections == null || reflections.length == 0">
+		<div class="paidia-summary-reflection">
+			<div class="paidia-summary-body">
+				There are no public reflections yet. They will appear when your classmates finish the week's
+				content
+			</div>
+		</div>
+	</div>
+
+	<div repeat.for="reflection of reflections" class="paidia-public-summary">
+		<div class="paidia-summary-reflection">
+			<div if.bind="reflection.hasColour" class="paidia-summary-heading" style.bind="reflection.backgroundColour">
+			</div>
+			<div class="paidia-summary-body" style.bind="reflection.shadowColour">
+				<div class="emoji" if.bind="reflection.hasEmoji">
+					${reflection.emoji}
+				</div>
+				<div class="gif" if.bind="reflection.hasGif">
+					<img src.bind="reflection.gif" />
+				</div>
+				<div class="text" if.bind="reflection.hasText">
+					${reflection.text}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

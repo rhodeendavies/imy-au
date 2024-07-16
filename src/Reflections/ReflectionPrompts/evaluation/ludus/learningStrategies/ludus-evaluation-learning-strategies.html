@@ -1,0 +1,57 @@
+<template>
+	<require from="resources/percentageSlider/percentage-slider"></require>
+	<require from="resources/gauge/gauge"></require>
+
+	<p class="reflection-question mb-30">
+		Consider your chosen learning strategies for this week. Rate yourself for how well you applied them.
+	</p>
+
+	<div class="strategy-grid">
+		<div class="strategy-option-wrapper" if.bind="!busy.active">
+			<div repeat.for="strategy of strategies" class="strategy-option">
+				<div class="strategy-heading-wrapper">
+					<div class="strategy-heading">${strategy.title}</div>
+					<div class="strategy-text" innerhtml.bind="strategy.strategy"></div>
+				</div>
+
+				<percentage-slider percentage.bind="strategy.rating" on-change.call="saveStrategy(strategy)"
+					show-circle.bind="false" low-text="Not going so well" high-text="I'm acing it">
+				</percentage-slider>
+			</div>
+		</div>
+
+		<div class="strategy-visual">
+			<div class="strategy-heading">Summary of the components of your strategies</div>
+			<div class="ludus-chart ludus-chart-review">
+				<canvas id="evaluationComponentsChart"></canvas>
+				
+				<div class="ludus-evaluation-score-wrapper">
+					<div class="ludus-evaluation-score-text">SCORE:</div>
+					<div class="ludus-evaluation-score">
+						${finalScore} %
+					</div>
+				</div>
+			</div>
+
+
+			<div class="ludus-gauges">
+				<popup repeat.for="component of components">
+					<div slot="item">
+						<gauge value.bind="component.score" label.bind="component.name">
+						</gauge>
+					</div>
+					<div slot="popup">${component.description}</div>
+				</popup>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
+			Next
+		</button>
+	</div>
+</template>

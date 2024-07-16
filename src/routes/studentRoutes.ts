@@ -16,7 +16,8 @@ export class StudentRoutes {
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
-				authenticated: true
+				authenticated: true,
+				enabled: true
 			} as RouterSettings
 		}, {
 			route: 'reflections',
@@ -27,7 +28,8 @@ export class StudentRoutes {
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,
-				authenticated: true
+				authenticated: true,
+				enabled: true
 			} as RouterSettings
 		}]
 	}
@@ -38,7 +40,7 @@ export class StudentRoutes {
 			name: Routes.CourseContent,
 			moduleId: 'Dashboard/CourseView/course-view',
 			nav: true,
-			title: 'Content',
+			title: '',
 			settings: {
 				roles: [Roles.Student],
 				navbar: true,

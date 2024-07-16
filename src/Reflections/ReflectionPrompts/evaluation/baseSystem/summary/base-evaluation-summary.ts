@@ -1,15 +1,23 @@
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { BaseEvaluation } from "../base-evaluation";
+import { ReflectionStep } from "Reflections/ReflectionPrompts/reflection-step";
 
 @autoinject
-export class BaseEvaluationSummary {
+export class BaseEvaluationSummary extends ReflectionStep {
 
 	valid: boolean;
 
-	constructor(private localParent: BaseEvaluation) {}
+	constructor(private localParent: BaseEvaluation) {
+		super();
+		this.stepParent = localParent;
+	}
 
-	submit() {
-		if (!this.valid) return;
-		this.localParent.submitEvaluation();
+	saveStep() {
+		
+	}
+
+	@computedFrom("valid")
+	get AllowNext(): boolean {
+		return this.valid;
 	}
 }

@@ -11,8 +11,13 @@
 
 		<div class="input-box-wrapper">
 			<div class="input-box">
+				<div class="student-number-prepend" if.bind="studentNumber">
+					u
+				</div>
+
 				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
-					blur.trigger="onBlurTrigger()" if.bind="ShowText" value.bind="value" placeholder.bind="placeholder"
+					blur.trigger="onBlurTrigger()" if.bind="ShowText" value.bind="value"
+					placeholder.bind="placeholder"
 					type="text" disabled.bind="disabled" id.bind="id" />
 
 				<input change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
@@ -24,6 +29,10 @@
 					<span if.bind="!ShowHiddenPassword" class="icon">visibility_off</span>
 				</div>
 
+				<div if.bind="ShowSearch" click.delegate="onEnterTrigger()" class="input-search">
+					<span class="icon">search</span>
+				</div>
+
 				<textarea change.delegate="onChangeTrigger()" focus.trigger="onFocusTrigger()"
 					blur.trigger="onBlurTrigger()" if.bind="ShowTextarea" value.bind="value"
 					placeholder.bind="placeholder" disabled.bind="disabled" id.bind="id">
@@ -31,17 +40,30 @@
 
 				<div class="input-height-test" if.bind="ShowTextarea">${heightTest}</div>
 			</div>
+
+			<div class="input-info-wrapper" show.bind="showInfo && focussed">
+				<div class="input-info">
+					<slot></slot>
+				</div>
+				<div class="triangle">
+					<div></div>
+				</div>
+			</div>
 		</div>
 
 		<div class="input-limit-wrapper" if.bind="ShowTextarea">
-			<div class="input-minimum ${Valid ? 'input-minimum-reached' : ''}">
+			<div class="input-minimum ${LargeTextValid ? 'input-minimum-reached' : ''}">
 				<div class="icon">check_circle</div>
-				<div>${value.length}/${min} characters required</div>
+				<div>${value == null ? '0' : ''}${value.length}/${min} characters required</div>
 			</div>
 
 			<div class="${value.length > max ? 'input-maxed' : ''}">
-				<div>${value.length}/${max} characters max</div>
+				<div>${value == null ? '0' : ''}${value.length}/${max} characters max</div>
 			</div>
+		</div>
+
+		<div class="input-error" if.bind="!Valid">
+			${error}
 		</div>
 	</div>
 </template>

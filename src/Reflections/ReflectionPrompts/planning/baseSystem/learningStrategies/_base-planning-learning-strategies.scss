@@ -2,12 +2,22 @@
 
 .base-strategy-option-wrapper {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 20px;
+	overflow: auto;
+
+	@include for-laptop {
+		grid-template-columns: auto;
+	}
 
 	>div:not(:last-child) {
 		border-right: 1px solid $DarkGrey40;
 		padding-right: 20px;
+
+		@include for-laptop {
+			border-right: none;
+			padding-right: p;
+		}
 	}
 
 	.base-strategy-option-heading {
@@ -15,10 +25,5 @@
 		align-items: center;
 		gap: 10px;
 		margin-bottom: 20px;
-
-		.base-strategy-sub-text {
-			color: $DarkGrey60;
-			font-size: 18px;
-		}
 	}
 }

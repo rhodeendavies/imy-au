@@ -1,0 +1,12 @@
+<template>
+	<require from="./section/section"></require>
+
+	<div class="prompt-input">
+		<section section.bind="section" repeat.for="section of promptSections"></section>
+		<div click.delegate="getNewPrompt()" class="prompt-refresh" if.bind="allowRefresh">
+			<span class="icon ${spinRefresh ? 'spin' : ''}">refresh</span>
+		</div>
+	</div>
+
+	<p if.bind="!allowRefresh" class="final-prompt"><em>${FinalSentence}</em></p>
+</template>

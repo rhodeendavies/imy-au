@@ -1,0 +1,19 @@
+<template>
+	<require from="resources/promptSentence/prompt-sentence"></require>
+
+	<p class="reflection-question mb-30">
+		What strengths do you have this week? How can you use these to optimize your learning in ${localParent.Course}
+		this week?
+	</p>
+
+	<prompt-sentence prompt-sections.bind="promptSections" get-new-prompt.call="getNewPrompt()"></prompt-sentence>
+
+	<div class="btn-row">
+		<button class="btn btn-default" click.delegate="previousStep()" disabled.bind="!AllowNext">
+			Back
+		</button>
+		<button class="btn btn-primary" click.delegate="nextStep()" disabled.bind="!AllowNext">
+			Next
+		</button>
+	</div>
+</template>

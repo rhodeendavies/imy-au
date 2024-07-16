@@ -1,0 +1,26 @@
+<template>
+	<div class="page">
+		<div class="error-page-container">
+			<div class="img-wrapper">
+				<img src="images/content/error404.png" if.bind="!appState.IsMobile"/>
+				<img src="images/content/not-mobile-friendly.png" if.bind="appState.IsMobile"/>
+				
+				<popup class="login-popup" position="right" click.delegate="navigateToAttribution()">
+					<div slot="popup">Image by: ${human}</div>
+				</popup>
+			</div>
+
+			<div class="btn-row" if.bind="!appState.IsMobile">
+				<button class="btn btn-default" if.bind="authenticated && student" click.delegate="home()">
+					Back to home
+				</button>
+				<button class="btn btn-default" if.bind="authenticated" click.delegate="logout()">
+					Logout
+				</button>
+				<button class="btn btn-default" if.bind="!authenticated" click.delegate="login()">
+					Back to home
+				</button>
+			</div>
+		</div>
+	</div>
+</template>

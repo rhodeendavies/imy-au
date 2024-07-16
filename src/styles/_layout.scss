@@ -1,10 +1,10 @@
-@use "./variables" as *;
+@use "./variables"as *;
 
 .app-wrapper {
 	height: 100vh;
 	width: 100vw;
 	background-color: $White;
-	
+
 	// regular body style
 	font-weight: $regular;
 	font-size: 18px;
@@ -12,7 +12,8 @@
 
 	&.app-wrapper-grid {
 		display: grid;
-		grid-template-rows: 100px minmax(0, 1fr);
+		grid-template-rows: 75px minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.app-body {
@@ -54,18 +55,45 @@
 
 		.section-wrapper {
 			margin-bottom: 5px;
-		
+
 			&.section-unavailable {
 				opacity: 0.5;
 				pointer-events: none;
 				background-color: $LighterGrey;
 			}
-		
+
 			.section-heading-wrapper {
 				.section-heading {
 					margin-bottom: 25px;
 				}
 			}
 		}
+	}
+}
+
+.disable-app {
+	pointer-events: none;
+}
+
+// scrollbar
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: $LightGrey;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: $MediumGrey;
+	transition: all 0.3s;
+	cursor: pointer;
+
+	/* Handle on hover */
+	&:hover {
+		background: $DarkGrey;
 	}
 }

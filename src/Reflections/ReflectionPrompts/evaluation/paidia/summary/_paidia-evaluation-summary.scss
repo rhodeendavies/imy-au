@@ -1,0 +1,94 @@
+@use "./src/styles/variables"as *;
+
+.paidia-summary-wrapper {
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin-bottom: 40px;
+
+	.paidia-summary {
+		display: flex;
+		gap: 25px;
+		padding: 5px;
+
+		.paidia-summary-delete {
+			height: 50px;
+			min-width: 50px;
+			background-color: $LighterGrey;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: $DarkGrey;
+			transition: all 0.3s;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $LightGrey;
+			}
+		}
+
+		.paidia-summary-item {
+			flex: 1;
+		}
+	}
+}
+
+.paidia-summary-dropdown-wrapper {
+	position: relative;
+
+	&.paidia-summary-dropdown-open {
+		.paidia-summary-dropdown-btn {
+			background-color: darken($color: $Orange, $amount: 1.5);
+		}
+	}
+
+	.paidia-summary-dropdown-btn {
+		height: 75px;
+		width: 75px;
+		border-radius: 75px;
+		background-color: $Orange;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s;
+		cursor: pointer;
+
+		&:hover {
+			background-color: darken($color: $Orange, $amount: 1.5);
+		}
+
+		.icon {
+			font-size: 50px;
+			color: white;
+			font-weight: bold;
+		}
+	}
+
+	.paidia-summary-dropdown {
+		position: fixed;
+		z-index: 999;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: $LightGrey;
+		box-shadow: $BoxShadow;
+
+		.paidia-summary-dropdown-item {
+			font-size: 40px;
+			background-color: white;
+			width: 75px;
+			height: 75px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s;
+			cursor: pointer;
+			font-family: $emojiFont;
+
+			&:hover {
+				background-color: $LightGrey;
+			}
+		}
+	}
+}
